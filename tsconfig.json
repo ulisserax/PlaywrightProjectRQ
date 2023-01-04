@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "@enterprise_pages/*":["page_factory/enterprise/page_repository/*"],
+            "@enterprise_objects/*":["page_factory/enterprise/object_repository/*"],
+            "@b2e_pages/*":["page_factory/b2e/page_repository/*"],
+            "@b2e_objects/*":["page_factory/b2e/object_repository/*"],
+            "@api/*":["page_factory/api_repository/*"],
+            "@lib/*":["lib/*"],
+            "@utils/*":["utils/*"]
+            
+        }
+    }
+}
