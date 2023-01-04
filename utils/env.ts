@@ -13,6 +13,8 @@ export default class ENV{
     static REQUESTOR_ADMIN_PASSWORD = process.env.REQUESTOR_ADMIN_PASSWORD
     static SUPPLIER_ADMIN = process.env.SUPPLIER_ADMIN
     static SUPPLIER_ADMIN_PASSWORD = process.env.SUPPLIER_ADMIN_PASSWORD
+    static SUPPLIER_COMPANY = process.env.SUPPLIER_COMPANY
+    static REQUESTOR_COMPANY = process.env.REQUESTOR_COMPANY
     static B2E_USER = process.env.B2E_USER
     static CLIENT_EB2E_RQPRO = process.env.CLIENT_EB2E_RQPRO
     static CLIENT_EB2E = process.env.CLIENT_EB2E

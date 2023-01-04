@@ -7,6 +7,7 @@ import WebActions from "@lib/WebActions";
 import Checkbox from "@enterprise_objects/Checkbox";
 import Input from "@enterprise_objects/Input";
 import Dropdown from "@enterprise_objects/Dropdown";
+import Element from "@enterprise_objects/Element";
 
 export default class RequestShowPage {
     readonly page: Page;
@@ -82,6 +83,7 @@ export default class RequestShowPage {
     async acknowledgeAward(response:string){
         console.info(`Acknowledge the award`);
         await this.page.selectOption(Dropdown.acknowledge_award, {value: response});
+        await this.page.click(Checkbox.terms_of_reservation_checkbox);
         await this.page.click(Button.submit_akcnowledge);
         await this.page.waitForLoadState('networkidle');
         await expect(await this.page.locator(Text.acknowledge_text).first().textContent()).toContain(`Award acknowledged on:`);
@@ -90,8 +92,23 @@ export default class RequestShowPage {
     async viewReservation(){
         console.info(`View reservation`);
         await this.page.click(Button.reservation_info);
+        await WebActions.delay(400);
+        await this.page.waitForLoadState('domcontentloaded');
         await this.page.waitForLoadState('networkidle');
         await expect(await this.page.url()).toContain(`${ENV.BASE_URL}/reservation`);
+    }
+
+    async createServiceIssue(){
+        console.info(`Creating Service issues`);
+        await this.page.click(Button.service_issues);
+        await this.page.waitForLoadState('domcontentloaded');
+        await this.page.click(Button.create_new_service_issue);
+        await this.page.waitForLoadState('domcontentloaded');
+    }
+    async validateServiceIssueWasCreated(){
+        console.info(`Validate that service issue was created`);
+        await this.page.waitForLoadState('domcontentloaded');
+        await expect(await this.page.locator(Element.service_issue_row).count()).toBeGreaterThanOrEqual(1);
     }
 
 }

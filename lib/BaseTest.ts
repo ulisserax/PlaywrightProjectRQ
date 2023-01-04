@@ -9,6 +9,7 @@ import ConfigurationInstance from "@enterprise_pages/ConfigurationInstancePage";
 import MailCatcher from "@enterprise_pages/MailCatcherPage";
 import ShareOption from "@enterprise_pages/ShareOptionPage";
 import Reservation from "@enterprise_pages/ReservationPage";
+import ServiceIssuePage from "@enterprise_pages/ServiceIssuePage";
 
 
 const test = baseTest.extend<{
@@ -22,6 +23,7 @@ const test = baseTest.extend<{
     mailCatcher:MailCatcher;
     shareOption:ShareOption;
     reservation:Reservation;
+    serviceIssue: ServiceIssuePage;
 
 }>({
     homePage: async ({ page }, use) => {
@@ -53,6 +55,9 @@ const test = baseTest.extend<{
     },
     reservation: async ({ page }, use) => {
         await use(new Reservation(page));
+    },
+    serviceIssue: async ({ page }, use) => {
+        await use(new ServiceIssuePage(page));
     }
 });
 

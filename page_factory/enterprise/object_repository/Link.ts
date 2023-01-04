@@ -8,4 +8,5 @@ export default class Link{
     static edit_segment_details = `a.lnk-edit-ratesegment`;
     static today_link = `div[aria-hidden='false'] .k-nav-today`;
     static view_segment_history = `a.view-segment-history-link`;
+    static view_link = `.popover.fade.top.in a`;
 }
