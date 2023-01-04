@@ -10,4 +10,5 @@ export default class Text{
     static acknowledge_text = `#container-inner .acknowledgement-item__text`;
     static reservation_info_header = `h2.header-title`; 
     static segment_pending_approval_section = `div#segments-history-modal strong:text('Segments Pending Approval:')`;  
+    static reservation_information = `div.reservation`;
 }

@@ -50,4 +50,11 @@ export default class Button{
 
     static reservation_info = `#button_request_reservation`;
     static submit_changes = `span:text('Submit Changes')`;
+    static service_issues = `#showServiceIssues`;
+    static create_new_service_issue = `#button_service_issue_create`;
+    static activity_log = `#button_activity_log`;
+    static approve = `button:text('Approve')`;
+    static approve_changes = `#form-reservations-approve button:text('Approve Changes')`;
+    static okay = `:text('Okay')`;
+    
 }

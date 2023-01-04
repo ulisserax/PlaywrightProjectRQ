@@ -7,6 +7,7 @@ import Checkbox from "@enterprise_objects/Checkbox";
 import Button from "@enterprise_objects/Button";
 import Calendar from "@enterprise_objects/Calendar";
 import Element from "@enterprise_objects/Element";
+import ENV from "@utils/env";
 const Chance = require ('chance');
 const chance = new Chance();
 
@@ -60,5 +61,52 @@ export default class Reservation {
         await this.page.waitForLoadState('domcontentloaded');
         await expect(await this.page.locator(Text.segment_pending_approval_section)).toBeVisible();
         await this.page.click(Element.close_modal_icon);
+    }
+
+    async verifyReservation(reservation_id){
+        console.info("Verifying reservation was acknowledge.");
+		await this.page.waitForLoadState('domcontentloaded');
+        await expect(await this.page.locator(Text.reservation_information).textContent()).toContain(`Accepted By:`);
+        await expect(await this.page.locator(Text.reservation_information).textContent()).toContain(`Supplier: ${ENV.SUPPLIER_COMPANY}`);
+        await expect(await this.page.locator(Text.reservation_information).textContent()).toContain(reservation_id);
+    }
+
+    async editGuestInformation(){
+        console.info("Verifying reservation was acknowledge.");
+        await this.page.fill(Input.guest_name,'');
+        await this.page.type(Input.guest_name, chance.name(), {delay:50});
+        await this.page.click(Button.submit);
+        await WebActions.delay(400);
+        await this.page.waitForLoadState('domcontentloaded');
+        await this.page.click(Button.close);
+        await this.page.waitForLoadState('domcontentloaded');
+    }
+
+    async activityLogRequestor(requestor_admin){
+        console.info('Activity log validation');
+        await this.page.click(Button.activity_log);
+        await WebActions.delay(600);
+        await this.page.waitForLoadState('networkidle');
+        await this.page.waitForLoadState('domcontentloaded');
+        await expect(await this.page.locator(Element.activity_log_modal_li).textContent()).toContain(requestor_admin);
+        await expect(await this.page.locator(Element.activity_log_modal_li).textContent()).toContain('updated 1 field(s)');
+        await this.page.click(Button.close);
+    }
+
+    async approveReservationChanges(){
+        console.info('Approving the reservation changes');
+        await WebActions.delay(600);
+        await this.page.waitForLoadState('networkidle');
+        await this.page.click(Element.pending_approval_icon);
+        await this.page.click(Link.view_link);
+        await WebActions.delay(1000);
+        await this.page.waitForLoadState('domcontentloaded');
+        await this.page.waitForLoadState('networkidle');
+        await this.page.click(Button.approve);
+        await this.page.click(Button.approve_changes);
+        await WebActions.delay(600);
+        await this.page.waitForLoadState('domcontentloaded');
+        await this.page.click(Button.okay);
+
     }
 }

@@ -17,8 +17,10 @@ export default class Input{
     static utility_cap = `#form_utility_cap`;
     static parking_space = `#form_parking_spaces`;
     static rate = `#rate_segment_placement #form_segment_rate`;
+    static fee = `#fee_segment_0 input.feesegment-value`;
     static share_email = `.form-share-options #email`;
     static search_message = `input[name='search']`;
     static link_to_options = `#share_link`;
+    static guest_name = `#form_guest_name`;
     // static share_email = "#share_modal #email";
 }

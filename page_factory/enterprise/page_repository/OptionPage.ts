@@ -51,9 +51,10 @@ export default class OptionPage {
         await this.page.keyboard.press('Enter');
     }
 
-    async fillTaxes(fee_type:string){
+    async fillFees(fee_type:string){
         console.info("Filling taxes.");
-        await this.page.type(Input.rate, `${chance.floating({ min: 70, max: 299, fixed: 2 })}`);
+        await this.page.fill(Input.fee, '');
+        await this.page.type(Input.fee, `${chance.floating({ min: 70, max: 299, fixed: 2 })}`);
         await this.page.keyboard.press('Enter');
         await this.page.selectOption(Dropdown.select_fee_type, {label: `${fee_type}`});
     }

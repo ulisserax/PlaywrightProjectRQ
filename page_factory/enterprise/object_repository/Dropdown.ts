@@ -19,4 +19,5 @@ export default class Dropdown{
     static select_fee_type = `#fee_segment_0 .tax-type-type`;
     static select_preference = `#all_options .preference`;
     static acknowledge_award = `#acknowledgeOptionsSelect`;
+    static service_issue_type = `#form_issueType`;
 }
