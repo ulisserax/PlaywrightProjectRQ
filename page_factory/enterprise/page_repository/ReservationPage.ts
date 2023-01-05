@@ -92,7 +92,7 @@ export default class Reservation {
     async activityLogRequestor(requestor_admin){
         console.info('Activity log validation');
         await this.page.click(Button.activity_log);
-        await WebActions.delay(1200);
+        await WebActions.delay(1500);
         await this.page.waitForLoadState('networkidle');
         await this.page.waitForLoadState('domcontentloaded');
         await expect(await this.page.locator(Element.activity_log_modal_li).textContent()).toContain(requestor_admin);

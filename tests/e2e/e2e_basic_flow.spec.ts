@@ -2,11 +2,11 @@ import test  from '@lib/BaseTest';
 import ENV  from '@utils/env';
 
 
- test.describe("Test Suite Basic Flow ", () => {
+ test.describe.only("Test Suite Basic Flow ", () => {
     //test.slow();
 
     let guest_email = ENV.GUEST_EMAIL;
-    let request_id ;
+    let request_id = `RQ0D9B3E`;
     let client_share_link;
     let reservation_id ;
 
@@ -41,7 +41,7 @@ import ENV  from '@utils/env';
         await option.fillFees(ENV.FEES_TYPE[0]);
         await option.submitOption();
     })
-    test("Share with client and award from share template", async ({ homePage, dashboard, search, requestShow, newRequest}) => {
+    test("Share with client", async ({ homePage, dashboard, search, requestShow, newRequest}) => {
         await homePage.openHomePage(ENV.BASE_URL);
         await homePage.enterCredentials(ENV.REQUESTOR_ADMIN, ENV.REQUESTOR_ADMIN_PASSWORD);
         await homePage.signIn();
@@ -53,24 +53,32 @@ import ENV  from '@utils/env';
         await requestShow.shareWithClient(guest_email);
         
     })
-    test("Push emails", async ({homePage, configurationInstance}) => {
+    test("Push emails, validate email was send, set preference and award from share template", async ({homePage, configurationInstance, mailCatcher, shareOption}) => {
         await homePage.openHomePage(`${ENV.BASE_URL}/configuration/instance`);
         await homePage.enterCredentials(ENV.SUPER_ADMIN, ENV.SUPER_ADMIN_PASSWORD);
         await homePage.signIn();
         await configurationInstance.mailPush();
-    })
-    test("Validate email was sent and get share link", async ({mailCatcher}) => {
         let subject = "Temporary Living Options Available";
         await mailCatcher.openMailCatcher(ENV.MAILCATCHER_URL);
         await mailCatcher.searchEmail(guest_email, subject);
         client_share_link = await mailCatcher.getShareOptionLink(request_id);
-    })
-    test("Guest set preference and award", async ({homePage, shareOption}) => {
         await homePage.openHomePage(client_share_link);
         const share_link = await shareOption.shareWithGuest();
         await homePage.openHomePage(share_link);
         await shareOption.submitPreferencesAndAward();
     })
+    // test("Validate email was sent and get share link", async ({mailCatcher}) => {
+    //     let subject = "Temporary Living Options Available";
+    //     await mailCatcher.openMailCatcher(ENV.MAILCATCHER_URL);
+    //     await mailCatcher.searchEmail(guest_email, subject);
+    //     client_share_link = await mailCatcher.getShareOptionLink(request_id);
+    // })
+    // test("Guest set preference and award", async ({homePage, shareOption}) => {
+    //     await homePage.openHomePage(client_share_link);
+    //     const share_link = await shareOption.shareWithGuest();
+    //     await homePage.openHomePage(share_link);
+    //     await shareOption.submitPreferencesAndAward();
+    // })
     test("Acknowledge award, edit rate segments and set reservation in current", async ({homePage, dashboard, search, requestShow, reservation}) => {
         await homePage.openHomePage(ENV.BASE_URL);
         await homePage.enterCredentials(ENV.SUPPLIER_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);
@@ -93,6 +101,7 @@ import ENV  from '@utils/env';
         await dashboard.cardSummary();
         await dashboard.findCurrentRequest(request_id);
         await search.clickRequestIdLink();
+        await requestShow.clickServiceIssue();
         await requestShow.createServiceIssue();
         await serviceIssue.fillServiceIssueInformation();
         await requestShow.viewReservation();
@@ -100,6 +109,18 @@ import ENV  from '@utils/env';
         await reservation.editGuestInformation();
         await reservation.activityLogRequestor(ENV.REQUESTOR_ADMIN);
         await reservation.approveReservationChanges();
+    })
+
+    test("Resolve service issue", async ({homePage, dashboard, search, requestShow, serviceIssue}) => {
+        await homePage.openHomePage(ENV.BASE_URL);
+        await homePage.enterCredentials(ENV.SUPPLIER_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);
+        await homePage.signIn();
+        await dashboard.cardSummary();
+        await dashboard.findCurrentRequest(request_id);
+        await search.clickRequestIdLink();
+        await requestShow.clickServiceIssue();
+        await requestShow.viewServiceIssue();
+        await serviceIssue.resolveServiceIssue();
     })
 })
     
