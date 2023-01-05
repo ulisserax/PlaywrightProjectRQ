@@ -58,7 +58,12 @@ export default class RequestShowPage {
     async shareWithClient(email: string){
         console.info(`Sharing the options with the client`);
         await this.page.waitForLoadState('networkidle');
-        await WebActions.delay(500);
+        await this.page.waitForLoadState('domcontentloaded');
+        await WebActions.delay(600);
+        await expect(await this.page.locator(Element.all_options_table_row)).toBeVisible();
+        if (await this.page.locator(Element.request_loading)){
+            this.page.reload();
+        }
         const items = await this.page.locator(Checkbox.option_checkbox);
         for (let i=0; i<await items.count(); i++){
             await items.nth(i).click();
@@ -94,7 +99,6 @@ export default class RequestShowPage {
         await this.page.click(Button.reservation_info);
         await WebActions.delay(400);
         await this.page.waitForLoadState('domcontentloaded');
-        await this.page.waitForLoadState('networkidle');
         await expect(await this.page.url()).toContain(`${ENV.BASE_URL}/reservation`);
     }
 

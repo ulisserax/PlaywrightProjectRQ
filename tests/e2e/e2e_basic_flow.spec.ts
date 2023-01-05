@@ -2,13 +2,13 @@ import test  from '@lib/BaseTest';
 import ENV  from '@utils/env';
 
 
- test.describe("Test Suite Basic Flow", () => {
-    test.slow();
+ test.describe("Test Suite Basic Flow ", () => {
+    //test.slow();
 
     let guest_email = ENV.GUEST_EMAIL;
     let request_id ;
     let client_share_link;
-    let reservation_id = `RQR48A1AC`;
+    let reservation_id ;
 
     test("Create a new Request and edit", async({ homePage, dashboard, newRequest, requestShow}) =>{
         await homePage.openHomePage(ENV.BASE_URL);

@@ -64,16 +64,14 @@ export default class OptionPage {
         await this.page.click(Checkbox.cancellation_police_checkbox);
         await this.page.click(Checkbox.read_supplier_notes_checkbox);
         await this.page.click(Button.submit);
-        //await this.page.waitForLoadState('networkidle');
         await this.page.waitForLoadState('domcontentloaded');
-        await WebActions.delay(1200);
+        await WebActions.delay(1500);
         const is_visible = await this.page.isVisible(Button.submit_option_modal);
         console.log(is_visible);
         if(is_visible){
             await this.page.click(Button.submit_option_modal);
         }
         await WebActions.delay(1200);
-        await this.page.waitForLoadState('networkidle');
         await this.page.waitForLoadState('domcontentloaded');
         await WebActions.delay(1000);
         await expect(await this.page.locator(Text.options_count).textContent()).toEqual(`1`);

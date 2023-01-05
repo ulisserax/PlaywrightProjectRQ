@@ -23,7 +23,6 @@ export default class NewRequestPage{
 
     async select_arrival_date(){
         await this.page.waitForLoadState('domcontentloaded');
-        await this.page.waitForLoadState('networkidle');
         await WebActions.delay(400);
         await this.page.click(Calendar.arrival_date);
         await WebActions.delay(400);
@@ -38,10 +37,8 @@ export default class NewRequestPage{
         await this.page.click(Dropdown.select_client);
         await this.page.type(Input.search_client, `${client}`, {delay:100});
         await this.page.waitForLoadState('domcontentloaded');
-        await this.page.waitForLoadState('networkidle');
         await WebActions.delay(700);
         await this.page.click(Element.client_name);
-        //await this.page.keyboard.press('Enter');
         await WebActions.delay(900);
     }
 
