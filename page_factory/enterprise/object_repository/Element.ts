@@ -1,7 +1,7 @@
 import ENV from "@utils/env";
 
 export default class Element{
-    static all_options_table_row = `table#all_options tbody tr`;
+    static all_options_table_row = `table#all_options tbody tr`; //table#all_options tr.approved.corporate-option
     static client_name = `div[role=option] span:text('${ENV.CLIENT}')`;
     static client_b2e_name = `div[role=option] span:text('${ENV.CLIENT_B2E}')`;
     static client_eb2e_name = `div[role=option] span:text('${ENV.CLIENT_EB2E}')`;
@@ -10,4 +10,7 @@ export default class Element{
     static service_issue_row = `table#supplier_status_list tbody tr`;
     static activity_log_modal_li = `#activity_log_modal li.list-group-item`;
     static pending_approval_icon = `.rate-segment-description.pointer + td span`;
+    static property_info_image = `#propertyInfoImage`;
+    static loading_property_info = `label:text('Loading Appartment Data...')`;
+    static request_loading = `img.loading`;
 }

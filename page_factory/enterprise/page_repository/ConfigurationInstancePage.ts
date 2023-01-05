@@ -18,7 +18,7 @@ export default class ConfigurationInstancePage {
         await WebActions.delay(300);
         await expect(await this.page.locator(Text.console_output).textContent()).toContain(`Executing command`);
         await this.page.waitForLoadState('domcontentloaded'); 
-        await WebActions.delay(1000);
+        await WebActions.delay(1500);
         await expect(await this.page.locator(Text.console_output).textContent()).toContain(`emails sent`);
     }
 }
