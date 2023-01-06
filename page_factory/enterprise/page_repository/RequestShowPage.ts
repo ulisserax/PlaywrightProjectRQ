@@ -8,6 +8,7 @@ import Checkbox from "@enterprise_objects/Checkbox";
 import Input from "@enterprise_objects/Input";
 import Dropdown from "@enterprise_objects/Dropdown";
 import Element from "@enterprise_objects/Element";
+import Link from "@enterprise_objects/Link";
 
 export default class RequestShowPage {
     readonly page: Page;
@@ -101,14 +102,24 @@ export default class RequestShowPage {
         await this.page.waitForLoadState('domcontentloaded');
         await expect(await this.page.url()).toContain(`${ENV.BASE_URL}/reservation`);
     }
+    async clickServiceIssue(){
+        console.info(`Clicking service issue button`);
+        await this.page.click(Button.service_issues);
+        await this.page.waitForLoadState('domcontentloaded');
+    }
 
     async createServiceIssue(){
         console.info(`Creating Service issues`);
-        await this.page.click(Button.service_issues);
-        await this.page.waitForLoadState('domcontentloaded');
         await this.page.click(Button.create_new_service_issue);
         await this.page.waitForLoadState('domcontentloaded');
     }
+
+    async viewServiceIssue(){
+        console.info(`view service issue button`);
+        await this.page.click(Link.view_service_issue);
+        await this.page.waitForLoadState('domcontentloaded');
+    }
+
     async validateServiceIssueWasCreated(){
         console.info(`Validate that service issue was created`);
         await this.page.waitForLoadState('domcontentloaded');

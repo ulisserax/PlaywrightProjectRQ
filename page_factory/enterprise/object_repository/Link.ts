@@ -9,4 +9,6 @@ export default class Link{
     static today_link = `div[aria-hidden='false'] .k-nav-today`;
     static view_segment_history = `a.view-segment-history-link`;
     static view_link = `.popover.fade.top.in a`;
+    static view_service_issue = `table#supplier_status_list a:text('view')`;
+    static add_a_comment = `#addNewComment`;
 }
