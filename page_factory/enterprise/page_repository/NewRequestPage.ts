@@ -9,6 +9,7 @@ import Button from "@enterprise_objects/Button";
 import Checkbox from "@enterprise_objects/Checkbox";
 import Text from "@enterprise_objects/Text";
 import Element from "@enterprise_objects/Element";
+import Textarea from "@enterprise_objects/Textarea";
 const Chance = require ('chance');
 const chance = new Chance();
 
@@ -62,7 +63,7 @@ export default class NewRequestPage{
         }
     }
 
-    async fillRequestDetails(request_type:string, requestor:string, guest_type: string, location: string){
+    async fillRequestDetails(request_type:string, requestor:string, guest_type: string, location: string, length_of_stay: string){
         console.info("Filling the new request details.");
         await this.page.waitForLoadState('domcontentloaded');
         await this.page.selectOption(Dropdown.select_request_type, { label: `${request_type}`});
@@ -71,7 +72,7 @@ export default class NewRequestPage{
         await this.select_desired_location(location);
         await this.select_arrival_date();
         await this.page.selectOption(Dropdown.select_radius,{ index: 5});
-        await this.page.type(Input.length_of_stay,`${chance.integer({min:10, max:50})}`);
+        await this.page.type(Input.length_of_stay,`${length_of_stay}`);
         await this.page.selectOption(Dropdown.number_of_pets, { index: 1 });
     }
 
@@ -82,12 +83,28 @@ export default class NewRequestPage{
         await this.page.selectOption(Dropdown.washer_dryer,{index: 2});
     }
 
+    async fillHotelDetails(hotel_rooms:string, adults:string){
+        console.info('Filling the hotel details');
+        await this.page.selectOption(Dropdown.hotel_rooms, {value: hotel_rooms});
+        await this.page.fill(Input.hotel_rooms_adults,'');
+        await this.page.type(Input.hotel_rooms_adults,adults);
+        await this.page.type(Textarea.hotel_special_information, `Hotel Special Information for test purpose`, {delay: 50});
+    }
+
     async submitRequest(){
         console.info('Submitting request');
         await this.page.click(Checkbox.priorities_checkbox);
         await this.page.click(Button.submit);
         await this.page.waitForLoadState('domcontentloaded');
         await this.page.click(Button.ready_to_submit);
+    }
+
+    async submitHotelRequest(){
+        console.info('Submitting hotel request');
+        await this.page.click(Checkbox.priorities_checkbox);
+        await this.page.click(Button.submit);
+        await this.page.waitForLoadState('domcontentloaded');
+        await this.page.click(Button.ok);
     }
     
     async editRequest(requestor_user:string){
@@ -114,4 +131,6 @@ export default class NewRequestPage{
         await this.page.waitForLoadState('domcontentloaded');
         await this.page.click(Button.close);
     }
+
+    
 }

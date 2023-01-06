@@ -8,6 +8,7 @@ export default class Dropdown{
     static number_of_pets = `#form_pet_number`;
     static maid_service = `#form_maid_service`;
     static washer_dryer = `#form_wd`;
+    static hotel_rooms = `#form_hotel_rooms_count`;
     static select_property = `#s2id_property_list`;
     static select_unit_type = `#form_unit_type_lookup`;
     static select_kitchen_type = `#form_kitchen_type`;

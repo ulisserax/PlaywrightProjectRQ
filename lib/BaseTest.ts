@@ -10,6 +10,7 @@ import MailCatcher from "@enterprise_pages/MailCatcherPage";
 import ShareOption from "@enterprise_pages/ShareOptionPage";
 import Reservation from "@enterprise_pages/ReservationPage";
 import ServiceIssuePage from "@enterprise_pages/ServiceIssuePage";
+import HotelSearchPage from "@enterprise_pages/HotelSearchPage";
 
 
 const test = baseTest.extend<{
@@ -24,6 +25,7 @@ const test = baseTest.extend<{
     shareOption:ShareOption;
     reservation:Reservation;
     serviceIssue: ServiceIssuePage;
+    hotelSearchPage: HotelSearchPage;
 
 }>({
     homePage: async ({ page }, use) => {
@@ -58,6 +60,9 @@ const test = baseTest.extend<{
     },
     serviceIssue: async ({ page }, use) => {
         await use(new ServiceIssuePage(page));
+    },
+    hotelSearchPage: async ({ page }, use) => {
+        await use(new HotelSearchPage(page));
     }
 });
 

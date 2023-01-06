@@ -19,4 +19,11 @@ export default class SearchPage {
         await this.page.waitForLoadState('networkidle');
         await WebActions.delay(500);
     }
+
+    async clickReservationIdLink(){
+        console.info('Clicking on the request id link');
+        await this.page.click(Link.reservation_id);
+        await this.page.waitForLoadState('networkidle');
+        await WebActions.delay(500);
+    }
 }
