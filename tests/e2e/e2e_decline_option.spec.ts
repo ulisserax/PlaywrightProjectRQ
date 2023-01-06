@@ -2,13 +2,13 @@ import test  from '@lib/BaseTest';
 import ENV  from '@utils/env';
 
 
- test.describe.skip("Test Suite Basic Flow 4", () => {
+ test.describe("Test Suite Decline Option", () => {
     //test.slow();
 
     let guest_email = ENV.GUEST_EMAIL;
     let request_id;
     let client_share_link;
-    let reservation_id;
+    let reservation_id ;
 
     test("Create a new Request", async({ homePage, dashboard, newRequest, requestShow}) =>{
         await homePage.openHomePage(ENV.BASE_URL);
@@ -100,6 +100,7 @@ import ENV  from '@utils/env';
         await reservation.activityLogRequestor(ENV.REQUESTOR_ADMIN);
         await reservation.approveReservationChanges();
     })
+
     
 })
     

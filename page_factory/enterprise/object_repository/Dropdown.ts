@@ -20,4 +20,5 @@ export default class Dropdown{
     static select_preference = `#all_options .preference`;
     static acknowledge_award = `#acknowledgeOptionsSelect`;
     static service_issue_type = `#form_issueType`;
+    static issue_status = `#form_status`;
 }

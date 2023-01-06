@@ -2,7 +2,7 @@ import test  from '@lib/BaseTest';
 import ENV  from '@utils/env';
 
 
- test.describe("Test Suite Basic Flow 3", () => {
+ test.describe("Test Suite Alternate Option", () => {
     //test.slow();
 
     let guest_email = ENV.GUEST_EMAIL;
