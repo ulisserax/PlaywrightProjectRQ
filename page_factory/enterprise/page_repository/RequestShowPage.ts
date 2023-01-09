@@ -126,4 +126,36 @@ export default class RequestShowPage {
         await expect(await this.page.locator(Element.service_issue_row).count()).toBeGreaterThanOrEqual(1);
     }
 
+    async validateHotelSpecialInformation(){
+        console.info(`Validate hotel special information`);
+        await this.page.waitForLoadState('networkidle');
+        await this.page.waitForLoadState('domcontentloaded');
+        await expect(await this.page.locator(Element.hotel_special_information).last().textContent()).toContain(`Hotel Special Information for test purpose`);
+    }
+
+    async searchHotelOptions(){
+        console.info("Searching hotel options");
+        await WebActions.delay(700); 
+        await this.page.waitForLoadState('networkidle');
+        await this.page.waitForLoadState('domcontentloaded');
+        await this.page.click(Button.search_hotel_options);
+    }
+
+    async unawardOption(){
+        console.info("Unawarding option");
+        await WebActions.delay(700); 
+        await this.page.waitForLoadState('networkidle');
+        await this.page.waitForLoadState('domcontentloaded');
+        await this.page.click(Link.unaward);
+        await WebActions.delay(700); 
+        await this.page.waitForLoadState('networkidle');
+        await this.page.waitForLoadState('domcontentloaded');
+        await this.page.click(Checkbox.agree_to_cancellation);
+        await this.page.click(Button.ok_cancellation);
+        await WebActions.delay(700); 
+        await this.page.waitForLoadState('networkidle');
+        await this.page.waitForLoadState('domcontentloaded');
+    }
+    
+
 }

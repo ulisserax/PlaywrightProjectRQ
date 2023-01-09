@@ -21,6 +21,7 @@ export default class Button{
     static area       = `#nav_area`;
     static property   = `a:text("Property")`;
     static submit     = `#form_submit`;
+    static ok         = `div.modal.fade.in span:text('OK')`;
     static ready_to_submit = `#submitModalBtn`;
 
     static bid = `#button_option_new`;
@@ -58,5 +59,11 @@ export default class Button{
     static okay = `:text('Okay')`;
     static save_comment = `button#saveComment`;
     static update_service_issue = `#button_service_issue_create`;
-    
+    static search_hotel_options = `#searchHotelOptions`;
+    static view_details =  `button:text('VIEW DETAILS')`;
+    static book =  `button:text('BOOK')`;
+    static submit_room_configuration = `#submit_room_configuration`;
+    static confirm_booking = `span:text('Confirm Booking')`;
+    static back_to_request = `a:text(Back To Request)`;
+    static ok_cancellation = `div.modal.fade.in span:text('Ok')`
 }

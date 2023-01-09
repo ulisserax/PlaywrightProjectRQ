@@ -9,6 +9,7 @@ import ENV  from '@utils/env';
     let request_id = `RQ0D9B3E`;
     let client_share_link;
     let reservation_id ;
+    let hotel_reservation_id;
 
     test("Create a new Request and edit", async({ homePage, dashboard, newRequest, requestShow}) =>{
         await homePage.openHomePage(ENV.BASE_URL);
@@ -18,7 +19,7 @@ import ENV  from '@utils/env';
         await dashboard.cardSummary();
         await dashboard.clickNewRequest();
         await newRequest.select_client(ENV.CLIENT);
-        await newRequest.fillRequestDetails(ENV.REQUEST_TYPE[0], ENV.REQUESTOR_ADMIN,ENV.GUEST_TYPE[0],'Miami, FL, USA');
+        await newRequest.fillRequestDetails(ENV.REQUEST_TYPE[0], ENV.REQUESTOR_ADMIN,ENV.GUEST_TYPE[0],'Miami, FL, USA', `45`);
         await newRequest.fillGuestInfo(ENV.GUEST_FIRSTNAME,ENV.GUEST_LASTNAME,guest_email,ENV.GUEST_PHONE);
         await newRequest.fillCorporateHousingDetails();
         await newRequest.submitRequest();
@@ -67,18 +68,7 @@ import ENV  from '@utils/env';
         await homePage.openHomePage(share_link);
         await shareOption.submitPreferencesAndAward();
     })
-    // test("Validate email was sent and get share link", async ({mailCatcher}) => {
-    //     let subject = "Temporary Living Options Available";
-    //     await mailCatcher.openMailCatcher(ENV.MAILCATCHER_URL);
-    //     await mailCatcher.searchEmail(guest_email, subject);
-    //     client_share_link = await mailCatcher.getShareOptionLink(request_id);
-    // })
-    // test("Guest set preference and award", async ({homePage, shareOption}) => {
-    //     await homePage.openHomePage(client_share_link);
-    //     const share_link = await shareOption.shareWithGuest();
-    //     await homePage.openHomePage(share_link);
-    //     await shareOption.submitPreferencesAndAward();
-    // })
+    
     test("Acknowledge award, edit rate segments and set reservation in current", async ({homePage, dashboard, search, requestShow, reservation}) => {
         await homePage.openHomePage(ENV.BASE_URL);
         await homePage.enterCredentials(ENV.SUPPLIER_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);
@@ -122,5 +112,32 @@ import ENV  from '@utils/env';
         await requestShow.viewServiceIssue();
         await serviceIssue.resolveServiceIssue();
     })
+
+    test.only("Create a hotel request and cancel reservation", async ({homePage, dashboard, newRequest, requestShow, hotelSearchPage, search}) => {
+        await homePage.openHomePage(ENV.BASE_URL);
+        await homePage.enterCredentials(ENV.REQUESTOR_ADMIN, ENV.REQUESTOR_ADMIN_PASSWORD);
+        await homePage.signIn();
+        await dashboard.validateDashboard();
+        await dashboard.cardSummary();
+        await dashboard.clickNewRequest();
+        await newRequest.select_client(ENV.CLIENT);
+        await newRequest.fillRequestDetails(ENV.REQUEST_TYPE[1], ENV.REQUESTOR_ADMIN,ENV.GUEST_TYPE[0],'Miami, FL, USA', `15`);
+        await newRequest.fillGuestInfo(ENV.GUEST_FIRSTNAME,ENV.GUEST_LASTNAME,guest_email,ENV.GUEST_PHONE);
+        await newRequest.fillHotelDetails('1','2');
+        await newRequest.submitHotelRequest();
+        request_id = await requestShow.getRequestId();
+        await requestShow.validateHotelSpecialInformation();
+        await requestShow.searchHotelOptions();
+        await hotelSearchPage.searchHotelRoomProcess();
+        await hotelSearchPage.bookHotelRoom();
+        hotel_reservation_id = await hotelSearchPage.verifyHotelRoomBooking();
+        await hotelSearchPage.backToRequest();
+        await requestShow.unawardOption();
+        await dashboard.findCurrentRequest(hotel_reservation_id);
+        await search.clickReservationIdLink();
+        await hotelSearchPage.verifyReservationWasCancelled();
+    })
+
+
 })
     

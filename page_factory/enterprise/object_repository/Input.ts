@@ -22,5 +22,5 @@ export default class Input{
     static search_message = `input[name='search']`;
     static link_to_options = `#share_link`;
     static guest_name = `#form_guest_name`;
-    // static share_email = "#share_modal #email";
+    static hotel_rooms_adults = "#form_hotel_rooms_0_adults";
 }
