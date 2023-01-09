@@ -15,7 +15,7 @@ export default class ConfigurationInstancePage {
         console.info("Pushing emails.");
         await this.page.waitForLoadState('domcontentloaded');
         await this.page.click(Button.swiftmailer_spool_send);
-        await WebActions.delay(300);
+        //await WebActions.delay(300);
         await expect(await this.page.locator(Text.console_output).textContent()).toContain(`Executing command`);
         await this.page.waitForLoadState('domcontentloaded'); 
         await WebActions.delay(1500);

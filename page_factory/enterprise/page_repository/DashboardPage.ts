@@ -36,17 +36,14 @@ export default class DashboardPage {
         console.info("Clicking New Request");
         await this.page.waitForLoadState('domcontentloaded');
         await this.page.click(Button.newRequest);
-        await WebActions.delay(5000);
         await this.page.waitForLoadState('networkidle');
-        
     }
 
     async clickCurrentTab(){
         console.info("Clicking current tab");
         await this.page.waitForLoadState('domcontentloaded');
         await this.page.click(Button.current);
-        await WebActions.delay(5000);
-        await this.page.waitForLoadState('networkidle');
+        await this.page.waitForLoadState('domcontentloaded');
         
     }
 

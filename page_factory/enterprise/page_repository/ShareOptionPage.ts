@@ -17,7 +17,7 @@ export default class ShareOptionPage {
 
     async shareWithGuest(){
         console.info('Clicking on all options and share with guest');
-        await WebActions.delay(300);
+        //await WebActions.delay(300);
         await this.page.waitForLoadState('networkidle');
         const items = await this.page.locator(Checkbox.option_checkbox);
         for (let i=0; i<await items.count(); i++){
@@ -49,4 +49,5 @@ export default class ShareOptionPage {
         await this.page.waitForLoadState('networkidle');
         await expect(await this.page.locator(Element.all_options_table_row)).toHaveClass('sent awarded corporate-option best odd');
     }
+    
 }

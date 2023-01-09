@@ -31,9 +31,9 @@ export default class RequestShowPage {
         if (await this.page.$(Button.accept) !== null) { 
             console.info('Accepting the request');
             await this.page.click(Button.accept); 
-            await WebActions.delay(500);
+            //await WebActions.delay(500);
             await this.page.click(Button.yes);
-            await WebActions.delay(500);
+            //await WebActions.delay(500);
             await this.page.click(Button.close);
         }
     }
@@ -41,7 +41,6 @@ export default class RequestShowPage {
     async editRequest(){
         console.info('Clicking edit request button ');
         await this.page.click(Button.edit_request);
-        await WebActions.delay(1200);
         await this.page.waitForLoadState('networkidle');
     }
     
@@ -60,7 +59,7 @@ export default class RequestShowPage {
         console.info(`Sharing the options with the client`);
         await this.page.waitForLoadState('networkidle');
         await this.page.waitForLoadState('domcontentloaded');
-        await WebActions.delay(600);
+        //await WebActions.delay(600);
         await expect(await this.page.locator(Element.all_options_table_row)).toBeVisible();
         if (await this.page.locator(Element.request_loading)){
             this.page.reload();
@@ -74,12 +73,12 @@ export default class RequestShowPage {
         await this.page.click(Button.share_with_client);
         await this.page.waitForLoadState('networkidle');
         await WebActions.delay(500);
-        await this.page.type(Input.share_email, email, {delay: 100});
+        await this.page.type(Input.share_email, email, {delay: 30});
         if (await this.page.locator(Checkbox.understand_shared_link_expire_hidden).count()==0){
             await this.page.click(Checkbox.understand_shared_link_expire);
         }
         await this.page.click(Button.send_email);
-        await WebActions.delay(500);
+        //await WebActions.delay(500);
         await this.page.waitForLoadState('networkidle');
         await this.page.click(Button.close);
         await this.page.waitForLoadState('networkidle');
@@ -98,7 +97,7 @@ export default class RequestShowPage {
     async viewReservation(){
         console.info(`View reservation`);
         await this.page.click(Button.reservation_info);
-        await WebActions.delay(400);
+        //await WebActions.delay(400);
         await this.page.waitForLoadState('domcontentloaded');
         await expect(await this.page.url()).toContain(`${ENV.BASE_URL}/reservation`);
     }
@@ -135,7 +134,7 @@ export default class RequestShowPage {
 
     async searchHotelOptions(){
         console.info("Searching hotel options");
-        await WebActions.delay(700); 
+        //await WebActions.delay(700); 
         await this.page.waitForLoadState('networkidle');
         await this.page.waitForLoadState('domcontentloaded');
         await this.page.click(Button.search_hotel_options);
@@ -143,16 +142,16 @@ export default class RequestShowPage {
 
     async unawardOption(){
         console.info("Unawarding option");
-        await WebActions.delay(700); 
+        //await WebActions.delay(800); 
         await this.page.waitForLoadState('networkidle');
         await this.page.waitForLoadState('domcontentloaded');
         await this.page.click(Link.unaward);
-        await WebActions.delay(700); 
+        //await WebActions.delay(800); 
         await this.page.waitForLoadState('networkidle');
         await this.page.waitForLoadState('domcontentloaded');
         await this.page.click(Checkbox.agree_to_cancellation);
         await this.page.click(Button.ok_cancellation);
-        await WebActions.delay(700); 
+        //await WebActions.delay(900); 
         await this.page.waitForLoadState('networkidle');
         await this.page.waitForLoadState('domcontentloaded');
     }
