@@ -4,8 +4,9 @@ const chance = new Chance();
 export default class ENV{
     static BASE_URL = process.env.BASE_URL
     static BASE_URL1 = process.env.BASE_URL1
-    static B2E_URL = process.env.BASE_URL
+    static B2E_URL = process.env.B2E_URL
     static MAILCATCHER_URL = process.env.MAILCATCHER_URL
+    static SUPPLIER_DOMAIN = process.env.SUPPLIER_DOMAIN
     static SUPER_ADMIN = process.env.SUPER_ADMIN
     static SUPER_ADMIN_PASSWORD = process.env.SUPER_ADMIN_PASSWORD
     static REQUESTOR_ADMIN = process.env.REQUESTOR_ADMIN
@@ -24,6 +25,7 @@ export default class ENV{
     static GUEST_FIRSTNAME = chance.first()
     static GUEST_LASTNAME = chance.last()
     static PROPERTY = process.env.PROPERTY
+    static ClIENT_EMAIL = `client_${chance.first()}_${chance.integer({min:0,max:9999})}@reloquest.com`
     static GUEST_EMAIL = `${this.GUEST_FIRSTNAME}_${chance.integer({min:0,max:9999})}@reloquest.com`
     static GUEST_PHONE = chance.phone()
     static REQUEST_TYPE = [`Corporate Housing Only`,`Hotels Only`,`Hotels and Corporate Housing`]
@@ -34,6 +36,9 @@ export default class ENV{
     static STYLE = [`A+`, `A`, `B`, `C`, `D`]
     static BEDROOMS = [`Studio/Efficiency`, `1`, `2`, `3`, `4`, `5`]
     static BATHROOMS = [`0.5`, `1`, `1.5`, `2`, `2.5`]
-    static FEES_TYPE = [`Per Night`, `Flat`, `Percent`]
+    static FEES_TYPE = [`DAY`, `FLAT`, `PERCENT`]
     static ACKNOWLEDGE_AWARD = [`accept`, `decline`, `submit_new_option`]
+    static SUPPLIER_COMPANY_EMAIL = `${this.SUPPLIER_COMPANY}@reloquest.com`
+    static SUPPLIER_EMAIL = `${this.SUPPLIER_ADMIN}@reloquest.com`
+    static REQUESTOR_EMAIL = `${this.REQUESTOR_USER}@nt1req.com`
 }

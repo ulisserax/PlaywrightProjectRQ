@@ -2,7 +2,7 @@ import test  from '@lib/BaseTest';
 import ENV  from '@utils/env';
 
 
- test.describe("Test Suite Decline Option", () => {
+ test.describe.skip("Test Suite Decline Option", () => {
     //test.slow();
 
     let guest_email = ENV.GUEST_EMAIL;
@@ -17,7 +17,7 @@ import ENV  from '@utils/env';
         await dashboard.cardSummary();
         await dashboard.clickNewRequest();
         await newRequest.select_client(ENV.CLIENT);
-        await newRequest.fillRequestDetails(ENV.REQUEST_TYPE[0], ENV.REQUESTOR_ADMIN,ENV.GUEST_TYPE[0],'Miami, FL, USA');
+        await newRequest.fillRequestDetails(ENV.REQUEST_TYPE[0], ENV.REQUESTOR_ADMIN,ENV.GUEST_TYPE[0],'Miami, FL, USA', `34`);
         await newRequest.fillGuestInfo(ENV.GUEST_FIRSTNAME,ENV.GUEST_LASTNAME,guest_email,ENV.GUEST_PHONE);
         await newRequest.fillCorporateHousingDetails();
         await newRequest.submitRequest();

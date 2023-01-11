@@ -9,4 +9,7 @@ export default class Checkbox{
     static terms_of_reservation_checkbox = `#terms-of-reservation-checkbox`;
     // static terms_of_reservation_checkbox_hidden = `.hidden #terms-of-reservation-checkbox`;
     static edit_segment_understand = `#edit-segments-understand`;
+    static confirm_fee = `#confirm_fees`;
+    static confirm_payment = `#confirm_payment`;
+    static agree_to_cancellation = `input[name='agreeToCancellation']`;
 }

@@ -13,4 +13,8 @@ export default class Element{
     static property_info_image = `#propertyInfoImage`;
     static loading_property_info = `label:text('Loading Appartment Data...')`;
     static request_loading = `img.loading`;
+    static hotel_special_information = `#request-profile-container div.request-details--item.request-notes`;
+    static confirm_booking_h1 = `.hotel-option-details h1`;
+    static booking_confirmation = `#hotelOptionDetailSection h1`;
+    
 }
