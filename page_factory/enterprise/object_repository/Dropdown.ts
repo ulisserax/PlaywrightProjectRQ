@@ -15,9 +15,10 @@ export default class Dropdown{
     static select_style = `#form_style`;
     static select_bedrooms = `#form_bedrooms`;
     static select_bathrooms = `#form_bathrooms`;
+    static select_air_conditioning = `#form_airConditioning`;
     static select_parking_type = `#form_parking_type_1`;
     static select_pet_policy = `#form_pets_allowed`;
-    static select_fee_type = `#fee_segment_0 .tax-type-type`;
+    static select_fee_type = `#fee_segment_0 select.tax-type-type`;
     static select_preference = `#all_options .preference`;
     static acknowledge_award = `#acknowledgeOptionsSelect`;
     static service_issue_type = `#form_issueType`;

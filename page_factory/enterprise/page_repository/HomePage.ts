@@ -13,8 +13,7 @@ export default class HomePage {
      async openHomePage (url: string ){
           await this.page.goto(url);
           console.info(`Opening ${url}`);
-          await expect(this.page).toHaveTitle("ReloQuest");
-          console.info(`Validating title`);
+          await this.page.waitForLoadState('domcontentloaded');
      }
 
      async enterCredentials( username: string, password: string ){

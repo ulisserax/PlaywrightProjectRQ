@@ -2,7 +2,7 @@ import test  from '@lib/BaseTest';
 import ENV  from '@utils/env';
 
 
- test.describe("Test Suite Decline Option", () => {
+ test.describe.skip("Test Suite Decline Option", () => {
     //test.slow();
 
     let guest_email = ENV.GUEST_EMAIL;

@@ -64,6 +64,6 @@ export default class Button{
     static book =  `button:text('BOOK')`;
     static submit_room_configuration = `#submit_room_configuration`;
     static confirm_booking = `span:text('Confirm Booking')`;
-    static back_to_request = `a:text(Back To Request)`;
+    static back_to_request = `a:text('Back To Request')`;
     static ok_cancellation = `div.modal.fade.in span:text('Ok')`
 }
