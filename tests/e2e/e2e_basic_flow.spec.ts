@@ -6,9 +6,9 @@ import ENV  from '@utils/env';
     test.slow();
 
     let guest_email = ENV.GUEST_EMAIL;
-    let request_id = `RQE56BFC`;
+    let request_id ;//= "RQ834A51";
     let client_share_link;
-    let reservation_id = `RQR8C9D6D`;
+    let reservation_id ;//= "RQR8233B4";
 
     test("Create a new Request and edit", async({ homePage, dashboard, newRequest, requestShow}) =>{
         await homePage.openHomePage(ENV.BASE_URL);
@@ -112,12 +112,19 @@ import ENV  from '@utils/env';
         await serviceIssue.resolveServiceIssue();
     })
 
-    test.only("Validate basic emails", async ({homePage, mailCatcher}) => {
+    test("Validate basic emails", async ({homePage, configurationInstance, mailCatcher}) => {
+
+        await homePage.openHomePage(`${ENV.BASE_URL}/configuration/instance`);
+        await homePage.enterCredentials(ENV.SUPER_ADMIN, ENV.SUPER_ADMIN_PASSWORD);
+        await homePage.signIn();
+        await configurationInstance.mailPush();
         await homePage.openHomePage(ENV.MAILCATCHER_URL);
-        await mailCatcher.verifyBasicEmails('urgent updated request', ENV.SUPPLIER_COMPANY_EMAIL, `Updated Request: ${ENV.REQUESTOR_COMPANY}, ${request_id}`, `Supplier For Deadline Update`, `${ENV.SUPPLIER_DOMAIN}/request/show/${request_id}`, request_id , `h4:has-text('1 field(s) updated on')`);
-        await mailCatcher.verifyBasicEmails1('urgent updated request', ENV.REQUESTOR_EMAIL, `Updated Request: ${ENV.REQUESTOR_COMPANY}, ${request_id}`, `Requestor For Deadline And Assigned To Update`, `${ENV.BASE_URL}/request/show/${request_id}`, request_id, `h4:has-text('2 field(s) updated on')` );
-        await mailCatcher.verifyBasicEmails('Congratulations', ENV.SUPPLIER_EMAIL, `Congratulations, you were awarded ${request_id}`, `Awarded Supplier`, `${ENV.SUPPLIER_DOMAIN}/request/show/${request_id}`, request_id , `p:has-text('Congratulations! The client has selected your option for Request #')`);
-        await mailCatcher.verifyBasicEmails('ALERT! - Service Issue', ENV.SUPPLIER_COMPANY_EMAIL, `ALERT! - Service Issue has been submitted for reservation ${reservation_id}`, `Supplier New Service Issue`, `${ENV.SUPPLIER_DOMAIN}/request/show/${request_id}?openServiceIssueTab=1`, request_id , `p:has-text('Service Issue Submitted')`);
+        await mailCatcher.verifyBasicEmails(`Supplier For Deadline Update`, ENV.SUPPLIER_COMPANY_EMAIL, `URGENT Updated Request: ${ENV.REQUESTOR_COMPANY}, ${request_id}`, `//h4[contains(normalize-space(),'1 field(s) updated on')]/following-sibling::ul/li[contains(normalize-space(),'Departure date')]`, `a:has-text('${request_id}')`,`${ENV.SUPPLIER_DOMAIN}/request/show/${request_id}`);
+        await mailCatcher.verifyBasicEmails1(`Requestor For Deadline And Assigned To Update`, ENV.REQUESTOR_EMAIL, `URGENT Updated Request: ${ENV.REQUESTOR_COMPANY}, ${request_id}`, `//h4[contains(normalize-space(),'2 field(s) updated on')]//following-sibling::ul/li[contains(normalize-space(),'Departure date')]/following-sibling::li[contains(normalize-space(),'Assigned to')]`, `a:has-text('${request_id}')` ,`${ENV.BASE_URL}/request/show/${request_id}`);
+        await mailCatcher.verifyBasicEmails(`Awarded Supplier`, ENV.SUPPLIER_COMPANY_EMAIL, `Congratulations, you were awarded ${request_id}`, `//p[contains(text(),'Congratulations! The client has selected your option for Request #') and contains(a,'${request_id}')]`, `a:has-text('${request_id}')` ,`${ENV.SUPPLIER_DOMAIN}/request/show/${request_id}`);
+        await mailCatcher.verifyBasicEmails(`Supplier New Service Issue`, ENV.SUPPLIER_EMAIL, `ALERT! - Service Issue has been submitted for reservation ${reservation_id}`, `p:has-text('Service Issue Submitted')`, `a:has-text('VIEW SERVICE ISSUES')`, `${ENV.SUPPLIER_DOMAIN}/request/show/${request_id}?openServiceIssueTab=1`);
+        await mailCatcher.verifyBasicEmails(`Guest New Service Issue`, guest_email, `Your service issues for ReloQuest reservation ${reservation_id}`, `p:has-text('Here is your list of services issues for ReloQuest reservation ${reservation_id}')`, `a:has-text('VIEW SERVICE ISSUES')` ,`${ENV.B2E_URL}/b2e/quests/`);
+        await mailCatcher.verifyBasicEmails(`Requestor Service Issue Resolved`, ENV.REQUESTOR_EMAIL, `ALERT! - Service issue has been updated for reservation ${reservation_id}`, `p:has-text('The service issue for reservation ${reservation_id} has been updated')`, `a:has-text('VIEW SERVICE ISSUES')` ,`${ENV.BASE_URL}/request/show/${request_id}?openServiceIssueTab=1`);
 
     })
 

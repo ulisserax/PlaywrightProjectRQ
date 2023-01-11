@@ -43,8 +43,6 @@ export default class Reservation {
 
     async changeSegmentStarDateToPast(){
         console.info(`Changing reservation start date to past`);
-        //await this.page.waitForLoadState('domcontentloaded');
-        //await WebActions.delay(1000);
         if(await this.page.locator(Element.loading_property_info).isVisible){
             await this.page.reload();
             await this.page.waitForLoadState('domcontentloaded');
@@ -52,9 +50,7 @@ export default class Reservation {
         await this.page.locator(Link.edit_segment_details).first().click();
         await this.page.waitForLoadState('domcontentloaded');
         await this.page.locator(Calendar.start_date).first().click();
-        //await WebActions.delay(300);
         await this.page.click(Link.today_link);
-        //await WebActions.delay(400);
         await this.page.click(Checkbox.edit_segment_understand);
         await this.page.click(Button.submit_changes);
         await this.page.waitForLoadState('domcontentloaded');
@@ -62,10 +58,12 @@ export default class Reservation {
 
     async viewRateSegmentHistory(){
         console.info(`Viewing segment history`);
+        await this.page.waitForLoadState('networkidle');
         await this.page.waitForLoadState('domcontentloaded');
-        //await WebActions.delay(1000);
         await this.page.locator(Link.view_segment_history).first().click();
+        await this.page.waitForLoadState('networkidle');
         await this.page.waitForLoadState('domcontentloaded');
+        await WebActions.delay(400);
         await expect(await this.page.locator(Text.segment_pending_approval_section)).toBeVisible();
         await this.page.click(Element.close_modal_icon);
     }
@@ -73,8 +71,8 @@ export default class Reservation {
     async verifyReservation(reservation_id){
         console.info("Verifying reservation was acknowledge");
 		await this.page.waitForLoadState('domcontentloaded');
-        await expect(await this.page.locator(Text.reservation_information).textContent()).toContain(`Accepted By:`);
-        await expect(await this.page.locator(Text.reservation_information).textContent()).toContain(`Supplier: ${ENV.SUPPLIER_COMPANY}`);
+        await expect(await this.page.locator(Text.reservation_information).textContent()).toContain(`Award acknowledged on:`);
+        await expect(await this.page.locator(Text.reservation_information).textContent()).toContain(`${ENV.SUPPLIER_COMPANY}`);
         await expect(await this.page.locator(Text.reservation_information).textContent()).toContain(reservation_id);
     }
 
@@ -82,6 +80,7 @@ export default class Reservation {
         console.info("Editing guest information");
         await this.page.fill(Input.guest_name,'');
         await this.page.type(Input.guest_name, chance.name(), {delay:20});
+        await WebActions.delay(400);
         await this.page.click(Button.submit);
         await WebActions.delay(400);
         await this.page.waitForLoadState('domcontentloaded');
@@ -91,8 +90,8 @@ export default class Reservation {
 
     async activityLogRequestor(requestor_admin){
         console.info('Activity log validation');
+        await WebActions.delay(300);
         await this.page.click(Button.activity_log);
-        //await WebActions.delay(1500);
         await this.page.waitForLoadState('networkidle');
         await this.page.waitForLoadState('domcontentloaded');
         await expect(await this.page.locator(Element.activity_log_modal_li).textContent()).toContain(requestor_admin);
@@ -102,16 +101,13 @@ export default class Reservation {
 
     async approveReservationChanges(){
         console.info('Approving the reservation changes');
-        //await WebActions.delay(600);
         await this.page.waitForLoadState('networkidle');
         await this.page.click(Element.pending_approval_icon);
         await this.page.click(Link.view_link);
-        //await WebActions.delay(1000);
         await this.page.waitForLoadState('networkidle');
         await this.page.waitForLoadState('domcontentloaded');
         await this.page.click(Button.approve);
         await this.page.click(Button.approve_changes);
-        //await WebActions.delay(600);
         await this.page.waitForLoadState('domcontentloaded');
         await this.page.click(Button.okay);
 

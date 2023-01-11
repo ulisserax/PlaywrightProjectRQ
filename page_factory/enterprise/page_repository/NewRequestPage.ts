@@ -24,9 +24,11 @@ export default class NewRequestPage{
 
     async select_arrival_date(){
         await this.page.waitForLoadState('domcontentloaded');
-        await WebActions.delay(300);
+        await WebActions.delay(400);
         await this.page.click(Calendar.arrival_date);
+        await WebActions.delay(300);
         await this.page.click(Calendar.arrow_next_month);
+        await WebActions.delay(300);
         await this.page.locator(Calendar.middle_date).last().click();
     }
 
@@ -60,10 +62,10 @@ export default class NewRequestPage{
     async fillRequestDetails(request_type:string, requestor:string, guest_type: string, location: string, length_of_stay: string){
         console.info("Filling the new request details.");
         await this.page.waitForLoadState('domcontentloaded');
+        await this.select_desired_location(location);
         await this.page.selectOption(Dropdown.select_request_type, { label: `${request_type}`});
         await this.page.selectOption(Dropdown.select_assigned_to, { label: requestor});
         await this.page.selectOption(Dropdown.select_guest_type,{ label: `${guest_type}`});
-        await this.select_desired_location(location);
         await this.select_arrival_date();
         await this.page.selectOption(Dropdown.select_radius,{ index: 5});
         await this.page.type(Input.length_of_stay,`${length_of_stay}`);
@@ -75,6 +77,7 @@ export default class NewRequestPage{
         await this.page.type(Input.adults, '1');
         await this.page.selectOption(Dropdown.maid_service, {index: 2});
         await this.page.selectOption(Dropdown.washer_dryer,{index: 2});
+        await this.page.type(Input.days_notice,'3');
     }
 
     async fillHotelDetails(hotel_rooms:string, adults:string){

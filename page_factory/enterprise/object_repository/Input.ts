@@ -11,6 +11,7 @@ export default class Input{
     static search_client = `#s2id_autogen2_search`;
     static cost_center = `#form_cost_center`;
     static adults = `#form_adults`;
+    static days_notice = `#form_notice_vacate`;
     static search_by = `#search-form-criteria`;
     static search_property = `#s2id_autogen1_search`;
     static square_foot = `#form_square_foot`;
@@ -23,4 +24,10 @@ export default class Input{
     static link_to_options = `#share_link`;
     static guest_name = `#form_guest_name`;
     static hotel_rooms_adults = "#form_hotel_rooms_0_adults";
+    static customer_service_number =`#form_customer_service_phone_24h`;
+    static email_for_service_issues =`#form_service_issue_email`;
+    static phone_for_services_issues =`#form_service_issue_phone`;
+    static escalation_contact_name =`#form_escalation_name`;
+    static escalation_contact_email =`#form_escalation_email`;
+    static escalation_contact_phone =`#form_customer_service_phone_24h`;
 }

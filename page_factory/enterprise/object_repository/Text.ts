@@ -12,4 +12,6 @@ export default class Text{
     static segment_pending_approval_section = `div#segments-history-modal strong:text('Segments Pending Approval:')`;  
     static reservation_information = `div.reservation`;
     static hotel_reservation_id = `div#hotelOptionDetailSection span:text('Reloquest Reservation ID:') span`;
+    static property_distance_modal_notification =`.modal.fade.in div:has-text('Your property is 7.02 mi')`;
+    static service_issue_resolved = `//table[@id='supplier_status_list']//tbody//td[4]`;
 }
