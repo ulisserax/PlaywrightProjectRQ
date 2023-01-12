@@ -22,14 +22,14 @@ export default class OptionPage {
         console.info("Selecting property");
         await this.page.waitForLoadState('networkidle');
         await this.page.click(Dropdown.select_property);
-        await this.page.type(Input.search_property, `${property}`, {delay:30});
+        await this.page.type(Input.search_property, `${property}`, {delay:40});
         await WebActions.delay(1200);
         await this.page.waitForLoadState('networkidle');
         await this.page.waitForLoadState('domcontentloaded');
         await this.page.click(Link.property);
         await this.page.waitForLoadState('domcontentloaded');
         await this.page.waitForLoadState('networkidle');
-        await WebActions.delay(500);
+        await WebActions.delay(900);
     }
 
     async fillUnitDetails(unit_type:string, kitchen_type:string, style:string, bedrooms:string, bathrooms:string){
