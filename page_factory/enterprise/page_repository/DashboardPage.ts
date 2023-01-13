@@ -53,6 +53,12 @@ export default class DashboardPage {
         await this.page.keyboard.press('Enter');
     }
 
+    async findReservation(reservation_id){
+        console.info("Finding a current request");
+        await this.page.type(Input.search_by, reservation_id);
+        await this.page.keyboard.press('Enter');
+    }
+
     async clickReadyToBeAwardedCard(){
         console.info("Clicking ready to be awarded card");
         await this.page.click(Card.ready_to_be_awarded_card);

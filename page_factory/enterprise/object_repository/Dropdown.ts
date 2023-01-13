@@ -23,4 +23,9 @@ export default class Dropdown{
     static acknowledge_award = `#acknowledgeOptionsSelect`;
     static service_issue_type = `#form_issueType`;
     static issue_status = `#form_status`;
+    static background_req = `#form_background_checks_required`;
+    static air_conditioning = `#form_airConditioning`;
+    static pet_policy = `#form_pets_allowed`;
+    static cancellation_policy = `#form_cancellationPolicy`;
+    static tax_fee_policy = `#form_taxFeePolicy`;
 }

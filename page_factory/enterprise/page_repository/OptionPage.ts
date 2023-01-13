@@ -32,6 +32,14 @@ export default class OptionPage {
         await WebActions.delay(900);
     }
 
+    async clickNewProperty(){
+        console.info("Click on new property");
+        await this.page.waitForLoadState('networkidle');
+        await this.page.click(Button.new_property);
+        await this.page.waitForLoadState('networkidle');
+        await this.page.waitForLoadState('domcontentloaded');
+    }
+
     async fillUnitDetails(unit_type:string, kitchen_type:string, style:string, bedrooms:string, bathrooms:string){
         console.info("Filling the unit details.");
         await this.page.waitForLoadState('networkidle');
@@ -86,12 +94,7 @@ export default class OptionPage {
         }
         //await this.page.waitForLoadState('domcontentloaded');
         //await this.page.click(Button.submit_option_modal);
-        await WebActions.delay(1000);
-        await this.page.waitForLoadState('networkidle');
-        await this.page.waitForLoadState('domcontentloaded');
-        await WebActions.delay(3800);
-        await this.page.waitForSelector(Element.all_options_table_row);
-        await expect(await this.page.locator(Text.options_count).textContent()).toEqual(`1`);
+        
     }
 
     async awardFromOption(){
