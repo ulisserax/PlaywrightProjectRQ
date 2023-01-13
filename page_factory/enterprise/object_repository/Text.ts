@@ -14,4 +14,9 @@ export default class Text{
     static hotel_reservation_id = `div#hotelOptionDetailSection span:text('Reloquest Reservation ID:') span`;
     static property_distance_modal_notification =`.modal.fade.in div:has-text('Your property is 7.02 mi')`;
     static service_issue_resolved = `//table[@id='supplier_status_list']//tbody//td[4]`;
+    static first_option_rate = `td.total_rate span`;
+    static first_property_name = `td.property-name a`;
+    static card_property_rate = `h4.option_price`;
+    static card_property_name = `h2.property_name`;
+    static awarded_property = `table#all_options tr.approved.awarded.corporate-option`;
 }

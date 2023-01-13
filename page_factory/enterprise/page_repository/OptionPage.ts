@@ -93,4 +93,15 @@ export default class OptionPage {
         await this.page.waitForSelector(Element.all_options_table_row);
         await expect(await this.page.locator(Text.options_count).textContent()).toEqual(`1`);
     }
+
+    async awardFromOption(){
+        console.info("Award from option");
+        await this.page.click(Button.award_this_option);
+        await this.page.waitForLoadState('domcontentloaded');
+        await this.page.click(Button.yes);
+        await this.page.waitForLoadState('networkidle');
+        await this.page.waitForLoadState('domcontentloaded');
+        await WebActions.delay(500);
+        await expect(await this.page.locator(Text.awarded_property).count()).toBeGreaterThanOrEqual(1);
+    }
 }
