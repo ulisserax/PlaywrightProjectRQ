@@ -16,5 +16,5 @@ export default class Element{
     static hotel_special_information = `#request-profile-container div.request-details--item.request-notes`;
     static confirm_booking_h1 = `.hotel-option-details h1`;
     static booking_confirmation = `#hotelOptionDetailSection h1`;
-    
+    static option_map_icon = `//div[@id="request_map_view"]/div/div/div[2]/div[2]/div/div[3]/div[3]/img`
 }
