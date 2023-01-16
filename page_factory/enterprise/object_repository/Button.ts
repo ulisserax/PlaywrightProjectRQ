@@ -66,4 +66,6 @@ export default class Button{
     static confirm_booking = `span:text('Confirm Booking')`;
     static back_to_request = `a:text('Back To Request')`;
     static ok_cancellation = `div.modal.fade.in span:text('Ok')`
+    static map_view = `a#button_map_view`;
+    static award_this_option = `a:has-text('Award this Option')`;
 }

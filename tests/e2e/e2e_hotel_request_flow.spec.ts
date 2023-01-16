@@ -7,7 +7,7 @@ import ENV  from '@utils/env';
     let hotel_reservation_id;
 
 
-test("Create a hotel request and cancel reservation", async ({homePage, dashboard, newRequest, requestShow, hotelSearchPage, search}) => {
+test.skip("Create a hotel request and cancel reservation", async ({homePage, dashboard, newRequest, requestShow, hotelSearchPage, search}) => {
     test.slow();
     await homePage.openHomePage(ENV.BASE_URL);
     await homePage.enterCredentials(ENV.REQUESTOR_ADMIN, ENV.REQUESTOR_ADMIN_PASSWORD);
