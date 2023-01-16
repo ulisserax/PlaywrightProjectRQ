@@ -1,7 +1,10 @@
 import ENV from "@utils/env";
 
 export default class Element{
-    static all_options_table_row = `table#all_options tbody tr`; //table#all_options tr.approved.corporate-option
+    static approved_options_table_row = `table#all_options tbody tr.approved.corporate-option`; 
+    static awarded_options_table_row = `table#all_options tbody tr.awarded.corporate-option`;
+    static hotels_options_table_row = `table#all_options tbody tr.approved.awarded.hotel-option`;
+    static alternate_options_table_row = `table#all_options tbody tr.approved.corporate-option span.alt-option-link`;
     static client_name = `div[role=option] span:text('${ENV.CLIENT}')`;
     static client_b2e_name = `div[role=option] span:text('${ENV.CLIENT_B2E}')`;
     static client_eb2e_name = `div[role=option] span:text('${ENV.CLIENT_EB2E}')`;
@@ -17,4 +20,5 @@ export default class Element{
     static confirm_booking_h1 = `.hotel-option-details h1`;
     static booking_confirmation = `#hotelOptionDetailSection h1`;
     static option_map_icon = `//div[@id="request_map_view"]/div/div/div[2]/div[2]/div/div[3]/div[3]/img`
+    
 }

@@ -54,7 +54,7 @@ export default class RequestShowPage {
         await this.page.click(Button.back_to_request);
         await this.page.waitForLoadState('networkidle');
         await this.page.waitForLoadState('domcontentloaded');
-        await expect(await this.page.locator(Element.all_options_table_row).count()).toBeGreaterThanOrEqual(1);
+        await expect(await this.page.locator(Element.hotels_options_table_row).count()).toBeGreaterThanOrEqual(1);
     }
 
     async verifyReservationWasCancelled(){

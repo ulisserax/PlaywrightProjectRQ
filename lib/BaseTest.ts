@@ -11,6 +11,7 @@ import ShareOption from "@enterprise_pages/ShareOptionPage";
 import Reservation from "@enterprise_pages/ReservationPage";
 import ServiceIssuePage from "@enterprise_pages/ServiceIssuePage";
 import HotelSearchPage from "@enterprise_pages/HotelSearchPage";
+import PropertyPage from "@enterprise_pages/PropertyPage";
 
 
 const test = baseTest.extend<{
@@ -26,6 +27,7 @@ const test = baseTest.extend<{
     reservation:Reservation;
     serviceIssue: ServiceIssuePage;
     hotelSearchPage: HotelSearchPage;
+    property: PropertyPage;
 
 }>({
     homePage: async ({ page }, use) => {
@@ -63,6 +65,9 @@ const test = baseTest.extend<{
     },
     hotelSearchPage: async ({ page }, use) => {
         await use(new HotelSearchPage(page));
+    },
+    property: async ({ page }, use) => {
+        await use(new PropertyPage(page));
     }
 });
 
