@@ -8,7 +8,6 @@ import ENV  from '@utils/env';
 
     let guest_email = ENV.GUEST_EMAIL;
     let request_id;
-    let client_share_link;
     let reservation_id;
 
     test("Create a new Request", async({ homePage, dashboard, newRequest, requestShow}) =>{
