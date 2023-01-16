@@ -47,6 +47,7 @@ export default class Button{
     static copy_link = `#modal_btn_share_link_copy`;
     static done = `#modal_btn_share_link_done`;
     static award  = `table#all_options a:text("Award")`;
+    static awardAlternateOption  = `table#all_options tbody tr:not(.unavailable) a:text('Award')`;
     static submit_akcnowledge = `#submitAcknowledgeBtn`;
 
     static reservation_info = `#button_request_reservation`;
@@ -68,4 +69,6 @@ export default class Button{
     static ok_cancellation = `div.modal.fade.in span:text('Ok')`
     static map_view = `a#button_map_view`;
     static award_this_option = `a:has-text('Award this Option')`;
+    static new_property = `a#property_new`;
+    static create_property = `button:has-text('Create)`;
 }

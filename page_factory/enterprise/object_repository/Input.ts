@@ -30,4 +30,7 @@ export default class Input{
     static escalation_contact_name =`#form_escalation_name`;
     static escalation_contact_email =`#form_escalation_email`;
     static escalation_contact_phone =`#form_customer_service_phone_24h`;
+    static property_name = `#form_name`;
+    static property_location = `#form_location`;
+    static property_room_types = `#s2id_form_roomTypes`;
 }

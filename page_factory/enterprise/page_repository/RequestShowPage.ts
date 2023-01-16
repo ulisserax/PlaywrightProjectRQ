@@ -57,7 +57,7 @@ export default class RequestShowPage {
         console.info(`Sharing the options with the client`);
         await this.page.waitForLoadState('networkidle');
         await this.page.waitForLoadState('domcontentloaded');
-        await expect(await this.page.locator(Element.all_options_table_row)).toBeVisible();
+        await expect(await this.page.locator(Element.approved_options_table_row)).toBeVisible();
         if (await this.page.locator(Element.request_loading)){
             this.page.reload();
         }
@@ -92,6 +92,16 @@ export default class RequestShowPage {
         await this.page.waitForLoadState('networkidle');
         await expect(await this.page.locator(Text.acknowledge_text).first().textContent()).toContain(`Award acknowledged on:`);
     }
+    async alternateOption(response:string){
+        console.info(`Submitting an alternate option.`);
+        await this.page.selectOption(Dropdown.acknowledge_award, {value: response});
+        if (await this.page.locator(Checkbox.terms_of_reservation_checkbox).isVisible()){
+            await this.page.click(Checkbox.terms_of_reservation_checkbox);
+        }
+        await this.page.click(Button.submit_akcnowledge);
+        await this.page.waitForLoadState('networkidle');
+        await this.page.waitForLoadState('domcontentloaded');
+    }
 
     async viewReservation(){
         console.info(`View reservation`);
@@ -105,6 +115,15 @@ export default class RequestShowPage {
         await this.page.waitForLoadState('domcontentloaded');
     }
 
+    async awardAlternateOption(){
+        console.info(`Awarding the alternate option`);
+        await this.page.waitForLoadState('networkidle');
+        await this.page.waitForLoadState('domcontentloaded');
+        await this.page.click(Button.awardAlternateOption);
+        await this.page.click(Button.yes);
+        await this.page.waitForLoadState('networkidle');
+        await expect(await this.page.locator(Element.awarded_options_table_row).count()).toEqual(1);
+    }
     async createServiceIssue(){
         console.info(`Creating Service issues`);
         await this.page.click(Button.create_new_service_issue);
@@ -174,8 +193,20 @@ export default class RequestShowPage {
         await expect(await this.page.locator(Input.rate).inputValue()).toContain(rate);
 
     }
+    
+    async verifyOptionSubmitted(){
+        console.info(`Validating option was submitted`);
+        await WebActions.delay(1000);
+        await this.page.waitForLoadState('networkidle');
+        await this.page.waitForLoadState('domcontentloaded');
+        await WebActions.delay(3800);
+        await this.page.waitForSelector(Element.approved_options_table_row);
+        await expect(await this.page.locator(Element.approved_options_table_row).count()).toBeGreaterThanOrEqual(1);
+    }
 
-    
-    
+    async verifyAlternateOptionSubmitted(){
+        console.info(`Validating alternate option was submitted`);
+        await expect(await this.page.locator(Element.alternate_options_table_row).count()).toEqual(1);
+    }
 
 }

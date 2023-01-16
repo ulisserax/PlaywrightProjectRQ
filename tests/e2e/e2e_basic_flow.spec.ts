@@ -2,7 +2,7 @@ import test  from '@lib/BaseTest';
 import ENV  from '@utils/env';
 
 
- test.describe.skip("Test Suite Basic Flow ", () => {
+ test.describe("Test Suite Basic Flow ", () => {
     test.slow();
 
     let guest_email = ENV.GUEST_EMAIL;
@@ -40,6 +40,7 @@ import ENV  from '@utils/env';
         await option.fillRateDetails();
         await option.fillFees(ENV.FEES_TYPE[0]);
         await option.submitOption();
+        await requestShow.verifyOptionSubmitted();
     })
     test("Share with client", async ({ homePage, dashboard, search, requestShow, newRequest}) => {
         await homePage.openHomePage(ENV.BASE_URL);
@@ -113,7 +114,7 @@ import ENV  from '@utils/env';
     })
 
     test("Validate basic emails", async ({homePage, configurationInstance, mailCatcher}) => {
-
+        
         await homePage.openHomePage(`${ENV.BASE_URL}/configuration/instance`);
         await homePage.enterCredentials(ENV.SUPER_ADMIN, ENV.SUPER_ADMIN_PASSWORD);
         await homePage.signIn();

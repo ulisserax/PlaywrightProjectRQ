@@ -7,7 +7,7 @@ import ENV  from '@utils/env';
     let hotel_reservation_id;
 
 
-test.skip("Create a hotel request and cancel reservation", async ({homePage, dashboard, newRequest, requestShow, hotelSearchPage, search}) => {
+test("Create a hotel request and cancel reservation", async ({homePage, dashboard, newRequest, requestShow, hotelSearchPage, search}) => {
     test.slow();
     await homePage.openHomePage(ENV.BASE_URL);
     await homePage.enterCredentials(ENV.REQUESTOR_ADMIN, ENV.REQUESTOR_ADMIN_PASSWORD);
@@ -21,11 +21,13 @@ test.skip("Create a hotel request and cancel reservation", async ({homePage, das
     await newRequest.fillHotelDetails('1','2');
     await newRequest.submitHotelRequest();
     request_id = await requestShow.getRequestId();
+    console.info(`Request Id: ${request_id}`);
     await requestShow.validateHotelSpecialInformation();
     await requestShow.searchHotelOptions();
     await hotelSearchPage.searchHotelRoomProcess();
     await hotelSearchPage.bookHotelRoom();
     hotel_reservation_id = await hotelSearchPage.verifyHotelRoomBooking();
+    console.info(`Hotel reservation Id: ${hotel_reservation_id}`);
     await hotelSearchPage.backToRequest();
     await requestShow.unawardOption();
     await dashboard.findCurrentRequest(hotel_reservation_id);
