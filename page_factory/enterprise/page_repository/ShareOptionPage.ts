@@ -49,5 +49,26 @@ export default class ShareOptionPage {
         await this.page.waitForLoadState('networkidle');
         await expect(await this.page.locator(Element.awarded_options_table_row).count()).toEqual(1);
     }
+
+    async submitPreferences(){
+        console.info('Submiting preferences');
+        await this.page.waitForLoadState('domcontentloaded');
+        await WebActions.delay(400);
+        let items = await this.page.locator(Dropdown.select_preference).count();
+        for(let i = 0; i < items; i++){
+            await this.page.locator(Dropdown.select_preference).nth(i).selectOption({index: i+1});
+        }
+        await this.page.click(Button.submit_preferences);
+        await WebActions.delay(400);
+        await this.page.waitForLoadState('domcontentloaded');
+        await this.page.click(Checkbox.terms_of_reservation_checkbox);
+        await WebActions.delay(400);
+        await this.page.waitForLoadState('domcontentloaded');
+        await this.page.click(Button.yes);
+        await this.page.waitForLoadState('domcontentloaded');
+        await this.page.click(Button.close);
+        await this.page.waitForLoadState('networkidle');
+        //await expect(await this.page.locator(Element.awarded_options_table_row).count()).toEqual(1);
+    }
     
 }

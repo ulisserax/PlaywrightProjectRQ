@@ -20,4 +20,5 @@ export default class WebActions {
         return await context.newPage();
 
     }
+    
 }

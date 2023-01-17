@@ -23,7 +23,7 @@ export default class OptionPage {
         await this.page.waitForLoadState('networkidle');
         await this.page.click(Dropdown.select_property);
         await this.page.type(Input.search_property, `${property}`, {delay:40});
-        await WebActions.delay(1200);
+        await WebActions.delay(1400);
         await this.page.waitForLoadState('networkidle');
         await this.page.waitForLoadState('domcontentloaded');
         await this.page.click(Link.property);
@@ -73,12 +73,13 @@ export default class OptionPage {
     async fillContactInformation(email:string){
         console.info("Filling contact information.");
         let phone = chance.phone()
-        await this.page.type(Input.customer_service_number, `CSN-${chance.integer({ min: 10000, max: 99999})}`);
-        await this.page.type(Input.email_for_service_issues, `${email}`);
-        await this.page.type(Input.phone_for_services_issues, `${phone}`);
-        await this.page.type(Input.escalation_contact_name, `CSN-${chance.integer({ min: 10000, max: 99999})}`);
-        await this.page.type(Input.escalation_contact_email, `${email}`);
-        await this.page.type(Input.escalation_contact_phone, `${chance.first()}`);
+        await WebActions.delay(700)
+        await this.page.type(Input.customer_service_number, `CSN-${chance.integer({ min: 10000, max: 99999})}`, {delay:20});
+        await this.page.type(Input.email_for_service_issues, `${email}`, {delay:20});
+        await this.page.type(Input.phone_for_services_issues, `${phone}`, {delay:20});
+        await this.page.type(Input.escalation_contact_name, `CSN-${chance.integer({ min: 10000, max: 99999})}`, {delay:20});
+        await this.page.type(Input.escalation_contact_email, `${email}`, {delay:20});
+        await this.page.type(Input.escalation_contact_phone, `${phone}`, {delay:20});
     }
 
     async submitOption(){
@@ -86,25 +87,30 @@ export default class OptionPage {
         await this.page.click(Checkbox.cancellation_police_checkbox);
         await this.page.click(Checkbox.read_supplier_notes_checkbox);
         await this.page.click(Button.submit);
-        await WebActions.delay(500);
-        //await this.page.waitForLoadState('networkidle');
+        await WebActions.delay(300);
+        await this.page.waitForLoadState('networkidle');
         await this.page.waitForLoadState('domcontentloaded');
-        if(await this.page.locator(Text.property_distance_modal_notification)){
+        await WebActions.delay(500);
+        //await this.page.waitForSelector(Text.property_distance_modal_notification, {timeout:600});
+        let count = await this.page.locator(Text.property_distance_modal_notification).count();
+        //console.log(count);
+        if(count>0){
             await this.page.click(Button.yes);
         }
-        //await this.page.waitForLoadState('domcontentloaded');
-        //await this.page.click(Button.submit_option_modal);
         
     }
+
+    
 
     async awardFromOption(){
         console.info("Award from option");
         await this.page.click(Button.award_this_option);
         await this.page.waitForLoadState('domcontentloaded');
         await this.page.click(Button.yes);
+        await WebActions.delay(500);
         await this.page.waitForLoadState('networkidle');
         await this.page.waitForLoadState('domcontentloaded');
-        await WebActions.delay(500);
+       
         await expect(await this.page.locator(Text.awarded_property).count()).toBeGreaterThanOrEqual(1);
     }
 }

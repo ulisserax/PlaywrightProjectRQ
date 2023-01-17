@@ -70,5 +70,14 @@ export default class Button{
     static map_view = `a#button_map_view`;
     static award_this_option = `a:has-text('Award this Option')`;
     static new_property = `a#property_new`;
-    static create_property = `button:has-text('Create)`;
+    static create_property = `button:has-text('Create')`;
+    static add_image = `#image_add_button_form_gallery_gallery span`;
+    static select_file = `span:has-text('Select a file')`;
+    static crop_and_use = `#image_crop_go_now`;
+    static verify_option = `a.button_verify_options`;
+    static send = `span:text('Send')`;
+    static apply_confimation = `div.supplier-confirm__bottom button:has-text('Apply')`;
+    static submit_preferences = `#btn_option_share_preferences_only`;
+    static award_1st_choice  = `//tr[contains(@class,'corporate-option')]//td[contains(@class, 'preference') and normalize-space()='1st']/following-sibling::td//a[contains(normalize-space(),'Award')]`;
+    static award_2st_option  = `table#all_options tbody tr:not(.unavailable) a:text('Award')`;
 }
