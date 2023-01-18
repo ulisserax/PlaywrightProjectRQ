@@ -5,14 +5,17 @@
   "main": "index.js",
   "scripts": {
     "env:rc": "cross-env test_env=rc npx playwright test",
-    "env:qa": "cross-env test_env=qa npx playwright test",
     "env:stage": "cross-env test_env=stage npx playwright test",
     "env:rc:e2e:chrome": "cross-env test_env=rc npx playwright test --config=e2e.config.ts --project=Chromium",
     "env:rc:e2e:firefox": "cross-env test_env=rc npx playwright test --config=e2e.config.ts --project=Firefox",
     "env:rc:e2e:webkit": "cross-env test_env=rc npx playwright test --config=e2e.config.ts --project=Webkit",
-    "env:qa:e2e:chrome": "cross-env test_env=qa npx playwright test --config=e2e.config.ts --project=Chromium",
-    "env:qa:e2e:firefox": "cross-env test_env=qa npx playwright test --config=e2e.config.ts --project=Firefox",
-    "env:qa:e2e:webkit": "cross-env test_env=qa npx playwright test --config=e2e.config.ts --project=Webkit"
+    "env:stage:e2e:chrome": "cross-env test_env=stage npx playwright test --config=e2e.config.ts --project=Chromium",
+    "env:stage:e2e:firefox": "cross-env test_env=stage npx playwright test --config=e2e.config.ts --project=Firefox",
+    "env:stage:e2e:webkit": "cross-env test_env=stage npx playwright test --config=e2e.config.ts --project=Webkit",
+    "env:rc:b2e": "cross-env test_env=rc npx playwright test --config=b2e.config.ts --project=Chromium",
+    "env:stage:b2e": "cross-env test_env=stage npx playwright test --config=b2e.config.ts --project=Chromium"
+    
+    
   },
   "keywords": [],
   "author": "",

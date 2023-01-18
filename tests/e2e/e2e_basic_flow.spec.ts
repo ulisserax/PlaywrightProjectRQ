@@ -6,9 +6,9 @@ import ENV  from '@utils/env';
     test.slow();
 
     let guest_email = ENV.GUEST_EMAIL;
-    let request_id ;//= "RQ834A51";
+    let request_id ;
     let client_share_link;
-    let reservation_id ;//= "RQR8233B4";
+    let reservation_id ;
 
     test("Create a new Request and edit", async({ homePage, dashboard, newRequest, requestShow}) =>{
         await homePage.openHomePage(ENV.BASE_URL);
