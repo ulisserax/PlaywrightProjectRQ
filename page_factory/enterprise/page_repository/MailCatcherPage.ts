@@ -43,7 +43,7 @@ export default class MailCatcher{
         await expect(await this.page.frameLocator(Iframe.email_body).locator(`ul.list-group ul`).textContent()).toContain(`Departure on`);
     }
 
-    async verifyBasicEmails(log_text:string, email:string, subject:string, element_to_assert: string ,body_link_element:string, domain:string){
+    async verifyBasicEmails(log_text:string,  email:string, subject:string, element_to_assert: string ,body_link_element:string, domain:string){
         console.info(`Verifying email sent ${log_text}`);
         await this.page.fill(Input.search_message,'');
         await this.page.type(Input.search_message, `${subject}`, {delay:20});
@@ -70,7 +70,18 @@ export default class MailCatcher{
         await expect(await (await this.page.frameLocator(Iframe.email_body).locator(`${body_link_element}`).getAttribute(`href`))).toContain(`${domain}`);
     }
     
-    
+    async verifyHotelsEmails(log_text:string, search_term:string, email:string, subject:string, element_to_assert: string ){
+        console.info(`Verifying email sent ${log_text}`);
+        await this.page.fill(Input.search_message,'');
+        await this.page.type(Input.search_message, `${search_term}`, {delay:20});
+        await WebActions.delay(400);
+        await expect(await this.page.locator(`nav#messages tr:not([style='display: none']) td:text('<${email}>') + td:has-text('${subject}')`).count()).toBeGreaterThanOrEqual(1)
+        await this.page.locator(`nav#messages tr:not([style='display: none']) td:text('<${email}>') + td:has-text('${subject}')`).first().click();
+        await this.page.waitForLoadState('domcontentloaded');
+        await WebActions.delay(700);
+        await expect(await this.page.frameLocator(Iframe.email_body).locator(`${element_to_assert}`).count()).toBeGreaterThanOrEqual(1);
+       
+    }
 
     
 

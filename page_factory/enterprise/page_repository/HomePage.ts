@@ -1,4 +1,4 @@
-import { expect, Page } from "@playwright/test";
+import { Page } from "@playwright/test";
 import Button from "../object_repository/Button";
 import Input from "../object_repository/Input";
 

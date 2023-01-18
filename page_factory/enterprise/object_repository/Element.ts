@@ -4,6 +4,8 @@ export default class Element{
     static approved_options_table_row = `table#all_options tbody tr.approved.corporate-option`; 
     static awarded_options_table_row = `table#all_options tbody tr.awarded.corporate-option`;
     static hotels_options_table_row = `table#all_options tbody tr.approved.awarded.hotel-option`;
+    static hotel_options_award_in_progress = `table#all_options tbody tr.award_in_progress.hotel-option`;
+    static hotel_property_name = `table#all_options tbody tr.award_in_progress.hotel-option td.property-name`
     static alternate_options_table_row = `table#all_options tbody tr.approved.corporate-option span.alt-option-link`;
     static client_name = `div[role=option] span:text('${ENV.CLIENT}')`;
     static client_b2e_name = `div[role=option] span:text('${ENV.CLIENT_B2E}')`;

@@ -175,7 +175,6 @@ export default class RequestShowPage {
 
     async searchHotelOptions(){
         console.info("Searching hotel options");
-        //await WebActions.delay(700); 
         await this.page.waitForLoadState('networkidle');
         await this.page.waitForLoadState('domcontentloaded');
         await this.page.click(Button.search_hotel_options);
@@ -183,16 +182,17 @@ export default class RequestShowPage {
 
     async unawardOption(){
         console.info("Unawarding option");
-        //await WebActions.delay(800); 
         await this.page.waitForLoadState('networkidle');
         await this.page.waitForLoadState('domcontentloaded');
-        await this.page.click(Link.unaward);
-        //await WebActions.delay(800); 
+        if(await this.page.locator(Element.hotel_options_award_in_progress).count()>0){
+            await this.page.click(Element.hotel_property_name);   
+        }else{
+            await this.page.click(Link.unaward);
+        }
         await this.page.waitForLoadState('networkidle');
         await this.page.waitForLoadState('domcontentloaded');
         await this.page.click(Checkbox.agree_to_cancellation);
         await this.page.click(Button.ok_cancellation);
-        //await WebActions.delay(900); 
         await this.page.waitForLoadState('networkidle');
         await this.page.waitForLoadState('domcontentloaded');
     }
