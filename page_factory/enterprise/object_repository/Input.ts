@@ -29,8 +29,10 @@ export default class Input{
     static phone_for_services_issues =`#form_service_issue_phone`;
     static escalation_contact_name =`#form_escalation_name`;
     static escalation_contact_email =`#form_escalation_email`;
-    static escalation_contact_phone =`#form_customer_service_phone_24h`;
+    static escalation_contact_phone =`#form_escalation_phone`;
     static property_name = `#form_name`;
     static property_location = `#form_location`;
     static property_room_types = `#s2id_form_roomTypes`;
+    static property_number = `#form_street_number`;
+    static image_upload_file =`//input[@id='image_upload_file']`
 }

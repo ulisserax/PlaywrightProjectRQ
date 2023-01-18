@@ -4,6 +4,7 @@ import Dropdown from "@enterprise_objects/Dropdown";
 import Element from "@enterprise_objects/Element";
 import Link from "@enterprise_objects/Link";
 import Text from "@enterprise_objects/Text";
+import Textarea from "@enterprise_objects/Textarea";
 import WebActions from "@lib/WebActions";
 import { expect, Page } from "@playwright/test";
 import Input from "../object_repository/Input";
@@ -18,8 +19,52 @@ export default class OptionPage {
       this.page = page;
    }
    
-   async fillNewProperty(location:string, background_req:string, room_types:string ){
-      
+   async fillPropertyOverview(location:string, background_req:string, air_conditioning:string, room_types:string, pet_policy:string ){
+      console.info(`Filling the property overview`);
+      let number = chance.integer({min:1,max:9999});
+      await this.page.type(Input.property_name, `NT1sup_Property_#${number}${chance.word({ length: 2 })}`);
+      await this.page.type(Input.property_location, `${location}`, {delay:40});
+      await this.page.keyboard.press('ArrowDown');
+      await WebActions.delay(400);
+      await this.page.keyboard.press('Tab');
+      await WebActions.delay(400);
+      await this.page.type(Input.property_number, `#${number}`,{delay:30});
+      await this.page.selectOption(Dropdown.background_req, {label:`${background_req}`});
+      await this.page.selectOption(Dropdown.select_air_conditioning, {label:`${air_conditioning}`});
+      await WebActions.delay(400);
+      await this.page.click(Input.property_room_types)
+      await this.page.type(Input.property_room_types, `${room_types}`, {delay:30});
+      await this.page.keyboard.press('Enter');
+      await this.page.selectOption(Dropdown.select_pet_policy, {label:`${pet_policy}`});
+      if(pet_policy=='Pet Friendly'){
+         await this.page.type(Textarea.pet_restictions, `max 50 pounds pets`, {delay:30});
+      }
    }
+
+   async cancellationAndTaxFeePolicy(){
+      console.info(`Selecting cancellation and tax fee policies`);
+      await this.page.selectOption(Dropdown.cancellation_policy, {index:1});
+      await this.page.selectOption(Dropdown.tax_fee_policy, {index:1});
+   }
+   
+   async createNewProperty(){
+      console.info(`Creating the new property`);
+      await this.page.click(Button.create_property);
+      await this.page.click(Button.close);
+
+   }
+
+   async addImage(image_path:string){
+      console.info(`Adding property images`); 
+      await this.page.waitForLoadState('domcontentloaded');
+      for(let i = 0; i < 3; i++){
+          await this.page.click(Button.add_image);
+          await WebActions.delay(300);
+          await this.page.setInputFiles(Input.image_upload_file, `${image_path}`);
+          //await this.page.type(Input.image_upload_file, `${image_path}`);
+          await this.page.click(Button.crop_and_use);
+      }
+      
+    }
      
 }
