@@ -46,4 +46,5 @@ export default class ENV{
     static CLIENT_B2E        = process.env.CLIENT_B2E
     static B2E_USER_PASSWORD = process.env.B2E_USER_PASSWORD
     static B2E_USER          = process.env.B2E_USER
+
 }
