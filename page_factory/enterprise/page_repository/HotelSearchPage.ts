@@ -4,6 +4,8 @@ import Text from "@enterprise_objects/Text";
 import WebActions from "@lib/WebActions";
 import Checkbox from "@enterprise_objects/Checkbox";
 import Element from "@enterprise_objects/Element";
+const Chance = require ('chance');
+const chance = new Chance();
 
 export default class RequestShowPage {
     readonly page: Page;
@@ -17,7 +19,9 @@ export default class RequestShowPage {
         await WebActions.delay(700);
         await this.page.waitForLoadState('networkidle');
         //await this.page.waitForLoadState('domcontentloaded');
-        await this.page.click(Button.view_details);
+        let hotel_count = await this.page.locator(Button.view_details).count();
+        console.log(hotel_count);
+        await this.page.locator(Button.view_details).nth(chance.integer({min:1, max:hotel_count})).click();
         await this.page.waitForLoadState('networkidle');
         //await this.page.waitForLoadState('domcontentloaded');
         await this.page.click(Button.book);
