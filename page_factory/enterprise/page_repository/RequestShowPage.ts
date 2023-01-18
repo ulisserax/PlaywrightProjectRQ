@@ -9,6 +9,7 @@ import Input from "@enterprise_objects/Input";
 import Dropdown from "@enterprise_objects/Dropdown";
 import Element from "@enterprise_objects/Element";
 import Link from "@enterprise_objects/Link";
+import Switch from "@enterprise_objects/Switch";
 
 export default class RequestShowPage {
     readonly page: Page;
@@ -52,7 +53,7 @@ export default class RequestShowPage {
         }
         
     }
-    
+
     async shareWithClient(email: string){
         console.info(`Sharing the options with the client`);
         await this.page.waitForLoadState('networkidle');
@@ -103,6 +104,18 @@ export default class RequestShowPage {
         await this.page.waitForLoadState('domcontentloaded');
     }
 
+    async declineOption(response:string){
+        console.info(`Declining option.`);
+        await this.page.selectOption(Dropdown.acknowledge_award, {value: response});
+        await this.page.click(Button.submit_akcnowledge);
+        await this.page.click(Button.yes);
+        await WebActions.delay(1100);
+        await this.page.waitForLoadState('networkidle');
+        await this.page.waitForLoadState('domcontentloaded');
+        await expect(await this.page.locator(Element.table_option_declined).count()).toEqual(1);
+
+    }
+
     async viewReservation(){
         console.info(`View reservation`);
         await this.page.click(Button.reservation_info);
@@ -124,6 +137,17 @@ export default class RequestShowPage {
         await this.page.waitForLoadState('networkidle');
         await expect(await this.page.locator(Element.awarded_options_table_row).count()).toEqual(1);
     }
+
+    async awardSecondChoiceOption(){
+        console.info(`Awarding the second choice option`);
+        await this.page.waitForLoadState('networkidle');
+        await this.page.waitForLoadState('domcontentloaded');
+        await this.page.click(Button.awardAlternateOption);
+        await this.page.click(Button.yes);
+        await this.page.waitForLoadState('networkidle');
+        await expect(await this.page.locator(Element.awarded_options_table_row).count()).toEqual(1);
+    }
+
     async createServiceIssue(){
         console.info(`Creating Service issues`);
         await this.page.click(Button.create_new_service_issue);
@@ -207,6 +231,55 @@ export default class RequestShowPage {
     async verifyAlternateOptionSubmitted(){
         console.info(`Validating alternate option was submitted`);
         await expect(await this.page.locator(Element.alternate_options_table_row).count()).toEqual(1);
+    }
+
+    async verifyOptionAvailability(){
+        console.info(`Verifying option availability`);
+        await WebActions.delay(400);
+        await this.page.waitForLoadState(`networkidle`);
+        await this.page.waitForLoadState(`domcontentloaded`);
+        await this.page.click(Checkbox.option_checkbox);
+        await this.page.click(Button.verify_option);
+        await this.page.click(Button.send);
+        await WebActions.delay(1400);
+        await this.page.waitForLoadState(`networkidle`);
+        await this.page.waitForLoadState(`domcontentloaded`);
+        await expect(await this.page.locator(Element.option_availability_message).count()).toEqual(1);
+    }
+
+    async confirmOptionAvailability(){
+        console.info(`Confirming option availability`);
+        await WebActions.delay(400);
+        await this.page.waitForLoadState(`networkidle`);
+        await this.page.waitForLoadState(`domcontentloaded`);
+        await this.page.click(Element.icon_option_confirmation);
+        await expect(await this.page.locator(Switch.avialable_yes).count()).toEqual(1);
+        await this.page.click(Button.apply_confimation);
+        await this.page.click(Button.yes);
+        await WebActions.delay(1400);
+        await expect(await this.page.locator(Element.icon_confirm_availability).count()).toEqual(1);
+    }
+
+    async getCurrentLink(){
+        console.info(`Getting current link`);
+        await WebActions.delay(400);
+        await this.page.waitForLoadState(`networkidle`);
+        await this.page.waitForLoadState(`domcontentloaded`);
+        return await this.page.url();
+    }
+
+    async awardByPreference(){
+        console.info(`Awarding the 1st choice`);
+        await WebActions.delay(400);
+        await this.page.waitForLoadState(`networkidle`);
+        await this.page.waitForLoadState(`domcontentloaded`);
+        await this.page.click(Button.award_1st_choice);
+        //await this.page.click(Checkbox.terms_of_reservation_checkbox);
+        await this.page.click(Button.yes);
+        await WebActions.delay(800);
+        await this.page.waitForLoadState('networkidle');
+        await this.page.waitForLoadState('domcontentloaded');
+        await expect(await this.page.locator(Element.awarded_options_table_row).count()).toEqual(1);
     }
 
 }

@@ -20,5 +20,8 @@ export default class Element{
     static confirm_booking_h1 = `.hotel-option-details h1`;
     static booking_confirmation = `#hotelOptionDetailSection h1`;
     static option_map_icon = `//div[@id="request_map_view"]/div/div/div[2]/div[2]/div/div[3]/div[3]/img`
-    
+    static icon_option_confirmation = `table#all_options tbody tr span.icon-option-confirmation`;
+    static icon_confirm_availability = `table#all_options tbody tr span.responded.available`;
+    static option_availability_message = `//div[contains(text(),'remaining to confirm option availability')]`;
+    static table_option_declined = `table#all_options tbody tr.corporate-option.unavailable`;
 }
