@@ -185,7 +185,10 @@ export default class RequestShowPage {
         await this.page.waitForLoadState('networkidle');
         await this.page.waitForLoadState('domcontentloaded');
         if(await this.page.locator(Element.hotel_options_award_in_progress).count()>0){
-            await this.page.click(Element.hotel_property_name);   
+            await this.page.click(Element.hotel_property_name); 
+            await this.page.waitForLoadState('networkidle');
+            await this.page.waitForLoadState('domcontentloaded');
+            await this.page.click(Button.cancel_reservation); 
         }else{
             await this.page.click(Link.unaward);
         }
