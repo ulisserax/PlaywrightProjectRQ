@@ -41,4 +41,6 @@ export default class ENV{
     static SUPPLIER_COMPANY_EMAIL = `${this.SUPPLIER_COMPANY}@reloquest.com`
     static SUPPLIER_EMAIL = `${this.SUPPLIER_ADMIN}@reloquest.com`
     static REQUESTOR_EMAIL = `${this.REQUESTOR_USER}@nt1req.com`
+    static REQUESTOR_ADMIN_EMAIL = `${this.REQUESTOR_ADMIN}@reloquest.com`
+    static BILLING_EMAIL = process.env.BILLING_EMAIL
 }
