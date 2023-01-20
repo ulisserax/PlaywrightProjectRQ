@@ -1,4 +1,4 @@
-import { test as baseTest, expect } from "@playwright/test";
+import { test as baseTest } from "@playwright/test";
 import Dashboard from "@enterprise_pages/DashboardPage";
 import HomePage from "@enterprise_pages/HomePage";
 import NewRequest from "@enterprise_pages/NewRequestPage";
@@ -12,7 +12,10 @@ import Reservation from "@enterprise_pages/ReservationPage";
 import ServiceIssuePage from "@enterprise_pages/ServiceIssuePage";
 import HotelSearchPage from "@enterprise_pages/HotelSearchPage";
 import PropertyPage from "@enterprise_pages/PropertyPage";
-
+import WebActions from "../lib/WebActions";
+import B2eHomePage from "@b2e_pages/B2eHomePage";
+import B2eSearchPage from "@b2e_pages/B2eSearchPage";
+import B2ePropertyDetailPage from "@b2e_pages/B2ePropertyDetailPage";
 
 const test = baseTest.extend<{
     homePage: HomePage;
@@ -28,6 +31,10 @@ const test = baseTest.extend<{
     serviceIssue: ServiceIssuePage;
     hotelSearchPage: HotelSearchPage;
     property: PropertyPage;
+    webActions: WebActions;
+    b2eHomePage: B2eHomePage;
+    b2eSearchPage: B2eSearchPage;
+    b2ePropertyDetailPage: B2ePropertyDetailPage;
 
 }>({
     homePage: async ({ page }, use) => {
@@ -68,6 +75,18 @@ const test = baseTest.extend<{
     },
     property: async ({ page }, use) => {
         await use(new PropertyPage(page));
+    },
+    webActions: async ({ page }, use) => {
+        await use(new WebActions(page));
+    },
+    b2eHomePage: async ({ page }, use) => {
+        await use(new B2eHomePage(page));
+    },
+    b2eSearchPage: async ({ page }, use) => {
+        await use(new B2eSearchPage(page));
+    },
+    b2ePropertyDetailPage: async ({ page }, use) => {
+        await use(new B2ePropertyDetailPage(page));
     }
 });
 

@@ -91,9 +91,7 @@ export default class OptionPage {
         await this.page.waitForLoadState('networkidle');
         await this.page.waitForLoadState('domcontentloaded');
         await WebActions.delay(500);
-        //await this.page.waitForSelector(Text.property_distance_modal_notification, {timeout:600});
         let count = await this.page.locator(Text.property_distance_modal_notification).count();
-        //console.log(count);
         if(count>0){
             await this.page.click(Button.yes);
         }
@@ -110,7 +108,6 @@ export default class OptionPage {
         await WebActions.delay(500);
         await this.page.waitForLoadState('networkidle');
         await this.page.waitForLoadState('domcontentloaded');
-       
         await expect(await this.page.locator(Text.awarded_property).count()).toBeGreaterThanOrEqual(1);
     }
 }
