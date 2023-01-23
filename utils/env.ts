@@ -34,7 +34,7 @@ export default class ENV{
     static STYLE                    = [`A+`, `A`, `B`, `C`, `D`]
     static BEDROOMS                 = [`Studio/Efficiency`, `1`, `2`, `3`, `4`, `5`]
     static BATHROOMS                = [`0.5`, `1`, `1.5`, `2`, `2.5`]
-    static FEES_TYPE                = [`DAY`, `FLAT`, `PERCENT`]
+    static FEES_TYPE                = [`DAY`, `FLAT`, `PERCENT`, `NIGHT`]
     static ACKNOWLEDGE_AWARD        = [`accept`, `decline`, `submit_new_option`]
     static SUPPLIER_COMPANY_EMAIL   = `${this.SUPPLIER_COMPANY}@reloquest.com`
     static SUPPLIER_EMAIL           = `${this.SUPPLIER_ADMIN}@reloquest.com`
@@ -46,6 +46,9 @@ export default class ENV{
 
     static PROPERTY_NAME            = ``
     static PROPERTY_ADDRESS         = ``
+    static REQUEST_ID               = ``
+    static RESERVATION_ID           = ``
+    static HOTEL_RESERVATION_ID     = ``
 
     
     // B2E Test Data

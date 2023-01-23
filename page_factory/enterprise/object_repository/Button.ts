@@ -40,6 +40,7 @@ export default class Button{
     static deadline_edit             = `.deadline-edit`;
     static save_my_changes           = `#reAssignUserButton`;
     static rqpro_modal_continue      = `div#rqpro-modal-id.fade.in span:text('Continue')`;
+    static b2e_modal_continue        = `div#tos-modal button#b2e_tos_tersm_accept_btn`;
     static submit_option_modal       = `.modal.fade.in #property-fields-modal-update-btn`;
     static update_request            = `span:text("Update Request")`;
     static share_option              = `#btn_option_share`;
@@ -79,4 +80,6 @@ export default class Button{
     static award_1st_choice          = `//tr[contains(@class,'corporate-option')]//td[contains(@class, 'preference') and normalize-space()='1st']/following-sibling::td//a[contains(normalize-space(),'Award')]`;
     static award_2st_option          = `table#all_options tbody tr:not(.unavailable) a:text('Award')`;
     static cancel_reservation        = `#button_option_unaward`;
+    static properties_requested      = `a#properties_requested`;
+    static bid_with_this_property    = `div#properties-container a`;
 }

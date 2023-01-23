@@ -1,5 +1,4 @@
 import Button from "@enterprise_objects/Button";
-import Checkbox from "@enterprise_objects/Checkbox";
 import Dropdown from "@enterprise_objects/Dropdown";
 import Link from "@enterprise_objects/Link";
 import Text from "@enterprise_objects/Text";
@@ -18,7 +17,7 @@ export default class ServiceIssuePage {
         
     }
 
-    async fillServiceIssueInformation(){
+    async fillServiceIssueInformation(): Promise<void>{
         console.info('Filling service issue information');
         await this.page.waitForLoadState('domcontentloaded');
         await this.page.selectOption(Dropdown.service_issue_type, {value: `${chance.integer({min:1, max:20})}`});
@@ -28,7 +27,7 @@ export default class ServiceIssuePage {
         await this.page.waitForLoadState('domcontentloaded');
     }
 
-    async resolveServiceIssue(){
+    async resolveServiceIssue(): Promise<void>{
         console.info(`Resolving service issue`);
         await this.page.waitForLoadState('domcontentloaded');
         await this.page.waitForLoadState('networkidle');

@@ -6,6 +6,7 @@ import { expect, Page , Browser} from "@playwright/test";
 import Button from "../object_repository/Button";
 import Element from "../object_repository/Element";
 import ENV from "@utils/env";
+import Link from "@b2e_objects/Link";
 
 export default class B2eSearchPage {
 
@@ -15,7 +16,7 @@ export default class B2eSearchPage {
         this.page = page;        
     }
 
-    async searchDestination(destination: string){
+    async searchDestination(destination: string): Promise<void>{
         console.info(`Searching ${destination} ratecards`);
         await this.page.waitForLoadState(`networkidle`);
         await this.page.waitForLoadState(`domcontentloaded`);
@@ -27,7 +28,7 @@ export default class B2eSearchPage {
         await this.page.click(Button.next);
     }
 
-    async selectDates(){
+    async selectDates(): Promise<void>{
         console.info(`Selecting start and end dates`);
         await this.page.click(Button.next_month);
         await WebActions.delay(300);
@@ -37,7 +38,7 @@ export default class B2eSearchPage {
         await this.page.click(Button.next);
     }
 
-    async housingOptionsCorporate(){
+    async housingOptionsCorporate(): Promise<void>{
         console.info(`Customizing the housing options`);
         await this.page.waitForLoadState(`networkidle`);
         await this.page.waitForLoadState(`domcontentloaded`);
@@ -48,13 +49,38 @@ export default class B2eSearchPage {
         await this.page.click(Button.next);
     }
 
-    async selectRatecard(){
+    async selectRatecard(): Promise<void>{
         console.info(`Selecting first ratecard`);
         await this.page.waitForLoadState(`networkidle`);
         await this.page.waitForLoadState(`domcontentloaded`);
         await WebActions.delay(600);
         await this.page.locator(Button.ratecard_details).first().click();
-        await WebActions.delay(1200);    
+        await WebActions.delay(1200);  
+        let currentPage = await this.page.url();
+        ENV.REQUEST_ID = await WebActions.getRequestId(currentPage);
+        ENV.PROPERTY_NAME = await this.page.context().pages()[1].locator(Text.property_name).textContent();
+        ENV.PROPERTY_ADDRESS = await this.page.context().pages()[1].locator(Text.proeprty_address).textContent();
+        console.log(ENV.PROPERTY_NAME);
+        console.log(ENV.PROPERTY_ADDRESS.trim());  
+    }
+
+    async viewAllQuests(){
+        console.info(`Clicking on Quests`);
+        await this.page.waitForLoadState(`networkidle`);
+        await this.page.waitForLoadState(`domcontentloaded`);
+        await WebActions.delay(500);
+        await this.page.click(Link.quests);
+        await WebActions.delay(500);
+    }
+
+    async optionReceived(){
+        console.info(`Accepting the received option`);
+        await WebActions.delay(400);
+        await this.page.waitForLoadState('networkidle');
+        await this.page.waitForLoadState('domcontentloaded');
+        await expect(await this.page.locator(Element.new_option_modal).count()).toEqual(1);
+        await this.page.click(Button.continue);
+        await this.page.click(Button.new);
     }
 
    

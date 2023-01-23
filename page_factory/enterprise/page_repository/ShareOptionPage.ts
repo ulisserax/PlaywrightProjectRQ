@@ -15,7 +15,7 @@ export default class ShareOptionPage {
         
     }
 
-    async shareWithGuest(){
+    async shareWithGuest(): Promise<string>{
         console.info('Clicking on all options and share with guest');
         await this.page.waitForLoadState('networkidle');
         const items = await this.page.locator(Checkbox.option_checkbox);
@@ -37,7 +37,7 @@ export default class ShareOptionPage {
         await this.page.click(Button.done);
         return await link_to_option;
     }
-    async submitPreferencesAndAward(){
+    async submitPreferencesAndAward(): Promise<void>{
         console.info('Submiting preference and award');
         await this.page.waitForLoadState('domcontentloaded');
         await this.page.locator(Dropdown.select_preference).first().selectOption({index: 1});
@@ -50,7 +50,7 @@ export default class ShareOptionPage {
         await expect(await this.page.locator(Element.awarded_options_table_row).count()).toEqual(1);
     }
 
-    async submitPreferences(){
+    async submitPreferences(): Promise<void>{
         console.info('Submiting preferences');
         await this.page.waitForLoadState('domcontentloaded');
         await WebActions.delay(400);
@@ -68,7 +68,6 @@ export default class ShareOptionPage {
         await this.page.waitForLoadState('domcontentloaded');
         await this.page.click(Button.close);
         await this.page.waitForLoadState('networkidle');
-        //await expect(await this.page.locator(Element.awarded_options_table_row).count()).toEqual(1);
     }
     
 }

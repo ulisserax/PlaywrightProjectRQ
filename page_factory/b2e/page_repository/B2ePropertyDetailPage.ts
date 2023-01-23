@@ -15,22 +15,19 @@ export default class B2ePropertyDetailPage {
         this.page = page;
     }
 
-    async checkAvailability(): Promise<string>{
+    async checkAvailability(): Promise<void>{
         console.info(`Checking availability`);
-        let currentPage = await this.page.url();
-        let rid = await WebActions.getRequestId(currentPage);
-        ENV.PROPERTY_NAME = await this.page.context().pages()[1].locator(Text.property_name).textContent();
-        ENV.PROPERTY_ADDRESS = await this.page.context().pages()[1].locator(Text.proeprty_address).textContent();
-        console.log(ENV.PROPERTY_NAME);
-        console.log(ENV.PROPERTY_ADDRESS.trim());
-        console.log(await this.page.context().pages().length)
         await this.page.context().pages()[1].click(Button.check_avialability);
+        await WebActions.delay(400);
+        if(await this.page.context().pages()[1].locator(Element.are_you_sure_modal).isVisible()){
+            await this.page.context().pages()[1].click(Button.continue);
+        }
         await this.page.context().pages()[1].click(Button.plus_adults);
         await this.page.context().pages()[1].click(Button.plus_parking);
         await this.page.context().pages()[1].click(Checkbox.disability_access);
         await this.page.context().pages()[1].click(Button.send_request);
         console.info(`Verifying request was sent`);
-        await WebActions.delay(400);
+        await WebActions.delay(1000);
         await this.page.context().pages()[1].waitForLoadState('networkidle');
         await this.page.context().pages()[1].waitForLoadState('domcontentloaded');
         await expect(await this.page.context().pages()[1].locator(Text.request_sent).count()).toEqual(1);
@@ -39,18 +36,7 @@ export default class B2ePropertyDetailPage {
         await this.page.context().pages()[1].waitForLoadState('networkidle');
         await this.page.context().pages()[1].waitForLoadState('domcontentloaded');
         await expect(await this.page.context().pages()[1].locator(Text.requested).count()).toEqual(1);
-        return rid;
     }
 
-    //await this.page.context().pages()[1].waitForLoadState('networkidle');
-    //await this.page.context().pages()[1].waitForLoadState('domcontentloaded');
-
-    // async verifyRequestWasSent(){
-    //     console.info(`Verifying request was sent`);
-    //     await this.page.waitForLoadState('networkidle');
-    //     await this.page.waitForLoadState('domcontentloaded');
-    //     await expect(await this.page.locator(Text.request_sent).count()).toEqual(1);
-    //     await this.page.click(Button.ok);
-    //     await expect(await this.page.locator(Text.requested).count()).toEqual(1);
-    // }
+   
 }

@@ -18,7 +18,7 @@ export default class OptionPage {
         this.page = page;
      }
 
-    async selectProperty(property: string){
+    async selectProperty(property: string): Promise<void>{
         console.info("Selecting property");
         await this.page.waitForLoadState('networkidle');
         await this.page.click(Dropdown.select_property);
@@ -32,7 +32,7 @@ export default class OptionPage {
         await WebActions.delay(900);
     }
 
-    async clickNewProperty(){
+    async clickNewProperty(): Promise<void>{
         console.info("Click on new property");
         await this.page.waitForLoadState('networkidle');
         await this.page.click(Button.new_property);
@@ -40,7 +40,7 @@ export default class OptionPage {
         await this.page.waitForLoadState('domcontentloaded');
     }
 
-    async fillUnitDetails(unit_type:string, kitchen_type:string, style:string, bedrooms:string, bathrooms:string){
+    async fillUnitDetails(unit_type:string, kitchen_type:string, style:string, bedrooms:string, bathrooms:string): Promise<void>{
         console.info("Filling the unit details.");
         await this.page.waitForLoadState('networkidle');
         await this.page.selectOption(Dropdown.select_unit_type, { label: `${unit_type}`});
@@ -56,13 +56,13 @@ export default class OptionPage {
         await this.page.selectOption(Dropdown.select_pet_policy, { label: `No Pets`});
     }
 
-    async fillRateDetails(){
+    async fillRateDetails(): Promise<void>{
         console.info("Filling rate details.");
         await this.page.type(Input.rate, `${chance.floating({ min: 70, max: 299, fixed: 2 })}`);
         await this.page.keyboard.press('Enter');
     }
 
-    async fillFees(fee_type:string){
+    async fillFees(fee_type:string): Promise<void>{
         console.info("Filling taxes.");
         await this.page.fill(Input.fee, '');
         await this.page.type(Input.fee, `${chance.floating({ min: 70, max: 299, fixed: 2 })}`);
@@ -70,7 +70,7 @@ export default class OptionPage {
         await this.page.selectOption(Dropdown.select_fee_type, {value: `${fee_type}`});
     }
 
-    async fillContactInformation(email:string){
+    async fillContactInformation(email:string): Promise<void>{
         console.info("Filling contact information.");
         let phone = chance.phone()
         await WebActions.delay(700)
@@ -82,7 +82,7 @@ export default class OptionPage {
         await this.page.type(Input.escalation_contact_phone, `${phone}`, {delay:20});
     }
 
-    async submitOption(){
+    async submitOption(): Promise<void>{
         console.info("Submitting option.");
         await this.page.click(Checkbox.cancellation_police_checkbox);
         await this.page.click(Checkbox.read_supplier_notes_checkbox);
@@ -100,7 +100,7 @@ export default class OptionPage {
 
     
 
-    async awardFromOption(){
+    async awardFromOption(): Promise<void>{
         console.info("Award from option");
         await this.page.click(Button.award_this_option);
         await this.page.waitForLoadState('domcontentloaded');
