@@ -3,15 +3,15 @@ import ENV  from '@utils/env';
 
 
  test.describe("Test Suite Basic Flow ", () => {
-    test.slow();
+    //test.slow();
 
     let guest_email = ENV.GUEST_EMAIL;
     let request_id ;
     let client_share_link;
     let reservation_id ;
 
-    test("Create a new Request and edit", async({ homePage, dashboard, newRequest, requestShow}) =>{
-        await homePage.openHomePage(ENV.BASE_URL);
+    test("Create a new Request and edit", async({webActions, homePage, dashboard, newRequest, requestShow}) =>{
+        await webActions.navigateTo(ENV.BASE_URL);
         await homePage.enterCredentials(ENV.REQUESTOR_ADMIN, ENV.REQUESTOR_ADMIN_PASSWORD);
         await homePage.signIn();
         await dashboard.validateDashboard();
@@ -26,8 +26,8 @@ import ENV  from '@utils/env';
         await requestShow.editRequest();
         await newRequest.editRequest(ENV.REQUESTOR_USER);
     })
-    test("Bid an existing option", async({ homePage, dashboard, search, requestShow, option}) =>{
-        await homePage.openHomePage(ENV.BASE_URL);
+    test("Bid an existing option", async({webActions, homePage, dashboard, search, requestShow, option}) =>{
+        await webActions.navigateTo(ENV.BASE_URL);
         await homePage.enterCredentials(ENV.SUPPLIER_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);
         await homePage.signIn();
         await dashboard.cardSummary();
@@ -42,8 +42,8 @@ import ENV  from '@utils/env';
         await option.submitOption();
         await requestShow.verifyOptionSubmitted();
     })
-    test("Share with client", async ({ homePage, dashboard, search, requestShow, newRequest}) => {
-        await homePage.openHomePage(ENV.BASE_URL);
+    test("Share with client", async ({webActions, homePage, dashboard, search, requestShow, newRequest}) => {
+        await webActions.navigateTo(ENV.BASE_URL);
         await homePage.enterCredentials(ENV.REQUESTOR_ADMIN, ENV.REQUESTOR_ADMIN_PASSWORD);
         await homePage.signIn();
         await dashboard.cardSummary();
@@ -54,8 +54,8 @@ import ENV  from '@utils/env';
         await requestShow.shareWithClient(ENV.ClIENT_EMAIL);
         
     })
-    test("Push emails, validate email was send, set preference and award from share template", async ({homePage, configurationInstance, mailCatcher, shareOption}) => {
-        await homePage.openHomePage(`${ENV.BASE_URL}/configuration/instance`);
+    test("Push emails, validate email was send, set preference and award from share template", async ({webActions, homePage, configurationInstance, mailCatcher, shareOption}) => {
+        await webActions.navigateTo(`${ENV.BASE_URL}/configuration/instance`);
         await homePage.enterCredentials(ENV.SUPER_ADMIN, ENV.SUPER_ADMIN_PASSWORD);
         await homePage.signIn();
         await configurationInstance.mailPush();
@@ -63,14 +63,14 @@ import ENV  from '@utils/env';
         await mailCatcher.openMailCatcher(ENV.MAILCATCHER_URL);
         await mailCatcher.searchEmail(ENV.ClIENT_EMAIL, subject);
         client_share_link = await mailCatcher.getShareOptionLink(request_id);
-        await homePage.openHomePage(client_share_link);
+        await webActions.navigateTo(client_share_link);
         const share_link = await shareOption.shareWithGuest();
-        await homePage.openHomePage(share_link);
+        await webActions.navigateTo(share_link);
         await shareOption.submitPreferencesAndAward();
     })
     
-    test("Acknowledge award, edit rate segments and set reservation in current", async ({homePage, dashboard, search, requestShow, reservation}) => {
-        await homePage.openHomePage(ENV.BASE_URL);
+    test("Acknowledge award, edit rate segments and set reservation in current", async ({webActions, homePage, dashboard, search, requestShow, reservation}) => {
+        await webActions.navigateTo(ENV.BASE_URL);
         await homePage.enterCredentials(ENV.SUPPLIER_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);
         await homePage.signIn();
         await dashboard.cardSummary();
@@ -84,8 +84,8 @@ import ENV  from '@utils/env';
         await reservation.viewRateSegmentHistory();
     })
 
-    test("Verify reservation and create service issue", async ({homePage, dashboard, search, requestShow, reservation, serviceIssue}) => {
-        await homePage.openHomePage(ENV.BASE_URL);
+    test("Verify reservation and create service issue", async ({webActions, homePage, dashboard, search, requestShow, reservation, serviceIssue}) => {
+        await webActions.navigateTo(ENV.BASE_URL);
         await homePage.enterCredentials(ENV.REQUESTOR_ADMIN, ENV.REQUESTOR_ADMIN_PASSWORD);
         await homePage.signIn();
         await dashboard.cardSummary();
@@ -101,8 +101,8 @@ import ENV  from '@utils/env';
         await reservation.approveReservationChanges();
     })
 
-    test("Resolve service issue", async ({homePage, dashboard, search, requestShow, serviceIssue}) => {
-        await homePage.openHomePage(ENV.BASE_URL);
+    test("Resolve service issue", async ({webActions, homePage, dashboard, search, requestShow, serviceIssue}) => {
+        await webActions.navigateTo(ENV.BASE_URL);
         await homePage.enterCredentials(ENV.SUPPLIER_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);
         await homePage.signIn();
         await dashboard.cardSummary();
@@ -113,13 +113,12 @@ import ENV  from '@utils/env';
         await serviceIssue.resolveServiceIssue();
     })
 
-    test("Validate basic emails", async ({homePage, configurationInstance, mailCatcher}) => {
-        
-        await homePage.openHomePage(`${ENV.BASE_URL}/configuration/instance`);
+    test("Validate basic emails", async ({webActions, homePage, configurationInstance, mailCatcher}) => {
+        await webActions.navigateTo(`${ENV.BASE_URL}/configuration/instance`);
         await homePage.enterCredentials(ENV.SUPER_ADMIN, ENV.SUPER_ADMIN_PASSWORD);
         await homePage.signIn();
         await configurationInstance.mailPush();
-        await homePage.openHomePage(ENV.MAILCATCHER_URL);
+        await webActions.navigateTo(ENV.MAILCATCHER_URL);
         await mailCatcher.verifyBasicEmails(`Supplier For Deadline Update`, ENV.SUPPLIER_COMPANY_EMAIL, `URGENT Updated Request: ${ENV.REQUESTOR_COMPANY}, ${request_id}`, `//h4[contains(normalize-space(),'1 field(s) updated on')]/following-sibling::ul/li[contains(normalize-space(),'Departure date')]`, `a:has-text('${request_id}')`,`${ENV.SUPPLIER_DOMAIN}/request/show/${request_id}`);
         await mailCatcher.verifyBasicEmails1(`Requestor For Deadline And Assigned To Update`, ENV.REQUESTOR_EMAIL, `URGENT Updated Request: ${ENV.REQUESTOR_COMPANY}, ${request_id}`, `//h4[contains(normalize-space(),'2 field(s) updated on')]//following-sibling::ul/li[contains(normalize-space(),'Departure date')]/following-sibling::li[contains(normalize-space(),'Assigned to')]`, `a:has-text('${request_id}')` ,`${ENV.BASE_URL}/request/show/${request_id}`);
         await mailCatcher.verifyBasicEmails(`Awarded Supplier`, ENV.SUPPLIER_COMPANY_EMAIL, `Congratulations, you were awarded ${request_id}`, `//p[contains(text(),'Congratulations! The client has selected your option for Request #') and contains(a,'${request_id}')]`, `a:has-text('${request_id}')` ,`${ENV.SUPPLIER_DOMAIN}/request/show/${request_id}`);

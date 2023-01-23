@@ -4,6 +4,7 @@ import Text from "@enterprise_objects/Text";
 import WebActions from "@lib/WebActions";
 import Checkbox from "@enterprise_objects/Checkbox";
 import Element from "@enterprise_objects/Element";
+import ENV from "@utils/env";
 const Chance = require ('chance');
 const chance = new Chance();
 
@@ -62,11 +63,13 @@ export default class RequestShowPage {
     }
 
     async verifyReservationWasCancelled(){
-        console.info(`Verifying reservation was cancelled`);
-        // await WebActions.delay(1200);
-        await this.page.waitForLoadState('networkidle');
-        //await this.page.waitForLoadState('domcontentloaded');
-        //await WebActions.delay(500);
-        await expect(await this.page.locator(Element.booking_confirmation).textContent()).toContain(`Booking Status - CANCELLED`);
+        if(ENV.AWARD_IN_PROGRESS > 0){
+            console.info('The Hotel award is in progress, can not be cancelled until the award is completed...')
+        }else{
+            console.info(`Verifying reservation was cancelled`);
+            await this.page.waitForLoadState('networkidle');
+            await expect(await this.page.locator(Element.booking_confirmation).textContent()).toContain(`Booking Status - CANCELLED`);
+        }
+        
     }
 }

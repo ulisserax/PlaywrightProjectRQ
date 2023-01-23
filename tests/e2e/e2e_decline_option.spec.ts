@@ -10,8 +10,8 @@ import ENV  from '@utils/env';
     let request_id;
     let reservation_id ;
 
-    test("Create a new Request", async({ homePage, dashboard, newRequest, requestShow}) =>{
-        await homePage.openHomePage(ENV.BASE_URL);
+    test("Create a new Request", async({webActions, homePage, dashboard, newRequest, requestShow}) =>{
+        await webActions.navigateTo(ENV.BASE_URL);
         await homePage.enterCredentials(ENV.REQUESTOR_ADMIN, ENV.REQUESTOR_ADMIN_PASSWORD);
         await homePage.signIn();
         await dashboard.cardSummary();
@@ -24,8 +24,8 @@ import ENV  from '@utils/env';
         request_id = await requestShow.getRequestId();
         console.info(`Request Id: ${request_id}`);
     })
-    test("Bid an existing option and a new option", async({ homePage, dashboard, search, requestShow, option, property}) =>{
-        await homePage.openHomePage(ENV.BASE_URL);
+    test("Bid an existing option and a new option", async({webActions, homePage, dashboard, search, requestShow, option, property}) =>{
+        await webActions.navigateTo(ENV.BASE_URL);
         await homePage.enterCredentials(ENV.SUPPLIER_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);
         await homePage.signIn();
         await dashboard.cardSummary();
@@ -53,8 +53,8 @@ import ENV  from '@utils/env';
         await requestShow.verifyOptionSubmitted();
     })
 
-    test("Verify option avialability", async ({homePage, dashboard, search, requestShow, newRequest}) => {
-        await homePage.openHomePage(ENV.BASE_URL);
+    test("Verify option avialability", async ({webActions, homePage, dashboard, search, requestShow, newRequest}) => {
+        await webActions.navigateTo(ENV.BASE_URL);
         await homePage.enterCredentials(ENV.REQUESTOR_ADMIN, ENV.REQUESTOR_ADMIN_PASSWORD);
         await homePage.signIn();
         await dashboard.cardSummary();
@@ -65,8 +65,8 @@ import ENV  from '@utils/env';
         await requestShow.verifyOptionAvailability();
     })
 
-    test("Confirm option avialability", async ({homePage, dashboard, search, requestShow}) => {
-        await homePage.openHomePage(ENV.BASE_URL);
+    test("Confirm option avialability", async ({webActions, homePage, dashboard, search, requestShow}) => {
+        await webActions.navigateTo(ENV.BASE_URL);
         await homePage.enterCredentials(ENV.SUPPLIER_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);
         await homePage.signIn();
         await dashboard.cardSummary();
@@ -75,8 +75,8 @@ import ENV  from '@utils/env';
         await requestShow.confirmOptionAvailability();
     })
 
-    test("Share with guest and Award by preference", async ({homePage, dashboard, search, requestShow, shareOption}) => {
-        await homePage.openHomePage(ENV.BASE_URL);
+    test("Share with guest and Award by preference", async ({webActions, homePage, dashboard, search, requestShow, shareOption}) => {
+        await webActions.navigateTo(ENV.BASE_URL);
         await homePage.enterCredentials(ENV.REQUESTOR_ADMIN, ENV.REQUESTOR_ADMIN_PASSWORD);
         await homePage.signIn();
         await dashboard.cardSummary();
@@ -84,14 +84,14 @@ import ENV  from '@utils/env';
         await search.clickRequestIdLink();
         const current_page = await requestShow.getCurrentLink();
         const share_link = await shareOption.shareWithGuest();
-        await homePage.openHomePage(share_link);
+        await webActions.navigateTo(share_link);
         await shareOption.submitPreferences();
-        await homePage.openHomePage(current_page);
+        await webActions.navigateTo(current_page);
         await requestShow.awardByPreference();
     })
 
-    test("Decline award", async ({homePage, dashboard, search, requestShow}) => {
-        await homePage.openHomePage(ENV.BASE_URL);
+    test("Decline award", async ({webActions, homePage, dashboard, search, requestShow}) => {
+        await webActions.navigateTo(ENV.BASE_URL);
         await homePage.enterCredentials(ENV.SUPPLIER_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);
         await homePage.signIn();
         await dashboard.cardSummary();
@@ -100,18 +100,18 @@ import ENV  from '@utils/env';
         await requestShow.declineOption(ENV.ACKNOWLEDGE_AWARD[1]);
     })
 
-    test("Award option", async ({homePage, dashboard, search, requestShow}) => {
-        await homePage.openHomePage(ENV.BASE_URL);
+    test("Award option", async ({webActions, homePage, dashboard, search, requestShow}) => {
+        await webActions.navigateTo(ENV.BASE_URL);
         await homePage.enterCredentials(ENV.REQUESTOR_ADMIN, ENV.REQUESTOR_ADMIN_PASSWORD);
         await homePage.signIn();
         await dashboard.cardSummary();
         await dashboard.findCurrentRequest(request_id);
         await search.clickRequestIdLink();
-       await requestShow.awardSecondChoiceOption();
+        await requestShow.awardSecondChoiceOption();
     })
 
-    test("Acknowledge award", async ({homePage, dashboard, search, requestShow, reservation}) => {
-        await homePage.openHomePage(ENV.BASE_URL);
+    test("Acknowledge award", async ({webActions, homePage, dashboard, search, requestShow, reservation}) => {
+        await webActions.navigateTo(ENV.BASE_URL);
         await homePage.enterCredentials(ENV.SUPPLIER_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);
         await homePage.signIn();
         await dashboard.cardSummary();
@@ -123,8 +123,8 @@ import ENV  from '@utils/env';
         console.info(`Reservation Id: ${reservation_id}`);
     })
 
-    test("Verify reservation", async ({homePage, dashboard, search, requestShow, reservation}) => {
-        await homePage.openHomePage(ENV.BASE_URL);
+    test("Verify reservation", async ({webActions, homePage, dashboard, search, requestShow, reservation}) => {
+        await webActions.navigateTo(ENV.BASE_URL);
         await homePage.enterCredentials(ENV.REQUESTOR_ADMIN, ENV.REQUESTOR_ADMIN_PASSWORD);
         await homePage.signIn();
         await dashboard.cardSummary();

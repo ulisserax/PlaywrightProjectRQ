@@ -184,20 +184,19 @@ export default class RequestShowPage {
         console.info("Unawarding option");
         await this.page.waitForLoadState('networkidle');
         await this.page.waitForLoadState('domcontentloaded');
-        if(await this.page.locator(Element.hotel_options_award_in_progress).count()>0){
-            await this.page.click(Element.hotel_property_name); 
-            await this.page.waitForLoadState('networkidle');
-            await this.page.waitForLoadState('domcontentloaded');
-            await this.page.click(Button.cancel_reservation); 
+        ENV.AWARD_IN_PROGRESS = await this.page.locator(Element.hotel_options_award_in_progress).count();
+        if(ENV.AWARD_IN_PROGRESS > 0){
+            console.info('The Hotel award is in progress, can not be cancelled until the award is completed...')
         }else{
             await this.page.click(Link.unaward);
+            await this.page.waitForLoadState('networkidle');
+            await this.page.waitForLoadState('domcontentloaded');
+            await this.page.click(Checkbox.agree_to_cancellation);
+            await this.page.click(Button.ok_cancellation);
+            await this.page.waitForLoadState('networkidle');
+            await this.page.waitForLoadState('domcontentloaded');
         }
-        await this.page.waitForLoadState('networkidle');
-        await this.page.waitForLoadState('domcontentloaded');
-        await this.page.click(Checkbox.agree_to_cancellation);
-        await this.page.click(Button.ok_cancellation);
-        await this.page.waitForLoadState('networkidle');
-        await this.page.waitForLoadState('domcontentloaded');
+        
     }
 
     async verifyOptionRate(){

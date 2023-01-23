@@ -39,6 +39,13 @@ export default class ENV{
     static SUPPLIER_COMPANY_EMAIL   = `${this.SUPPLIER_COMPANY}@reloquest.com`
     static SUPPLIER_EMAIL           = `${this.SUPPLIER_ADMIN}@reloquest.com`
     static REQUESTOR_EMAIL          = `${this.REQUESTOR_USER}@nt1req.com`
+    static BILLING_EMAIL            = process.env.BILLING_EMAIL
+    static REQUESTOR_ADMIN_EMAIL    = `${this.REQUESTOR_ADMIN}@reloquest.com`
+    static AWARD_IN_PROGRESS        = 0
+    static FULL_GUEST_NAME          = `${this.GUEST_FIRSTNAME} ${this.GUEST_LASTNAME}`
+
+    static PROPERTY_NAME            = ``
+    static PROPERTY_ADDRESS         = ``
 
     
     // B2E Test Data
