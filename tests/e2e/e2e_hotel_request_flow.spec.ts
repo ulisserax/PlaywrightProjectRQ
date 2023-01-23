@@ -2,18 +2,16 @@ import test  from '@lib/BaseTest';
 import ENV  from '@utils/env';
 
 
-    
-
-test.describe.only("Create Hotel request, cancel reservation and validate emails", () => {
+test.describe("Create Hotel request, cancel reservation and validate emails", () => {
 
     let guest_email = ENV.GUEST_EMAIL;
     let request_id ;
     let hotel_reservation_id;
     
 
-    test("Create a hotel request and cancel reservation", async ({homePage, dashboard, newRequest, requestShow, hotelSearchPage, search}) => {
+    test("Create a hotel request and cancel reservation", async ({webActions, homePage, dashboard, newRequest, requestShow, hotelSearchPage, search}) => {
         test.slow();
-        await homePage.openHomePage(ENV.BASE_URL);
+        await webActions.navigateTo(ENV.BASE_URL);
         await homePage.enterCredentials(ENV.REQUESTOR_ADMIN, ENV.REQUESTOR_ADMIN_PASSWORD);
         await homePage.signIn();
         await dashboard.validateDashboard();
@@ -37,21 +35,24 @@ test.describe.only("Create Hotel request, cancel reservation and validate emails
         await dashboard.findCurrentRequest(hotel_reservation_id);
         await search.clickReservationIdLink();
         await hotelSearchPage.verifyReservationWasCancelled();
-    
-        
+
     })
     
-    test("Validate basic emails", async ({homePage, configurationInstance, mailCatcher}) => {
+    test("Validate basic emails", async ({webActions, homePage, configurationInstance, mailCatcher}) => {
             
-        await homePage.openHomePage(`${ENV.BASE_URL}/configuration/instance`);
+        await webActions.navigateTo(`${ENV.BASE_URL}/configuration/instance`);
         await homePage.enterCredentials(ENV.SUPER_ADMIN, ENV.SUPER_ADMIN_PASSWORD);
         await homePage.signIn();
         await configurationInstance.mailPush();
-        await homePage.openHomePage(ENV.MAILCATCHER_URL);
+        await webActions.navigateTo(ENV.MAILCATCHER_URL);
         await mailCatcher.verifyHotelsEmails(`Reservation Confirmation for supplier`, `Reservation Confirmation for ${ENV.INTERNAL_ID}`, ENV.REQUESTOR_ADMIN_EMAIL, `ReloQuest - Success! - Reservation Confirmation for ${ENV.INTERNAL_ID}`, `//div[@class='hotel-confirmation-header' and contains (div,'Your Booking is Confirmed') and contains(div,"${hotel_reservation_id}")]`);
         await mailCatcher.verifyHotelsEmails(`Reservation Confirmation for guest`, `Reservation Confirmation for ${ENV.INTERNAL_ID}` , guest_email, `ReloQuest - Success! - Reservation Confirmation for ${ENV.INTERNAL_ID}`, `//div[@class='hotel-confirmation-header' and contains (div,'Your Booking is Confirmed') and contains(div,"${hotel_reservation_id}")]`);
         await mailCatcher.verifyHotelsEmails(`Billing confirmation`,`SABRE_HOTEL / ${ENV.REQUESTOR_COMPANY.toLocaleUpperCase()} hotel reservation`, ENV.BILLING_EMAIL, `SABRE_HOTEL / ${ENV.REQUESTOR_COMPANY.toLocaleUpperCase()} hotel reservation`, `//div[@class='hotel-confirmation-header' and contains (div,'Your Booking is Confirmed') and contains(div,"${hotel_reservation_id}")]`);
-        await mailCatcher.verifyHotelsEmails(`Cancellation confirmation for requestor`, `${ENV.REQUESTOR_COMPANY}: Cancelled Hotel Reservation`,ENV.REQUESTOR_ADMIN_EMAIL, `${ENV.REQUESTOR_EMAIL}: Cancelled Hotel Reservation`, `//div[@class='hotel-confirmation-header' and contains (div,'Your Booking is Confirmed') and contains(div,"${hotel_reservation_id}")]`);
+        if(ENV.AWARD_IN_PROGRESS > 0){
+            console.info('The Hotel award is in progress, can not be cancelled until the award is completed...')
+        }else{
+            await mailCatcher.verifyHotelsEmails(`Cancellation confirmation for requestor`, `${ENV.REQUESTOR_COMPANY}: Cancelled Hotel Reservation, ${ENV.FULL_GUEST_NAME}`,ENV.REQUESTOR_ADMIN_EMAIL, `${ENV.REQUESTOR_EMAIL}: Cancelled Hotel Reservation, ${ENV.FULL_GUEST_NAME}`, `//span//p[contains(normalize-space(),'The hotel reservation for Internal ID') and contains(text(),'has been cancelled')]`);
+        }
         
     })
 

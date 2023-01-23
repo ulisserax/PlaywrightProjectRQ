@@ -9,13 +9,7 @@ export default class HomePage {
      constructor(page:Page){
           this.page = page;
      }
-
-     async openHomePage (url: string ){
-          await this.page.goto(url);
-          console.info(`Opening ${url}`);
-          await this.page.waitForLoadState('domcontentloaded');
-     }
-
+     
      async enterCredentials( username: string, password: string ){
           console.info(`Entering credentials`);
           await this.page.type(Input.username, username);
