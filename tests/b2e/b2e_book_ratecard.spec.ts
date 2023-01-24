@@ -6,7 +6,7 @@ import ENV  from '@utils/env';
  test.describe.only("Test Suite Book a ratecard", () => {
     //test.slow();
 
-    ENV.REQUEST_ID =`RQ6DC433`;
+    //ENV.REQUEST_ID =`RQ9AAE0A`;
 
    test("Request a ratecard", async ({webActions, b2eHomePage, b2eSearchPage, b2ePropertyDetailPage}) => {
       await webActions.navigateTo(ENV.B2E_URL);
@@ -36,7 +36,7 @@ import ENV  from '@utils/env';
       await requestShow.verifyOptionSubmitted();
   })
 
-   test("Book ratecard", async ({webActions, b2eHomePage, b2eSearchPage, b2ePropertyDetailPage, b2eQuestsPage}) => {
+   test("Book ratecard", async ({webActions, b2eHomePage, b2eSearchPage, b2eQuestsPage, b2eBookingPage}) => {
       await webActions.navigateTo(ENV.B2E_URL);
       await b2eHomePage.acceptCookies();
       await b2eHomePage.enterCredentials(ENV.B2E_USER, ENV.B2E_USER_PASSWORD);
@@ -44,6 +44,9 @@ import ENV  from '@utils/env';
       await b2eSearchPage.viewAllQuests();
       await b2eQuestsPage.confirmNewOption(); 
       await b2eSearchPage.optionReceived();
+      await b2eBookingPage.bookRateCard();
+      await b2eBookingPage.paymentInformation(ENV.CREDIT_CARD, ENV.CARD_EXPIRATION, ENV.CARD_CVC, ENV.ZIP_CODE);
+      await b2eBookingPage.completeYourQuest();
    })
 
    test("Acknowledge award for B2E", async ({}) => {

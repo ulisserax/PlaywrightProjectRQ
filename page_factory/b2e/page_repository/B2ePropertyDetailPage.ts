@@ -27,14 +27,16 @@ export default class B2ePropertyDetailPage {
         await this.page.context().pages()[1].click(Checkbox.disability_access);
         await this.page.context().pages()[1].click(Button.send_request);
         console.info(`Verifying request was sent`);
-        await WebActions.delay(1000);
+        await WebActions.delay(200);
         await this.page.context().pages()[1].waitForLoadState('networkidle');
         await this.page.context().pages()[1].waitForLoadState('domcontentloaded');
+        await this.page.context().pages()[1].waitForSelector(Text.request_sent);
         await expect(await this.page.context().pages()[1].locator(Text.request_sent).count()).toEqual(1);
         await this.page.context().pages()[1].click(Button.ok);
-        await WebActions.delay(400);
+        await WebActions.delay(200);
         await this.page.context().pages()[1].waitForLoadState('networkidle');
         await this.page.context().pages()[1].waitForLoadState('domcontentloaded');
+        await this.page.context().pages()[1].waitForSelector(Text.requested);
         await expect(await this.page.context().pages()[1].locator(Text.requested).count()).toEqual(1);
     }
 

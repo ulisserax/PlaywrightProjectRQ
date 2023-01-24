@@ -5,8 +5,8 @@ export default class Button{
     static login              = `button:has-text('Login')`;
     static next               = `app-search button.btn-orange`;
     static ok                 = `//modal-container[@class='modal fade in']//button[contains(text(),'OK')]`;
-    static new                = `a:has-text('NEW')`;
-    static book               = `a:has-text('BOOK')`;
+    static new                = `//app-corporate-card//a[contains(text(),'NEW')]`;
+    static book               = `//button[contains(text(),'BOOK')]`;
     static next_month         = `button[title='Next month']`;
     static plus_bedrooms      = `app-counter[formcontrolname='bedrooms'] button.plus`;
     static ratecard_details   = `app-rate-card a:has-text('DETAILS')`;
@@ -14,7 +14,9 @@ export default class Button{
     static plus_adults        = `app-counter[formcontrolname='adults'] button.plus`;
     static send_request       = `button:has-text('SEND REQUEST')`;
     static plus_parking       = `app-counter[formcontrolname='parking_spaces'] button.plus`;
-    static continue           = `button:has-text('CONTINUE')`;
+    static continue           = `//button[contains(text(),'CONTINUE')]`;
+    static complete_booking   = `//button[contains(text(),'COMPLETE BOOKING')]`;
+    static view_your_quest    = `//button[contains(text(),'VIEW YOUR QUEST')]`;
 
 
     static new_quest(request_id){

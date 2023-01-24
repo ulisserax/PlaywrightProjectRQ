@@ -57,4 +57,11 @@ export default class ENV{
     static B2E_USER_PASSWORD = process.env.B2E_USER_PASSWORD
     static B2E_USER          = process.env.B2E_USER
 
+    // Credit card information
+    static CREDIT_CARD       = process.env.CREDIT_CARD
+    static CARD_EXPIRATION   = process.env.CARD_EXPIRATION
+    static CARD_CVC          = process.env.CARD_CVC
+    static ZIP_CODE          = process.env.ZIP_CODE
+
+
 }

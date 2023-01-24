@@ -18,9 +18,10 @@ export default class B2eQuestsPage {
 
     async confirmNewOption(){
         console.info(`Confirming the a new option was bided`);
+        await WebActions.delay(300);
         await this.page.waitForLoadState(`networkidle`);
         await this.page.waitForLoadState(`domcontentloaded`);
-        await WebActions.delay(800);
+        await this.page.waitForSelector(Button.new_quest(ENV.REQUEST_ID));
         await expect(await this.page.locator(Button.new_quest(ENV.REQUEST_ID)).count()).toEqual(1);
         await this.page.click(Element.quests_card(ENV.REQUEST_ID));
     }

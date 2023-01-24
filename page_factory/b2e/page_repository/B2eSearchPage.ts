@@ -20,10 +20,10 @@ export default class B2eSearchPage {
         console.info(`Searching ${destination} ratecards`);
         await this.page.waitForLoadState(`networkidle`);
         await this.page.waitForLoadState(`domcontentloaded`);
-        await WebActions.delay(600);
         await expect(await this.page.url()).toContain(`${ENV.B2E_URL}/b2e/search`);
+        await this.page.waitForSelector(Input.search_location);
         await this.page.type(Input.search_location, `${destination}`, {delay:30});
-        await WebActions.delay(300);
+        await this.page.waitForSelector(Element.destination_places);
         await this.page.locator(Element.destination_places).first().click();
         await this.page.click(Button.next);
     }
@@ -31,9 +31,7 @@ export default class B2eSearchPage {
     async selectDates(): Promise<void>{
         console.info(`Selecting start and end dates`);
         await this.page.click(Button.next_month);
-        await WebActions.delay(300);
         await this.page.locator(Element.start_date).first().click();
-        await WebActions.delay(300);
         await this.page.locator(Element.end_date).last().click();
         await this.page.click(Button.next);
     }
@@ -42,7 +40,6 @@ export default class B2eSearchPage {
         console.info(`Customizing the housing options`);
         await this.page.waitForLoadState(`networkidle`);
         await this.page.waitForLoadState(`domcontentloaded`);
-        await WebActions.delay(600);
         await expect(await this.page.locator(Text.customize_housing_options).textContent()).toContain(`Customize your housing`);
         await this.page.click(Checkbox.include_hotels);
         await this.page.click(Button.plus_bedrooms);
@@ -53,7 +50,6 @@ export default class B2eSearchPage {
         console.info(`Selecting first ratecard`);
         await this.page.waitForLoadState(`networkidle`);
         await this.page.waitForLoadState(`domcontentloaded`);
-        await WebActions.delay(600);
         await this.page.locator(Button.ratecard_details).first().click();
         await WebActions.delay(1200);  
         let currentPage = await this.page.url();
@@ -68,19 +64,25 @@ export default class B2eSearchPage {
         console.info(`Clicking on Quests`);
         await this.page.waitForLoadState(`networkidle`);
         await this.page.waitForLoadState(`domcontentloaded`);
-        await WebActions.delay(500);
+        await this.page.waitForSelector(Link.quests);
         await this.page.click(Link.quests);
-        await WebActions.delay(500);
     }
 
     async optionReceived(){
         console.info(`Accepting the received option`);
-        await WebActions.delay(400);
         await this.page.waitForLoadState('networkidle');
         await this.page.waitForLoadState('domcontentloaded');
+        await this.page.waitForSelector(Element.new_option_modal);
         await expect(await this.page.locator(Element.new_option_modal).count()).toEqual(1);
         await this.page.click(Button.continue);
+        await WebActions.delay(600);
+        await this.page.waitForLoadState('networkidle');
+        await this.page.waitForLoadState('domcontentloaded');
+        await WebActions.delay(500);
+        await this.page.waitForSelector(Button.new);
         await this.page.click(Button.new);
+        await this.page.waitForLoadState('networkidle');
+        await this.page.waitForLoadState('domcontentloaded');
     }
 
    
