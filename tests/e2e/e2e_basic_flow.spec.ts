@@ -15,7 +15,7 @@ import ENV  from '@utils/env';
         await dashboard.validateDashboard();
         await dashboard.cardSummary();
         await dashboard.clickNewRequest();
-        await newRequest.select_client(ENV.CLIENT);
+        await newRequest.select_client(ENV.CLIENT_ACCEPT);
         await newRequest.fillRequestDetails(ENV.REQUEST_TYPE[0], ENV.REQUESTOR_ADMIN,ENV.GUEST_TYPE[0],'Miami, FL, USA', `45`);
         await newRequest.fillGuestInfo(ENV.GUEST_FIRSTNAME,ENV.GUEST_LASTNAME,guest_email,ENV.GUEST_PHONE);
         await newRequest.fillCorporateHousingDetails();
@@ -124,7 +124,7 @@ import ENV  from '@utils/env';
         await mailCatcher.verifyBasicEmails(`Supplier New Service Issue`, ENV.SUPPLIER_EMAIL, `ALERT! - Service Issue has been submitted for reservation ${ENV.RESERVATION_ID}`, `p:has-text('Service Issue Submitted')`, `a:has-text('VIEW SERVICE ISSUES')`, `${ENV.SUPPLIER_DOMAIN}/request/show/${ENV.REQUEST_ID}?openServiceIssueTab=1`);
         await mailCatcher.verifyBasicEmails(`Guest New Service Issue`, guest_email, `Your service issues for ReloQuest reservation ${ENV.RESERVATION_ID}`, `p:has-text('Here is your list of services issues for ReloQuest reservation ${ENV.RESERVATION_ID}')`, `a:has-text('VIEW SERVICE ISSUES')` ,`${ENV.B2E_URL}/b2e/quests/`);
         await mailCatcher.verifyBasicEmails(`Requestor Service Issue Resolved`, ENV.REQUESTOR_EMAIL, `ALERT! - Service issue has been updated for reservation ${ENV.RESERVATION_ID}`, `p:has-text('The service issue for reservation ${ENV.RESERVATION_ID} has been updated')`, `a:has-text('VIEW SERVICE ISSUES')` ,`${ENV.BASE_URL}/request/show/${ENV.REQUEST_ID}?openServiceIssueTab=1`);
-
+        await mailCatcher.verifyBasicEmails(`verifyEmailToSupplierForNewRequest`, ENV.SUPPLIER_COMPANY_EMAIL, `Accept New Request`, `//p[contains(text(),'New Request') and contains(a,${ENV.REQUEST_ID})]`, `//a[contains(text(),'${ENV.REQUEST_ID}')]`,`${ENV.SUPPLIER_DOMAIN}/request/show/${ENV.REQUEST_ID}`);
     })
 
 })

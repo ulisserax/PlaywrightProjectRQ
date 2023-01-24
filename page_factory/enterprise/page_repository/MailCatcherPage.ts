@@ -53,7 +53,7 @@ export default class MailCatcher{
         await this.page.waitForLoadState('domcontentloaded');
         await WebActions.delay(700);
         await expect(await this.page.frameLocator(Iframe.email_body).locator(`${element_to_assert}`).count()).toBeGreaterThanOrEqual(1);
-        await expect(await this.page.frameLocator(Iframe.email_body).locator(`${body_link_element}`).getAttribute(`href`)).toContain(`${domain}`);
+        await expect(await this.page.frameLocator(Iframe.email_body).locator(`${body_link_element}`).first().getAttribute(`href`)).toContain(`${domain}`);
        
     }
 
