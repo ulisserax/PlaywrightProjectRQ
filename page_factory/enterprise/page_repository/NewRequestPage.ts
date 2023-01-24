@@ -22,7 +22,7 @@ export default class NewRequestPage{
         this.page = page;
     }
 
-    async select_arrival_date(){
+    async select_arrival_date(): Promise<void>{
         await this.page.waitForLoadState('domcontentloaded');
         await WebActions.delay(400);
         await this.page.click(Calendar.arrival_date);
@@ -32,7 +32,7 @@ export default class NewRequestPage{
         await this.page.locator(Calendar.middle_date).last().click();
     }
 
-    async select_client(client:string){
+    async select_client(client:string): Promise<void>{
         console.info(`Select client ${client}`);
         await this.page.click(Dropdown.select_client);
         await this.page.type(Input.search_client, `${client}`, {delay:30});
@@ -40,14 +40,14 @@ export default class NewRequestPage{
         await this.page.click(Element.client_name);
     }
 
-    async select_desired_location(location:string){
+    async select_desired_location(location:string): Promise<void>{
         await this.page.waitForLoadState('domcontentloaded');
         await this.page.type(Input.desired_location, location, {delay: 20});
         await this.page.locator(Link.desired_location).first().click();
         await this.page.keyboard.press('Enter');
     }  
 
-    async fillGuestInfo(guest_first_name: string, guest_last_name: string, guest_email: string, guest_phone: string){
+    async fillGuestInfo(guest_first_name: string, guest_last_name: string, guest_email: string, guest_phone: string): Promise<void>{
         console.info("Filling the guest information.");
         await this.page.type(Input.guest_first_name, guest_first_name);
         await this.page.type(Input.guest_last_name, guest_last_name);
@@ -59,7 +59,7 @@ export default class NewRequestPage{
         }
     }
 
-    async fillRequestDetails(request_type:string, requestor:string, guest_type: string, location: string, length_of_stay: string){
+    async fillRequestDetails(request_type:string, requestor:string, guest_type: string, location: string, length_of_stay: string): Promise<void>{
         console.info("Filling the new request details.");
         await this.page.waitForLoadState('domcontentloaded');
         await this.select_desired_location(location);
@@ -72,7 +72,7 @@ export default class NewRequestPage{
         await this.page.selectOption(Dropdown.number_of_pets, { index: 1 });
     }
 
-    async fillCorporateHousingDetails(){
+    async fillCorporateHousingDetails(): Promise<void>{
         console.info('Filling the corporate housing details');
         await this.page.type(Input.adults, '1');
         await this.page.selectOption(Dropdown.maid_service, {index: 2});
@@ -80,7 +80,7 @@ export default class NewRequestPage{
         await this.page.type(Input.days_notice,'3');
     }
 
-    async fillHotelDetails(hotel_rooms:string, adults:string){
+    async fillHotelDetails(hotel_rooms:string, adults:string): Promise<void>{
         console.info('Filling the hotel details');
         await this.page.selectOption(Dropdown.hotel_rooms, {value: hotel_rooms});
         await this.page.fill(Input.hotel_rooms_adults,'');
@@ -88,7 +88,7 @@ export default class NewRequestPage{
         await this.page.type(Textarea.hotel_special_information, `Hotel Special Information for test purpose`, {delay: 20});
     }
 
-    async submitRequest(){
+    async submitRequest(): Promise<void>{
         console.info('Submitting request');
         await this.page.click(Checkbox.priorities_checkbox);
         await this.page.click(Button.submit);
@@ -96,7 +96,7 @@ export default class NewRequestPage{
         await this.page.click(Button.ready_to_submit);
     }
 
-    async submitHotelRequest(){
+    async submitHotelRequest(): Promise<void>{
         console.info('Submitting hotel request');
         await this.page.click(Checkbox.priorities_checkbox);
         await this.page.click(Button.submit);
@@ -104,7 +104,7 @@ export default class NewRequestPage{
         await this.page.click(Button.ok);
     }
     
-    async editRequest(requestor_user:string){
+    async editRequest(requestor_user:string): Promise<void>{
         console.info("Editing the request");
         await this.page.selectOption(Dropdown.select_assigned_to, { label: requestor_user});
         await this.page.fill(Input.length_of_stay,``);
@@ -117,7 +117,7 @@ export default class NewRequestPage{
         await this.page.click(Button.close);
     }
 
-    async expireRequest(){
+    async expireRequest(): Promise<void>{
         console.info("Expiring the request.");
         await this.page.waitForLoadState('domcontentloaded');
         await this.page.click(Button.deadline_edit);

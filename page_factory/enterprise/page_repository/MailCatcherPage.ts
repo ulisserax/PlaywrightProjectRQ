@@ -12,13 +12,13 @@ export default class MailCatcher{
     constructor(page:Page){
         this.page = page;
     }
-    async openMailCatcher(url:string){
+    async openMailCatcher(url:string): Promise<void>{
         console.info(`Opening mailcatcher ${url}`);
         await this.page.goto(url);
         await this.page.waitForLoadState('domcontentloaded');
 
     }
-    async searchEmail( email:string ,subject:string){
+    async searchEmail( email:string ,subject:string): Promise<void>{
         console.info(`Searching email ${email}`);
         await this.page.type(Input.search_message, `${email}`, {delay:20});
         await this.page.click(Text.first_email);
@@ -29,13 +29,13 @@ export default class MailCatcher{
         
     }
     
-    async getShareOptionLink(request_id:string){
+    async getShareOptionLink(request_id:string): Promise<string>{
         console.info(`Get the share option link from the email body.`);
         await expect(await this.page.frameLocator(Iframe.email_body).locator(Link.share_link).textContent()).toContain(`reloquest.com/request/show/${request_id}?token`);
         return await this.page.frameLocator(Iframe.email_body).locator(Link.share_link).textContent();
     }
 
-    async verifyEmailToSupplierForDeadlineUpdate(email:string, subject:string, request_id:string, supplier_domain:string){
+    async verifyEmailToSupplierForDeadlineUpdate(email:string, subject:string, request_id:string, supplier_domain:string): Promise<void>{
         console.info(`Verifying email sent to Supplier for 'deadline' update`);
         await this.searchEmail(email, subject);
         await expect(await this.page.frameLocator(Iframe.email_body).locator(`//a[contains(@href,'${request_id}')]`).getAttribute('href')).toEqual(`${supplier_domain}`);
@@ -43,7 +43,7 @@ export default class MailCatcher{
         await expect(await this.page.frameLocator(Iframe.email_body).locator(`ul.list-group ul`).textContent()).toContain(`Departure on`);
     }
 
-    async verifyBasicEmails(log_text:string,  email:string, subject:string, element_to_assert: string ,body_link_element:string, domain:string){
+    async verifyBasicEmails(log_text:string,  email:string, subject:string, element_to_assert: string ,body_link_element:string, domain:string): Promise<void>{
         console.info(`Verifying email sent ${log_text}`);
         await this.page.fill(Input.search_message,'');
         await this.page.type(Input.search_message, `${subject}`, {delay:20});
@@ -57,7 +57,7 @@ export default class MailCatcher{
        
     }
 
-    async verifyBasicEmails1(log_text:string, email:string, subject:string, element_to_assert: string ,body_link_element:string, domain:string){
+    async verifyBasicEmails1(log_text:string, email:string, subject:string, element_to_assert: string ,body_link_element:string, domain:string): Promise<void>{
         console.info(`Verifying email sent ${log_text}`);
         await this.page.fill(Input.search_message,'');
         await this.page.type(Input.search_message, `${subject}`, {delay:20});
@@ -70,7 +70,7 @@ export default class MailCatcher{
         await expect(await (await this.page.frameLocator(Iframe.email_body).locator(`${body_link_element}`).getAttribute(`href`))).toContain(`${domain}`);
     }
     
-    async verifyHotelsEmails(log_text:string, search_term:string, email:string, subject:string, element_to_assert: string ){
+    async verifyHotelsEmails(log_text:string, search_term:string, email:string, subject:string, element_to_assert: string ): Promise<void>{
         console.info(`Verifying email sent ${log_text}`);
         await this.page.fill(Input.search_message,'');
         await this.page.type(Input.search_message, `${search_term}`, {delay:20});

@@ -13,14 +13,14 @@ export default class SearchPage {
         this.page = page;
     }
 
-    async clickRequestIdLink(){
+    async clickRequestIdLink(): Promise<void>{
         console.info('Clicking on the request id link');
         await this.page.click(Link.request_id);
         await this.page.waitForLoadState('networkidle');
         await this.page.waitForLoadState('domcontentloaded');
     }
 
-    async clickReservationIdLink(){
+    async clickReservationIdLink(): Promise<void>{
         console.info('Clicking on the request id link');
         await this.page.click(Link.reservation_id);
     }

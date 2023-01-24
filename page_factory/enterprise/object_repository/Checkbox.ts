@@ -10,4 +10,5 @@ export default class Checkbox{
     static confirm_fee                          = `#confirm_fees`;
     static confirm_payment                      = `#confirm_payment`;
     static agree_to_cancellation                = `input[name='agreeToCancellation']`;
+    static b2e_term_of_reservation              = `input#b2e_tos_terms_accepted`;
 }
