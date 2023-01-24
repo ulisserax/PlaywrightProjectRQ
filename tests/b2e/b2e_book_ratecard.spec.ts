@@ -36,7 +36,7 @@ import ENV  from '@utils/env';
       await requestShow.verifyOptionSubmitted();
   })
 
-   test("Book ratecard", async ({webActions, b2eHomePage, b2eSearchPage, b2eQuestsPage, b2eBookingPage}) => {
+   test("Book ratecard", async ({webActions, b2eHomePage, b2eSearchPage, b2eQuestsPage, b2eBookingPage, b2eQuestDetailsPage}) => {
       await webActions.navigateTo(ENV.B2E_URL);
       await b2eHomePage.acceptCookies();
       await b2eHomePage.enterCredentials(ENV.B2E_USER, ENV.B2E_USER_PASSWORD);
@@ -47,6 +47,7 @@ import ENV  from '@utils/env';
       await b2eBookingPage.bookRateCard();
       await b2eBookingPage.paymentInformation(ENV.CREDIT_CARD, ENV.CARD_EXPIRATION, ENV.CARD_CVC, ENV.ZIP_CODE);
       await b2eBookingPage.completeYourQuest();
+      await b2eQuestDetailsPage.verifyPendingQuest();
    })
 
    test("Acknowledge award for B2E", async ({}) => {
