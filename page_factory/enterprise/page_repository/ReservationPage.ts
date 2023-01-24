@@ -19,14 +19,13 @@ export default class Reservation {
         this.page = page;
     }
 
-    async getReservationId(){
+    async getReservationId(): Promise<void>{
         console.log(`Getting the reservation id`);
         let reservation_id = await this.page.locator(Text.reservation_info_header).textContent() ;
-        reservation_id = reservation_id.split('-')[1].trim();
-        return reservation_id;
+        ENV.RESERVATION_ID = reservation_id.split('-')[1].trim();
     }
 
-    async editRateSegment(){
+    async editRateSegment(): Promise<void>{
         console.info(`Editing rate segment`);
         await this.page.locator(Link.edit_segment_details).first().click();
         await this.page.waitForLoadState('domcontentloaded');
@@ -41,7 +40,7 @@ export default class Reservation {
         // this method check in the database the reservations segments
     }
 
-    async changeSegmentStarDateToPast(){
+    async changeSegmentStarDateToPast(): Promise<void>{
         console.info(`Changing reservation start date to past`);
         if(await this.page.locator(Element.loading_property_info).isVisible){
             await this.page.reload();
@@ -56,7 +55,7 @@ export default class Reservation {
         await this.page.waitForLoadState('domcontentloaded');
     }
 
-    async viewRateSegmentHistory(){
+    async viewRateSegmentHistory(): Promise<void>{
         console.info(`Viewing segment history`);
         await this.page.waitForLoadState('networkidle');
         await this.page.waitForLoadState('domcontentloaded');
@@ -68,7 +67,7 @@ export default class Reservation {
         await this.page.click(Element.close_modal_icon);
     }
 
-    async verifyReservation(reservation_id){
+    async verifyReservation(reservation_id): Promise<void>{
         console.info("Verifying reservation was acknowledge");
 		await this.page.waitForLoadState('domcontentloaded');
         await expect(await this.page.locator(Text.reservation_information).textContent()).toContain(`Award acknowledged on:`);
@@ -76,7 +75,7 @@ export default class Reservation {
         await expect(await this.page.locator(Text.reservation_information).textContent()).toContain(reservation_id);
     }
 
-    async editGuestInformation(){
+    async editGuestInformation(): Promise<void>{
         console.info("Editing guest information");
         await this.page.fill(Input.guest_name,'');
         await this.page.type(Input.guest_name, chance.name(), {delay:20});
@@ -88,7 +87,7 @@ export default class Reservation {
         await this.page.waitForLoadState('domcontentloaded');
     }
 
-    async activityLogRequestor(requestor_admin){
+    async activityLogRequestor(requestor_admin): Promise<void>{
         console.info('Activity log validation');
         await WebActions.delay(300);
         await this.page.click(Button.activity_log);
@@ -99,7 +98,7 @@ export default class Reservation {
         await this.page.click(Button.close);
     }
 
-    async approveReservationChanges(){
+    async approveReservationChanges(): Promise<void>{
         console.info('Approving the reservation changes');
         await this.page.waitForLoadState('networkidle');
         await this.page.click(Element.pending_approval_icon);

@@ -19,4 +19,5 @@ export default class Text{
     static card_property_rate                   = `h4.option_price`;
     static card_property_name                   = `h2.property_name`;
     static awarded_property                     = `table#all_options tr.approved.awarded.corporate-option`;
+    static b2e_request_modal                    = `div#tos-modal h1`;
 }

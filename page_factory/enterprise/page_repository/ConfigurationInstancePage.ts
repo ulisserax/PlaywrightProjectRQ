@@ -11,13 +11,14 @@ export default class ConfigurationInstancePage {
           this.page = page;
      }
 
-    async mailPush(){
+    async mailPush(): Promise<void>{
         console.info("Pushing emails.");
         await this.page.waitForLoadState('domcontentloaded');
         await this.page.click(Button.swiftmailer_spool_send);
         await expect(await this.page.locator(Text.console_output).textContent()).toContain(`Executing command`);
-        await this.page.waitForLoadState('domcontentloaded'); 
-        await WebActions.delay(1500);
+        await this.page.waitForLoadState('networkidle'); 
+        await this.page.waitForLoadState('domcontentloaded');
+        await WebActions.delay(1800);
         await expect(await this.page.locator(Text.console_output).textContent()).toContain(`emails sent`);
     }
 }
