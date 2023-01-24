@@ -15,46 +15,38 @@ export default class RequestShowPage {
           this.page = page;
     }
 
-    async searchHotelRoomProcess(){
+    async searchHotelRoomProcess(): Promise<void>{
         console.info(`Searching for the hotel rooms`);
         await WebActions.delay(700);
         await this.page.waitForLoadState('networkidle');
-        //await this.page.waitForLoadState('domcontentloaded');
         let hotel_count = await this.page.locator(Button.view_details).count();
         console.log(hotel_count);
         await this.page.locator(Button.view_details).nth(chance.integer({min:1, max:hotel_count})).click();
         await this.page.waitForLoadState('networkidle');
-        //await this.page.waitForLoadState('domcontentloaded');
         await this.page.click(Button.book);
         
     }
 
-    async bookHotelRoom(){
+    async bookHotelRoom() : Promise<void>{
         console.info(`book the hotel room`);
-        //await WebActions.delay(700);
         await this.page.waitForLoadState('networkidle');
-        //await this.page.waitForLoadState('domcontentloaded');
         await this.page.click(Button.submit_room_configuration);
-        //await WebActions.delay(700);
         await this.page.waitForLoadState('networkidle');
-        //await this.page.waitForLoadState('domcontentloaded');
         await expect(await this.page.locator(Element.confirm_booking_h1).textContent()).toEqual(`Please Confirm Your Booking...`);
     }
 
-    async verifyHotelRoomBooking(){
+    async verifyHotelRoomBooking(): Promise<void>{
         console.info(`Verifying booking`);
         await this.page.click(Checkbox.confirm_fee);
         await this.page.click(Checkbox.confirm_payment);
         await this.page.click(Button.confirm_booking);
-        //await WebActions.delay(700);
         await this.page.waitForLoadState('networkidle');
-        //await this.page.waitForLoadState('domcontentloaded');
         await expect(await this.page.locator(Element.booking_confirmation).textContent()).toContain(`Booking Confirmation`);
-        let hotel_reservatio_id = await this.page.locator(Text.hotel_reservation_id).textContent();
-        return hotel_reservatio_id;
+        ENV.HOTEL_RESERVATION_ID = await this.page.locator(Text.hotel_reservation_id).textContent();
+        
     }
 
-    async backToRequest(){
+    async backToRequest(): Promise<void>{
         console.info(`Back to the request`);
         await this.page.click(Button.back_to_request);
         await this.page.waitForLoadState('networkidle');
@@ -62,7 +54,7 @@ export default class RequestShowPage {
         await expect(await this.page.locator(Element.hotels_options_table_row).count()).toBeGreaterThanOrEqual(1);
     }
 
-    async verifyReservationWasCancelled(){
+    async verifyReservationWasCancelled(): Promise<void>{
         if(ENV.AWARD_IN_PROGRESS > 0){
             console.info('The Hotel award is in progress, can not be cancelled until the award is completed...')
         }else{

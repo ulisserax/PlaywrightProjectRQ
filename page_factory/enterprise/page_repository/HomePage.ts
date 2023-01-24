@@ -10,13 +10,13 @@ export default class HomePage {
           this.page = page;
      }
      
-     async enterCredentials( username: string, password: string ){
+     async enterCredentials( username: string, password: string ): Promise<void>{
           console.info(`Entering credentials`);
           await this.page.type(Input.username, username);
           await this.page.type(Input.password, password);
      }
 
-     async signIn(){
+     async signIn(): Promise<void>{
           console.info(`Clicking signIn button`);
           await this.page.click(Button.signIn);
           await this.page.waitForLoadState('networkidle');

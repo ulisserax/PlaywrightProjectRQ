@@ -19,7 +19,7 @@ export default class OptionPage {
       this.page = page;
    }
    
-   async fillPropertyOverview(location:string, background_req:string, air_conditioning:string, room_types:string, pet_policy:string ){
+   async fillPropertyOverview(location:string, background_req:string, air_conditioning:string, room_types:string, pet_policy:string ): Promise<void>{
       console.info(`Filling the property overview`);
       let number = chance.integer({min:1,max:9999});
       await this.page.type(Input.property_name, `NT1sup_Property_#${number}${chance.word({ length: 2 })}`);
@@ -41,27 +41,26 @@ export default class OptionPage {
       }
    }
 
-   async cancellationAndTaxFeePolicy(){
+   async cancellationAndTaxFeePolicy(): Promise<void>{
       console.info(`Selecting cancellation and tax fee policies`);
       await this.page.selectOption(Dropdown.cancellation_policy, {index:1});
       await this.page.selectOption(Dropdown.tax_fee_policy, {index:1});
    }
    
-   async createNewProperty(){
+   async createNewProperty(): Promise<void>{
       console.info(`Creating the new property`);
       await this.page.click(Button.create_property);
       await this.page.click(Button.close);
 
    }
 
-   async addImage(image_path:string){
+   async addImage(image_path:string): Promise<void>{
       console.info(`Adding property images`); 
       await this.page.waitForLoadState('domcontentloaded');
       for(let i = 0; i < 3; i++){
           await this.page.click(Button.add_image);
           await WebActions.delay(300);
           await this.page.setInputFiles(Input.image_upload_file, `${image_path}`);
-          //await this.page.type(Input.image_upload_file, `${image_path}`);
           await this.page.click(Button.crop_and_use);
       }
       
