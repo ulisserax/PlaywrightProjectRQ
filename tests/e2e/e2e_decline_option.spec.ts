@@ -31,7 +31,6 @@ import ENV  from '@utils/env';
         await dashboard.cardSummary();
         await dashboard.findCurrentRequest(request_id);
         await search.clickRequestIdLink();
-        await requestShow.acceptRequest();
         await requestShow.bidOption();
         await option.selectProperty(ENV.PROPERTY);
         await option.fillUnitDetails(ENV.UNIT_TYPE[1], ENV.KITCHEN_TYPE[2],ENV.STYLE[0],ENV.BEDROOMS[1],ENV.BATHROOMS[1]);

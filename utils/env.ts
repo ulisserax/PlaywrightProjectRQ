@@ -20,6 +20,7 @@ export default class ENV{
     static CLIENT_EB2E_RQPRO        = process.env.CLIENT_EB2E_RQPRO
     static CLIENT_EB2E              = process.env.CLIENT_EB2E
     static CLIENT                   = process.env.CLIENT
+    static CLIENT_ACCEPT            = process.env.CLIENT_ACCEPT
     static GUEST_FIRSTNAME          = chance.first()
     static GUEST_LASTNAME           = chance.last()
     static PROPERTY                 = process.env.PROPERTY

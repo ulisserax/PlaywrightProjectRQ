@@ -2,7 +2,7 @@ import test  from '@lib/BaseTest';
 import ENV  from '@utils/env';
 
 
- test.describe.only("Test Suite Book a ratecard", () => {
+ test.describe("Test Suite Book a ratecard", () => {
     //test.slow();
 
     let request_id;
