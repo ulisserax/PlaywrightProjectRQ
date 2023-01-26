@@ -7,7 +7,6 @@ test.describe("Create Hotel request, cancel reservation and validate emails", ()
     let guest_email = ENV.GUEST_EMAIL;
 
     test("Create a hotel request and cancel reservation", async ({webActions, homePage, dashboard, newRequest, requestShow, hotelSearchPage, search}) => {
-        test.slow();
         await webActions.navigateTo(ENV.BASE_URL);
         await homePage.enterCredentials(ENV.REQUESTOR_ADMIN, ENV.REQUESTOR_ADMIN_PASSWORD);
         await homePage.signIn();

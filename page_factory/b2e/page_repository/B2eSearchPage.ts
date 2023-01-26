@@ -18,8 +18,8 @@ export default class B2eSearchPage {
 
     async searchDestination(destination: string): Promise<void>{
         console.info(`Searching ${destination} ratecards`);
-        await this.page.waitForLoadState(`networkidle`);
         await this.page.waitForLoadState(`domcontentloaded`);
+        await WebActions.delay(400);
         await expect(await this.page.url()).toContain(`${ENV.B2E_URL}/b2e/search`);
         await this.page.waitForSelector(Input.search_location);
         await this.page.type(Input.search_location, `${destination}`, {delay:30});
@@ -38,7 +38,6 @@ export default class B2eSearchPage {
 
     async housingOptionsCorporate(): Promise<void>{
         console.info(`Customizing the housing options`);
-        await this.page.waitForLoadState(`networkidle`);
         await this.page.waitForLoadState(`domcontentloaded`);
         await expect(await this.page.locator(Text.customize_housing_options).textContent()).toContain(`Customize your housing`);
         await this.page.click(Checkbox.include_hotels);
@@ -48,7 +47,6 @@ export default class B2eSearchPage {
 
     async selectRatecard(): Promise<void>{
         console.info(`Selecting first ratecard`);
-        await this.page.waitForLoadState(`networkidle`);
         await this.page.waitForLoadState(`domcontentloaded`);
         await this.page.locator(Button.ratecard_details).first().click();
         await WebActions.delay(1200);  
@@ -62,7 +60,6 @@ export default class B2eSearchPage {
 
     async viewAllQuests(){
         console.info(`Clicking on Quests`);
-        await this.page.waitForLoadState(`networkidle`);
         await this.page.waitForLoadState(`domcontentloaded`);
         await this.page.waitForSelector(Link.quests);
         await this.page.click(Link.quests);
@@ -70,18 +67,15 @@ export default class B2eSearchPage {
 
     async optionReceived(){
         console.info(`Accepting the received option`);
-        await this.page.waitForLoadState('networkidle');
         await this.page.waitForLoadState('domcontentloaded');
         await this.page.waitForSelector(Element.new_option_modal);
         await expect(await this.page.locator(Element.new_option_modal).count()).toEqual(1);
         await this.page.click(Button.continue);
         await WebActions.delay(600);
-        await this.page.waitForLoadState('networkidle');
         await this.page.waitForLoadState('domcontentloaded');
         await WebActions.delay(500);
         await this.page.waitForSelector(Button.new);
         await this.page.click(Button.new);
-        await this.page.waitForLoadState('networkidle');
         await this.page.waitForLoadState('domcontentloaded');
     }
 

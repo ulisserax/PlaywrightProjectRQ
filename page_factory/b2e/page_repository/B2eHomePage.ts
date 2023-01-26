@@ -12,8 +12,8 @@ export default class B2eHomePage {
 
     async acceptCookies(): Promise<void>{
         console.info(`Accepting cookies`);
-        if(await this.page.locator(Button.got_it).count()>0){
-            await this.page.click(Button.got_it);
+        if(await this.page.locator(Button.accept_cookies).count()>0){
+            await this.page.click(Button.accept_cookies);
         }
     }
 

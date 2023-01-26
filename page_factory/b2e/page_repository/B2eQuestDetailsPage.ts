@@ -1,12 +1,14 @@
 import Input from "@b2e_objects/Input";
 import Text from "@b2e_objects/Text";
-import Checkbox from "@b2e_objects/Checkbox";
-import WebActions from "@lib/WebActions";
-import { expect, Page , Browser} from "@playwright/test";
+import { expect, Page } from "@playwright/test";
 import Button from "../object_repository/Button";
 import Element from "../object_repository/Element";
 import ENV from "@utils/env";
 import Link from "@b2e_objects/Link";
+import Iframe from "@b2e_objects/Iframe";
+import WebActions from "@lib/WebActions";
+const Chance = require ('chance');
+const chance = new Chance();
 
 export default class B2eQuestDetailsPage {
 
@@ -24,4 +26,59 @@ export default class B2eQuestDetailsPage {
         ENV.RESERVATION_ID = booking_number.substring(booking_number.search('#'));
         console.info(ENV.RESERVATION_ID);
     }
+
+    async verifyFutureQuest(){
+        console.info(`Verifying future quest`);
+        //await WebActions.delay(800);
+        await this.page.waitForLoadState(`networkidle`);
+        await this.page.waitForLoadState(`domcontentloaded`);
+        await this.page.waitForSelector(Text.future_quest);
+        await expect(await this.page.locator(Text.future_quest).count()).toEqual(1);
+    }
+
+    async viewQuestDetails(){
+        console.info(`Viewing quest details`);
+        await this.page.waitForSelector(Button.quest_details);
+        await this.page.click(Button.quest_details);
+    }
+
+    async verifyPaymentMethod(cc_last_digit:string){
+        console.info(`Verifying payment method`);
+        await WebActions.delay(2000);
+        await this.page.click(Link.edit_payment_method);
+        await WebActions.delay(2000);
+        await expect(await this.page.locator(Text.current_card).textContent()).toContain(cc_last_digit);
+    }
+
+    async fillPayment(credit_card:string, card_expiration:string, card_cvc:string, zip_code:string ){
+        console.info(`Editing payment information`);
+        await this.page.locator(Input.card_holder).type(chance.name(), {delay:30});
+        await this.page.frameLocator(Iframe.card_number).locator(Input.credit_card_number).type(`${credit_card}`, {delay:30});
+        await this.page.frameLocator(Iframe.card_expiry).locator(Input.card_expiration).type(`${card_expiration}`, {delay:30});
+        await this.page.frameLocator(Iframe.card_cvc).locator(Input.card_cvc).type(`${card_cvc}`, {delay:30});
+        await this.page.frameLocator(Iframe.zip_code).locator(Input.card_postal).type(`${zip_code}`, {delay:30});
+    }
+
+    async savePaymentMethod(){
+        console.info(`Saving payment method`);
+        await this.page.click(Button.save_card);
+        //await this.page.locator(Button.save_card).isHidden({timeout:5000});
+        await WebActions.delay(6000);
+        await this.page.waitForSelector(Text.payment_updated);
+        await this.page.click(Button.got_it);
+        await this.page.waitForLoadState(`domcontentloaded`);
+    }
+
+    async cancelPaymentModal(){
+        console.info(`Cancelling the payment modal`);
+        await this.page.waitForSelector(Link.cancel);
+        await this.page.click(Link.cancel);
+    }
+
+    async closeQuestDetails(){
+        console.info(`Closing the quest details`);
+        await this.page.waitForSelector(Element.close);
+        await this.page.click(Element.close);
+    }
+    
 }

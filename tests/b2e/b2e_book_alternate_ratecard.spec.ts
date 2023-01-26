@@ -79,7 +79,7 @@ import ENV  from '@utils/env';
       //Create a service issue
    })
 
-   test.skip("Resolve service issue for B2E", async ({webActions, homePage, dashboard, search, requestShow, serviceIssue}) => {
+   test("Resolve service issue for B2E", async ({webActions, homePage, dashboard, search, requestShow, serviceIssue}) => {
       await webActions.navigateTo(ENV.BASE_URL);
       await homePage.enterCredentials(ENV.SUPPLIER_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);
       await homePage.signIn();
