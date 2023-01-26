@@ -11,6 +11,8 @@ export default class Element{
     static quest_detail_section      = `app-quest-detail`; 
     static edit_payment_method_modal = `app-modal[header='Edit Payment Method']`;
     static close                     = `div.icon-B2E-icons_Close`;
+    static alternate_option_card     = `//app-corporate-card//div[contains(text(),'Alternate Option')]`;
+    static unavailable_option_card   = `//app-corporate-card//div[contains(text(),'Option Unavailable')]`;
 
     static quests_card(request_id){
         return `a[request-id=${request_id}]`;

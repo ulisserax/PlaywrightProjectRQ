@@ -1,11 +1,12 @@
+import B2eQuestsPage from '@b2e_pages/B2eQuestsPage';
 import test  from '@lib/BaseTest';
 import ENV  from '@utils/env';
 
 
- test.describe.only("Test Suite Book a ratecard", () => {
+test.describe.only("Test Suite Book an alternate ratecard for B2E", () => {
     //test.slow();
 
-    //ENV.REQUEST_ID =`RQD6ED3A`;
+   //ENV.REQUEST_ID =`RQEFF57F`;
 
    test("Request a ratecard", async ({webActions, b2eHomePage, b2eSearchPage, b2ePropertyDetailPage}) => {
       await webActions.navigateTo(ENV.B2E_URL);
@@ -28,6 +29,7 @@ import ENV  from '@utils/env';
       await dashboard.findCurrentRequest(ENV.REQUEST_ID);
       await search.clickRequestIdLink();
       await requestShow.bidPropertiesRequestedForB2E();
+      await requestShow.b2eNotificationModal();
       await option.fillUnitDetails(ENV.UNIT_TYPE[1], ENV.KITCHEN_TYPE[2],ENV.STYLE[0],ENV.BEDROOMS[1],ENV.BATHROOMS[1]);
       await option.fillRateDetails();
       await option.fillFees(ENV.FEES_TYPE[1]);
@@ -49,6 +51,38 @@ import ENV  from '@utils/env';
       await b2eBookingPage.verifyPendingQuest();
    })
 
+   test("Alternate option for B2E", async ({webActions, homePage, dashboard, search, requestShow, option}) => {
+      await webActions.navigateTo(ENV.BASE_URL);
+      await homePage.enterCredentials(ENV.SUPPLIER_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);
+      await homePage.signIn();
+      await dashboard.cardSummary();
+      await dashboard.findCurrentRequest(ENV.REQUEST_ID);
+      await search.clickRequestIdLink();
+      await requestShow.alternateOption(ENV.ACKNOWLEDGE_AWARD[2]);
+      await requestShow.b2eNotificationModal();
+      await option.selectProperty(ENV.PROPERTY);
+      await option.fillUnitDetails(ENV.UNIT_TYPE[1], ENV.KITCHEN_TYPE[2],ENV.STYLE[0],ENV.BEDROOMS[1],ENV.BATHROOMS[1]);
+      await option.fillRateDetails();
+      await option.fillFees(ENV.FEES_TYPE[1]);
+      await option.submitOption();
+      await requestShow.verifyOptionSubmitted();
+      await requestShow.verifyAlternateOptionSubmitted();
+  })
+
+  test("Book alternate ratecard", async ({webActions, b2eHomePage, b2eSearchPage, b2eQuestsPage, b2eBookingPage}) => {
+      await webActions.navigateTo(ENV.B2E_URL);
+      await b2eHomePage.acceptCookies();
+      await b2eHomePage.enterCredentials(ENV.B2E_USER, ENV.B2E_USER_PASSWORD);
+      await b2eHomePage.signIn();
+      await b2eSearchPage.viewAllQuests();
+      await b2eQuestsPage.confirmAlternateQuest();
+      await b2eSearchPage.bookingAlternateOption();
+      await b2eBookingPage.bookRateCard();
+      await b2eBookingPage.paymentInformation(ENV.CREDIT_CARD, ENV.CARD_EXPIRATION, ENV.CARD_CVC, ENV.ZIP_CODE);
+      await b2eBookingPage.completeYourQuest();
+      await b2eBookingPage.verifyPendingQuest();
+   })
+
    test("Acknowledge award for B2E", async ({webActions, homePage, dashboard, search, requestShow}) => {
       await webActions.navigateTo(ENV.BASE_URL);
       await homePage.enterCredentials(ENV.SUPPLIER_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);
@@ -59,35 +93,4 @@ import ENV  from '@utils/env';
       await requestShow.acknowledgeAward(ENV.ACKNOWLEDGE_AWARD[0]);
       await requestShow.viewReservation();
    })
-
-   test("Modify payment and create a service issue", async ({webActions, b2eHomePage, b2eSearchPage, b2eQuestsPage, b2eQuestDetailsPage}) => {
-      await webActions.navigateTo(ENV.B2E_URL);
-      await b2eHomePage.acceptCookies();
-      await b2eHomePage.enterCredentials(ENV.B2E_USER, ENV.B2E_USER_PASSWORD);
-      await b2eHomePage.signIn();
-      await b2eSearchPage.viewAllQuests();
-      await b2eQuestsPage.viewFutureQuest();
-      await b2eQuestDetailsPage.verifyFutureQuest();
-      await b2eQuestDetailsPage.viewQuestDetails();
-      await b2eQuestDetailsPage.verifyPaymentMethod(`1111`);
-      await b2eQuestDetailsPage.fillPayment('4242424242424242','09/39','233','33331');
-      await b2eQuestDetailsPage.savePaymentMethod();
-      await b2eQuestDetailsPage.verifyPaymentMethod(`4242`);
-      await b2eQuestDetailsPage.cancelPaymentModal();
-      await b2eQuestDetailsPage.closeQuestDetails();
-
-      //Create a service issue
-   })
-
-   test("Resolve service issue for B2E", async ({webActions, homePage, dashboard, search, requestShow, serviceIssue}) => {
-      await webActions.navigateTo(ENV.BASE_URL);
-      await homePage.enterCredentials(ENV.SUPPLIER_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);
-      await homePage.signIn();
-      await dashboard.cardSummary();
-      await dashboard.findCurrentRequest(ENV.REQUEST_ID);
-      await search.clickRequestIdLink();
-      await requestShow.clickServiceIssue();
-      await requestShow.viewServiceIssue();
-      await serviceIssue.resolveServiceIssue();
-  })
- })
+})

@@ -38,4 +38,14 @@ export default class B2eQuestsPage {
         await expect(await this.page.locator(Button.future_quest(ENV.REQUEST_ID)).count()).toEqual(1);
         await this.webActions.clickElementJS(Button.future_quest(ENV.REQUEST_ID));
     }
+
+    async confirmAlternateQuest(){
+        console.info(`Confirming the alternate option`);
+        await WebActions.delay(300);
+        await this.page.waitForLoadState(`networkidle`);
+        await this.page.waitForLoadState(`domcontentloaded`);
+        await this.page.waitForSelector(Button.alternate_option(ENV.REQUEST_ID));
+        await expect(await this.page.locator(Button.alternate_option(ENV.REQUEST_ID)).count()).toEqual(1);
+        await this.webActions.clickElementJS(Button.alternate_option(ENV.REQUEST_ID));
+    }
 }

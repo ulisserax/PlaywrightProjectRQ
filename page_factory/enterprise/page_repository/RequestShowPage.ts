@@ -43,17 +43,12 @@ export default class RequestShowPage {
     }
 
     async bidPropertiesRequestedForB2E(): Promise<void>{
-        console.info('Biding a a properties requested for b2e');
+        console.info('Biding a properties requested for b2e');
         await this.page.click(Button.properties_requested);
         await this.page.waitForLoadState('networkidle');
         await WebActions.delay(400);
         await this.page.click(Button.bid_with_this_property);
-        await WebActions.delay(600);
-        await expect(await this.page.locator(Text.b2e_request_modal).textContent()).toContain('This is a B2E Request!');
-        await this.page.click(Checkbox.b2e_term_of_reservation);
-        await this.page.click(Button.b2e_modal_continue);
     }
-
     
     async bidOption(): Promise<void>{
         console.info('Biding a option');
@@ -295,5 +290,13 @@ export default class RequestShowPage {
         await this.page.waitForLoadState('domcontentloaded');
         await expect(await this.page.locator(Element.awarded_options_table_row).count()).toEqual(1);
     }
+
+
+    async b2eNotificationModal(){
+        await this.page.waitForSelector(Text.b2e_request_modal);
+        await expect(await this.page.locator(Text.b2e_request_modal).textContent()).toContain('This is a B2E Request!');
+        await this.page.click(Checkbox.b2e_term_of_reservation);
+        await this.page.click(Button.b2e_modal_continue);
+    } 
 
 }
