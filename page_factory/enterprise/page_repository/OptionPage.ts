@@ -87,10 +87,10 @@ export default class OptionPage {
         await this.page.click(Checkbox.cancellation_police_checkbox);
         await this.page.click(Checkbox.read_supplier_notes_checkbox);
         await this.page.click(Button.submit);
-        await WebActions.delay(300);
+        await WebActions.delay(400);
         await this.page.waitForLoadState('networkidle');
         await this.page.waitForLoadState('domcontentloaded');
-        await WebActions.delay(500);
+        await WebActions.delay(600);
         let count = await this.page.locator(Text.property_distance_modal_notification).count();
         if(count>0){
             await this.page.click(Button.yes);

@@ -16,6 +16,7 @@ export default class SearchPage {
     async clickRequestIdLink(): Promise<void>{
         console.info('Clicking on the request id link');
         await this.page.click(Link.request_id);
+        await WebActions.delay(300);
         await this.page.waitForLoadState('networkidle');
         await this.page.waitForLoadState('domcontentloaded');
     }
