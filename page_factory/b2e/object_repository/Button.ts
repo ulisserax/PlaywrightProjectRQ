@@ -1,7 +1,7 @@
 import ENV from "@utils/env";
 
 export default class Button{
-    static got_it             = `button:has-text('Got it')`;
+    static accept_cookies     = `button:has-text('Got it')`;
     static login              = `button:has-text('Login')`;
     static next               = `app-search button.btn-orange`;
     static ok                 = `//modal-container[@class='modal fade in']//button[contains(text(),'OK')]`;
@@ -17,9 +17,16 @@ export default class Button{
     static continue           = `//button[contains(text(),'CONTINUE')]`;
     static complete_booking   = `//button[contains(text(),'COMPLETE BOOKING')]`;
     static view_your_quest    = `//button[contains(text(),'VIEW YOUR QUEST')]`;
+    static quest_details      = `//a[contains(text(),'QUEST DETAILS')]`;
+    static save_card          = `button:has-text('SAVE CARD')`;
+    static got_it             = `button:has-text('GOT IT')`;
+    
 
 
     static new_quest(request_id){
         return `a[request-id=${request_id}] button.quest-status.search-status`;
-    }          
+    }    
+    static future_quest(request_id){
+        return `a[request-id=${request_id}] button.quest-status.future`;
+    }       
 }

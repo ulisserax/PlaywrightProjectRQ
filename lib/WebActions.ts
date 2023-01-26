@@ -32,5 +32,22 @@ export default class WebActions {
         console.info(`Opening ${url}`);
         await this.page.waitForLoadState('domcontentloaded');
     }
+
+    async waitForPageNavigation(event: string): Promise<void> {
+        switch (event.toLowerCase()) {
+            case `networkidle`:
+                await this.page.waitForNavigation({ waitUntil: `networkidle`, timeout: 5000*3 });
+                break;
+            case `load`:
+                await this.page.waitForNavigation({ waitUntil: `load`, timeout: 5000*3 });
+                break;
+            case `domcontentloaded`:
+                await this.page.waitForNavigation({ waitUntil: `domcontentloaded`, timeout: 5000*3 });
+        }
+    }
+
+    async clickElementJS(locator: string): Promise<void> {
+        await this.page.$eval(locator, (element: HTMLElement) => element.click());
+    }
     
 }
