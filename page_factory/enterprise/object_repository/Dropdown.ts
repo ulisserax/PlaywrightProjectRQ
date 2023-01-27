@@ -26,4 +26,5 @@ export default class Dropdown{
     static background_req          = `#form_background_checks_required`;
     static cancellation_policy     = `#form_cancellationPolicy`;
     static tax_fee_policy          = `#form_taxFeePolicy`;
+    static invite_role             = `#form_invitee_role`; 
 }

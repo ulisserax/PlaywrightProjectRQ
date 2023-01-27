@@ -26,4 +26,6 @@ export default class Element{
     static icon_confirm_availability       = `table#all_options tbody tr span.responded.available`;
     static option_availability_message     = `//div[contains(text(),'remaining to confirm option availability')]`;
     static table_option_declined           = `table#all_options tbody tr.corporate-option.unavailable`;
+    static invitation_form                 = `#invitation-form`;
+    static invitation_sent                 = `//div[contains(text(),'sent successfully')]`;   
 }

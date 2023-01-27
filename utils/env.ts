@@ -39,6 +39,8 @@ export default class ENV{
     static ACKNOWLEDGE_AWARD        = [`accept`, `decline`, `submit_new_option`]
     static SUPPLIER_COMPANY_EMAIL   = `${this.SUPPLIER_COMPANY}@reloquest.com`
     static SUPPLIER_EMAIL           = `${this.SUPPLIER_ADMIN}@reloquest.com`
+    static SUPPLIER_FIRST_NAME      = chance.first();
+    static SUPPLIER_LAST_NAME       = chance.last();
     static REQUESTOR_EMAIL          = `${this.REQUESTOR_USER}@nt1req.com`
     static BILLING_EMAIL            = process.env.BILLING_EMAIL
     static REQUESTOR_ADMIN_EMAIL    = `${this.REQUESTOR_ADMIN}@reloquest.com`
