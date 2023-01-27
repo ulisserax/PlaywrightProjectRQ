@@ -61,4 +61,10 @@ export default class DashboardPage {
         console.info("Clicking ready to be awarded card");
         await this.page.click(Card.ready_to_be_awarded_card);
     }
+
+    async clickMyAccountTab(): Promise<void>{
+        console.info("Clicking on my account tab");
+        await this.page.waitForLoadState('domcontentloaded');
+        await this.page.click(Button.myAccount);
+    }
 }
