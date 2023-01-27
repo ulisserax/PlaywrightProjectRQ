@@ -79,5 +79,15 @@ export default class B2eSearchPage {
         await this.page.waitForLoadState('domcontentloaded');
     }
 
+    async bookingAlternateOption(){
+        console.info(`Start booking the alternate option`);
+        await this.page.waitForLoadState('domcontentloaded');
+        await this.page.waitForSelector(Element.alternate_option_card);
+        await expect(await this.page.locator(Element.alternate_option_card).count()).toEqual(1);
+        await expect(await this.page.locator(Element.unavailable_option_card).count()).toEqual(1);
+        await this.page.click(Button.book_alternate_option);
+        
+    }
+
    
 }

@@ -2,7 +2,7 @@ import test  from '@lib/BaseTest';
 import ENV  from '@utils/env';
 
 
- test.describe.only("Test Suite Book a ratecard", () => {
+ test.describe("Test Suite Book a ratecard for B2E", () => {
     //test.slow();
 
     //ENV.REQUEST_ID =`RQD6ED3A`;
@@ -28,6 +28,7 @@ import ENV  from '@utils/env';
       await dashboard.findCurrentRequest(ENV.REQUEST_ID);
       await search.clickRequestIdLink();
       await requestShow.bidPropertiesRequestedForB2E();
+      await requestShow.b2eNotificationModal();
       await option.fillUnitDetails(ENV.UNIT_TYPE[1], ENV.KITCHEN_TYPE[2],ENV.STYLE[0],ENV.BEDROOMS[1],ENV.BATHROOMS[1]);
       await option.fillRateDetails();
       await option.fillFees(ENV.FEES_TYPE[1]);
