@@ -13,6 +13,8 @@ import ServiceIssuePage from "@enterprise_pages/ServiceIssuePage";
 import HotelSearchPage from "@enterprise_pages/HotelSearchPage";
 import PropertyPage from "@enterprise_pages/PropertyPage";
 import WebActions from "../lib/WebActions";
+import MyAccount from "@enterprise_pages/MyAccountPage";
+import RegistrationPage from "@enterprise_pages/RegistrationPage";
 import B2eHomePage from "@b2e_pages/B2eHomePage";
 import B2eSearchPage from "@b2e_pages/B2eSearchPage";
 import B2ePropertyDetailPage from "@b2e_pages/B2ePropertyDetailPage";
@@ -34,6 +36,8 @@ const test = baseTest.extend<{
     hotelSearchPage: HotelSearchPage;
     property: PropertyPage;
     webActions: WebActions;
+    myAccount: MyAccount;
+    registration: RegistrationPage;
     b2eHomePage: B2eHomePage;
     b2eSearchPage: B2eSearchPage;
     b2ePropertyDetailPage: B2ePropertyDetailPage;
@@ -82,6 +86,12 @@ const test = baseTest.extend<{
     },
     webActions: async ({ page }, use) => {
         await use(new WebActions(page));
+    },
+    myAccount: async ({ page }, use) => {
+        await use(new MyAccount (page));
+    },
+    registration: async ({ page }, use) => {
+        await use(new RegistrationPage (page));
     },
     b2eHomePage: async ({ page }, use) => {
         await use(new B2eHomePage(page));

@@ -82,4 +82,7 @@ export default class Button{
     static cancel_reservation        = `#button_option_unaward`;
     static properties_requested      = `a#properties_requested`;
     static bid_with_this_property    = `div#properties-container a`;
+    static invite_user               = `#button_invite_user`;
+    static create_account            = `button#form_submit`
+    static accept_term               = `#accept_term_v2`;
 }

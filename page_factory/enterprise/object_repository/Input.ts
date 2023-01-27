@@ -34,5 +34,14 @@ export default class Input{
     static property_location         = `#form_location`;
     static property_room_types       = `#s2id_form_roomTypes`;
     static property_number           = `#form_street_number`;
-    static image_upload_file         = `//input[@id='image_upload_file']`
+    static image_upload_file         = `//input[@id='image_upload_file']`;
+    static email_address             = `#form_email`;
+    static first_name                = `#form_first_name`;
+    static last_name                 = `#form_last_name`;
+    static company_name              = `#form_company_name`;
+    static title                     = `#form_title`;
+    static reg_password              = `#form_password_first`;
+    static reg_repeat_password       = `#form_password_second`;
+    static notification_email        = `#form_company_notification_email`;
+    static company_phone             = `#form_company_notification_phone`;
 }
