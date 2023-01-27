@@ -20,6 +20,8 @@ import B2eSearchPage from "@b2e_pages/B2eSearchPage";
 import B2ePropertyDetailPage from "@b2e_pages/B2ePropertyDetailPage";
 import B2eQuestsPage from "@b2e_pages/B2eQuestsPage";
 import B2eBookingPage from "@b2e_pages/B2eBookingPage";
+import B2eQuestDetailsPage from "@b2e_pages/B2eQuestDetailsPage";
+import ReservationEndpoints from "@api/ReservationEndpoints";
 
 const test = baseTest.extend<{
     homePage: HomePage;
@@ -43,7 +45,8 @@ const test = baseTest.extend<{
     b2ePropertyDetailPage: B2ePropertyDetailPage;
     b2eQuestsPage: B2eQuestsPage;
     b2eBookingPage: B2eBookingPage;
-
+    b2eQuestDetailsPage: B2eQuestDetailsPage;
+    reservationEndpoints: ReservationEndpoints
 }>({
     homePage: async ({ page }, use) => {
         await use(new HomePage(page));
@@ -107,6 +110,12 @@ const test = baseTest.extend<{
     },
     b2eBookingPage: async ({ page }, use) => {
         await use(new B2eBookingPage(page));
+    },
+    b2eQuestDetailsPage: async ({ page }, use) => {
+        await use(new B2eQuestDetailsPage(page));
+    },
+    reservationEndpoints: async ({ request }, use) => {
+        await use(new ReservationEndpoints(request));
     }
 });
 

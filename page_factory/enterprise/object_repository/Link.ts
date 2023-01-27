@@ -13,6 +13,7 @@ export default class Link{
     static view_service_issue   = `table#supplier_status_list a:text('view')`;
     static add_a_comment        = `#addNewComment`;
     static unaward              = `a:text('Unaward')`;
+    static back_to_search_results = `//a[contains(text(),'Back to Search Results')]`;
     static register             = `//a[contains(@href,'reloquest.com/registration/register')]`;
     static terms_of_service     = `//a[contains(text(),'Terms of Service')]`;
 }
