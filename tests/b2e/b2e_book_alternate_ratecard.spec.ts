@@ -1,9 +1,8 @@
-import B2eQuestsPage from '@b2e_pages/B2eQuestsPage';
 import test  from '@lib/BaseTest';
 import ENV  from '@utils/env';
 
 
-test.describe.only("Test Suite Book an alternate ratecard for B2E", () => {
+test.describe("Test Suite Book an alternate ratecard for B2E", () => {
     //test.slow();
 
    //ENV.REQUEST_ID =`RQEFF57F`;
