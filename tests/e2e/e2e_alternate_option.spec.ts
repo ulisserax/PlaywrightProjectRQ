@@ -3,7 +3,6 @@ import ENV  from '@utils/env';
 
 
  test.describe("Test Suite Alternate Option", () => {
-    //test.slow();
 
     let guest_email = ENV.GUEST_EMAIL;
 

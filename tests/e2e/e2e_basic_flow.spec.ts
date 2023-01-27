@@ -3,7 +3,6 @@ import ENV  from '@utils/env';
 
 
  test.describe("Test Suite Basic Flow ", () => {
-    //test.slow();
 
     let guest_email = ENV.GUEST_EMAIL;
     let client_share_link;
