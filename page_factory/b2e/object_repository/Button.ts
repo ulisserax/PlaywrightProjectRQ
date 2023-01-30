@@ -33,4 +33,7 @@ export default class Button{
     static alternate_option(request_id){
         return `a[request-id=${request_id}] button.quest-status.alternate-option`;
     }    
+    static declined_option(request_id){
+        return `a[request-id=${request_id}] button.quest-status.declined`;
+    }
 }
