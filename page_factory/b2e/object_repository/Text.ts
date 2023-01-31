@@ -9,5 +9,5 @@ export default class Text{
     static booking_id                = `//div[contains(text(), 'Booking #')]`;
     static payment_updated           = `h5:has-text('Payment Method updated!')`;
     static current_card              = `span.card-label`;
-    
+    static canceled_quest            = `//div[contains(@class,'cancelled')]//span[contains(text(),'canceled')]`;
 }

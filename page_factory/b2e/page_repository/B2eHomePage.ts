@@ -26,8 +26,8 @@ export default class B2eHomePage {
     async signIn(): Promise<void>{
         console.info(`Clicking login button`);
         await this.page.click(Button.login);
-        await this.page.waitForLoadState('networkidle');
-        await this.page.waitForLoadState('domcontentloaded');
+        // await this.page.waitForLoadState('networkidle');
+        // await this.page.waitForLoadState('domcontentloaded');
     }
 
 }

@@ -17,18 +17,27 @@ export default class RequestShowPage {
 
     async searchHotelRoomProcess(): Promise<void>{
         console.info(`Searching for the hotel rooms`);
-        await WebActions.delay(700);
-        await this.page.waitForLoadState('networkidle');
+        await WebActions.delay(400);
+        await this.page.waitForSelector(Button.view_details);
         let hotel_count = await this.page.locator(Button.view_details).count();
-        console.log(hotel_count);
-        await this.page.locator(Button.view_details).nth(chance.integer({min:1, max:hotel_count})).click();
+        console.info(hotel_count);
+        await WebActions.delay(500);
         await this.page.waitForLoadState('networkidle');
-        await this.page.click(Button.book);
-        
+        await this.page.locator(Button.view_details).nth(chance.integer({min:1, max:hotel_count})).click();
+               
+    }
+
+    async unavailableRoom() : Promise<number>{
+        await this.page.waitForLoadState('networkidle');
+        await WebActions.delay(700);
+        await this.page.waitForSelector(Element.hotel_rooms_available);
+        console.info(await this.page.locator(Text.hotel_rooms_unavailable).count());
+        return await this.page.locator(Text.hotel_rooms_unavailable).count();
     }
 
     async bookHotelRoom() : Promise<void>{
-        console.info(`book the hotel room`);
+        console.info(`Book the hotel room`);
+        await this.page.click(Button.book);
         await this.page.waitForLoadState('networkidle');
         await this.page.click(Button.submit_room_configuration);
         await this.page.waitForLoadState('networkidle');
@@ -40,17 +49,19 @@ export default class RequestShowPage {
         await this.page.click(Checkbox.confirm_fee);
         await this.page.click(Checkbox.confirm_payment);
         await this.page.click(Button.confirm_booking);
-        await this.page.waitForLoadState('networkidle');
+        await WebActions.delay(600);
+        await this.page.waitForSelector(Element.booking_confirmation);
         await expect(await this.page.locator(Element.booking_confirmation).textContent()).toContain(`Booking Confirmation`);
         ENV.HOTEL_RESERVATION_ID = await this.page.locator(Text.hotel_reservation_id).textContent();
-        
+        await this.page.waitForLoadState('domcontentloaded');
     }
 
     async backToRequest(): Promise<void>{
         console.info(`Back to the request`);
         await this.page.click(Button.back_to_request);
-        await this.page.waitForLoadState('networkidle');
+        await WebActions.delay(1200);
         await this.page.waitForLoadState('domcontentloaded');
+        await this.page.waitForSelector(Element.hotels_options_table_row);
         await expect(await this.page.locator(Element.hotels_options_table_row).count()).toBeGreaterThanOrEqual(1);
     }
 

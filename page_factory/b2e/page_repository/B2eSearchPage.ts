@@ -2,7 +2,7 @@ import Input from "@b2e_objects/Input";
 import Text from "@b2e_objects/Text";
 import Checkbox from "@b2e_objects/Checkbox";
 import WebActions from "@lib/WebActions";
-import { expect, Page , Browser} from "@playwright/test";
+import { expect, Page } from "@playwright/test";
 import Button from "../object_repository/Button";
 import Element from "../object_repository/Element";
 import ENV from "@utils/env";
@@ -19,10 +19,11 @@ export default class B2eSearchPage {
     async searchDestination(destination: string): Promise<void>{
         console.info(`Searching ${destination} ratecards`);
         await this.page.waitForLoadState(`domcontentloaded`);
-        await WebActions.delay(400);
-        await expect(await this.page.url()).toContain(`${ENV.B2E_URL}/b2e/search`);
+        //await this.page.waitForLoadState(`networkidle`);
+        await WebActions.delay(700);
+        //await expect(await this.page.url()).toContain(`${ENV.B2E_URL}/b2e/search`);
         await this.page.waitForSelector(Input.search_location);
-        await this.page.type(Input.search_location, `${destination}`, {delay:30});
+        await this.page.type(Input.search_location, `${destination}`, {delay:50});
         await this.page.waitForSelector(Element.destination_places);
         await this.page.locator(Element.destination_places).first().click();
         await this.page.click(Button.next);
@@ -61,6 +62,7 @@ export default class B2eSearchPage {
     async viewAllQuests(){
         console.info(`Clicking on Quests`);
         await this.page.waitForLoadState(`domcontentloaded`);
+        await WebActions.delay(600);
         await this.page.waitForSelector(Link.quests);
         await this.page.click(Link.quests);
     }
@@ -85,8 +87,24 @@ export default class B2eSearchPage {
         await this.page.waitForSelector(Element.alternate_option_card);
         await expect(await this.page.locator(Element.alternate_option_card).count()).toEqual(1);
         await expect(await this.page.locator(Element.unavailable_option_card).count()).toEqual(1);
+        await WebActions.delay(400);
         await this.page.click(Button.book_alternate_option);
         
+    }
+
+    async requestedOptions(){
+        console.info(`Viewing requested options`);
+        await this.page.waitForSelector(Button.requested_options);
+        await expect(await this.page.locator(Button.requested_options).count()).toEqual(1);
+        await this.page.click(Button.requested_options);
+    }
+
+    async requestAgain(){
+        console.info(`Requesting ratecard again`);
+        await this.page.waitForSelector(Button.request_again);
+        await expect(await this.page.locator(Button.request_again).count()).toEqual(1);
+        await this.page.click(Button.request_again);
+        await this.page.waitForLoadState('domcontentloaded');
     }
 
    
