@@ -3,6 +3,7 @@ import Element from "@b2e_objects/Element";
 import Iframe from "@b2e_objects/Iframe";
 import Input from "@b2e_objects/Input";
 import Text from "@b2e_objects/Text";
+import Link from "@b2e_objects/Link";
 import WebActions from "@lib/WebActions";
 import { expect, Page } from "@playwright/test";
 import ENV from "@utils/env";
@@ -25,9 +26,12 @@ export default class B2eBookingPage {
         await this.page.context().pages()[1].waitForSelector(Button.book);
         await this.page.context().pages()[1].click(Button.book);
         await this.page.context().pages()[1].waitForLoadState('domcontentloaded');
-        await this.page.context().pages()[1].waitForSelector(Element.are_you_sure_modal);
-        await WebActions.delay(400);
-        await this.page.context().pages()[1].click(Button.continue);
+        await WebActions.delay(1200);
+        if (await this.page.context().pages()[1].locator(Element.are_you_sure_modal).count()>0){
+            await this.page.context().pages()[1].waitForSelector(Element.are_you_sure_modal);
+            await WebActions.delay(400);
+            await this.page.context().pages()[1].click(Button.continue);
+        }
     }
 
     async paymentInformation(credit_card:string, card_expiration:string, card_cvc:string, zip_code:string ){
@@ -61,6 +65,20 @@ export default class B2eBookingPage {
         let start = booking_number.search('#');
         ENV.RESERVATION_ID = booking_number.substring(start+1, start+10);
         console.info(ENV.RESERVATION_ID);
+    }
+
+    async cancelQuest(){
+        console.info(`Cancelling pending quest`);
+        await WebActions.delay(500);
+        await this.page.context().pages()[1].waitForSelector(Link.cancel_this_quest);
+        await this.page.context().pages()[1].click(Link.cancel_this_quest);
+        await WebActions.delay(500);
+        await this.page.context().pages()[1].waitForSelector(Button.yes_cancel_quest);
+        await this.page.context().pages()[1].click(Button.yes_cancel_quest);
+        await WebActions.delay(500);
+        await this.page.context().pages()[1].waitForSelector(Text.canceled_quest);
+        await expect(await this.page.context().pages()[1].locator(Text.canceled_quest).count()).toEqual(1);
+        
     }
 
 

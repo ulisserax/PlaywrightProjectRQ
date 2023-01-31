@@ -22,5 +22,6 @@ export default class Text{
     static b2e_request_modal                    = `div#tos-modal h1`;
     static supplier_registration                = `//h1[contains(text(),'Supplier Registration')]`;
     static registration_complete                = `//h2[contains(text(),'Registration complete')]`;
+    static hotel_rooms_unavailable              = `//div[@class='rooms-unavailable' and @style='']//p[contains(text(),'There are no rooms available')]`;
 
 }

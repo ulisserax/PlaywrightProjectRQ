@@ -2,6 +2,7 @@ import { expect, Page } from "@playwright/test";
 import Button from "@enterprise_objects/Button";
 import Input from "@enterprise_objects/Input";
 import Card from "@enterprise_objects/Card";
+import WebActions from "@lib/WebActions";
 
 
 export default class DashboardPage {
@@ -47,13 +48,15 @@ export default class DashboardPage {
 
     async findCurrentRequest(request_id): Promise<void>{
         console.info("Finding a current request");
-        await this.page.type(Input.search_by, request_id);
+        await WebActions.delay(400);
+        await this.page.type(Input.search_by, request_id, {delay:35});
         await this.page.keyboard.press('Enter');
     }
 
     async findReservation(reservation_id): Promise<void>{
         console.info("Finding a current request");
-        await this.page.type(Input.search_by, reservation_id);
+        await WebActions.delay(400);
+        await this.page.type(Input.search_by, reservation_id, {delay:35});
         await this.page.keyboard.press('Enter');
     }
 

@@ -22,6 +22,7 @@ import B2eQuestsPage from "@b2e_pages/B2eQuestsPage";
 import B2eBookingPage from "@b2e_pages/B2eBookingPage";
 import B2eQuestDetailsPage from "@b2e_pages/B2eQuestDetailsPage";
 import ReservationEndpoints from "@api/ReservationEndpoints";
+import RequestEndpoints from "@api/RequestEndpoints";
 
 const test = baseTest.extend<{
     homePage: HomePage;
@@ -46,7 +47,8 @@ const test = baseTest.extend<{
     b2eQuestsPage: B2eQuestsPage;
     b2eBookingPage: B2eBookingPage;
     b2eQuestDetailsPage: B2eQuestDetailsPage;
-    reservationEndpoints: ReservationEndpoints
+    reservationEndpoints: ReservationEndpoints;
+    requestEndpoints: RequestEndpoints;
 }>({
     homePage: async ({ page }, use) => {
         await use(new HomePage(page));
@@ -116,6 +118,8 @@ const test = baseTest.extend<{
     },
     reservationEndpoints: async ({ request }, use) => {
         await use(new ReservationEndpoints(request));
+    },requestEndpoints: async ({ request }, use) => {
+        await use(new RequestEndpoints(request));
     }
 });
 

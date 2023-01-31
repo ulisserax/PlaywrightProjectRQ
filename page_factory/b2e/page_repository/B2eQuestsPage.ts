@@ -22,7 +22,7 @@ export default class B2eQuestsPage {
     async confirmNewOption(){
         console.info(`Confirming the a new option was bided`);
         await WebActions.delay(300);
-        await this.page.waitForLoadState(`networkidle`);
+        //await this.page.waitForLoadState(`networkidle`);
         await this.page.waitForLoadState(`domcontentloaded`);
         await this.page.waitForSelector(Button.new_quest(ENV.REQUEST_ID));
         await expect(await this.page.locator(Button.new_quest(ENV.REQUEST_ID)).count()).toEqual(1);
@@ -32,7 +32,7 @@ export default class B2eQuestsPage {
     async viewFutureQuest(){
         console.info(`Viewing future quest`);
         await WebActions.delay(500);
-        await this.page.waitForLoadState(`networkidle`);
+        //await this.page.waitForLoadState(`networkidle`);
         await this.page.waitForLoadState(`domcontentloaded`);
         await this.page.waitForSelector(Button.future_quest(ENV.REQUEST_ID));
         await expect(await this.page.locator(Button.future_quest(ENV.REQUEST_ID)).count()).toEqual(1);
@@ -42,7 +42,7 @@ export default class B2eQuestsPage {
     async confirmAlternateQuest(){
         console.info(`Confirming the alternate option`);
         await WebActions.delay(300);
-        await this.page.waitForLoadState(`networkidle`);
+        //await this.page.waitForLoadState(`networkidle`);
         await this.page.waitForLoadState(`domcontentloaded`);
         await this.page.waitForSelector(Button.alternate_option(ENV.REQUEST_ID));
         await expect(await this.page.locator(Button.alternate_option(ENV.REQUEST_ID)).count()).toEqual(1);
@@ -52,7 +52,7 @@ export default class B2eQuestsPage {
     async confirmDeclinedQuest(){
         console.info(`Confirming the declined option`);
         await WebActions.delay(300);
-        await this.page.waitForLoadState(`networkidle`);
+        //await this.page.waitForLoadState(`networkidle`);
         await this.page.waitForLoadState(`domcontentloaded`);
         await this.page.waitForSelector(Button.declined_option(ENV.REQUEST_ID));
         await expect(await this.page.locator(Button.declined_option(ENV.REQUEST_ID)).count()).toEqual(1);

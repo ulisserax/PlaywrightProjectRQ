@@ -5,7 +5,7 @@ import ENV  from '@utils/env';
  test.describe("Test Suite Book a ratecard for B2E", () => {
     //test.slow();
 
-    //ENV.REQUEST_ID =`RQD6ED3A`;
+    ENV.B2E_USER =`james_doe@nt1req.com`;
 
    test("Request a ratecard", async ({webActions, b2eHomePage, b2eSearchPage, b2ePropertyDetailPage}) => {
       await webActions.navigateTo(ENV.B2E_URL);
@@ -24,7 +24,6 @@ import ENV  from '@utils/env';
       await webActions.navigateTo(ENV.BASE_URL);
       await homePage.enterCredentials(ENV.SUPPLIER_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);
       await homePage.signIn();
-      await dashboard.cardSummary();
       await dashboard.findCurrentRequest(ENV.REQUEST_ID);
       await search.clickRequestIdLink();
       await requestShow.bidPropertiesRequestedForB2E();
@@ -54,7 +53,6 @@ import ENV  from '@utils/env';
       await webActions.navigateTo(ENV.BASE_URL);
       await homePage.enterCredentials(ENV.SUPPLIER_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);
       await homePage.signIn();
-      await dashboard.cardSummary();
       await dashboard.findCurrentRequest(ENV.REQUEST_ID);
       await search.clickRequestIdLink();
       await requestShow.acknowledgeAward(ENV.ACKNOWLEDGE_AWARD[0]);
@@ -84,7 +82,6 @@ import ENV  from '@utils/env';
       await webActions.navigateTo(ENV.BASE_URL);
       await homePage.enterCredentials(ENV.SUPPLIER_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);
       await homePage.signIn();
-      await dashboard.cardSummary();
       await dashboard.findCurrentRequest(ENV.REQUEST_ID);
       await search.clickRequestIdLink();
       await requestShow.clickServiceIssue();
