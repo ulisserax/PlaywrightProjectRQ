@@ -65,10 +65,8 @@ export default class RequestShowPage {
         console.info(`Sharing the options with the client`);
         await this.page.waitForLoadState('networkidle');
         await this.page.waitForLoadState('domcontentloaded');
+        await this.page.waitForSelector(Element.approved_options_table_row);
         await expect(await this.page.locator(Element.approved_options_table_row)).toBeVisible();
-        if (await this.page.locator(Element.request_loading)){
-            this.page.reload();
-        }
         const items = await this.page.locator(Checkbox.option_checkbox);
         for (let i=0; i<await items.count(); i++){
             await items.nth(i).click();

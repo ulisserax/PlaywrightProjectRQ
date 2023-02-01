@@ -23,7 +23,7 @@ export default class RequestShowPage {
         console.info(hotel_count);
         await WebActions.delay(500);
         await this.page.waitForLoadState('networkidle');
-        await this.page.locator(Button.view_details).nth(chance.integer({min:1, max:hotel_count})).click();
+        await this.page.locator(Button.view_details).nth(chance.integer({min:1, max:hotel_count-1})).click();
                
     }
 
