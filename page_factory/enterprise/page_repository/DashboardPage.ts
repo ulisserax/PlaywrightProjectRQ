@@ -63,7 +63,7 @@ export default class DashboardPage {
     }
 
     async clickMyAccountTab(): Promise<void>{
-        console.info("Clicking on my account tab");
+        console.info("Clicking on the my account tab");
         await this.page.waitForLoadState('domcontentloaded');
         await this.page.click(Button.myAccount);
     }

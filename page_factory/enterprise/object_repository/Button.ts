@@ -85,4 +85,11 @@ export default class Button{
     static invite_user               = `#button_invite_user`;
     static create_account            = `button#form_submit`
     static accept_term               = `#accept_term_v2`;
+    static add_company               = `#button_new_company`;
+    static use_request_dates         = `.bootstrap-switch-id-form_use_request_dates_when_bidding`;
+    static use_maid_services         = `.bootstrap-switch-id-form_use_maid_service_when_bidding`;
+    static enable_default_images     = `.bootstrap-switch-id-form_enable_default_property_gallery`;
+    static ratecards_without_images  = `.bootstrap-switch-id-form_includeNoImagesRateCard`;
+    static update_company_settings   = `//div[contains(@class,'tab-pane well active')]//a[@id='button_cancel']/preceding-sibling::button[contains(text(),'Update')]`;
+    static new_user                  = `#button_new_user`;
 }

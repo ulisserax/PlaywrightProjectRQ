@@ -26,5 +26,7 @@ export default class Dropdown{
     static background_req          = `#form_background_checks_required`;
     static cancellation_policy     = `#form_cancellationPolicy`;
     static tax_fee_policy          = `#form_taxFeePolicy`;
-    static invite_role             = `#form_invitee_role`; 
+    static invite_role             = `#form_invitee_role`;
+    static new_company_type        = `#form_type`;
+    static new_company_country     = `#s2id_companyForm_country`;
 }
