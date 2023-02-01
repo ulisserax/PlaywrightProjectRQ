@@ -29,9 +29,9 @@ export default class B2eQuestDetailsPage {
 
     async verifyFutureQuest(){
         console.info(`Verifying future quest`);
-        //await WebActions.delay(800);
-        await this.page.waitForLoadState(`networkidle`);
+        //await this.page.waitForLoadState(`networkidle`);
         await this.page.waitForLoadState(`domcontentloaded`);
+        await WebActions.delay(1000)
         await this.page.waitForSelector(Text.future_quest);
         await expect(await this.page.locator(Text.future_quest).count()).toEqual(1);
     }

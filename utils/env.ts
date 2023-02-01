@@ -46,6 +46,8 @@ export default class ENV{
     static REQUESTOR_ADMIN_EMAIL    = `${this.REQUESTOR_ADMIN}@reloquest.com`
     static AWARD_IN_PROGRESS        = 0
     static FULL_GUEST_NAME          = `${this.GUEST_FIRSTNAME} ${this.GUEST_LASTNAME}`
+    static REQUESTOR_API_KEY        = process.env.REQUESTOR_API_KEY
+    static SUPPLIER_API_KEY         = process.env.SUPPLIER_API_KEY
 
     static PROPERTY_NAME            = ``
     static PROPERTY_ADDRESS         = ``

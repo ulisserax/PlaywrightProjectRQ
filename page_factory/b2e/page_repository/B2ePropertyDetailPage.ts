@@ -17,6 +17,8 @@ export default class B2ePropertyDetailPage {
 
     async checkAvailability(): Promise<void>{
         console.info(`Checking availability`);
+        await WebActions.delay(400);
+        await this.page.context().pages()[1].waitForSelector(Button.check_avialability);
         await this.page.context().pages()[1].click(Button.check_avialability);
         await WebActions.delay(400);
         if(await this.page.context().pages()[1].locator(Element.are_you_sure_modal).isVisible()){
@@ -37,6 +39,12 @@ export default class B2ePropertyDetailPage {
         await this.page.context().pages()[1].waitForLoadState('domcontentloaded');
         await this.page.context().pages()[1].waitForSelector(Text.requested);
         await expect(await this.page.context().pages()[1].locator(Text.requested).count()).toEqual(1);
+    }
+
+    async closeTab(){
+        console.info(`Closing current tab`);
+        await this.page.context().pages()[1].close();
+        await WebActions.delay(400);
     }
 
    

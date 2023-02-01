@@ -28,6 +28,7 @@ export default class Element{
     static table_option_declined           = `table#all_options tbody tr.corporate-option.unavailable`;
     static invitation_form                 = `#invitation-form`;
     static invitation_sent                 = `//div[contains(text(),'sent successfully')]`;
+    static hotel_rooms_available           = `div.hotel-rooms-available`; 
     static company_form_title              = `//h1[contains(text(),'Update Company')]`;
     static new_company_country             = `//div[contains(text(),'United States')]`;
     static default_washer_dryer            = `//div[@id='s2id_form_default_washer_dryer']`;  

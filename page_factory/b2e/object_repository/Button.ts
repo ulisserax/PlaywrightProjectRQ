@@ -20,7 +20,10 @@ export default class Button{
     static quest_details         = `//a[contains(text(),'QUEST DETAILS')]`;
     static save_card             = `button:has-text('SAVE CARD')`;
     static got_it                = `button:has-text('GOT IT')`;
-    static book_alternate_option = `//a[contains(text(),'BOOK')]`
+    static book_alternate_option = `//a[contains(text(),'BOOK')]`;
+    static requested_options     = `//button[contains(text(),'REQUESTED OPTIONS')]`;
+    static request_again         = `//a[contains(text(),'REQUEST AGAIN')]`;
+    static yes_cancel_quest      = `//button[contains(text(),'YES, CANCEL QUEST')]`;
     
 
 
@@ -33,4 +36,7 @@ export default class Button{
     static alternate_option(request_id){
         return `a[request-id=${request_id}] button.quest-status.alternate-option`;
     }    
+    static declined_option(request_id){
+        return `a[request-id=${request_id}] button.quest-status.declined`;
+    }
 }
