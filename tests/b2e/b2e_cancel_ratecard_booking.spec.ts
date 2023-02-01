@@ -3,7 +3,8 @@ import ENV  from '@utils/env';
 
 
  test.describe("Test Suite Cancel ratecard booking for B2E", () => {
-
+   test.slow();
+   
    ENV.B2E_USER =`bill_doe@nt1req.com`;
    
    test("Request a ratecard", async ({webActions, b2eHomePage, b2eSearchPage, b2ePropertyDetailPage, requestEndpoints}) => {

@@ -3,7 +3,7 @@ import ENV  from '@utils/env';
 
 
 test.describe("Test Suite Book an alternate ratecard for B2E", () => {
-    //test.slow();
+    test.slow();
 
    ENV.B2E_USER =`jane_doe@nt1req.com`;
 
