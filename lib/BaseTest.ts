@@ -15,6 +15,9 @@ import PropertyPage from "@enterprise_pages/PropertyPage";
 import WebActions from "../lib/WebActions";
 import MyAccount from "@enterprise_pages/MyAccountPage";
 import RegistrationPage from "@enterprise_pages/RegistrationPage";
+import Company from "@enterprise_pages/CompanyPage";
+import User from "@enterprise_pages/UserPage";
+import PasswordReset from "@enterprise_pages/PasswordResetPage";
 import B2eHomePage from "@b2e_pages/B2eHomePage";
 import B2eSearchPage from "@b2e_pages/B2eSearchPage";
 import B2ePropertyDetailPage from "@b2e_pages/B2ePropertyDetailPage";
@@ -40,7 +43,10 @@ const test = baseTest.extend<{
     property: PropertyPage;
     webActions: WebActions;
     myAccount: MyAccount;
+    company: Company;
     registration: RegistrationPage;
+    user: User;
+    passwordReset: PasswordReset;
     b2eHomePage: B2eHomePage;
     b2eSearchPage: B2eSearchPage;
     b2ePropertyDetailPage: B2ePropertyDetailPage;
@@ -97,6 +103,15 @@ const test = baseTest.extend<{
     },
     registration: async ({ page }, use) => {
         await use(new RegistrationPage (page));
+    },
+    company: async ({ page }, use) => {
+        await use(new Company (page));
+    }, 
+    user: async ({ page }, use) => {
+        await use(new User (page));
+    },
+    passwordReset: async ({ page }, use) => {
+        await use(new PasswordReset (page));
     },
     b2eHomePage: async ({ page }, use) => {
         await use(new B2eHomePage(page));

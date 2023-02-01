@@ -34,9 +34,4 @@ export default class Registration {
         await expect(await this.page.locator(Text.registration_complete)).toBeVisible();
     }
 
-    async generateSupplierData(): Promise<void> {
-        ENV.SUPPLIER_COMPANY = `auto-supplier-company-${chance.string({length: 6, casing: "lower", numeric: true,})}`;
-        ENV.SUPPLIER_ADMIN = `supplieradminuser@${ENV.SUPPLIER_COMPANY}.com`;
-    }
-
 }
