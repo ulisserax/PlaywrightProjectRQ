@@ -27,7 +27,7 @@ test.describe("Create Hotel request, cancel reservation and validate emails", ()
         await hotelSearchPage.searchHotelRoomProcess();
         count = await hotelSearchPage.unavailableRoom();
         if(count!=0){
-            console.info(`No availabe rooms...`);
+            console.info(`No available rooms...`);
             test.skip();
         }
         await hotelSearchPage.bookHotelRoom();
