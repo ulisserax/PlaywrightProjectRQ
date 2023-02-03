@@ -27,6 +27,13 @@ export default class Element{
     static option_availability_message     = `//div[contains(text(),'remaining to confirm option availability')]`;
     static table_option_declined           = `table#all_options tbody tr.corporate-option.unavailable`;
     static invitation_form                 = `#invitation-form`;
-    static invitation_sent                 = `//div[contains(text(),'sent successfully')]`;  
+    static invitation_sent                 = `//div[contains(text(),'sent successfully')]`;
     static hotel_rooms_available           = `div.hotel-rooms-available`; 
+    static company_form_title              = `//h1[contains(text(),'Update Company')]`;
+    static new_company_country             = `//div[contains(text(),'United States')]`;
+    static default_washer_dryer            = `//div[@id='s2id_form_default_washer_dryer']`;  
+    static profile_timezone                = `#s2id_form_timezone`;
+    static profile_company                 = `#s2id_form_company`;
+    static confirm_password_reset          = `//h3[contains(text(),"password successfully")]`;
+    static edit_user                       = `.profile-actions-td .edit`;
 }

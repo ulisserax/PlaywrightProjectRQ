@@ -17,4 +17,6 @@ export default class Link{
     static register             = `//a[contains(@href,'reloquest.com/registration/register')]`;
     static terms_of_service     = `//a[contains(text(),'Terms of Service')]`;
     static activate_account     = `//a[contains(text(), 'Activate My Account')]`;
+    static tab_settings         = `//a[text() = 'Settings']`;
+    static passwordReset        = `//a[contains(@href,'reloquest.com/password_reset')]`;
 }

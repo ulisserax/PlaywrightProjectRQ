@@ -1,10 +1,12 @@
 import test from '@lib/BaseTest';
-import ENV from '@utils/env'
+import ENV from '@utils/env';
+const Chance = require("chance");
+const chance = new Chance();
 
-
-test.describe ("Create Supplier company and Supplier admin user by invitation", () => {
-let registerLink;
-let subject;
+test.describe.only ("Create Supplier company and Supplier admin user by invitation", () => {
+let registerLink, subject;
+let supplierCompany = 'auto-supplier-company-' + chance.string({length: 6, numeric: true});
+let supplierAdmin   = 'supplieradminuser@' + supplierCompany + '.com';
 
     test ("Submit Supplier invitation by email",async ({webActions, homePage, myAccount, dashboard, registration, configurationInstance})=> {
         await webActions.navigateTo(ENV.BASE_URL);
@@ -12,8 +14,7 @@ let subject;
         await homePage.signIn();
         await dashboard.clickMyAccountTab();
         await myAccount.inviteUser();
-        await registration.generateSupplierData();
-        await myAccount.fillSupplierInvitationNewCompany(ENV.SUPPLIER_ADMIN, ENV.SUPPLIER_FIRST_NAME, ENV.SUPPLIER_LAST_NAME, ENV.SUPPLIER_COMPANY);
+        await myAccount.fillSupplierInvitationNewCompany(supplierAdmin, supplierCompany);
         await myAccount.submitInvitation();
         await myAccount.verifyInvitationSubmitted;
         await webActions.navigateTo(`${ENV.BASE_URL}/configuration/instance`);
@@ -23,7 +24,7 @@ let subject;
     test ("Complete Supplier user and company information", async ({mailCatcher, webActions,registration}) => {
         await mailCatcher.openMailCatcher(ENV.MAILCATCHER_URL);
         subject = `Your special invitation to ReloQuest`;
-        await mailCatcher.searchEmail(ENV.SUPPLIER_ADMIN,subject);
+        await mailCatcher.searchEmail(supplierAdmin,subject);
         registerLink = await mailCatcher.getRegisterLink();
         await webActions.navigateTo(registerLink);
         await registration.verifySupplierRegistrationPage();
@@ -33,7 +34,7 @@ let subject;
 
     test ("Verify New Supplier user", async ({webActions, homePage, dashboard}) => {
         await webActions.navigateTo(ENV.BASE_URL);
-        await homePage.enterCredentials(ENV.SUPPLIER_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);
+        await homePage.enterCredentials(supplierAdmin, ENV.SUPPLIER_ADMIN_PASSWORD);
         await homePage.signIn();
         await homePage.acceptTermsOfService();
         await dashboard.validateDashboard();

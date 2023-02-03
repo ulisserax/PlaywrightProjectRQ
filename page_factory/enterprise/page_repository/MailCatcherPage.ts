@@ -42,9 +42,15 @@ export default class MailCatcher{
     }
 
     async getRegisterLink():Promise<string>{
-        console.info(`Get the registration link form the email body`);
+        console.info(`Get the registration link from the email body`);
         await expect(await this.page.frameLocator(Iframe.email_body).locator(Link.register).first().getAttribute('href')).toContain(`reloquest.com/registration/register`);
         return await this.page.frameLocator(Iframe.email_body).locator(Link.register).first().getAttribute('href');
+    }
+
+    async getPasswordResetLink():Promise<string>{
+        console.info(`Get the password reset link from the email body`);
+        await expect(await this.page.frameLocator(Iframe.email_body).locator(Link.passwordReset).getAttribute('href')).toContain(`reloquest.com/password_reset`);
+        return await this.page.frameLocator(Iframe.email_body).locator(Link.passwordReset).getAttribute('href');
     }
 
     async verifyEmailToSupplierForDeadlineUpdate(email:string, subject:string, request_id:string, supplier_domain:string): Promise<void>{
