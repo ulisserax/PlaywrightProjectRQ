@@ -26,6 +26,8 @@ import B2eBookingPage from "@b2e_pages/B2eBookingPage";
 import B2eQuestDetailsPage from "@b2e_pages/B2eQuestDetailsPage";
 import ReservationEndpoints from "@api/ReservationEndpoints";
 import RequestEndpoints from "@api/RequestEndpoints";
+import B2eLoginPage from "@b2e_pages/B2eLoginPage";
+import B2eProfilePage from "@b2e_pages/B2eProfilePage";
 
 const test = baseTest.extend<{
     homePage: HomePage;
@@ -53,6 +55,8 @@ const test = baseTest.extend<{
     b2eQuestsPage: B2eQuestsPage;
     b2eBookingPage: B2eBookingPage;
     b2eQuestDetailsPage: B2eQuestDetailsPage;
+    b2eLoginPage: B2eLoginPage;
+    b2eProfilePage: B2eProfilePage;
     reservationEndpoints: ReservationEndpoints;
     requestEndpoints: RequestEndpoints;
 }>({
@@ -131,9 +135,16 @@ const test = baseTest.extend<{
     b2eQuestDetailsPage: async ({ page }, use) => {
         await use(new B2eQuestDetailsPage(page));
     },
+    b2eLoginPage: async ({ page }, use) => {
+        await use(new B2eLoginPage(page));
+    },
+    b2eProfilePage: async ({ page }, use) => {
+        await use(new B2eProfilePage(page));
+    },
     reservationEndpoints: async ({ request }, use) => {
         await use(new ReservationEndpoints(request));
-    },requestEndpoints: async ({ request }, use) => {
+    },
+    requestEndpoints: async ({ request }, use) => {
         await use(new RequestEndpoints(request));
     }
 });

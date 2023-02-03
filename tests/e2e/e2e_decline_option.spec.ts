@@ -36,7 +36,7 @@ import ENV  from '@utils/env';
         await requestShow.bidOption();
         await option.clickNewProperty();
         await property.fillPropertyOverview('miami beach','Yes','Central A/C','1 bedroom','No Pets');
-        await property.addImage(`images/property2.jpeg`);
+        await property.addImage(`images/property1.jpeg`);
         await property.cancellationAndTaxFeePolicy();
         await option.fillContactInformation(ENV.SUPPLIER_EMAIL);
         await property.createNewProperty();

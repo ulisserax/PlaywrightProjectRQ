@@ -24,7 +24,7 @@ export default class MailCatcher{
         await this.page.click(Text.first_email);
         await this.page.waitForLoadState('domcontentloaded');
         await WebActions.delay(500);
-        await expect(await this.page.locator(Text.email_to).textContent()).toContain(`<${email}>`);
+        await expect(await this.page.locator(Text.email_to).textContent()).toContain(`<${email.toLocaleLowerCase()}>`);
         await expect(await this.page.locator(Text.email_subject).textContent()).toContain(`${subject}`);
         
     }
@@ -33,6 +33,12 @@ export default class MailCatcher{
         console.info(`Get the share option link from the email body.`);
         await expect(await this.page.frameLocator(Iframe.email_body).locator(Link.share_link).textContent()).toContain(`reloquest.com/request/show/${request_id}?token`);
         return await this.page.frameLocator(Iframe.email_body).locator(Link.share_link).textContent();
+    }
+
+    async activateAccount():Promise<string>{
+        console.info(`Activate B2E account`);
+        await expect(await this.page.frameLocator(Iframe.email_body).locator(Link.activate_account).first().getAttribute('href')).toContain(`verify-account`);
+        return await this.page.frameLocator(Iframe.email_body).locator(Link.activate_account).first().getAttribute('href');
     }
 
     async getRegisterLink():Promise<string>{
