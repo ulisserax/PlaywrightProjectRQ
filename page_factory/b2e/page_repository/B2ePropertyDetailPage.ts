@@ -41,6 +41,28 @@ export default class B2ePropertyDetailPage {
         await expect(await this.page.context().pages()[1].locator(Text.requested).count()).toEqual(1);
     }
 
+    async viewRooms(){
+        console.info(`Viewing rooms`);
+        await WebActions.delay(700);
+        await this.page.context().pages()[1].waitForSelector(Button.view_rooms);
+        await this.page.context().pages()[1].click(Button.view_rooms);
+        await WebActions.delay(1400);
+    }
+
+    async bookThisRoom(){
+        console.info(`Booking the first option`);
+        await this.page.context().pages()[1].locator(Button.book_this_option).first().click();
+        if(await this.page.context().pages()[1].locator(Element.are_you_sure_modal).isVisible()){
+            await this.page.context().pages()[1].click(Button.continue);
+        }
+    }
+
+    async unavailableRooms() : Promise<number>{
+        console.info(`Getting rooms count`);
+        console.info(await this.page.context().pages()[1].locator(Button.book_this_option).count());
+        return await this.page.context().pages()[1].locator(Button.book_this_option).count();
+    }
+
     async closeTab(){
         console.info(`Closing current tab`);
         await this.page.context().pages()[1].close();

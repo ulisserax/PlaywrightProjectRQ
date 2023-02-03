@@ -24,6 +24,10 @@ export default class Button{
     static requested_options     = `//button[contains(text(),'REQUESTED OPTIONS')]`;
     static request_again         = `//a[contains(text(),'REQUEST AGAIN')]`;
     static yes_cancel_quest      = `//button[contains(text(),'YES, CANCEL QUEST')]`;
+    static sort                  = `//app-text-select[@formcontrolname='sort']`;
+    static hotel_details         = `//app-hotel-card//a[contains(text(),'DETAILS')]`;
+    static view_rooms            = `//button[contains(text(),'VIEW ROOMS')]`;
+    static book_this_option      = `//button[contains(text(),'BOOK THIS')]`;
     
 
 

@@ -7,6 +7,8 @@ import Button from "../object_repository/Button";
 import Element from "../object_repository/Element";
 import ENV from "@utils/env";
 import Link from "@b2e_objects/Link";
+const Chance = require ('chance');
+const chance = new Chance();
 
 export default class B2eSearchPage {
 
@@ -20,10 +22,10 @@ export default class B2eSearchPage {
         console.info(`Searching ${destination} ratecards`);
         await this.page.waitForLoadState(`domcontentloaded`);
         //await this.page.waitForLoadState(`networkidle`);
-        await WebActions.delay(700);
+        await WebActions.delay(900);
         //await expect(await this.page.url()).toContain(`${ENV.B2E_URL}/b2e/search`);
         await this.page.waitForSelector(Input.search_location);
-        await this.page.type(Input.search_location, `${destination}`, {delay:50});
+        await this.page.type(Input.search_location, `${destination}`, {delay:80});
         await this.page.waitForSelector(Element.destination_places);
         await this.page.locator(Element.destination_places).first().click();
         await this.page.click(Button.next);
@@ -46,6 +48,15 @@ export default class B2eSearchPage {
         await this.page.click(Button.next);
     }
 
+    async hotelOptions(): Promise<void>{
+        console.info(`Customizing the housing options`);
+        await this.page.waitForLoadState(`domcontentloaded`);
+        await expect(await this.page.locator(Text.customize_housing_options).textContent()).toContain(`Customize your housing`);
+        await this.page.click(Checkbox.include_corporate_apartment);
+        await this.page.click(Button.plus_adults);
+        await this.page.click(Button.next);
+    }
+
     async selectRatecard(): Promise<void>{
         console.info(`Selecting first ratecard`);
         await this.page.waitForLoadState(`domcontentloaded`);
@@ -54,9 +65,25 @@ export default class B2eSearchPage {
         let currentPage = await this.page.url();
         ENV.REQUEST_ID = await WebActions.getRequestId(currentPage);
         ENV.PROPERTY_NAME = await this.page.context().pages()[1].locator(Text.property_name).textContent();
-        ENV.PROPERTY_ADDRESS = await this.page.context().pages()[1].locator(Text.proeprty_address).textContent();
+        ENV.PROPERTY_ADDRESS = await this.page.context().pages()[1].locator(Text.property_address).textContent();
         console.log(ENV.PROPERTY_NAME);
         console.log(ENV.PROPERTY_ADDRESS.trim());  
+    }
+
+    async selectHotel(): Promise<void>{
+        console.info(`Selecting a random hotel`);
+        await this.page.waitForLoadState(`domcontentloaded`);
+        await WebActions.delay(1000);
+        let hotel_count = await this.page.locator(Button.hotel_details).count();
+        console.info(hotel_count);
+        await this.page.locator(Button.hotel_details).nth(chance.integer({min:1, max:hotel_count-1})).click();
+        await WebActions.delay(1000); 
+        let currentPage = await this.page.url();
+        ENV.REQUEST_ID = await WebActions.getRequestId(currentPage);
+        ENV.PROPERTY_NAME = await this.page.context().pages()[1].locator(Text.property_name).textContent();
+        ENV.PROPERTY_ADDRESS = await (await this.page.context().pages()[1].locator(Text.property_address).textContent()).trim();
+        console.log(ENV.PROPERTY_NAME);
+        console.log(ENV.PROPERTY_ADDRESS);  
     }
 
     async viewAllQuests(){
@@ -105,6 +132,17 @@ export default class B2eSearchPage {
         await expect(await this.page.locator(Button.request_again).count()).toEqual(1);
         await this.page.click(Button.request_again);
         await this.page.waitForLoadState('domcontentloaded');
+    }
+
+    async sort(by: string){
+        console.info(`Sorting properties result by: '${by}'`);
+        await this.page.waitForLoadState(`domcontentloaded`);
+        await this.page.waitForSelector(Button.hotel_details);
+        await WebActions.delay(300);
+        await this.page.click(Button.sort);
+        await WebActions.delay(300);
+        await this.page.click(Text.sortBy(by));
+        await WebActions.delay(500);
     }
 
    

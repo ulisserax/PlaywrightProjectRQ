@@ -18,6 +18,14 @@ export default class B2eQuestDetailsPage {
         this.page = page;        
     }
 
+    async getReservationId(){
+        console.info(`Getting the reservation id`);
+        let booking_number = await this.page.context().pages()[1].locator(Text.booking_id).textContent();
+        let start = booking_number.search('#');
+        ENV.RESERVATION_ID = booking_number.substring(start+1, start+10);
+        console.info(ENV.RESERVATION_ID);
+    }
+
     async verifyPendingQuest(){
         console.info(`Verifying pending quest`);
         await this.page.waitForSelector(Element.quest_detail_section);
@@ -31,15 +39,23 @@ export default class B2eQuestDetailsPage {
         console.info(`Verifying future quest`);
         //await this.page.waitForLoadState(`networkidle`);
         await this.page.waitForLoadState(`domcontentloaded`);
-        await WebActions.delay(1000)
+        await WebActions.delay(1000);
         await this.page.waitForSelector(Text.future_quest);
         await expect(await this.page.locator(Text.future_quest).count()).toEqual(1);
     }
 
     async viewQuestDetails(){
         console.info(`Viewing quest details`);
+        await WebActions.delay(1000);
         await this.page.waitForSelector(Button.quest_details);
         await this.page.click(Button.quest_details);
+    }
+
+    async viewQuestDetailsSecond(){
+        console.info(`Viewing quest details`);
+        await WebActions.delay(1000);
+        await this.page.context().pages()[1].waitForSelector(Button.quest_details);
+        await this.page.context().pages()[1].click(Button.quest_details);
     }
 
     async verifyPaymentMethod(cc_last_digit:string){
@@ -79,6 +95,23 @@ export default class B2eQuestDetailsPage {
         console.info(`Closing the quest details`);
         await this.page.waitForSelector(Element.close);
         await this.page.click(Element.close);
+    }
+
+    async closeQuestDetailsSecond(){
+        console.info(`Closing the quest details`);
+        await this.page.context().pages()[1].waitForSelector(Element.close);
+        await this.page.context().pages()[1].click(Element.close);
+        await this.page.context().pages()[1].waitForLoadState(`domcontentloaded`);
+        await WebActions.delay(3500);
+    }
+
+    async verifyQuestDetails(reservation_id:string, property_name: string, property_address:string){
+        console.info(`Verifying reservation, property name and propert address`);
+        await WebActions.delay(700);
+        await this.page.context().pages()[1].waitForLoadState(`networkidle`);
+        await expect(await this.page.context().pages()[1].locator(Text.questDetails(`Reservation #${reservation_id}`)).count()).toBeGreaterThan(0);
+        await expect(await this.page.context().pages()[1].locator(Text.questDetails(property_name)).count()).toBeGreaterThan(0);
+        await expect(await this.page.context().pages()[1].locator(Text.questDetails(property_address)).count()).toBeGreaterThan(0);
     }
     
 }
