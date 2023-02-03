@@ -1,5 +1,6 @@
 import Input from "@b2e_objects/Input";
-import { expect, Page } from "@playwright/test";
+import Link from "@b2e_objects/Link";
+import { Page } from "@playwright/test";
 import Button from "../object_repository/Button";
 
 export default class B2eHomePage {
@@ -22,12 +23,24 @@ export default class B2eHomePage {
         await this.page.type(Input.user_email_address, username);
         await this.page.type(Input.user_password, password);
    }
+   async enterPassword( password: string ): Promise<void>{
+        console.info(`Entering password`);
+        await this.page.type(Input.user_password, password);
+    }
 
     async signIn(): Promise<void>{
         console.info(`Clicking login button`);
         await this.page.click(Button.login);
-        // await this.page.waitForLoadState('networkidle');
-        // await this.page.waitForLoadState('domcontentloaded');
     }
+    
+    async register(): Promise<void>{
+        console.info(`Clicking register link`);
+        await this.page.click(Link.register);
+    } 
+
+    async forgotPassword(): Promise<void>{
+        console.info(`Clicking forgot password link`);
+        await this.page.click(Link.forgot_password);
+    } 
 
 }

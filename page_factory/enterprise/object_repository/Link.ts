@@ -16,4 +16,5 @@ export default class Link{
     static back_to_search_results = `//a[contains(text(),'Back to Search Results')]`;
     static register             = `//a[contains(@href,'reloquest.com/registration/register')]`;
     static terms_of_service     = `//a[contains(text(),'Terms of Service')]`;
+    static activate_account     = `//a[contains(text(), 'Activate My Account')]`;
 }

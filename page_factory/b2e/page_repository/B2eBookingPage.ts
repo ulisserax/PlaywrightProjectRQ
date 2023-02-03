@@ -6,7 +6,6 @@ import Text from "@b2e_objects/Text";
 import Link from "@b2e_objects/Link";
 import WebActions from "@lib/WebActions";
 import { expect, Page } from "@playwright/test";
-import ENV from "@utils/env";
 import Button from "../object_repository/Button";
 const Chance = require ('chance');
 const chance = new Chance();
@@ -67,16 +66,33 @@ export default class B2eBookingPage {
     
     async cancelQuest(){
         console.info(`Cancelling pending quest`);
-        await WebActions.delay(2500);
+        await WebActions.delay(1500);
         await this.page.context().pages()[1].waitForSelector(Link.cancel_this_quest);
         await this.page.context().pages()[1].click(Link.cancel_this_quest);
-        await WebActions.delay(1000);
+        await WebActions.delay(400);
         await this.page.context().pages()[1].waitForSelector(Button.yes_cancel_quest);
         await this.page.context().pages()[1].click(Button.yes_cancel_quest);
-        await WebActions.delay(500);
+        await WebActions.delay(400);
         await this.page.context().pages()[1].waitForSelector(Text.canceled_quest);
         await expect(await this.page.context().pages()[1].locator(Text.canceled_quest).count()).toEqual(1);
         
+    }
+
+    async cancelHotelQuest(){
+        await WebActions.delay(1500);
+        if (await this.page.context().pages()[1].locator(Text.pending_quest).count()==0){
+            console.info(`Cancelling hotel quest`);
+            await this.page.context().pages()[1].waitForSelector(Link.cancel_this_quest);
+            await this.page.context().pages()[1].click(Link.cancel_this_quest);
+            await WebActions.delay(400);
+            await this.page.context().pages()[1].waitForSelector(Button.yes_cancel_quest);
+            await this.page.context().pages()[1].click(Button.yes_cancel_quest);
+            await WebActions.delay(400);
+            await this.page.context().pages()[1].waitForSelector(Text.canceled_quest);
+            await expect(await this.page.context().pages()[1].locator(Text.canceled_quest).count()).toEqual(1);
+        }else{
+            console.info(`Reservation in pending can't be cancelled`);
+        }
     }
 
 

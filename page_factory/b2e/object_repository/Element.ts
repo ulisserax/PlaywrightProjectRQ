@@ -13,6 +13,7 @@ export default class Element{
     static close                     = `div.icon-B2E-icons_Close`;
     static alternate_option_card     = `//app-corporate-card//div[contains(text(),'Alternate Option')]`;
     static unavailable_option_card   = `//app-corporate-card//div[contains(text(),'Option Unavailable')]`;
+    static check_your_email          = `div#registerSuccessNotification div#register-notification`;
 
     static quests_card(request_id){
         return `a[request-id=${request_id}]`;
