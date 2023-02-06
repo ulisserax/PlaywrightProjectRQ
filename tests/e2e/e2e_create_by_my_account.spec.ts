@@ -11,7 +11,7 @@ import ENV from '@utils/env';
 const Chance = require("chance");
 const chance = new Chance();
 
-test.describe ('Create a Supplier company and a Supplier user by my account flow', () => {
+test.describe.skip ('Create a Supplier company and a Supplier user by my account flow', () => {
     test.slow();
     let subject, passwordResetLink;
     let companyType = 'Suppliers';

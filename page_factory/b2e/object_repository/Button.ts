@@ -28,6 +28,8 @@ export default class Button{
     static hotel_details         = `//app-hotel-card//a[contains(text(),'DETAILS')]`;
     static view_rooms            = `//button[contains(text(),'VIEW ROOMS')]`;
     static book_this_option      = `//button[contains(text(),'BOOK THIS')]`;
+    static register              = `//button[contains(text(),'REGISTER')]`;
+    static save                  = `//div[@class='modal-footer']//button[contains(text(),'SAVE')]`;
     
 
 

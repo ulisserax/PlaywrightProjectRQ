@@ -5,7 +5,6 @@ import WebActions from "@lib/WebActions";
 import { expect, Page } from "@playwright/test";
 import Button from "../object_repository/Button";
 import Element from "../object_repository/Element";
-import ENV from "@utils/env";
 
 export default class B2ePropertyDetailPage {
 
@@ -43,10 +42,10 @@ export default class B2ePropertyDetailPage {
 
     async viewRooms(){
         console.info(`Viewing rooms`);
-        await WebActions.delay(700);
+        await WebActions.delay(2500);
         await this.page.context().pages()[1].waitForSelector(Button.view_rooms);
         await this.page.context().pages()[1].click(Button.view_rooms);
-        await WebActions.delay(1400);
+        await WebActions.delay(1000);
     }
 
     async bookThisRoom(){

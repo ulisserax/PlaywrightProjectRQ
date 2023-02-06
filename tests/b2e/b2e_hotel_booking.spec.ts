@@ -2,7 +2,7 @@ import test  from '@lib/BaseTest';
 import ENV  from '@utils/env';
 
 
-test.describe("Test Suite Decline ratecard booking gfor B2E", () => {
+test.describe("Test Suite Hotel booking for B2E", () => {
   test.slow();
 
    ENV.B2E_USER =`jess_doe@nt1req.com`;
@@ -31,7 +31,7 @@ test.describe("Test Suite Decline ratecard booking gfor B2E", () => {
       await b2eQuestDetailsPage.viewQuestDetailsSecond();
       await b2eQuestDetailsPage.verifyQuestDetails(ENV.RESERVATION_ID, ENV.PROPERTY_NAME, ENV.PROPERTY_ADDRESS);
       await b2eQuestDetailsPage.closeQuestDetailsSecond();
-      await b2eBookingPage.cancelQuest();
+      await b2eBookingPage.cancelHotelQuest();
    })
 
    

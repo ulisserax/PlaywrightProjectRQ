@@ -7,6 +7,7 @@ import Button from "../object_repository/Button";
 import Element from "../object_repository/Element";
 import ENV from "@utils/env";
 import Link from "@b2e_objects/Link";
+import Dropdown from "@b2e_objects/Dropdown";
 const Chance = require ('chance');
 const chance = new Chance();
 
@@ -16,6 +17,13 @@ export default class B2eSearchPage {
 
     constructor(page:Page ){
         this.page = page;        
+    }
+
+    async validateUrl(url: string){
+        console.info(`Validate url`);
+        await this.page.waitForLoadState(`domcontentloaded`);
+        await WebActions.delay(1900);
+        await expect(await this.page.url()).toContain(url);
     }
 
     async searchDestination(destination: string): Promise<void>{
@@ -73,6 +81,7 @@ export default class B2eSearchPage {
     async selectHotel(): Promise<void>{
         console.info(`Selecting a random hotel`);
         await this.page.waitForLoadState(`domcontentloaded`);
+        await this.page.waitForLoadState(`networkidle`);
         await WebActions.delay(1000);
         let hotel_count = await this.page.locator(Button.hotel_details).count();
         console.info(hotel_count);
@@ -143,6 +152,15 @@ export default class B2eSearchPage {
         await WebActions.delay(300);
         await this.page.click(Text.sortBy(by));
         await WebActions.delay(500);
+    }
+
+    async openProfile(){
+        console.info(`Openning the user profile`);
+        await this.page.waitForLoadState(`domcontentloaded`);
+        await this.page.waitForSelector(Dropdown.user_name);
+        await this.page.click(Dropdown.user_name);
+        await this.page.click(Link.profile);
+        await WebActions.delay(300);
     }
 
    
