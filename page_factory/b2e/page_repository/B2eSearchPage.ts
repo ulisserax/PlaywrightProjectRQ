@@ -22,8 +22,7 @@ export default class B2eSearchPage {
     async validateUrl(url: string){
         console.info(`Validate url`);
         await this.page.waitForLoadState(`domcontentloaded`);
-        await this.page.waitForLoadState(`networkidle`);
-        await WebActions.delay(900);
+        await WebActions.delay(1900);
         await expect(await this.page.url()).toContain(url);
     }
 

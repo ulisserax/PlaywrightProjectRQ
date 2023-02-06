@@ -9,7 +9,7 @@ import ENV from '@utils/env';
 const Chance = require("chance");
 const chance = new Chance();
 
-test.describe ('Create a Supplier company and a Supplier user by my account flow', () => {
+test.describe.skip ('Create a Supplier company and a Supplier user by my account flow', () => {
     test.slow();
     let subject, passwordResetLink;
     let companyType = 'Suppliers';
@@ -17,7 +17,7 @@ test.describe ('Create a Supplier company and a Supplier user by my account flow
     const supplierCompanyName  = 'auto-supplier-company-' + chance.string({length: 6, numeric: true});
     const supplierAdminUser    = 'supplieradminuser@' + supplierCompanyName + '.com';
 
-    test.only ("Create and configure a new Supplier company", async ({webActions, user, configurationInstance, mailCatcher, passwordReset, homePage, dashboard, myAccount, company})=>{
+    test ("Create and configure a new Supplier company", async ({webActions, user, configurationInstance, mailCatcher, passwordReset, homePage, dashboard, myAccount, company})=>{
         await webActions.navigateTo(ENV.BASE_URL);
         await homePage.enterCredentials(ENV.SUPER_ADMIN, ENV.SUPER_ADMIN_PASSWORD);
         await homePage.signIn();

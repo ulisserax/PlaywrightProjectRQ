@@ -7,7 +7,7 @@ const config : PlaywrightTestConfig = {
     testDir: "tests/e2e",
     reporter:[['html', {open: "never"}]],
     use: {
-        headless: true,
+        headless: false,
         //viewport:{width:1280, height:720},
         actionTimeout:100000,
         ignoreHTTPSErrors:true,
