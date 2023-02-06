@@ -24,7 +24,7 @@ export default class MailCatcher{
         await this.page.click(Text.first_email);
         await this.page.waitForLoadState('domcontentloaded');
         await WebActions.delay(500);
-        await expect(await this.page.locator(Text.email_to).textContent()).toContain(`<${email.toLocaleLowerCase()}>`);
+        await expect(await (await this.page.locator(Text.email_to).textContent()).toLocaleLowerCase()).toContain(`<${email.toLocaleLowerCase()}>`);
         await expect(await this.page.locator(Text.email_subject).textContent()).toContain(`${subject}`);
         
     }
