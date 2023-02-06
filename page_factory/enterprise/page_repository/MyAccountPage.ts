@@ -67,18 +67,19 @@ export default class MyAccount {
 
     async filterUser(user: string): Promise<void>{
         console.info(`Filtering users.`);
-        await this.page.type(Input.user_filter, user, {delay:100});
-        await WebActions.delay(700);
+        await this.page.type(Input.user_filter, user, {delay:90});
+        await WebActions.delay(600);
+        await this.page.waitForLoadState('networkidle');
         await this.page.keyboard.press('Enter');
-        await WebActions.delay(700);
+        await WebActions.delay(600);
         await this.page.waitForLoadState("domcontentloaded");
         await this.page.waitForLoadState("networkidle");
     }
 
-    async clickOnEditUser(): Promise<void>{
+    async clickOnEditUser(supplierAdminUser: string): Promise<void>{
         console.info(`Clicking on edit user.`); 
-        await WebActions.delay(700);
-        await this.page.click(Element.edit_user);
+        await WebActions.delay(800);
+        await this.page.click(`//td[contains(text(),'${supplierAdminUser}')]/following-sibling::td/div/a[contains(text(),'Edit')]`);
         await this.page.waitForLoadState("domcontentloaded");
         await this.page.waitForLoadState("networkidle");
         await expect(await this.page).toHaveURL(/\/edit/);
