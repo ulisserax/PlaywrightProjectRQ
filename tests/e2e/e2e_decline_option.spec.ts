@@ -4,7 +4,8 @@ import ENV  from '@utils/env';
 
  test.describe("Test Suite Decline Option", () => {
 
-    let guest_email = ENV.GUEST_EMAIL;
+    let guest_email   = ENV.GUEST_EMAIL;
+    const property_name = ENV.SUPPLIER_COMPANY + "Property_#";
 
 
     test("Create a new Request", async({webActions, homePage, dashboard, newRequest, requestShow}) =>{
@@ -35,7 +36,7 @@ import ENV  from '@utils/env';
         await requestShow.verifyOptionSubmitted();
         await requestShow.bidOption();
         await option.clickNewProperty();
-        await property.fillPropertyOverview('miami beach','Yes','Central A/C','1 bedroom','No Pets');
+        await property.fillPropertyOverview(property_name, 'miami beach','Yes','Central A/C','1 bedroom','No Pets');
         await property.addImage(`images/property1.jpeg`);
         await property.cancellationAndTaxFeePolicy();
         await option.fillContactInformation(ENV.SUPPLIER_EMAIL);

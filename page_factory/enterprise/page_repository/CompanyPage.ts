@@ -64,6 +64,8 @@ export default class Company {
         await this.page.keyboard.press('ArrowDown');
         await this.page.keyboard.press('Enter');
         await this.page.click(Button.enable_default_images);
+        await this.page.fill(Input.description_min, '');
+        await this.page.type(Input.description_min, '10');
         await this.page.click(Button.ratecards_without_images);
         await this.page.click(Button.update_company_settings);
     }

@@ -83,7 +83,7 @@ export default class Button{
     static properties_requested      = `a#properties_requested`;
     static bid_with_this_property    = `div#properties-container a`;
     static invite_user               = `#button_invite_user`;
-    static create_account            = `button#form_submit`
+    static create_account            = `button#form_submit`;
     static accept_term               = `#accept_term_v2`;
     static add_company               = `#button_new_company`;
     static use_request_dates         = `.bootstrap-switch-id-form_use_request_dates_when_bidding`;
@@ -92,4 +92,6 @@ export default class Button{
     static ratecards_without_images  = `.bootstrap-switch-id-form_includeNoImagesRateCard`;
     static update_company_settings   = `//div[contains(@class,'tab-pane well active')]//a[@id='button_cancel']/preceding-sibling::button[contains(text(),'Update')]`;
     static new_user                  = `#button_new_user`;
+    static add_property              = `#button_add_property`;
+    static add_an_area               = `#button_add_area`;
 }

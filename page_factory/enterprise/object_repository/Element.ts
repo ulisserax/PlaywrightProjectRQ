@@ -36,4 +36,5 @@ export default class Element{
     static profile_company                 = `#s2id_form_company`;
     static confirm_password_reset          = `//h3[contains(text(),"password successfully")]`;
     static edit_user                       = `.profile-actions-td .edit`;
+    static areas_of_coverage               = `//h1[contains(text(),'Areas of Coverage')]`;
 }

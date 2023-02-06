@@ -1,6 +1,6 @@
 export default class Link{
     static createAccount        = `.register-btn`;
-    static forgotPassword       = `.forgot-pass-container a`;
+    static forgotPassword       = `.forgot-pass-containr a`;
     static desired_location     = `div.pac-item`;
     static request_id           = `td.request_uid a`;
     static reservation_id       = `td.reservation_uid a`;
@@ -16,7 +16,10 @@ export default class Link{
     static back_to_search_results = `//a[contains(text(),'Back to Search Results')]`;
     static register             = `//a[contains(@href,'reloquest.com/registration/register')]`;
     static terms_of_service     = `//a[contains(text(),'Terms of Service')]`;
+    static privacy_policy       = `//div[@class='login-container']//a[contains(text(),'Privacy Policy')]`;
+    static terms_of_use         = `//div[@class='login-container']//a[contains(text(),'Terms of Use')]`;
+    static dpa                  = `//div[@class='login-container']//a[contains(text(),'Data Processing Addendum')]`;
     static activate_account     = `//a[contains(text(), 'Activate My Account')]`;
     static tab_settings         = `//a[text() = 'Settings']`;
-    static passwordReset        = `//a[contains(@href,'reloquest.com/password_reset')]`;
+    static passwordReset        = `//a[contains(@href,'reloquest.com/password_reset')]`;             
 }

@@ -13,8 +13,8 @@ export default class PasswordReset {
    async resetUserPassword():Promise<void>{
        console.info(`Reseting the user Password`);
        await this.page.waitForLoadState("domcontentloaded");
-       await this.page.type(Input.password, ENV.B2E_USER_PASSWORD);
-       await this.page.type(Input.confirm_password, ENV.B2E_USER_PASSWORD);
+       await this.page.type(Input.password, ENV.SUPPLIER_ADMIN_PASSWORD);
+       await this.page.type(Input.confirm_password, ENV.SUPPLIER_ADMIN_PASSWORD);
        await this.page.click(Input.submit_password);
    }
 

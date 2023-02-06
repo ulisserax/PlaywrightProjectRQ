@@ -19,10 +19,10 @@ export default class OptionPage {
       this.page = page;
    }
    
-   async fillPropertyOverview(location:string, background_req:string, air_conditioning:string, room_types:string, pet_policy:string ): Promise<void>{
+   async fillPropertyOverview(property_name:string, location:string, background_req:string, air_conditioning:string, room_types:string, pet_policy:string ): Promise<void>{
       console.info(`Filling the property overview`);
       let number = chance.integer({min:1,max:9999});
-      await this.page.type(Input.property_name, `NT1sup_Property_#${number}${chance.word({ length: 2 })}`);
+      await this.page.type(Input.property_name, `${property_name}_${number}${chance.word({ length: 2 })}`);
       await this.page.type(Input.property_location, `${location}`, {delay:40});
       await this.page.keyboard.press('ArrowDown');
       await WebActions.delay(400);
@@ -39,6 +39,9 @@ export default class OptionPage {
       if(pet_policy=='Pet Friendly'){
          await this.page.type(Textarea.pet_restictions, `max 50 pounds pets`, {delay:30});
       }
+      await this.page.type(Input.property_description, "This is a Property created by the Automation Project and it'll be used for for testing purposes only")
+      await this.page.type(Input.property_features, "This is a Property created by the Automation Project and it'll be used for for testing purposes only")
+      await this.page.type(Input.property_amenities, "This is a Property created by the Automation Project and it'll be used for for testing purposes only")
    }
 
    async cancellationAndTaxFeePolicy(): Promise<void>{
@@ -52,6 +55,14 @@ export default class OptionPage {
       await this.page.click(Button.create_property);
       await this.page.click(Button.close);
 
+   }
+
+   async clickAddProperty(): Promise<void>{
+      console.info(`Clicking on the Add Property button`);
+      await this.page.waitForLoadState('domcontentloaded');
+      await this.page.click(Button.add_property);
+      await this.page.waitForLoadState('domcontentloaded');
+      await this.page.waitForLoadState('networkidle');
    }
 
    async addImage(image_path:string): Promise<void>{

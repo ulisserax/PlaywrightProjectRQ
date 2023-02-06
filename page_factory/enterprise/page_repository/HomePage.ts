@@ -23,9 +23,26 @@ export default class HomePage {
           await this.page.waitForLoadState('networkidle');
      } 
 
-     async acceptTermsOfService(): Promise<void> {
-          console.info (`Verifying the Terms of Services acceptance`);
+     async acceptPrivacyAndTermsOfUse(): Promise<void>{
+          console.info (`Accepting the Pivacy Policy and Terms of Use`);
+          await this.page.waitForLoadState('domcontentloaded');
+          await expect(await this.page.locator(Link.privacy_policy)).toBeVisible();
+          await expect(await this.page.locator(Link.terms_of_use)).toBeVisible();;
+          await this.page.click(Button.accept_term);
+          
+     }
+
+     async acceptTermsOfService(): Promise<void>{
+          console.info (`Accepting the Terms of Services`);
+          await this.page.waitForLoadState('domcontentloaded');
           await expect(await this.page.locator(Link.terms_of_service)).toBeVisible();
+          await this.page.click(Button.accept_term);
+     }
+
+     async acceptDataProcessingAddendum(): Promise<void>{
+          console.info(`Accepting the Data Processing Addendum`);
+          await this.page.waitForLoadState('domcontentloaded');
+          await expect(await this.page.locator(Link.dpa)).toBeVisible();
           await this.page.click(Button.accept_term);
      }
 }
