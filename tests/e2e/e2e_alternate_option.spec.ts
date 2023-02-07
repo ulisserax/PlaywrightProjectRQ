@@ -4,7 +4,7 @@ import ENV  from '@utils/env';
 
  test.describe("Test Suite Alternate Option", () => {
 
-    let guest_email = ENV.GUEST_EMAIL;
+    let guest_email = ENV.GUEST_EMAIL.toLocaleLowerCase();
 
     test("Create a new Request", async({webActions, homePage, dashboard, newRequest, requestShow}) =>{
         await webActions.navigateTo(ENV.BASE_URL);

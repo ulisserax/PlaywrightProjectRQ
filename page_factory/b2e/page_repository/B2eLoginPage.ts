@@ -36,4 +36,17 @@ export default class B2eLoginPage {
         await expect (await this.page.locator(Element.check_your_email).count()).toBeGreaterThan(0);
     }
 
+    async verifyEmailSendSuccessfull(){
+        console.info(`Email sent successfully`);
+        await this.page.waitForSelector(Element.check_your_email_icon);
+        await expect (await this.page.locator(Element.check_your_email_icon).count()).toBeGreaterThan(0);
+    }
+
+    async sendLink(email: string){
+        console.info(`Sending link to email: ${email}`);
+        await this.page.waitForSelector(Input.email);
+        await this.page.type(Input.email, email, {delay:30});
+        await expect (await this.page.locator(Element.check_your_email_icon).count()).toBeGreaterThan(0);
+    }
+
 }    

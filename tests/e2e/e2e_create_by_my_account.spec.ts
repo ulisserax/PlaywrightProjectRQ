@@ -11,7 +11,7 @@ import ENV from '@utils/env';
 const Chance = require("chance");
 const chance = new Chance();
 
-test.describe.skip ('Create a Supplier company and a Supplier user by my account flow', () => {
+test.describe ('Create a Supplier company and a Supplier user by my account flow', () => {
     test.slow();
     let subject, passwordResetLink;
     let companyType = 'Suppliers';
@@ -64,7 +64,7 @@ test.describe.skip ('Create a Supplier company and a Supplier user by my account
         await dashboard.clickPropertyTab();
         await property.clickAddProperty();
         await property.fillPropertyOverview(property_name, 'miami beach','Yes','Central A/C','1 bedroom','No Pets');
-        await property.addImage(`images/property2.jpeg`);
+        await property.addImage(`images/property1.jpeg`);
         await option.fillContactInformation(supplierAdminUser);
         await property.createNewProperty();
         await dashboard.clickAreaTab();

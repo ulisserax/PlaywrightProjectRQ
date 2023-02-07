@@ -24,4 +24,8 @@ export default class Text{
     static registration_complete                = `//h2[contains(text(),'Registration complete')]`;
     static hotel_rooms_unavailable              = `//div[@class='rooms-unavailable' and @style='']//p[contains(text(),'There are no rooms available')]`;
 
+
+    static specificEmail(email: string, email_subject: string){
+        return `//td[contains(text(),'${email.toLocaleLowerCase()}')]/following-sibling::td[contains(text(),'${email_subject}')]`;
+    }
 }

@@ -20,15 +20,16 @@ export default class MailCatcher{
     }
     async searchEmail( email:string ,subject:string): Promise<void>{
         console.info(`Searching email ${email}`);
-        await this.page.type(Input.search_message, `${email}`, {delay:20});
-        await this.page.click(Text.first_email);
+        await this.page.type(Input.search_message, `${email}`, {delay:40});
+        await WebActions.delay(500);
+        await this.page.click(Text.specificEmail(email, subject));
         await this.page.waitForLoadState('domcontentloaded');
         await WebActions.delay(500);
         await expect(await (await this.page.locator(Text.email_to).textContent()).toLocaleLowerCase()).toContain(`<${email.toLocaleLowerCase()}>`);
         await expect(await this.page.locator(Text.email_subject).textContent()).toContain(`${subject}`);
         
     }
-    
+
     async getShareOptionLink(request_id:string): Promise<string>{
         console.info(`Get the share option link from the email body.`);
         await expect(await this.page.frameLocator(Iframe.email_body).locator(Link.share_link).textContent()).toContain(`reloquest.com/request/show/${request_id}?token`);
@@ -51,6 +52,12 @@ export default class MailCatcher{
         console.info(`Get the password reset link from the email body`);
         await expect(await this.page.frameLocator(Iframe.email_body).locator(Link.passwordReset).getAttribute('href')).toContain(`reloquest.com/password_reset`);
         return await this.page.frameLocator(Iframe.email_body).locator(Link.passwordReset).getAttribute('href');
+    }
+
+    async getB2ePasswordResetLink():Promise<string>{
+        console.info(`Get the password reset link from the email body`);
+        await expect(await this.page.frameLocator(Iframe.email_body).locator(Link.password_reset).getAttribute('href')).toContain(`reloquest.com/reset-password`);
+        return await this.page.frameLocator(Iframe.email_body).locator(Link.password_reset).getAttribute('href');
     }
 
     async verifyEmailToSupplierForDeadlineUpdate(email:string, subject:string, request_id:string, supplier_domain:string): Promise<void>{
