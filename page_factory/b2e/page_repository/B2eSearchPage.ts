@@ -79,8 +79,8 @@ export default class B2eSearchPage {
     async selectHotel(): Promise<void>{
         console.info(`Selecting a random hotel`);
         await this.page.waitForLoadState(`domcontentloaded`);
-        await this.page.waitForLoadState(`networkidle`);
-        await WebActions.delay(1000);
+        //await this.page.waitForLoadState(`networkidle`);
+        await WebActions.delay(2000);
         let hotel_count = await this.page.locator(Button.hotel_details).count();
         console.info(hotel_count);
         await this.page.locator(Button.hotel_details).nth(chance.integer({min:1, max:hotel_count-1})).click();

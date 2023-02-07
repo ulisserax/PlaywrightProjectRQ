@@ -47,7 +47,7 @@ test.describe ('Create a Supplier company and a Supplier user by my account flow
         await user.verifyUserSaved();
     })
 
-    test ("Create a Property and an Area", async ( { webActions, homePage, dashboard, property, option, area }) => {
+    test ("Create a Property and a Area", async ( { webActions, homePage, dashboard, property, option, area }) => {
         await webActions.navigateTo(ENV.BASE_URL);
         await homePage.enterCredentials(supplierAdminUser, ENV.SUPPLIER_ADMIN_PASSWORD);
         await homePage.signIn();
