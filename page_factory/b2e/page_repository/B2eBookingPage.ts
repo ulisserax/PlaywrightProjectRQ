@@ -47,6 +47,9 @@ export default class B2eBookingPage {
     async completeYourQuest(){
         console.info(`Completing the booking`);
         await this.page.context().pages()[1].click(Checkkox.rules_and_policies);
+        if(await this.page.context().pages()[1].locator(Checkkox.background_check).count()>0){
+            await this.page.context().pages()[1].click(Checkkox.background_check);
+        }
         await this.page.context().pages()[1].click(Button.complete_booking);
         await this.page.context().pages()[1].waitForLoadState('domcontentloaded');
         await this.page.context().pages()[1].waitForSelector(Element.checkout_success);

@@ -36,7 +36,7 @@ export default class B2eForgotPasswordPage {
 
     async LogIn(){
         console.info(`Clicking on login`);
-        await WebActions.delay(400);
+        await WebActions.delay(1000);
         await this.page.waitForLoadState(`domcontentloaded`);
         await expect (await this.page.locator(Element.reset_password_successfull).count()).toBeGreaterThan(0);
         await this.page.click(Button.log_in);

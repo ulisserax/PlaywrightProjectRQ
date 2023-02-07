@@ -1,10 +1,3 @@
-import Company from '@enterprise_pages/CompanyPage';
-import DashboardPage from '@enterprise_pages/DashboardPage';
-import HomePage from '@enterprise_pages/HomePage';
-import MyAccount from '@enterprise_pages/MyAccountPage';
-import PasswordReset from '@enterprise_pages/PasswordResetPage';
-import User from '@enterprise_pages/UserPage';
-import Area from '@enterprise_pages/AreaPage';
 import test from '@lib/Basetest';
 import ENV from '@utils/env';
 
@@ -54,7 +47,7 @@ test.describe ('Create a Supplier company and a Supplier user by my account flow
         await user.verifyUserSaved();
     })
 
-    test ("Create a Property and an Area", async ( { webActions, homePage, dashboard, property, option, area }) => {
+    test ("Create a Property and a Area", async ( { webActions, homePage, dashboard, property, option, area }) => {
         await webActions.navigateTo(ENV.BASE_URL);
         await homePage.enterCredentials(supplierAdminUser, ENV.SUPPLIER_ADMIN_PASSWORD);
         await homePage.signIn();

@@ -29,9 +29,7 @@ export default class B2eSearchPage {
     async searchDestination(destination: string): Promise<void>{
         console.info(`Searching ${destination} ratecards`);
         await this.page.waitForLoadState(`domcontentloaded`);
-        //await this.page.waitForLoadState(`networkidle`);
         await WebActions.delay(900);
-        //await expect(await this.page.url()).toContain(`${ENV.B2E_URL}/b2e/search`);
         await this.page.waitForSelector(Input.search_location);
         await this.page.type(Input.search_location, `${destination}`, {delay:80});
         await this.page.waitForSelector(Element.destination_places);
@@ -81,8 +79,8 @@ export default class B2eSearchPage {
     async selectHotel(): Promise<void>{
         console.info(`Selecting a random hotel`);
         await this.page.waitForLoadState(`domcontentloaded`);
-        await this.page.waitForLoadState(`networkidle`);
-        await WebActions.delay(1000);
+        //await this.page.waitForLoadState(`networkidle`);
+        await WebActions.delay(2000);
         let hotel_count = await this.page.locator(Button.hotel_details).count();
         console.info(hotel_count);
         await this.page.locator(Button.hotel_details).nth(chance.integer({min:1, max:hotel_count-1})).click();

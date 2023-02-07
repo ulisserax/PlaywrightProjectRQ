@@ -14,8 +14,6 @@
     "env:stage:e2e:webkit": "cross-env test_env=stage npx playwright test --config=e2e.config.ts --project=Webkit",
     "env:rc:b2e": "cross-env test_env=rc npx playwright test --config=b2e.config.ts --project=Chromium",
     "env:stage:b2e": "cross-env test_env=stage npx playwright test --config=b2e.config.ts --project=Chromium"
-    
-    
   },
   "keywords": [],
   "author": "",
@@ -28,5 +26,8 @@
     "dotenv": "^16.0.3",
     "playwright": "^1.28.1",
     "playwright-zephyr": "^0.0.10"
+  },
+  "devDependencies": {
+    "playwright-slack-report": "^1.1.0"
   }
 }

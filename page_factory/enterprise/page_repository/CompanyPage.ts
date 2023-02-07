@@ -1,7 +1,6 @@
 import { Page, expect } from "@playwright/test";
 import Input from "@enterprise_objects/Input";
 import Element from "@enterprise_objects/Element";
-import Registration from "./RegistrationPage";
 import Dropdown from "@enterprise_objects/Dropdown";
 import Button from "@enterprise_objects/Button";
 import Link from "@enterprise_objects/Link";
