@@ -1,4 +1,3 @@
-import Text from '@enterprise_objects/Text';
 import test  from '@lib/BaseTest';
 import WebActions from '@lib/WebActions';
 import ENV  from '@utils/env';

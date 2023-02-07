@@ -1,10 +1,3 @@
-import Company from '@enterprise_pages/CompanyPage';
-import DashboardPage from '@enterprise_pages/DashboardPage';
-import HomePage from '@enterprise_pages/HomePage';
-import MyAccount from '@enterprise_pages/MyAccountPage';
-import PasswordReset from '@enterprise_pages/PasswordResetPage';
-import User from '@enterprise_pages/UserPage';
-import Area from '@enterprise_pages/AreaPage';
 import test from '@lib/Basetest';
 import ENV from '@utils/env';
 
