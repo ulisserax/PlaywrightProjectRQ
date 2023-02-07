@@ -1,4 +1,3 @@
-import ENV from "@utils/env";
 
 export default class Button{
     static accept_cookies        = `button:has-text('Got it')`;
@@ -30,6 +29,9 @@ export default class Button{
     static book_this_option      = `//button[contains(text(),'BOOK THIS')]`;
     static register              = `//button[contains(text(),'REGISTER')]`;
     static save                  = `//div[@class='modal-footer']//button[contains(text(),'SAVE')]`;
+    static send_link             = `//button[contains(text(),'Send Link')]`;
+    static save_password         = `//button[contains(text(),'Save')]`;
+    static log_in                = `//a[contains(text(),'Log in')]`;
     
 
 

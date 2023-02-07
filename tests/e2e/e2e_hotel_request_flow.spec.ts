@@ -6,7 +6,7 @@ import ENV  from '@utils/env';
 
 test.describe("Create Hotel request, cancel reservation and validate emails", () => {
     test.slow();
-    let guest_email = ENV.GUEST_EMAIL;
+    let guest_email = ENV.GUEST_EMAIL.toLocaleLowerCase();
     let count = 0;
 
     test("Create a hotel request and cancel reservation", async ({webActions, homePage, dashboard, newRequest, requestShow, hotelSearchPage, search}, testInfo) => {

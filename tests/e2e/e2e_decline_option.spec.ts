@@ -4,7 +4,7 @@ import ENV  from '@utils/env';
 
  test.describe("Test Suite Decline Option", () => {
 
-    let guest_email   = ENV.GUEST_EMAIL;
+    let guest_email   = ENV.GUEST_EMAIL.toLocaleLowerCase();
     const property_name = ENV.SUPPLIER_COMPANY + "Property_#";
 
 
