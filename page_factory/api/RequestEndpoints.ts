@@ -1,5 +1,4 @@
 import { expect } from "@playwright/test";
-import ENV from "@utils/env";
 
 export default class RequestEndpoints {
 

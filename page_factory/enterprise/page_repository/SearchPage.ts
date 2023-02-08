@@ -1,8 +1,7 @@
-import { expect, Page } from "@playwright/test";
+import { Page } from "@playwright/test";
 import  WebActions from "@lib/WebActions";
 import Link from "@enterprise_objects/Link";
-const Chance = require ('chance');
-const chance = new Chance();
+
 
 
 

@@ -1,7 +1,6 @@
 import Button from "@enterprise_objects/Button";
 import Checkbox from "@enterprise_objects/Checkbox";
 import Dropdown from "@enterprise_objects/Dropdown";
-import Element from "@enterprise_objects/Element";
 import Link from "@enterprise_objects/Link";
 import Text from "@enterprise_objects/Text";
 import WebActions from "@lib/WebActions";
@@ -72,14 +71,14 @@ export default class OptionPage {
 
     async fillContactInformation(email:string): Promise<void>{
         console.info("Filling contact information.");
-        let phone = chance.phone()
-        await WebActions.delay(700)
-        await this.page.type(Input.customer_service_number, `CSN-${chance.integer({ min: 10000, max: 99999})}`, {delay:20});
-        await this.page.type(Input.email_for_service_issues, `${email}`, {delay:20});
-        await this.page.type(Input.phone_for_services_issues, `${phone}`, {delay:20});
-        await this.page.type(Input.escalation_contact_name, `CSN-${chance.integer({ min: 10000, max: 99999})}`, {delay:20});
-        await this.page.type(Input.escalation_contact_email, `${email}`, {delay:20});
-        await this.page.type(Input.escalation_contact_phone, `${phone}`, {delay:20});
+        let phone = chance.phone();
+        await WebActions.delay(1500);
+        await this.page.type(Input.customer_service_number, `${phone}`, {delay:35});
+        await this.page.type(Input.email_for_service_issues, `${email}`, {delay:35});
+        await this.page.type(Input.phone_for_services_issues, `${phone}`, {delay:35});
+        await this.page.type(Input.escalation_contact_name, `CSN-${chance.integer({ min: 10000, max: 99999})}`, {delay:35});
+        await this.page.type(Input.escalation_contact_email, `${email}`, {delay:35});
+        await this.page.type(Input.escalation_contact_phone, `${phone}`, {delay:35});
     }
 
     async submitOption(): Promise<void>{

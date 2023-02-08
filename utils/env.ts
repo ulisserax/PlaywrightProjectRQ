@@ -68,5 +68,7 @@ export default class ENV{
     static CARD_CVC          = process.env.CARD_CVC
     static ZIP_CODE          = process.env.ZIP_CODE
 
+    static SLACK_TOKEN       = process.env.SLACK_TOKEN;
+
 
 }

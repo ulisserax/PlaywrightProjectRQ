@@ -18,8 +18,7 @@ export default class B2eProfilePage {
     async updatePassword(password: string, new_password:string): Promise<void>{
         console.info(`Updating the password profile`);
         await this.page.waitForLoadState(`domcontentloaded`);
-        await this.page.waitForLoadState(`networkidle`);
-        await WebActions.delay(1200);
+        await WebActions.delay(1500);
         await this.page.waitForSelector(Link.change_password);
         await this.webActions.clickElementJS(Link.change_password);
         await this.page.waitForSelector(Input.current_password);
@@ -27,6 +26,7 @@ export default class B2eProfilePage {
         await this.page.type(Input.user_password, new_password, {delay:40});
         await this.page.type(Input.confirm_password, new_password, {delay:40});
         await this.page.click(Button.save);
+        await WebActions.delay(1200);
     }
 
 }

@@ -1,10 +1,3 @@
-import Company from '@enterprise_pages/CompanyPage';
-import DashboardPage from '@enterprise_pages/DashboardPage';
-import HomePage from '@enterprise_pages/HomePage';
-import MyAccount from '@enterprise_pages/MyAccountPage';
-import PasswordReset from '@enterprise_pages/PasswordResetPage';
-import User from '@enterprise_pages/UserPage';
-import Area from '@enterprise_pages/AreaPage';
 import test from '@lib/Basetest';
 import ENV from '@utils/env';
 
@@ -22,7 +15,7 @@ test.describe ('Create a RQ base flow, Supplier, Property, Area, Requestor, Clie
     const property_name        = supplierCompanyName + 'Property_';
     const areaName             = supplierCompanyName + 'Area_' + number  
 
-    test.skip ("Create and configure a new Supplier company and a Supplier-admin user", async ({webActions, user, configurationInstance, mailCatcher, passwordReset, homePage, dashboard, myAccount, company})=>{
+    test ("Create and configure a new Supplier company and a Supplier-admin user", async ({webActions, user, configurationInstance, mailCatcher, passwordReset, homePage, dashboard, myAccount, company})=>{
         await webActions.navigateTo(ENV.BASE_URL);
         await homePage.enterCredentials(ENV.SUPER_ADMIN, ENV.SUPER_ADMIN_PASSWORD);
         await homePage.signIn();
@@ -53,7 +46,7 @@ test.describe ('Create a RQ base flow, Supplier, Property, Area, Requestor, Clie
         await user.verifyUserSaved();
     })
 
-    test.skip ("Create a Property and an Area for the new Supplier company", async ( { webActions, homePage, dashboard, property, option, area }) => {
+    test ("Create a Property and an Area for the new Supplier company", async ( { webActions, homePage, dashboard, property, option, area }) => {
         await webActions.navigateTo(ENV.BASE_URL);
         await homePage.enterCredentials(supplierAdminUser, ENV.SUPPLIER_ADMIN_PASSWORD);
         await homePage.signIn();
@@ -62,7 +55,7 @@ test.describe ('Create a RQ base flow, Supplier, Property, Area, Requestor, Clie
         await homePage.acceptDataProcessingAddendum();
         await dashboard.clickPropertyTab();
         await property.clickAddProperty();
-        await property.fillPropertyOverview(property_name, 'miami beach','Yes','Central A/C','1 bedroom','No Pets');
+        await property.fillPropertyOverview(property_name, 'Miami Beach','Yes','Central A/C','1 bedroom','No Pets');
         await property.addImage(`images/property1.jpeg`);
         await option.fillContactInformation(supplierAdminUser);
         await property.createNewProperty();
@@ -72,7 +65,7 @@ test.describe ('Create a RQ base flow, Supplier, Property, Area, Requestor, Clie
         await area.validateAreaCreated(areaName);
     })
 
-    test.only ("Create a new Requestor company and a Requestor-admin user", async ( {webActions, homePage, dashboard, myAccount, company, user, configurationInstance, mailCatcher, passwordReset}) =>{
+    test ("Create a new Requestor company and a Requestor-admin user", async ( {webActions, homePage, dashboard, myAccount, company, user, configurationInstance, mailCatcher, passwordReset}) =>{
         await webActions.navigateTo(ENV.BASE_URL);
         await homePage.enterCredentials(ENV.SUPER_ADMIN, ENV.SUPER_ADMIN_PASSWORD);
         await homePage.signIn();
