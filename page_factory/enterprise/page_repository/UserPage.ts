@@ -15,20 +15,25 @@ export default class User {
         this.page = page;
     }
 
-    async fillNewUser(supplierCompanyName: string, supplierUser:string): Promise<void>{
+    async fillNewUser(CompanyName: string, User:string, userType:string): Promise<void>{
         console.info(`Filling the New User form`);
-        await this.page.type(Input.profile_username, supplierUser);
+        await this.page.type(Input.profile_username, User);
         await this.page.type(Input.profile_first_name, chance.first());
         await this.page.type(Input.profile_last_name, chance.last());
-        await this.page.type(Input.profile_email, supplierUser);
+        await this.page.type(Input.profile_email, User);
         await this.page.click(Element.profile_timezone);
         await this.page.type(Input.profile_timezone, 'New york', {delay:40});
         await this.page.keyboard.press('Enter');
         await this.page.click(Element.profile_company);
-        await this.page.type(Input.profile_company, `${supplierCompanyName}`, {delay:40});
+        await this.page.type(Input.profile_company, `${CompanyName}`, {delay:40});
         await this.page.keyboard.press('Enter');
         await this.page.type(Input.profile_phone, chance.phone({format: false}));
-        await this.page.click(Input.role_supplier_admin);
+        if (userType=="Supplier"){
+            await this.page.click(Input.role_supplier_admin);
+        } 
+        else {
+            await this.page.click(Input.role_requestor_admin);
+        }
         await this.page.click(Button.create_account);
     }
 
