@@ -65,13 +65,14 @@ export default class RequestShowPage {
         await expect(await this.page.locator(Element.hotels_options_table_row).count()).toBeGreaterThanOrEqual(1);
     }
 
-    async verifyReservationWasCancelled(): Promise<void>{
+    async verifyReservationWasCancelled(reservation_id:string): Promise<void>{
         if(ENV.AWARD_IN_PROGRESS > 0){
             console.info('The Hotel award is in progress, can not be cancelled until the award is completed...')
         }else{
             console.info(`Verifying reservation was cancelled`);
             await this.page.waitForLoadState('networkidle');
-            await expect(await this.page.locator(Element.booking_confirmation).textContent()).toContain(`Booking Status - CANCELLED`);
+            //await expect(await this.page.locator(Element.booking_confirmation).textContent()).toContain(`Booking Status - CANCELLED`);
+            await expect(await this.page.locator(Text.canceledReservation(reservation_id)).count()).toEqual(1);
         }
         
     }

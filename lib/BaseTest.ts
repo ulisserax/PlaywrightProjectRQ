@@ -31,6 +31,7 @@ import B2eLoginPage from "@b2e_pages/B2eLoginPage";
 import B2eProfilePage from "@b2e_pages/B2eProfilePage";
 import B2eForgotPasswordPage from "@b2e_pages/B2eForgotPasswordPage";
 
+
 const test = baseTest.extend<{
     homePage: HomePage;
     dashboard: Dashboard;

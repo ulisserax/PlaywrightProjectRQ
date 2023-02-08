@@ -28,4 +28,10 @@ export default class Text{
     static specificEmail(email: string, email_subject: string){
         return `//td[contains(text(),'${email.toLocaleLowerCase()}')]/following-sibling::td[contains(text(),'${email_subject}')]`;
     }
+
+    static canceledReservation(reservation_id: string){
+        return `//a[contains(text(),'${reservation_id}')]/parent::td/following-sibling::td[contains(text(),'Canceled')]`;
+    }
+
+    
 }

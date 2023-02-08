@@ -35,8 +35,8 @@ test.describe("Create Hotel request, cancel reservation and validate emails", ()
         await hotelSearchPage.backToRequest();
         await requestShow.unawardOption();
         await dashboard.findCurrentRequest(ENV.HOTEL_RESERVATION_ID);
-        await search.clickReservationIdLink();
-        await hotelSearchPage.verifyReservationWasCancelled();
+        //await search.clickReservationIdLink();
+        await hotelSearchPage.verifyReservationWasCancelled(ENV.HOTEL_RESERVATION_ID);
 
     })
     
