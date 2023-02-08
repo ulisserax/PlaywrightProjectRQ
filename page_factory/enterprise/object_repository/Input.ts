@@ -65,13 +65,17 @@ export default class Input{
     static profile_company           = '#s2id_autogen3_search';
     static role_supplier_manager     = `#parent_form_roles #form_role_supplier_manager`;
     static role_supplier_admin       = `#parent_form_roles #form_role_supplier_admin`;
+    static role_requestor_admin      = `#parent_form_roles #form_role_admin`;
     static confirm_password          = `#password2`;
     static submit_password           = `input[type=submit]`;
     static user_filter               = `#user_list_filter input`;
     static description_min           = `#form_minDescriptionChar`;
     static property_description      = `//div[@id='form[description]']`;
     static property_features         = `//div[@id='form[features]']`;
-    static property_amenities       = `//div[@id='form[amenities]']`; 
+    static property_amenities        = `//div[@id='form[amenities]']`; 
     static area_name                 = `#form_name`;
     static area_location             = `#form_location`;
+    static impersonate_search        = `#select2-chosen-1`;
+    static impersonate_result        = `#select2-result-label-2`;  
+
 }

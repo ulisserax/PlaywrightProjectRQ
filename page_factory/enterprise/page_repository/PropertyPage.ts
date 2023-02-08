@@ -19,11 +19,12 @@ export default class OptionPage {
       console.info(`Filling the property overview`);
       let number = chance.integer({min:1,max:9999});
       await this.page.type(Input.property_name, `${property_name}_${number}${chance.word({ length: 2 })}`);
-      await this.page.type(Input.property_location, `${location}`, {delay:40});
+      await this.page.type(Input.property_location, `${location}`, {delay:60});
+      await this.page.waitForLoadState('networkidle');
       await this.page.keyboard.press('ArrowDown');
-      await WebActions.delay(400);
+      await WebActions.delay(600);
       await this.page.keyboard.press('Tab');
-      await WebActions.delay(400);
+      await WebActions.delay(600);
       await this.page.type(Input.property_number, `#${number}`,{delay:30});
       await this.page.selectOption(Dropdown.background_req, {label:`${background_req}`});
       await this.page.selectOption(Dropdown.select_air_conditioning, {label:`${air_conditioning}`});
@@ -69,8 +70,7 @@ export default class OptionPage {
           await WebActions.delay(300);
           await this.page.setInputFiles(Input.image_upload_file, `${image_path}`);
           await this.page.click(Button.crop_and_use);
+          await this.page.waitForLoadState('networkidle');
       }
-      
-    }
-     
+    } 
 }

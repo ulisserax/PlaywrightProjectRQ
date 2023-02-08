@@ -6,6 +6,7 @@
   "scripts": {
     "env:rc": "cross-env test_env=rc npx playwright test",
     "env:stage": "cross-env test_env=stage npx playwright test",
+    "env:stage:jose": "cross-env test_env=rc npx playwright test --config=e2e.config.ts --project=Chromium",
     "env:rc:e2e": "cross-env test_env=rc npx playwright test --config=e2e.config.ts --project=Chromium",
     "env:rc:e2e:firefox": "cross-env test_env=rc npx playwright test --config=e2e.config.ts --project=Firefox",
     "env:rc:e2e:webkit": "cross-env test_env=rc npx playwright test --config=e2e.config.ts --project=Webkit",

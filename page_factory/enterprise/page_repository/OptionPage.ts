@@ -71,8 +71,8 @@ export default class OptionPage {
 
     async fillContactInformation(email:string): Promise<void>{
         console.info("Filling contact information.");
-        let phone = chance.phone()
-        await WebActions.delay(800)
+        let phone = chance.phone();
+        await WebActions.delay(1500);
         await this.page.type(Input.customer_service_number, `${phone}`, {delay:35});
         await this.page.type(Input.email_for_service_issues, `${email}`, {delay:35});
         await this.page.type(Input.phone_for_services_issues, `${phone}`, {delay:35});

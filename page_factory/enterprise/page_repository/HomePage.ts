@@ -45,4 +45,13 @@ export default class HomePage {
           await expect(await this.page.locator(Link.dpa)).toBeVisible();
           await this.page.click(Button.accept_term);
      }
+
+     async impersonate(user:string): Promise<void>{
+          console.info(`Impersonating an user`);
+          await this.page.click(Input.impersonate_search);
+          await this.page.type(Input.impersonate_search, user, {delay:40});
+          await this.page.waitForLoadState('domcontentloaded');
+          await this.page.waitForLoadState('networkidle');
+          await this.page.click(Input.impersonate_result);
+     }
 }

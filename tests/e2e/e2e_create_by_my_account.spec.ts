@@ -4,37 +4,36 @@ import ENV from '@utils/env';
 const Chance = require("chance");
 const chance = new Chance();
 
-test.describe ('Create a Supplier company and a Supplier user by my account flow', () => {
+test.describe ('Create a RQ base flow, Supplier, Property, Area, Requestor, Client, Custom-Area and Link the companies', () => {
     test.slow();
     let subject, passwordResetLink;
-    let companyType = 'Suppliers';
     let number = chance.integer({min:1,max:9999});
-    const requestorCompanyName = 'auto-requestor-company-' + chance.string({length: 6, numeric: true});
+    const requestorCompanyName = `${chance.word({length: 5})}-${chance.string({length: 6, numeric: true})}-requestor`;
     const supplierCompanyName  = `${chance.word({length: 5})}-${chance.string({length: 6, numeric: true})}-supplier`;
     const supplierAdminUser    = `${chance.first()}supadmin@${supplierCompanyName}.com`.toLowerCase();
+    const requestorAdminUser   = `${chance.first()}reqadmin@${requestorCompanyName}.com`.toLowerCase();
     const property_name        = supplierCompanyName + 'Property_';
     const areaName             = supplierCompanyName + 'Area_' + number  
 
-    test ("Create and configure a new Supplier company", async ({webActions, user, configurationInstance, mailCatcher, passwordReset, homePage, dashboard, myAccount, company})=>{
+    test ("Create and configure a new Supplier company and a Supplier-admin user", async ({webActions, user, configurationInstance, mailCatcher, passwordReset, homePage, dashboard, myAccount, company})=>{
         await webActions.navigateTo(ENV.BASE_URL);
         await homePage.enterCredentials(ENV.SUPER_ADMIN, ENV.SUPER_ADMIN_PASSWORD);
         await homePage.signIn();
         await dashboard.clickMyAccountTab();
         await myAccount.addCompany();
-        await company.fillNewCompanyForm(companyType, supplierCompanyName);
+        await company.fillNewCompanyForm("Suppliers", supplierCompanyName);
         await company.submitNewCompany();
         await company.verifyCompanyCreation(supplierCompanyName);
         await company.settingsTab();
         await company.setSupplierCompanySettings();
         await company.verifyCompanySettingsUpdated();
         await myAccount.addUser();
-        await user.fillNewUser(supplierCompanyName, supplierAdminUser);
+        await user.fillNewUser(supplierCompanyName, supplierAdminUser, "Supplier");
         await user.verifyUserSaved();
         await webActions.navigateTo(`${ENV.BASE_URL}/configuration/instance`);
         await configurationInstance.mailPush();
         await mailCatcher.openMailCatcher(ENV.MAILCATCHER_URL);
         subject = 'Password Reset - New User Account';
-        console.info(supplierAdminUser);
         await mailCatcher.searchEmail(supplierAdminUser, subject);
         passwordResetLink = await mailCatcher.getPasswordResetLink();
         await webActions.navigateTo(passwordResetLink);
@@ -47,7 +46,7 @@ test.describe ('Create a Supplier company and a Supplier user by my account flow
         await user.verifyUserSaved();
     })
 
-    test ("Create a Property and a Area", async ( { webActions, homePage, dashboard, property, option, area }) => {
+    test ("Create a Property and an Area for the new Supplier company", async ( { webActions, homePage, dashboard, property, option, area }) => {
         await webActions.navigateTo(ENV.BASE_URL);
         await homePage.enterCredentials(supplierAdminUser, ENV.SUPPLIER_ADMIN_PASSWORD);
         await homePage.signIn();
@@ -56,7 +55,7 @@ test.describe ('Create a Supplier company and a Supplier user by my account flow
         await homePage.acceptDataProcessingAddendum();
         await dashboard.clickPropertyTab();
         await property.clickAddProperty();
-        await property.fillPropertyOverview(property_name, 'miami beach','Yes','Central A/C','1 bedroom','No Pets');
+        await property.fillPropertyOverview(property_name, 'Miami Beach','Yes','Central A/C','1 bedroom','No Pets');
         await property.addImage(`images/property1.jpeg`);
         await option.fillContactInformation(supplierAdminUser);
         await property.createNewProperty();
@@ -64,5 +63,31 @@ test.describe ('Create a Supplier company and a Supplier user by my account flow
         await area.clickAddAnArea();
         await area.createNewArea('Miami', areaName);
         await area.validateAreaCreated(areaName);
+    })
+
+    test ("Create a new Requestor company and a Requestor-admin user", async ( {webActions, homePage, dashboard, myAccount, company, user, configurationInstance, mailCatcher, passwordReset}) =>{
+        await webActions.navigateTo(ENV.BASE_URL);
+        await homePage.enterCredentials(ENV.SUPER_ADMIN, ENV.SUPER_ADMIN_PASSWORD);
+        await homePage.signIn();
+        await dashboard.clickMyAccountTab();
+        await myAccount.addCompany();
+        await company.fillNewCompanyForm("Requestors", requestorCompanyName);
+        await company.submitNewCompany();
+        await company.verifyCompanyCreation(requestorCompanyName);
+        await dashboard.clickMyAccountTab();
+        await myAccount.addUser();
+        await user.fillNewUser(requestorCompanyName, requestorAdminUser, "Requestor");
+        await user.verifyUserSaved();
+        await webActions.navigateTo(`${ENV.BASE_URL}/configuration/instance`);
+        await configurationInstance.mailPush();
+        await mailCatcher.openMailCatcher(ENV.MAILCATCHER_URL);
+        subject = 'Password Reset - New User Account';
+        await mailCatcher.searchEmail(requestorAdminUser, subject);
+        await webActions.navigateTo(ENV.BASE_URL);
+        await homePage.enterCredentials(ENV.SUPER_ADMIN, ENV.SUPER_ADMIN_PASSWORD);
+        await homePage.signIn();
+        await homePage.impersonate(requestorAdminUser);
+        await homePage.acceptPrivacyAndTermsOfUse();
+        await dashboard.validateDashboard();
     })
 })
