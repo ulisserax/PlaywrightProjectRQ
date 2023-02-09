@@ -37,4 +37,5 @@ export default class Element{
     static confirm_password_reset          = `//h3[contains(text(),"password successfully")]`;
     static edit_user                       = `.profile-actions-td .edit`;
     static areas_of_coverage               = `//h1[contains(text(),'Areas of Coverage')]`;
+    static image_modal                     = `//div[@id='image_upload_modal' and @class='modal fade in']`;
 }

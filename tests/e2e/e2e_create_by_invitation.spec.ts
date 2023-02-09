@@ -4,9 +4,10 @@ const Chance = require("chance");
 const chance = new Chance();
 
 test.describe ("Create Supplier company and Supplier admin user by invitation", () => {
-let registerLink, subject;
-let supplierCompany = 'auto-supplier-company-' + chance.string({length: 6, numeric: true});
-let supplierAdmin   = 'supplieradminuser@' + supplierCompany + '.com';
+    test.slow();
+    let registerLink, subject;
+    let supplierCompany = 'auto-supplier-company-' + chance.string({length: 6, numeric: true});
+    let supplierAdmin   = 'supplieradminuser@' + supplierCompany + '.com';
 
     test ("Submit Supplier invitation by email",async ({webActions, homePage, myAccount, dashboard, registration, configurationInstance})=> {
         await webActions.navigateTo(ENV.BASE_URL);
