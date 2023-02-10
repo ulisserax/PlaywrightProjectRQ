@@ -34,6 +34,14 @@ export default class WebActions {
         await WebActions.delay(700);
     }
 
+    async refresh(): Promise<void>{
+        console.info(`Refreshing the current page.`);
+        await this.page.reload();
+        await WebActions.delay(500);
+        await this.page.waitForLoadState('domcontentloaded');
+        await this.page.waitForLoadState('networkidle');
+    }
+
     async waitForPageNavigation(event: string): Promise<void> {
         switch (event.toLowerCase()) {
             case `networkidle`:

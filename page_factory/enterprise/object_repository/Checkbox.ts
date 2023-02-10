@@ -12,4 +12,6 @@ export default class Checkbox{
     static agree_to_cancellation                = `input[name='agreeToCancellation']`;
     static b2e_term_of_reservation              = `input#b2e_tos_terms_accepted`;
     static new_company                          = `#form_new_company_0`;
+    static show_company                         = `input[label*='Show Company']`;
+    static guest_can_award                      = `input[label*='Guest Can Award']`;
 }

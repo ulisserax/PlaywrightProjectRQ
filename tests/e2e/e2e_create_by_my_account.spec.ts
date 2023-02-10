@@ -1,19 +1,22 @@
+import MyAccount from '@enterprise_pages/MyAccountPage';
 import test from '@lib/Basetest';
 import ENV from '@utils/env';
+import { request } from 'playwright-core';
 
 const Chance = require("chance");
 const chance = new Chance();
 
-test.describe ('Create a RQ base flow, Supplier, Property, Area, Requestor, Client, Custom-Area and Link the companies', () => {
+test.describe.only ('Create a RQ base flow, Supplier, Property, Area, Requestor, Client, Custom-Area and Link the companies', () => {
     test.slow();
     let subject, passwordResetLink;
     let number = chance.integer({min:1,max:9999});
-    const requestorCompanyName = `${chance.word({length: 5})}-${chance.string({length: 6, numeric: true})}-requestor`;
-    const supplierCompanyName  = `${chance.word({length: 5})}-${chance.string({length: 6, numeric: true})}-supplier`;
+    const requestorCompanyName = `${chance.word({length: 5})}${chance.string({length: 6, numeric: true})}-requestor`;
+    const supplierCompanyName  = `${chance.word({length: 5})}${chance.string({length: 6, numeric: true})}-supplier`;
     const supplierAdminUser    = `${chance.first()}supadmin@${supplierCompanyName}.com`.toLowerCase();
     const requestorAdminUser   = `${chance.first()}reqadmin@${requestorCompanyName}.com`.toLowerCase();
-    const property_name        = supplierCompanyName + 'Property_';
-    const areaName             = supplierCompanyName + 'Area_' + number  
+    const property_name        = `${supplierCompanyName}Property_`;
+    const areaName             = `${supplierCompanyName}_Area_${number}`;
+    let clientName             = `${requestorCompanyName}_Client_${number}`;   
 
     test ("Create and configure a new Supplier company and a Supplier-admin user", async ({webActions, user, configurationInstance, mailCatcher, passwordReset, homePage, dashboard, myAccount, company})=>{
         await webActions.navigateTo(ENV.BASE_URL);
@@ -78,16 +81,26 @@ test.describe ('Create a RQ base flow, Supplier, Property, Area, Requestor, Clie
         await myAccount.addUser();
         await user.fillNewUser(requestorCompanyName, requestorAdminUser, "Requestor");
         await user.verifyUserSaved();
-        await webActions.navigateTo(`${ENV.BASE_URL}/configuration/instance`);
-        await configurationInstance.mailPush();
-        await mailCatcher.openMailCatcher(ENV.MAILCATCHER_URL);
-        subject = 'Password Reset - New User Account';
-        await mailCatcher.searchEmail(requestorAdminUser, subject);
-        await webActions.navigateTo(ENV.BASE_URL);
-        await homePage.enterCredentials(ENV.SUPER_ADMIN, ENV.SUPER_ADMIN_PASSWORD);
-        await homePage.signIn();
+        await myAccount.filterUser(requestorAdminUser);
+        await myAccount.clickOnEditUser(requestorAdminUser);
+        await user.editUserPassword()
+        await user.verifyUserSaved();
         await homePage.impersonate(requestorAdminUser);
         await homePage.acceptPrivacyAndTermsOfUse();
         await dashboard.validateDashboard();
+    })
+
+    test ("Create a new Client", async ( {webActions, homePage, dashboard, myAccount, client}) =>{
+        await webActions.navigateTo(`${ENV.BASE_URL}`);
+        await homePage.enterCredentials(requestorAdminUser, ENV.REQUESTOR_ADMIN_PASSWORD);
+        await homePage.signIn();
+        await dashboard.clickMyAccountTab();
+        await myAccount.addClient();
+        await client.fillNewClientForm(clientName);
+        await client.saveNewClient();
+        await client.verifyClientCreation(clientName);
+        await client.editClientSettings();
+        await client.verifyClientSettings();
+        await client.duplicateClient(clientName);
     })
 })
