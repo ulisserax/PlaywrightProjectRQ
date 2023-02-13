@@ -48,6 +48,8 @@ export default class ENV{
     static FULL_GUEST_NAME          = `${this.GUEST_FIRSTNAME} ${this.GUEST_LASTNAME}`
     static REQUESTOR_API_KEY        = process.env.REQUESTOR_API_KEY
     static SUPPLIER_API_KEY         = process.env.SUPPLIER_API_KEY
+    
+    static EXCEPTION_FEE_CLIENT_ID  = process.env.EXCEPTION_FEE_CLIENT_ID
 
     static PROPERTY_NAME            = ``
     static PROPERTY_ADDRESS         = ``

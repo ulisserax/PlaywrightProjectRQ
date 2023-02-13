@@ -23,6 +23,10 @@ export default class Text{
     static supplier_registration                = `//h1[contains(text(),'Supplier Registration')]`;
     static registration_complete                = `//h2[contains(text(),'Registration complete')]`;
     static hotel_rooms_unavailable              = `//div[@class='rooms-unavailable' and @style='']//p[contains(text(),'There are no rooms available')]`;
+    static net_rate                             = `//div[@id='rate_segment_placement']//span[@id='form_segment_net_rate']`;
+    static referral_commission                  = `//div[@id='rate_segment_placement']//label[@for='form_segment_referral']`;
+    static referral_commission_value            = `//div[@id='segment_fees_0']//span[@id='form_segment_referral']`;
+    static reloquest_fee                        = `//div[@id='segment_fees_0']//span[@id='form_segment_rq_fee']`;
 
 
     static specificEmail(email: string, email_subject: string){
