@@ -37,4 +37,8 @@ export default class Element{
     static confirm_password_reset          = `//h3[contains(text(),"password successfully")]`;
     static edit_user                       = `.profile-actions-td .edit`;
     static areas_of_coverage               = `//h1[contains(text(),'Areas of Coverage')]`;
+    static client_form_title               = `//h1/span[contains(text(),'Client:')]`;
+    static client_settings                 = `.client-ico-settings`;
+    static client_details                  = `.client-ico-client-details`; 
+    
 }

@@ -46,8 +46,10 @@ export default class User {
     }
     async editUserPassword(): Promise<void>{
         console.info(`Editing the User password.`);
-        await this.page.type(Input.reg_password, ENV.SUPPLIER_ADMIN_PASSWORD);
-        await this.page.type(Input.reg_repeat_password, ENV.SUPER_ADMIN_PASSWORD);
+        await this.page.click(Input.reg_password);
+        await this.page.type(Input.reg_password, ENV.SUPPLIER_ADMIN_PASSWORD, {delay:40});
+        await this.page.click(Input.reg_repeat_password);
+        await this.page.type(Input.reg_repeat_password, ENV.SUPPLIER_ADMIN_PASSWORD, {delay: 40});
         await this.page.click(Button.create_account); 
     }
 
