@@ -38,4 +38,8 @@ export default class Element{
     static edit_user                       = `.profile-actions-td .edit`;
     static areas_of_coverage               = `//h1[contains(text(),'Areas of Coverage')]`;
     static image_modal                     = `//div[@id='image_upload_modal' and @class='modal fade in']`;
+    static client_form_title               = `//h1/span[contains(text(),'Client:')]`;
+    static client_settings                 = `.client-ico-settings`;
+    static client_details                  = `.client-ico-client-details`; 
+    
 }

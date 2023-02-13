@@ -76,6 +76,9 @@ export default class Input{
     static area_name                 = `#form_name`;
     static area_location             = `#form_location`;
     static impersonate_search        = `#select2-chosen-1`;
-    static impersonate_result        = `#select2-result-label-2`;  
-
+    static impersonate_result        = `#select2-result-label-2`;
+    static client_name               = `input[label='Name:']`;
+    static client_default_notice     = `input[label*='Days Notice']`;
+    static duplicated_client_name    = `#check_duplicate_form_name`;
+    
 }

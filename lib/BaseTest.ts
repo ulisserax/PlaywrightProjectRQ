@@ -19,6 +19,7 @@ import Company from "@enterprise_pages/CompanyPage";
 import User from "@enterprise_pages/UserPage";
 import PasswordReset from "@enterprise_pages/PasswordResetPage";
 import Area from "@enterprise_pages/AreaPage";
+import Client from "@enterprise_pages/ClientPage";
 import B2eHomePage from "@b2e_pages/B2eHomePage";
 import B2eSearchPage from "@b2e_pages/B2eSearchPage";
 import B2ePropertyDetailPage from "@b2e_pages/B2ePropertyDetailPage";
@@ -53,6 +54,7 @@ const test = baseTest.extend<{
     user: User;
     passwordReset: PasswordReset;
     area: Area;
+    client: Client;
     b2eHomePage: B2eHomePage;
     b2eSearchPage: B2eSearchPage;
     b2ePropertyDetailPage: B2ePropertyDetailPage;
@@ -124,6 +126,9 @@ const test = baseTest.extend<{
     },
     area:async ({ page }, use) => {
         await use(new Area (page));
+    },
+    client:async ({ page }, use) => {
+        await use(new Client (page));
     },
     b2eHomePage: async ({ page }, use) => {
         await use(new B2eHomePage(page));

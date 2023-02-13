@@ -86,6 +86,7 @@ export default class Button{
     static create_account            = `button#form_submit`;
     static accept_term               = `#accept_term_v2`;
     static add_company               = `#button_new_company`;
+    static add_client                = `#button_new_client.btn-primary`;
     static use_request_dates         = `.bootstrap-switch-id-form_use_request_dates_when_bidding`;
     static use_maid_services         = `.bootstrap-switch-id-form_use_maid_service_when_bidding`;
     static enable_default_images     = `.bootstrap-switch-id-form_enable_default_property_gallery`;
@@ -94,4 +95,9 @@ export default class Button{
     static new_user                  = `#button_new_user`;
     static add_property              = `#button_add_property`;
     static add_an_area               = `#button_add_area`;
+    static save_client               = `.btn-group .btn-primary`;
+    static update_client             = `//div[@aria-hidden='false']//button[contains(text(),'Update')]`;
+    static duplicate_client          = `//div[@aria-hidden='false']//button[contains(text(),'Duplicate')]`;
+    static modal_duplicate_client    = `.client-name-modal .btn-primary`;
+    
 }

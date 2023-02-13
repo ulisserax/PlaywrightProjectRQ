@@ -34,6 +34,16 @@ export default class MyAccount {
         await this.page.waitForLoadState("domcontentloaded");
     }
 
+    async addClient():Promise<void>{
+        console.info(`Click on the add_client button`);
+        await WebActions.delay(700);
+        await this.page.waitForLoadState("domcontentloaded");
+        await this.page.waitForLoadState("networkidle");
+        await this.page.click(Button.add_client);
+        await WebActions.delay(700);
+        await this.page.waitForLoadState("domcontentloaded");
+    }
+
     async fillSupplierInvitationNewCompany(email_address: string, company_name: string): Promise<void> {
         console.info("Filling the Company + User invitation to a Supplier");
         await this.page.waitForSelector(Element.invitation_form);
@@ -76,10 +86,10 @@ export default class MyAccount {
         await this.page.waitForLoadState("networkidle");
     }
 
-    async clickOnEditUser(supplierAdminUser: string): Promise<void>{
+    async clickOnEditUser(user: string): Promise<void>{
         console.info(`Clicking on edit user.`); 
         await WebActions.delay(800);
-        await this.page.click(`//td[contains(text(),'${supplierAdminUser}')]/following-sibling::td/div/a[contains(text(),'Edit')]`);
+        await this.page.click(`//td[contains(text(),'${user}')]/following-sibling::td/div/a[contains(text(),'Edit')]`);
         await this.page.waitForLoadState("domcontentloaded");
         await this.page.waitForLoadState("networkidle");
         await expect(await this.page).toHaveURL(/\/edit/);
