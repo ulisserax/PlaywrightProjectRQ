@@ -2,7 +2,7 @@ import test  from '@lib/BaseTest';
 import ENV  from '@utils/env';
 
 
-test.describe.only("Test Suite Exception Fee", () => {
+test.describe("Test Suite Exception Fee", () => {
     test.slow();
     const location = ["New York State, USA","Central Park North, Manhattan, New York, NY, USA","Melrose, Manhattan, NY, USA","Manhattan, New York, NY, USA","New York, NY, USA","Queens, NY, USA","Bronx, NY, USA"];
 

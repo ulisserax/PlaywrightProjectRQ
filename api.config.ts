@@ -2,7 +2,7 @@ import { PlaywrightTestConfig } from "@playwright/test";
 
 const config : PlaywrightTestConfig = {
     globalSetup: 'global-setup.ts',
-    testDir: "tests/e2e",
+    testDir: "tests/api",
     timeout: 90 * 1000,
     expect: {
         /**
@@ -22,7 +22,7 @@ const config : PlaywrightTestConfig = {
     /* Reporter to use. See https://playwright.dev/docs/test-reporters */
     reporter:[['html', {open: "never"}]],
     use: {
-        headless: false,
+        headless: true,
         viewport:{width:1280, height:720},
         actionTimeout:100000,
         ignoreHTTPSErrors:true,
