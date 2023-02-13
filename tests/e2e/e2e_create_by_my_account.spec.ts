@@ -6,7 +6,7 @@ import { request } from 'playwright-core';
 const Chance = require("chance");
 const chance = new Chance();
 
-test.describe.only ('Create a RQ base flow, Supplier, Property, Area, Requestor, Client, Custom-Area and Link the companies', () => {
+test.describe ('Create a RQ base flow, Supplier, Property, Area, Requestor, Client, Custom-Area and Link the companies', () => {
     test.slow();
     let subject, passwordResetLink;
     let number = chance.integer({min:1,max:9999});
