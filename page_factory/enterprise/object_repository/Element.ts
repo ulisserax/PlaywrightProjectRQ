@@ -41,5 +41,8 @@ export default class Element{
     static client_form_title               = `//h1/span[contains(text(),'Client:')]`;
     static client_settings                 = `.client-ico-settings`;
     static client_details                  = `.client-ico-client-details`; 
-    
+    static segment_summary_section         = `div.segment-summary-section`;
+    static rate_length                     = `#rate_segment_placement .segment-length-stay`;
+    static delete_rate_segment             = `//div[@id='rate_segment_1']//span[contains(@class,'delete_rate_segment')]`;
+    static rate_segment_rows               = `//div[@id='rate_segment_placement']/div[contains(@class,'row_rate_segment')]`;
 }

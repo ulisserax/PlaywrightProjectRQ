@@ -56,18 +56,80 @@ export default class OptionPage {
         await this.page.selectOption(Dropdown.select_pet_policy, { label: `No Pets`});
     }
 
+    async selectRateType(rate_type:string): Promise<void>{
+        console.info("Selecting rate type");
+        await this.page.selectOption(Dropdown.select_rate_type, {value: rate_type});
+    }
+
+    async selectTaxable(taxable:string): Promise<void>{
+        console.info("Selecting taxable");
+        await this.page.selectOption(Dropdown.taxable, {value: taxable});
+    }
+
+    async fiillFirstTax(taxes_type:string, value:string, type:string): Promise<void>{
+        await WebActions.delay(500);
+        console.info("Filling first taxes");
+        await this.page.locator(Dropdown.select_taxes).first().selectOption({value: taxes_type});
+        await this.page.locator(Input.tax_value).first().fill('');
+        await this.page.locator(Input.tax_value).first().type(value);
+        await this.page.locator(Dropdown.select_taxes_type).first().selectOption({value: type});
+    }
+
+    async fillSecondTax(taxes_type:string, value:string, type:string): Promise<void>{
+        console.info("Filling second taxes");
+        await this.page.click(Link.add_tax);
+        await WebActions.delay(400);
+        await this.page.locator(Dropdown.select_taxes).nth(1).selectOption({value: taxes_type});
+        await this.page.locator(Input.tax_value).nth(1).fill('');
+        await this.page.locator(Input.tax_value).nth(1).type(value);
+        await this.page.locator(Dropdown.select_taxes_type).nth(1).selectOption({value: type});
+        await this.page.keyboard.press('Enter');
+        
+    }
+    
+
     async fillRateDetails(): Promise<void>{
         console.info("Filling rate details.");
         await this.page.type(Input.rate, `${chance.floating({ min: 70, max: 299, fixed: 2 })}`);
         await this.page.keyboard.press('Enter');
     }
 
-    async fillFees(fee_type:string): Promise<void>{
-        console.info("Filling taxes.");
-        await this.page.fill(Input.fee, '');
-        await this.page.type(Input.fee, `${chance.floating({ min: 70, max: 299, fixed: 2 })}`);
+    async fillSecondRateDetails(): Promise<void>{
+        console.info("Filling second rate details.");
+        await this.page.click(Link.add_rate);
+        await this.page.locator(Input.rate).last().type(`${chance.floating({ min: 70, max: 299, fixed: 2 })}`);
         await this.page.keyboard.press('Enter');
-        await this.page.selectOption(Dropdown.select_fee_type, {value: `${fee_type}`});
+    }
+
+    async fillFees(fee_type:string): Promise<void>{
+        console.info("Filling first fee.");
+        await this.page.locator(Input.fee).first().fill('');
+        await this.page.locator(Input.fee).first().type(`${chance.floating({ min: 70, max: 299, fixed: 2 })}`);
+        await this.page.keyboard.press('Enter');
+        await this.page.locator(Dropdown.select_fee_type).first().selectOption({value: fee_type});
+    }
+
+    async fillSecondFees(fee:string, value:string, fee_type): Promise<void>{
+        console.info("Filling second fee.");
+        await this.page.click(Link.add_fees);
+        await this.page.locator(Dropdown.select_fee).nth(1).selectOption({label: `${fee}`});
+        await this.page.locator(Input.fee).nth(1).fill('');
+        await this.page.locator(Input.fee).nth(1).type(`${value}`);
+        await this.page.keyboard.press('Enter');
+        await this.page.locator(Dropdown.select_fee_type).nth(1).selectOption({value: `${fee_type}`});
+        
+    }
+
+    async fillDeposit(deposits_type_index:number): Promise<void>{
+        console.info("Filling deposits.");
+        await this.page.click(Link.add_deposit);
+        await WebActions.delay(500);
+        await this.page.locator(Dropdown.select_deposits).first().selectOption({index: deposits_type_index});
+        await this.page.locator(Input.deposit_value).first().fill('');
+        await this.page.locator(Input.deposit_value).first().type(`${chance.floating({ min: 70, max: 500, fixed: 2 })}`);
+        await this.page.keyboard.press('Enter');
+        await this.page.click(Element.segment_summary_section);
+        
     }
 
     async fillContactInformation(email:string): Promise<void>{
@@ -97,6 +159,56 @@ export default class OptionPage {
             await this.page.click(Button.yes);
         }
         
+    }
+
+    async totalRateCalculation(rate_type:string){
+        let rate1, rate2, length1, length2, total_days, avg_rate_day, tax1, tax2, fee1, fee2, deposit, total_rent, total_taxes, total_fees, total_deposit, grand_total;
+        
+        rate1           = await this.page.locator(Input.rate).first().inputValue();
+        rate2           = await this.page.locator(Input.rate).nth(1).inputValue();
+        length1         = await (await this.page.locator(Element.rate_length).first().inputValue()).replace(rate_type,'').trim();
+        length2         = await (await this.page.locator(Element.rate_length).nth(1).inputValue()).replace(rate_type,'').trim();
+        total_days      = await (await this.page.locator(Text.total_days).textContent()).replace(rate_type,'').trim();
+        avg_rate_day    = await this.page.locator(Text.avg_rate_day).textContent();
+        tax1            = await (await this.page.locator(Text.total_tax_segment).first().inputValue()).replace('$','').trim();
+        tax2            = await (await this.page.locator(Text.total_tax_segment).nth(1).inputValue()).replace('$','').trim();
+        fee1            = await (await this.page.locator(Text.total_fee_segment).first().inputValue()).replace('$','').trim();
+        fee2            = await (await this.page.locator(Text.total_fee_segment).nth(1).inputValue()).replace('$','').trim();
+        deposit         = await (await this.page.locator(Input.deposit_value).first().inputValue()).replace('$','').trim();
+        total_rent      = await (await this.page.locator(Text.total_rent).first().textContent()).replace('$','').trim();
+        total_taxes     = await (await this.page.locator(Text.total_taxes).first().textContent()).replace('$','').trim();
+        total_fees      = await (await this.page.locator(Text.total_fees).first().textContent()).replace('$','').trim();
+        total_deposit   = await (await this.page.locator(Text.total_deposits).first().textContent()).replace('$','').trim();
+        grand_total     = await (await this.page.locator(Text.grand_total).first().textContent()).replace('$','').trim();
+
+        console.log('comparing the rate1 length + rate2 length with the total days '+(Number(length1)+Number(length2))+ ' == ' + Number(total_days));
+        await expect((Number(length1)+Number(length2))).toEqual(Number(total_days)); 
+       
+
+        console.log('verifiying rate average '+((Number(rate1)*Number(length1)+Number(rate2)*Number(length2))/Number(total_days)).toFixed(2) + ' == ' +Number(avg_rate_day).toFixed(2));
+        await expect(Number(((Number(rate1)*Number(length1)+Number(rate2)*Number(length2))/Number(total_days)).toFixed(2))).toBeLessThanOrEqual(Number(Number(avg_rate_day).toFixed(2)));
+        await expect(Number(((Number(rate1)*Number(length1)+Number(rate2)*Number(length2))/Number(total_days)).toFixed(2))).toBeGreaterThanOrEqual(Number(Number(avg_rate_day - 0.01).toFixed(2)));
+
+        console.log('verifiying total rent '+((Number(rate1)*Number(length1)+Number(rate2)*Number(length2)).toFixed(2)) + ' == ' + Number(total_rent).toFixed(2));
+        await expect(Number(((Number(rate1)*Number(length1)+Number(rate2)*Number(length2))).toFixed(2))).toBeLessThanOrEqual(Number(Number(total_rent).toFixed(2)));
+        await expect(Number(((Number(rate1)*Number(length1)+Number(rate2)*Number(length2))).toFixed(2))).toBeGreaterThanOrEqual(Number(Number(total_rent - 0.01).toFixed(2)));
+
+        console.log('verifiying total taxes '+(Number(tax1)+Number(tax2)).toFixed(2) + ' == ' + Number(total_taxes).toFixed(2));
+        await expect(Number((Number(tax1)+Number(tax2)).toFixed(2))).toBeLessThanOrEqual(Number(Number(total_taxes).toFixed(2)));
+        await expect(Number((Number(tax1)+Number(tax2)).toFixed(2))).toBeGreaterThanOrEqual(Number(Number(total_taxes - 0.01).toFixed(2)));
+
+        console.log('verifiying total fees '+(Number(fee1)+Number(fee2)).toFixed(2) + ' == ' + Number(total_fees).toFixed(2));
+        await expect(Number((Number(fee1)+Number(fee2)).toFixed(2))).toBeLessThanOrEqual(Number(Number(total_fees).toFixed(2)));
+        await expect(Number((Number(fee1)+Number(fee2)).toFixed(2))).toBeGreaterThanOrEqual(Number(Number(total_fees - 0.01).toFixed(2)));
+
+        console.log('verifiying total deposit '+(Number(deposit)).toFixed(2) + ' == ' + Number(total_deposit).toFixed(2));
+        await expect(Number((Number(deposit)).toFixed(2))).toBeLessThanOrEqual(Number(Number(total_deposit).toFixed(2)));
+        await expect(Number((Number(deposit)).toFixed(2))).toBeGreaterThanOrEqual(Number(Number(total_deposit - 0.01).toFixed(2)));
+
+        console.log('verifiying grand total '+(Number(total_rent)+Number(total_taxes)+Number(total_fees)+Number(total_deposit)).toFixed(2) + ' --- ' + Number(grand_total).toFixed(2));
+        await expect(Number((Number(total_rent)+Number(total_taxes)+Number(total_fees)+Number(total_deposit)).toFixed(2))).toBeLessThanOrEqual(Number(Number(grand_total).toFixed(2)));
+        await expect(Number((Number(total_rent)+Number(total_taxes)+Number(total_fees)+Number(total_deposit)).toFixed(2))).toBeGreaterThanOrEqual(Number(Number(grand_total - 0.01).toFixed(2)));     
+
     }
 
     async awardFromOption(): Promise<void>{

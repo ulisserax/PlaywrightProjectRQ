@@ -9,20 +9,20 @@ test.describe("Test Suite Basic Flow ", () => {
     let client_share_link;
 
     test("Create a new Request and edit", async({webActions, homePage, dashboard, newRequest, requestShow}) =>{
-        await webActions.navigateTo(ENV.BASE_URL);
-        await homePage.enterCredentials(ENV.REQUESTOR_ADMIN, ENV.REQUESTOR_ADMIN_PASSWORD);
-        await homePage.signIn();
-        await dashboard.validateDashboard();
-        await dashboard.cardSummary();
-        await dashboard.clickNewRequest();
-        await newRequest.select_client(ENV.CLIENT_ACCEPT);
-        await newRequest.fillRequestDetails(ENV.REQUEST_TYPE[0], ENV.REQUESTOR_ADMIN,ENV.GUEST_TYPE[0],'Miami, FL, USA', `45`);
-        await newRequest.fillGuestInfo(ENV.GUEST_FIRSTNAME,ENV.GUEST_LASTNAME,guest_email,ENV.GUEST_PHONE);
-        await newRequest.fillCorporateHousingDetails();
-        await newRequest.submitRequest();
-        await requestShow.getRequestId();
-        await requestShow.editRequest();
-        await newRequest.editRequest(ENV.REQUESTOR_USER);
+            await webActions.navigateTo(ENV.BASE_URL);
+            await homePage.enterCredentials(ENV.REQUESTOR_ADMIN, ENV.REQUESTOR_ADMIN_PASSWORD);
+            await homePage.signIn();
+            await dashboard.validateDashboard();
+            await dashboard.cardSummary();
+            await dashboard.clickNewRequest();
+            await newRequest.select_client(ENV.CLIENT_ACCEPT);
+            await newRequest.fillRequestDetails(ENV.REQUEST_TYPE[0], ENV.REQUESTOR_ADMIN,ENV.GUEST_TYPE[0],'Miami, FL, USA', `45`);
+            await newRequest.fillGuestInfo(ENV.GUEST_FIRSTNAME,ENV.GUEST_LASTNAME,guest_email,ENV.GUEST_PHONE);
+            await newRequest.fillCorporateHousingDetails();
+            await newRequest.submitRequest();
+            await requestShow.getRequestId();
+            await requestShow.editRequest();
+            await newRequest.editRequest(ENV.REQUESTOR_USER);
     })
     test("Bid an existing option", async({webActions, homePage, dashboard, search, requestShow, option}) =>{
         await webActions.navigateTo(ENV.BASE_URL);
@@ -78,8 +78,11 @@ test.describe("Test Suite Basic Flow ", () => {
         await requestShow.viewReservation();
         await reservation.getReservationId();
         console.log(ENV.RESERVATION_ID);
+        await reservation.clickEditSegmentLink();
         await reservation.editRateSegment();
+        await reservation.submitSegmentChanges();
         await reservation.changeSegmentStarDateToPast();
+        await reservation.submitSegmentChanges();
         await reservation.viewRateSegmentHistory();
     })
 
