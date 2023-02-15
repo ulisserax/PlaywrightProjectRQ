@@ -144,12 +144,19 @@ export default class Reservation {
         let deposit_total           = Number(await (await this.page.locator(Text.deposits_total).textContent()).replace('$','').replace(',','').trim());
         let totals                  = Number(await (await this.page.locator(Text.totals).textContent()).replace('$','').replace(',','').trim());
 
-        console.log('comparing the rate1 ammount + rate2 ammount with the rate segment total and rent total '+(Number(rate1_amount)+Number(rate2_amount))+ ' == ' + Number(rate_segment_total)+ ' == ' + Number(rent_total));
-        await expect((Number(rate1_amount)+Number(rate2_amount))).toEqual(Number(rate_segment_total));
+        console.log(isNaN(rate1_amount));
+        console.log(isNaN(rate2_amount));
+        console.log(isNaN(tax1_amount));
+        console.log(isNaN(tax2_amount));
+        console.log(isNaN(fee1_amount));
+        console.log(isNaN(fee2_amount));
+
+        console.log('comparing the rate1 ammount + rate2 ammount with the rate segment total and rent total '+(Number(Number(rate1_amount)+Number(rate2_amount).toFixed(2)))+ ' == ' + Number(rate_segment_total)+ ' == ' + Number(rent_total));
+        await expect(Number((Number(rate1_amount)+Number(rate2_amount)).toFixed(2))).toEqual(Number(rate_segment_total));
         await expect((Number(rate_segment_total))).toEqual(Number(rent_total));
         
-        console.log('comparing the tax1 ammount + tax2 ammount with the tax details total and taxes total '+(Number(tax1_amount)+Number(tax2_amount))+ ' == ' + Number(tax_detail_total)+ ' == ' + Number(taxes_total));
-        await expect((Number(tax1_amount)+Number(tax2_amount))).toEqual(Number(tax_detail_total));
+        console.log('comparing the tax1 ammount + tax2 ammount with the tax details total and taxes total '+(Number(Number(tax1_amount)+Number(tax2_amount)).toFixed(2))+ ' == ' + Number(tax_detail_total)+ ' == ' + Number(taxes_total));
+        await expect(Number((Number(tax1_amount)+Number(tax2_amount)).toFixed(2))).toEqual(Number(tax_detail_total));
         await expect((Number(tax_detail_total))).toEqual(Number(taxes_total));
 
         console.log('comparing the fee1 ammount + fee2 ammount with the fee details total and fees total '+(Number(fee1_amount)+Number(fee1_amount))+ ' == ' + Number(fee_detail_total)+ ' == ' + Number(fees_total));
@@ -164,8 +171,6 @@ export default class Reservation {
         await expect((Number(deposit_amount))).toEqual(Number(deposit_detail_total));
         await expect((Number(deposit_detail_total))).toEqual(Number(deposit_total));
 
-        
-    
     }
 
     async validateRateSegmentTotals(){
@@ -175,16 +180,16 @@ export default class Reservation {
         let rate_total          = Number(await (await this.page.locator(Text.modal_rate_total).textContent()).replace('$','').trim());
 
         console.log(`rate segment 1 total (${total_rate_segment1}) + rate segment 2 (${total_rate_segment2}) == rate_total (${rate_total})`);
-        await expect((total_rate_segment1 + total_rate_segment2)).toEqual(rate_total);
+        await expect(Number((total_rate_segment1 + total_rate_segment2).toFixed(2))).toEqual(rate_total);
     }
 
     async validateTaxSegmentTotals(){
-        let total_rate_segment1 = Number(await (await this.page.locator(Text.modal_rate_segment_total).first().inputValue()).replace('$','').trim());
-        let total_rate_segment2 = Number(await (await this.page.locator(Text.modal_rate_segment_total).nth(1).inputValue()).replace('$','').trim());
-        let rate_total          = Number(await (await this.page.locator(Text.modal_rate_total).textContent()).replace('$','').trim());
+        let total_tax_segment1 = Number(await (await this.page.locator(Text.modal_tax_segment_total).first().inputValue()).replace('$','').trim());
+        let total_tax_segment2 = Number(await (await this.page.locator(Text.modal_tax_segment_total).nth(1).inputValue()).replace('$','').trim());
+        let tax_total          = Number(await (await this.page.locator(Text.modal_tax_total).textContent()).replace('$','').trim());
 
-        console.log(`rate segment 1 total (${total_rate_segment1}) + rate segment 2 (${total_rate_segment2}) == rate_total (${rate_total})`);
-        await expect((total_rate_segment1 + total_rate_segment2)).toEqual(rate_total);
+        console.log(`rate segment 1 total (${total_tax_segment1}) + rate segment 2 (${total_tax_segment2}) == rate_total (${tax_total})`);
+        await expect((total_tax_segment1 + total_tax_segment2)).toEqual(tax_total);
     }
 
     async validateFeeSegmentTotals(){

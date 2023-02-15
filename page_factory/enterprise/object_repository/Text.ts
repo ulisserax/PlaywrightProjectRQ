@@ -52,6 +52,9 @@ export default class Text{
     static modal_rate_segment_total             = `//div[@id='rate_segment_placement']//input[contains(@class,'rate-segment-rate-total')]`;
     static modal_rate_total                     = `//span[@id='rate-segments-total']`;
     static modal_rate_segment_length            = `//div[@id='rate_segment_placement']//input[contains(@class,'segment-length-stay')]`;
+    static modal_tax_segment_total             = `//div[@id='rate_segment_placement']//input[contains(@class,'rate-segment-rate-total')]`;
+    static modal_tax_total                     = `//span[@id='rate-segments-total']`;
+    static modal_tax_segment_length            = `//div[@id='rate_segment_placement']//input[contains(@class,'segment-length-stay')]`;
 
     static specificEmail(email: string, email_subject: string){
         return `//td[contains(text(),'${email.toLocaleLowerCase()}')]/following-sibling::td[contains(text(),'${email_subject}')]`;

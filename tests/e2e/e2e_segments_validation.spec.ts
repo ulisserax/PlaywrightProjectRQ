@@ -61,5 +61,7 @@ test.describe.only("Test Suite for Segments Validation", () => {
         await reservation.editRateSegment();
         await reservation.deleteSegment();
         await reservation.submitSegmentChanges();
+        await reservation.clickEditSegmentLink();
+        
     })
 });
