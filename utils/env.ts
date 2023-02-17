@@ -50,6 +50,7 @@ export default class ENV{
     static SUPPLIER_API_KEY         = process.env.SUPPLIER_API_KEY
     
     static EXCEPTION_FEE_CLIENT_ID  = process.env.EXCEPTION_FEE_CLIENT_ID
+    static  CLIENT_ID               = process.env.CLIENT_ID
 
     static PROPERTY_NAME            = ``
     static PROPERTY_ADDRESS         = ``
@@ -71,6 +72,8 @@ export default class ENV{
     static ZIP_CODE          = process.env.ZIP_CODE
 
     static SLACK_TOKEN       = process.env.SLACK_TOKEN;
+    static START_DATE        = new Date(new Date().setDate(new Date().getDate()+20)).toISOString().split('T')[0];
+    static END_DATE          = new Date(new Date().setDate(new Date().getDate()+45)).toISOString().split('T')[0];
 
 
 }

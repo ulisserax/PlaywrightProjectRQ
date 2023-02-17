@@ -99,5 +99,6 @@ export default class Button{
     static update_client             = `//div[@aria-hidden='false']//button[contains(text(),'Update')]`;
     static duplicate_client          = `//div[@aria-hidden='false']//button[contains(text(),'Duplicate')]`;
     static modal_duplicate_client    = `.client-name-modal .btn-primary`;
+    static confirm_change            = `button#btnConfirm`
     
 }

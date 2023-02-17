@@ -69,7 +69,7 @@ export default class Client {
         await this.page.click(Button.modal_duplicate_client);
         await WebActions.delay(300);
         await this.page.waitForLoadState('networkidle');
-        await this.page.pause();
+
     }
 
     async verifyClientDuplicatedSuccessfully() {
