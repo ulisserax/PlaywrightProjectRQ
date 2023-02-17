@@ -18,7 +18,7 @@ export default class Input{
     static utility_cap               = `#form_utility_cap`;
     static parking_space             = `#form_parking_spaces`;
     static rate                      = `#rate_segment_placement #form_segment_rate`;
-    static fee                       = `#fee_segment_0 input.feesegment-value`;
+    static fee                       = `//h2[contains(text(),'Fees:')]/parent::div//input[contains(@class,'feesegment-value')]`;
     static share_email               = `.form-share-options #email`;
     static search_message            = `input[name='search']`;
     static link_to_options           = `#share_link`;
@@ -84,4 +84,6 @@ export default class Input{
     static referral_commision        = `#areaFeeForm_referral_fee`;
     static reloquest_fee             = `#areaFeeForm_service_fee`;
     static default_referral_fee      = `#defaultAreaFeeForm_referral_fee`;
+    static tax_value                 = `//h2[contains(text(),'Taxes:')]/parent::div//input[contains(@class,'feesegment-value')]`;
+    static deposit_value             = `//h2[contains(text(),'Deposits:')]/parent::div//input[contains(@class,'feesegment-value')]`;
 }

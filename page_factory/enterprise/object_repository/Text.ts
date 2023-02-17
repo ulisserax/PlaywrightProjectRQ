@@ -27,7 +27,34 @@ export default class Text{
     static referral_commission                  = `//div[@id='rate_segment_placement']//label[@for='form_segment_referral']`;
     static referral_commission_value            = `//div[@id='segment_fees_0']//span[@id='form_segment_referral']`;
     static reloquest_fee                        = `//div[@id='segment_fees_0']//span[@id='form_segment_rq_fee']`;
-
+    static total_days                           = `#segment_option_length_stay`;
+    static avg_rate_day                         = `#average_daily_rate`;
+    static total_tax_segment                    = `//h2[contains(text(),'Taxes')]/parent::div//label[contains(text(),'Total')]/following-sibling::div//input[contains(@class,'segment-total')]`;
+    static total_fee_segment                    = `//h2[contains(text(),'Fees')]/parent::div//label[contains(text(),'Total')]/following-sibling::div//input[contains(@class,'segment-total')]`;
+    static total_rent                           = `span#segment_total_rate`;
+    static total_taxes                          = `span#segment_total_tax`;
+    static total_fees                           = `span#segment_total_fee`;
+    static total_deposits                       = `span#segment_total_deposit`;
+    static grand_total                          = `span#segment_grand_total`;
+    static rate_segment_amount                  = `//h2[contains(text(),'Property / Rate Segments:')]/parent::div/following-sibling::div//tbody//tr/td[3]`;
+    static tax_amount                           = `//h2[contains(text(),'Tax Details:')]/parent::div/following-sibling::div//tbody//tr/td[3]`;
+    static fee_amount                           = `//h2[contains(text(),'Fee Details:')]/parent::div/following-sibling::div//tbody//tr/td[3]`;
+    static deposit_amount                       = `//h2[contains(text(),'Deposits Details:')]/parent::div/following-sibling::div//tbody//tr/td[3]`;
+    static rate_segment_total                   = `//h2[contains(text(),'Property / Rate Segments:')]/parent::div/following-sibling::div//tbody//tr/td[2]`;
+    static tax_details_total                    = `//h2[contains(text(),'Tax Details:')]/parent::div/following-sibling::div//tbody//tr/td[2]`;
+    static fee_details_total                    = `//h2[contains(text(),'Fee Details:')]/parent::div/following-sibling::div//tbody/tr/td[2]`;
+    static deposit_details_total                = `//h2[contains(text(),'Deposits Details:')]/parent::div/following-sibling::div//tbody//tr/td[2]`;
+    static rent_total                           = `//td[contains(text(),'Rent Total:')]/following-sibling::td`;
+    static taxes_total                          = `//td[contains(text(),'Total Taxes:')]/following-sibling::td`;
+    static fees_total                           = `//td[contains(text(),'Total Fees:')]/following-sibling::td`;
+    static deposits_total                       = `//td[contains(text(),'Total Deposits:')]/following-sibling::td`;
+    static totals                               = `//td[contains(text(),'Totals:')]/following-sibling::td`;
+    static modal_rate_segment_total             = `//div[@id='rate_segment_placement']//input[contains(@class,'rate-segment-rate-total')]`;
+    static modal_rate_total                     = `//span[@id='rate-segments-total']`;
+    static modal_rate_segment_length            = `//div[@id='rate_segment_placement']//input[contains(@class,'segment-length-stay')]`;
+    static modal_tax_segment_total             = `//div[@id='rate_segment_placement']//input[contains(@class,'rate-segment-rate-total')]`;
+    static modal_tax_total                     = `//span[@id='rate-segments-total']`;
+    static modal_tax_segment_length            = `//div[@id='rate_segment_placement']//input[contains(@class,'segment-length-stay')]`;
 
     static specificEmail(email: string, email_subject: string){
         return `//td[contains(text(),'${email.toLocaleLowerCase()}')]/following-sibling::td[contains(text(),'${email_subject}')]`;

@@ -48,5 +48,9 @@ export default class Element{
     static supplier_fee_modal              = `#area_fee_modal  h4.modal-title`;
     static supplier_seting_updated         = `//div[contains(text(),'Supplier setting has been saved')]`;
     static exception_fee_area              = `//table[@id='area_fee_list']  //td[text()='Miami, FL, USA']`;
-    static default_referral_fee            = `#show_default_referral_fee .number`;  
+    static default_referral_fee            = `#show_default_referral_fee .number`;
+    static segment_summary_section         = `div.segment-summary-section`;
+    static rate_length                     = `#rate_segment_placement .segment-length-stay`;
+    static delete_rate_segment             = `//div[@id='rate_segment_1']//span[contains(@class,'delete_rate_segment')]`;
+    static rate_segment_rows               = `//div[@id='rate_segment_placement']/div[contains(@class,'row_rate_segment')]`;
 }

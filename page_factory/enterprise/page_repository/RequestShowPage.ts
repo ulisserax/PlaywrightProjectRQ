@@ -297,4 +297,15 @@ export default class RequestShowPage {
         await this.page.click(Button.b2e_modal_continue);
     } 
 
+    async awardOption(): Promise<void>{
+        console.info(`Awarding option`);
+        await this.page.waitForLoadState('networkidle');
+        await this.page.waitForLoadState('domcontentloaded');
+        await this.page.click(Button.award);
+        await this.page.click(Button.yes);
+        await this.page.waitForLoadState('networkidle');
+        await expect(await this.page.locator(Element.awarded_options_table_row).count()).toEqual(1);
+    }
+
+
 }

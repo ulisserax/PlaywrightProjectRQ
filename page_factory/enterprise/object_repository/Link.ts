@@ -22,9 +22,13 @@ export default class Link{
     static activate_account     = `//a[contains(text(), 'Activate My Account')]`;
     static tab_settings         = `//a[text() = 'Settings']`;
     static passwordReset        = `//a[contains(@href,'reloquest.com/password_reset')]`;   
-    static password_reset       = `//a[contains(@href,'reloquest.com/reset-password')]`;
     static supplier_id          = `#supplier-search_wrapper a[href*="supplier"]`;
     static add_supplier         = `#add-supplier.btn`;
     static add_exception_fee    = `a#addRequestorSupplierAreaFee`;
     static default_referral_fee = `#show_default_referral_fee~.editDefaultFee`;     
+    static password_reset       = `//a[contains(@href,'reloquest.com/reset-password')]`; 
+    static add_rate             = `a#add_rate_segment`; 
+    static add_tax              = `a#add_tax_type`;
+    static add_fees             = `a#add_fee_segment`;   
+    static add_deposit          = `a#add_deposit_segment`;     
 }

@@ -106,4 +106,5 @@ export default class Button{
     static save_area_fee             = `#btn_add_area_fee`;
     static save_default_referral     = `#editDefaultReferralFeeForm .btn-primary`;
     static create_area               = `#create-custom-area`;
+    static confirm_change            = `button#btnConfirm`
 }
