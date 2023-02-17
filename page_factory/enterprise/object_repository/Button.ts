@@ -99,5 +99,11 @@ export default class Button{
     static update_client             = `//div[@aria-hidden='false']//button[contains(text(),'Update')]`;
     static duplicate_client          = `//div[@aria-hidden='false']//button[contains(text(),'Duplicate')]`;
     static modal_duplicate_client    = `.client-name-modal .btn-primary`;
-    
+    static search_supplier           = `#supplier-search-filter #supplier-search-button`;
+    static area_right_arrow          = `#ms-right`;
+    static confirm_area              = `#form_areas_submit`;
+    static modal_close               = `.modal-footer > .btn-primary`;
+    static save_area_fee             = `#btn_add_area_fee`;
+    static save_default_referral     = `#editDefaultReferralFeeForm .btn-primary`;
+    static create_area               = `#create-custom-area`;
 }

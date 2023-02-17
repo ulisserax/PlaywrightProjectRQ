@@ -80,5 +80,8 @@ export default class Input{
     static client_name               = `input[label='Name:']`;
     static client_default_notice     = `input[label*='Days Notice']`;
     static duplicated_client_name    = `#check_duplicate_form_name`;
-    
+    static supplier_filter           = `#supplier-search-filter input`;
+    static referral_commision        = `#areaFeeForm_referral_fee`;
+    static reloquest_fee             = `#areaFeeForm_service_fee`;
+    static default_referral_fee      = `#defaultAreaFeeForm_referral_fee`;
 }

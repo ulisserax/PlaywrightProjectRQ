@@ -10,10 +10,10 @@ test.describe.only ('Create a RQ base flow, Supplier, Property, Area, Requestor,
     test.slow();
     let subject, passwordResetLink;
     let number = chance.integer({min:1,max:9999});
-    const requestorCompanyName = `${chance.word({length: 5})}${chance.string({length: 6, numeric: true})}-requestor`;
-    const supplierCompanyName  = `${chance.word({length: 5})}${chance.string({length: 6, numeric: true})}-supplier`;
-    const supplierAdminUser    = `${chance.first()}supadmin@${supplierCompanyName}.com`.toLowerCase();
-    const requestorAdminUser   = `${chance.first()}reqadmin@${requestorCompanyName}.com`.toLowerCase();
+    const requestorCompanyName = `${chance.word({length: 5})}${chance.string({length: 6, numeric: true})}-requestor`; //'nevol554230-requestor//
+    const supplierCompanyName  = `${chance.word({length: 5})}${chance.string({length: 6, numeric: true})}-supplier`; //'iceha419483-supplier' //
+    const supplierAdminUser    = `${chance.first()}supadmin@${supplierCompanyName}.com`.toLowerCase(); //'charliesupadmin@iceha419483-supplier.com'//
+    const requestorAdminUser   = `${chance.first()}reqadmin@${requestorCompanyName}.com`.toLowerCase();//'brucereqadmin@nevol554230-requestor.com' //
     const property_name        = `${supplierCompanyName}Property_`;
     const areaName             = `${supplierCompanyName}_Area_${number}`;
     let clientName             = `${requestorCompanyName}_Client_${number}`;   
@@ -90,7 +90,7 @@ test.describe.only ('Create a RQ base flow, Supplier, Property, Area, Requestor,
         await dashboard.validateDashboard();
     })
 
-    test ("Create a new Client", async ( {webActions, homePage, dashboard, myAccount, client}) =>{
+    test ("Create a new Client", async ({webActions, homePage, dashboard, myAccount, client}) =>{
         await webActions.navigateTo(`${ENV.BASE_URL}`);
         await homePage.enterCredentials(requestorAdminUser, ENV.REQUESTOR_ADMIN_PASSWORD);
         await homePage.signIn();
@@ -102,5 +102,17 @@ test.describe.only ('Create a RQ base flow, Supplier, Property, Area, Requestor,
         await client.editClientSettings();
         await client.verifyClientSettings();
         await client.duplicateClient(clientName);
+    })
+
+    test ("Add a Supplier to a Requestor's network and approving-creating Areas", async ({webActions, homePage, dashboard, supplier}) => {
+        await webActions.navigateTo(`${ENV.BASE_URL}`);
+        await homePage.enterCredentials(requestorAdminUser, ENV.REQUESTOR_ADMIN_PASSWORD);
+        await homePage.signIn();
+        await dashboard.clickSuppliersTab();
+        await supplier.approveSupplier(supplierCompanyName);
+        await supplier.approveSupplierArea(areaName);
+        await supplier.editSupplierArea();
+        await supplier.addExceptionFeeAndReferralCommision("Miami, FL, USA");
+        await supplier.createCustomArea("Miami Beach, FL, USA", `Custom - ${areaName}`);
     })
 })

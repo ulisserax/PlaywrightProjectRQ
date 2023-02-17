@@ -20,10 +20,11 @@ async createNewArea(location:string, areaName: string): Promise<void>{
     console.info(`filling the new area form.`);
     await this.page.waitForLoadState('domcontentloaded');
     await this.page.type(Input.area_name, areaName, { delay:50 });
-    await this.page.type(Input.area_location, location, { delay:50 });
+    await this.page.type(Input.area_location, location, { delay:70 });
+    await WebActions.delay(600);
     await this.page.keyboard.press('ArrowDown');
     await WebActions.delay(600);
-    await this.page.keyboard.press('Tab');
+    await this.page.keyboard.press('Enter');
     await WebActions.delay(600);
     await this.page.click(Button.submit);
 }
@@ -34,6 +35,15 @@ async validateAreaCreated(areaName: string): Promise<void>{
     await this.page.waitForLoadState('domcontentloaded');
     await this.page.waitForLoadState('networkidle');
     await expect (await this.page.locator(Element.areas_of_coverage)).toBeVisible();;
+    await expect (await this.page.locator(`//a[contains(text(),'${areaName}')]`)).toBeVisible();
+}
+
+async validateCustomAreaCreated(areaName: string): Promise<void>{
+    console.info(`Verifying that the Custom area was successfully created.`);
+    await WebActions.delay(600);
+    await this.page.waitForLoadState('domcontentloaded');
+    await this.page.waitForLoadState('networkidle');
+    await expect (await this.page.locator(Element.custom_area)).toBeVisible();;
     await expect (await this.page.locator(`//a[contains(text(),'${areaName}')]`)).toBeVisible();
 }
 

@@ -37,9 +37,16 @@ export default class Element{
     static confirm_password_reset          = `//h3[contains(text(),"password successfully")]`;
     static edit_user                       = `.profile-actions-td .edit`;
     static areas_of_coverage               = `//h1[contains(text(),'Areas of Coverage')]`;
+    static custom_area                     = `//h2[contains(text(),'Custom Areas for this Supplier')]`;
     static image_modal                     = `//div[@id='image_upload_modal' and @class='modal fade in']`;
     static client_form_title               = `//h1/span[contains(text(),'Client:')]`;
     static client_settings                 = `.client-ico-settings`;
-    static client_details                  = `.client-ico-client-details`; 
-    
+    static client_details                  = `.client-ico-client-details`;
+    static supplier_area_icon              = `//a[@href='#supplier-areas']`;
+    static supplier_referral_icon          = `.icon-supplier-referral`;
+    static area_confirmation_title         = `//h4[contains(text(),'The approved areas')]`;
+    static supplier_fee_modal              = `#area_fee_modal  h4.modal-title`;
+    static supplier_seting_updated         = `//div[contains(text(),'Supplier setting has been saved')]`;
+    static exception_fee_area              = `//table[@id='area_fee_list']  //td[text()='Miami, FL, USA']`;
+    static default_referral_fee            = `#show_default_referral_fee .number`;  
 }
