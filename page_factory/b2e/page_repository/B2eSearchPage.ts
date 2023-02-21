@@ -26,6 +26,13 @@ export default class B2eSearchPage {
         await expect(await this.page.url()).toContain(url);
     }
 
+    async newSearch(){
+        console.info(`Clicking in the new search`);
+        await this.page.waitForLoadState(`domcontentloaded`);
+        await WebActions.delay(1900);
+        await this.page.click(Link.new_search);
+    }
+
     async searchDestination(destination: string): Promise<void>{
         console.info(`Searching ${destination} ratecards`);
         await this.page.waitForLoadState(`domcontentloaded`);

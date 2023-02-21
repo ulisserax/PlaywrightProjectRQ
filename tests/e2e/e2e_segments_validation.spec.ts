@@ -46,7 +46,7 @@ test.describe.only("Test Suite for Segments Validation", () => {
         await search.clickRequestIdLink();
         await requestShow.awardOption();
     })
-    //ENV.REQUEST_ID = 'RQ444796';
+    //ENV.REQUEST_ID = 'RQF571C3';
     test("Vaidate reservation segments", async ({webActions, homePage, dashboard, search, requestShow, reservation}) => {
         await webActions.navigateTo(ENV.BASE_URL);
         await homePage.enterCredentials(ENV.SUPPLIER_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);
@@ -62,6 +62,17 @@ test.describe.only("Test Suite for Segments Validation", () => {
         await reservation.deleteSegment();
         await reservation.submitSegmentChanges();
         await reservation.clickEditSegmentLink();
-        
+        await reservation.addSecondRateSegment();
+        await reservation.validateRateSegmentTotals();
+        await reservation.submitSegmentChanges();
+        await reservation.clickEditSegmentLink();
+        await reservation.expandTaxesSection();
+        await reservation.addNewTax(`3`,`${chance.integer({ min: 100, max: 600})}`,`FLAT`);
+        await reservation.expandFeesSection();
+        await reservation.addNewFees(`Other Fees`,`${chance.integer({ min: 100, max: 600})}`,`FLAT`);
+        await reservation.expandDepositsSection();
+        await reservation.addNewDeposit(2);
+        await reservation.submitSegmentChanges();
+        await reservation.validateReservationTotal();
     })
 });
