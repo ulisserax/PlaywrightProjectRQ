@@ -82,4 +82,10 @@ export default class DashboardPage {
         await this.page.waitForLoadState('domcontentloaded');
         await this.page.click(Button.area);
     }
+    
+    async clickSuppliersTab(): Promise<void>{
+        console.info(`Clicking on the Suppliers Tab.`);
+        await this.page.waitForLoadState(`domcontentloaded`);
+        await this.page.click(Button.suppliers);
+    }
 }

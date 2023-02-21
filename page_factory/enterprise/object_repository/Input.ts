@@ -85,4 +85,9 @@ export default class Input{
     static reservation_tax_segment      = `//div[@id='taxable-section']//input[contains(@class, 'feesegment-value')]`;
     static reservation_fee_segment      = `//div[contains(@class,'fee-section')]//input[contains(@class, 'feesegment-value')]`;
     static reservation_deposit_segment  = `//div[contains(@class,'deposit-section')]//input[contains(@class, 'feesegment-value')]`;
+    static supplier_filter              = `#supplier-search-filter input`;
+    static referral_commision           = `#areaFeeForm_referral_fee`;
+    static reloquest_fee                = `#areaFeeForm_service_fee`;
+    static default_referral_fee         = `#defaultAreaFeeForm_referral_fee`;
+    
 }

@@ -68,15 +68,14 @@ export default class Client {
         await this.page.type(Input.duplicated_client_name, `Duplicated_${duplicatedClientName}`);
         await this.page.click(Button.modal_duplicate_client);
         await WebActions.delay(300);
+        await this.page.waitForLoadState('domcontentloaded');
         await this.page.waitForLoadState('networkidle');
-
     }
 
     async verifyClientDuplicatedSuccessfully() {
         console.info(`Verifying that the Client was successfully Duplicated.`);
         await WebActions.delay(300);
         await (await this.page.waitForSelector(Button.update_client)).isVisible();
-
     }
 
 }

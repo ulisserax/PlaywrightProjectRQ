@@ -29,4 +29,9 @@ export default class Link{
     static add_deposit             = `a#add_deposit_segment`; 
     static add_reservation_fee     = `a#add_fee_type`; 
     static add_reservation_deposit = `a#add_deposit_type`;   
+    static supplier_id             = `#supplier-search_wrapper a[href*="supplier"]`;
+    static add_supplier            = `#add-supplier.btn`;
+    static add_exception_fee       = `a#addRequestorSupplierAreaFee`;
+    static default_referral_fee    = `#show_default_referral_fee~.editDefaultFee`;     
+         
 }
