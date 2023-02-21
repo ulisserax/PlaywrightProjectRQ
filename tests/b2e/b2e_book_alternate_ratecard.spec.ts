@@ -12,6 +12,7 @@ test.describe("Test Suite Book an alternate ratecard for B2E", () => {
       await b2eHomePage.acceptCookies();
       await b2eHomePage.enterCredentials(ENV.B2E_USER, ENV.B2E_USER_PASSWORD);
       await b2eHomePage.signIn();
+      await b2eSearchPage.newSearch();
       await b2eSearchPage.searchDestination(`Miami, FL, USA`);
       await b2eSearchPage.selectDates();
       await b2eSearchPage.housingOptionsCorporate();

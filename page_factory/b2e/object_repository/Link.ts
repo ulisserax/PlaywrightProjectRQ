@@ -7,4 +7,5 @@ export default class Link{
     static forgot_password     = `//a[contains(text(), 'Forgot password?')]`;
     static profile             = `//a[@href='/b2e/profile']`;
     static change_password     = `//div[contains(text(),'Change Password')]`; //`//div[contains(text(),'Change Password')]/parent::div`
+    static new_search          = `//a[contains(text(),'NEW SEARCH')]`;
 }

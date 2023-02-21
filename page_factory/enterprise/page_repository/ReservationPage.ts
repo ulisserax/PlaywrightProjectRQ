@@ -8,6 +8,7 @@ import Button from "@enterprise_objects/Button";
 import Calendar from "@enterprise_objects/Calendar";
 import Element from "@enterprise_objects/Element";
 import ENV from "@utils/env";
+import Dropdown from "@enterprise_objects/Dropdown";
 const Chance = require ('chance');
 const chance = new Chance();
 
@@ -29,6 +30,7 @@ export default class Reservation {
         console.info(`Clicking edit rate segment link`);
         await this.page.locator(Link.edit_segment_details).first().click();
         await this.page.waitForLoadState('domcontentloaded');
+
     }
 
     async editRateSegment(): Promise<void>{
@@ -52,6 +54,7 @@ export default class Reservation {
         await this.page.click(Checkbox.edit_segment_understand);
         await this.page.click(Button.submit_changes);
         await this.page.waitForLoadState('domcontentloaded');
+        await WebActions.delay(1500);
     }
 
     async checkReservationFeeSegments(){
@@ -144,32 +147,26 @@ export default class Reservation {
         let deposit_total           = Number(await (await this.page.locator(Text.deposits_total).textContent()).replace('$','').replace(',','').trim());
         let totals                  = Number(await (await this.page.locator(Text.totals).textContent()).replace('$','').replace(',','').trim());
 
-        console.log(isNaN(rate1_amount));
-        console.log(isNaN(rate2_amount));
-        console.log(isNaN(tax1_amount));
-        console.log(isNaN(tax2_amount));
-        console.log(isNaN(fee1_amount));
-        console.log(isNaN(fee2_amount));
 
-        console.log('comparing the rate1 ammount + rate2 ammount with the rate segment total and rent total '+(Number(Number(rate1_amount)+Number(rate2_amount).toFixed(2)))+ ' == ' + Number(rate_segment_total)+ ' == ' + Number(rent_total));
-        await expect(Number((Number(rate1_amount)+Number(rate2_amount)).toFixed(2))).toEqual(Number(rate_segment_total));
-        await expect((Number(rate_segment_total))).toEqual(Number(rent_total));
+        console.log('comparing the rate1 ammount + rate2 ammount with the rate segment total and rent total '+Number((rate1_amount+rate2_amount).toFixed(2))+ ' == ' + rate_segment_total+ ' == ' + rent_total);
+        await expect(Number((rate1_amount+rate2_amount).toFixed(2))).toEqual(rate_segment_total);
+        await expect(rate_segment_total).toEqual(rent_total);
         
-        console.log('comparing the tax1 ammount + tax2 ammount with the tax details total and taxes total '+(Number(Number(tax1_amount)+Number(tax2_amount)).toFixed(2))+ ' == ' + Number(tax_detail_total)+ ' == ' + Number(taxes_total));
-        await expect(Number((Number(tax1_amount)+Number(tax2_amount)).toFixed(2))).toEqual(Number(tax_detail_total));
-        await expect((Number(tax_detail_total))).toEqual(Number(taxes_total));
+        console.log('comparing the tax1 ammount + tax2 ammount with the tax details total and taxes total '+Number((tax1_amount+tax2_amount).toFixed(2))+ ' == ' + tax_detail_total+ ' == ' +taxes_total);
+        await expect(Number((tax1_amount+tax2_amount).toFixed(2))).toEqual(tax_detail_total);
+        await expect(tax_detail_total).toEqual(taxes_total);
 
-        console.log('comparing the fee1 ammount + fee2 ammount with the fee details total and fees total '+(Number(fee1_amount)+Number(fee1_amount))+ ' == ' + Number(fee_detail_total)+ ' == ' + Number(fees_total));
-        await expect((Number(fee1_amount)+Number(fee2_amount))).toEqual(Number(fee_detail_total));
-        await expect((Number(fee_detail_total))).toEqual(Number(fees_total));
+        console.log('comparing the fee1 ammount + fee2 ammount with the fee details total and fees total '+fee1_amount+fee1_amount+ ' == ' + fee_detail_total+ ' == ' + fees_total);
+        await expect(Number((fee1_amount+fee2_amount).toFixed(2))).toEqual(fee_detail_total);
+        await expect(fee_detail_total).toEqual(fees_total);
 
-        console.log('comparing the deposits amount with the deposits details total and deposits total '+(Number(deposit_amount))+ ' == ' + Number(deposit_detail_total)+ ' == ' + Number(deposit_total));
-        await expect((Number(deposit_amount))).toEqual(Number(deposit_detail_total));
-        await expect((Number(deposit_detail_total))).toEqual(Number(deposit_total));
+        console.log('comparing the deposits amount with the deposits details total and deposits total '+deposit_amount+ ' == ' + deposit_detail_total+ ' == ' + deposit_total);
+        await expect(deposit_amount).toEqual(deposit_detail_total);
+        await expect(deposit_detail_total).toEqual(deposit_total);
 
-        console.log('(rent_total + taxes_total + fees_total + deposit_total) == totals --> '+(Number(rent_total)+Number(taxes_total)+Number(fees_total)+Number(deposit_total))+ ' == ' + Number(totals));
-        await expect((Number(deposit_amount))).toEqual(Number(deposit_detail_total));
-        await expect((Number(deposit_detail_total))).toEqual(Number(deposit_total));
+        console.log('(rent_total + taxes_total + fees_total + deposit_total) == totals --> '+rent_total+taxes_total+fees_total+deposit_total+ ' == ' + totals);
+        await expect(Number((rate_segment_total+tax_detail_total+fee_detail_total+deposit_detail_total).toFixed(2))).toEqual(totals);
+        await expect(Number((rent_total+taxes_total+fees_total+deposit_total).toFixed(2))).toEqual(totals);
 
     }
 
@@ -214,6 +211,85 @@ export default class Reservation {
         console.info(`Deleting the second rate segment.`);
         await this.page.locator(Element.delete_rate_segment).first().click();
         await expect(await this.page.locator(Element.rate_segment_rows).count()).toEqual(1);
+        //await this.page.pause()
+    }
+
+    async addSecondRateSegment(){
+        console.info("Filling second rate details.");
+        await this.page.click(Link.add_rate);
+        await this.page.locator(Input.rate).last().fill('');
+        await this.page.locator(Input.rate).last().type(`${chance.floating({ min: 70, max: 299, fixed: 2 })}`);
+        await this.page.keyboard.press('Enter');
+    }
+
+    async expandTaxesSection(){
+        console.info("Expanding taxes section");
+        await this.page.click(Dropdown.expand_taxes);
+    }
+
+    async expandFeesSection(){
+        console.info("Expanding fees section");
+        await this.page.click(Dropdown.expand_fees);
+        
+    }
+
+    async expandDepositsSection(){
+        console.info("Expanding deposits section");
+        await this.page.click(Dropdown.expand_deposits);
+        
+    }
+
+    async addNewTax(taxes_type:string, value:string, type:string): Promise<void>{
+        console.info("Adding a new tax");
+        await this.page.click(Link.add_tax);
+        await WebActions.delay(400);
+        await this.page.locator(Dropdown.reservation_tax_segment).nth(2).selectOption({value: taxes_type});
+        await this.page.locator(Input.reservation_tax_segment).nth(2).fill('');
+        await this.page.locator(Input.reservation_tax_segment).nth(2).type(value);
+        await this.page.locator(Dropdown.reservation_tax_seg_type).nth(2).selectOption({value: type});
+        await this.page.keyboard.press('Enter');
+        
+    }
+
+    async addNewFees(fee:string, value:string, fee_type): Promise<void>{
+        console.info("Adding a new fee.");
+        await this.page.click(Link.add_reservation_fee);
+        await this.page.locator(Dropdown.reservation_fee_segment).nth(2).selectOption({label: `${fee}`});
+        await this.page.locator(Input.reservation_fee_segment).nth(2).fill('');
+        await this.page.locator(Input.reservation_fee_segment).nth(2).type(`${value}`);
+        await this.page.keyboard.press('Enter');
+        await this.page.locator(Dropdown.reservation_fee_seg_type).nth(2).selectOption({value: `${fee_type}`});
+        
+    }
+
+    async addNewDeposit(deposits_type_index:number): Promise<void>{
+        console.info("Adding a new deposit.");
+        await this.page.click(Link.add_reservation_deposit);
+        await WebActions.delay(500);
+        await this.page.locator(Dropdown.reservation_deposit_segment).nth(1).selectOption({index: deposits_type_index});
+        await this.page.locator(Input.reservation_deposit_segment).nth(1).fill('');
+        await this.page.locator(Input.reservation_deposit_segment).nth(1).type(`${chance.floating({ min: 70, max: 500, fixed: 2 })}`);
+        await this.page.keyboard.press('Enter');
+       
+    }
+
+    async validateReservationTotal(){
+        console.info(`Validating the new reservations totals`);
+        let rate_segment_total      = Number(await (await this.page.locator(Text.rate_segment_total).last().textContent()).replace('$','').replace(',','').trim());
+        let tax_detail_total        = Number(await (await this.page.locator(Text.tax_details_total).last().textContent()).replace('$','').replace(',','').trim());
+        let fee_detail_total        = Number(await (await this.page.locator(Text.fee_details_total).last().textContent()).replace('$','').replace(',','').trim());
+        let deposit_detail_total    = Number(await (await this.page.locator(Text.deposit_details_total).last().textContent()).replace('$','').replace(',','').trim());
+        let rent_total              = Number(await (await this.page.locator(Text.rent_total).textContent()).replace('$','').replace(',','').trim());
+        let taxes_total             = Number(await (await this.page.locator(Text.taxes_total).textContent()).replace('$','').replace(',','').trim());
+        let fees_total              = Number(await (await this.page.locator(Text.fees_total).textContent()).replace('$','').replace(',','').trim());
+        let deposit_total           = Number(await (await this.page.locator(Text.deposits_total).textContent()).replace('$','').replace(',','').trim());
+        let totals                  = Number(await (await this.page.locator(Text.totals).textContent()).replace('$','').replace(',','').trim());
+
+
+        
+        console.log('(rent_total + taxes_total + fees_total + deposit_total) == totals --> '+Number((rent_total+taxes_total+fees_total+deposit_total).toFixed(2))+ ' == ' +totals);
+        await expect(Number((rate_segment_total+tax_detail_total+fee_detail_total+deposit_detail_total).toFixed(2))).toEqual(totals);
+        await expect(Number((rent_total+taxes_total+fees_total+deposit_total).toFixed(2))).toEqual(totals);
     }
     
 }
