@@ -16,6 +16,7 @@ export default class Element{
     static check_your_email           = `#registerSuccessNotification div#register-notification`;
     static check_your_email_icon      = `span.icon-B2E-icons_Check-circle.c-green`;
     static reset_password_successfull = `div#reset-password-notification span.icon-B2E-icons_Check-circle.c-green`;
+    static plus_icon_brands           = `//span[contains(text(),'Brand')]/following-sibling::span[contains(@class,'icon-B2E-icons_plus')]`;
 
     static quests_card(request_id){
         return `a[request-id=${request_id}]`;
