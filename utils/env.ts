@@ -75,5 +75,14 @@ export default class ENV{
     static START_DATE        = new Date(new Date().setDate(new Date().getDate()+20)).toISOString().split('T')[0];
     static END_DATE          = new Date(new Date().setDate(new Date().getDate()+45)).toISOString().split('T')[0];
 
+    static API_GRANT_TYPE              = process.env.API_GRANT_TYPE
+    static API_PAYMENT_TOKEN           = process.env.API_PAYMENT_TOKEN
+    static API_CLIENT_ID               = process.env.API_CLIENT_ID
+    static API_CLIENT_SECRET           = process.env.API_CLIENT_SECRET
+    static API_TOKEN                   = process.env.API_TOKEN
+    static API_AUTOEMAIL               = process.env.API_AUTOEMAIL
+    static API_VALIDATION_TOKEN        = process.env.API_VALIDATION_TOKEN
+    static API_RESET_PASSWORD_TOKEN    = process.env.API_RESET_PASSWORD_TOKEN
+    static API_CORPROPERTIES_REFERENCE = process.env.API_CORPROPERTIES_REFERENCE
 
 }
