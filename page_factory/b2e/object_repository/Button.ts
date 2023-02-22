@@ -32,7 +32,7 @@ export default class Button{
     static send_link             = `//button[contains(text(),'Send Link')]`;
     static save_password         = `//button[contains(text(),'Save')]`;
     static log_in                = `//a[contains(text(),'Log in')]`;
-    
+    static apply_filters         = `//button[contains(text(),'APPLY FILTERS')]`;
 
 
     static new_quest(request_id){
