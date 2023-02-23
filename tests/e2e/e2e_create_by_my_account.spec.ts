@@ -6,19 +6,20 @@ import { request } from 'playwright-core';
 const Chance = require("chance");
 const chance = new Chance();
 
-test.describe ('Create a RQ base flow, Supplier, Property, Area, Requestor, Client, Custom-Area and Link the companies', () => {
+test.describe.only ('Create a RQ base flow, Supplier, Property, Area, Requestor, Client, Area and Link the companies', () => {
     test.slow();
     let subject, passwordResetLink;
     let number = chance.integer({min:1,max:9999});
     const requestorCompanyName = `${chance.word({length: 5})}${chance.string({length: 6, numeric: true})}-requestor`; //'nevol554230-requestor//
     const supplierCompanyName  = `${chance.word({length: 5})}${chance.string({length: 6, numeric: true})}-supplier`; //'iceha419483-supplier' //
     const supplierAdminUser    = `${chance.first()}supadmin@${supplierCompanyName}.com`.toLowerCase(); //'charliesupadmin@iceha419483-supplier.com'//
-    const requestorAdminUser   = `${chance.first()}reqadmin@${requestorCompanyName}.com`.toLowerCase();//'brucereqadmin@nevol554230-requestor.com' //
+    let requestorAdminUser   = `${chance.first()}reqadmin@${requestorCompanyName}.com`.toLowerCase();//'brucereqadmin@nevol554230-requestor.com' //
     const property_name        = `${supplierCompanyName}Property_`;
     const areaName             = `${supplierCompanyName}_Area_${number}`;
-    let clientName             = `${requestorCompanyName}_Client_${number}`;   
+    let clientName             = `${requestorCompanyName}_Client_${number}`; 
+    const guest_email          = `${chance.first()}-guest@${requestorCompanyName}.toLocaleLowerCase()`   
 
-    test ("Create and configure a new Supplier company and a Supplier-admin user", async ({webActions, user, configurationInstance, mailCatcher, passwordReset, homePage, dashboard, myAccount, company})=>{
+    test ("Create and configure a new Supplier company and a Supplier-admin user.", async ({webActions, user, configurationInstance, mailCatcher, passwordReset, homePage, dashboard, myAccount, company})=>{
         await webActions.navigateTo(ENV.BASE_URL);
         await homePage.enterCredentials(ENV.SUPER_ADMIN, ENV.SUPER_ADMIN_PASSWORD);
         await homePage.signIn();
@@ -49,7 +50,7 @@ test.describe ('Create a RQ base flow, Supplier, Property, Area, Requestor, Clie
         await user.verifyUserSaved();
     })
 
-    test ("Create a Property and an Area for the new Supplier company", async ( { webActions, homePage, dashboard, property, option, area }) => {
+    test ("Create a Property and an Area for the new Supplier company.", async ( { webActions, homePage, dashboard, property, option, area }) => {
         await webActions.navigateTo(ENV.BASE_URL);
         await homePage.enterCredentials(supplierAdminUser, ENV.SUPPLIER_ADMIN_PASSWORD);
         await homePage.signIn();
@@ -68,7 +69,7 @@ test.describe ('Create a RQ base flow, Supplier, Property, Area, Requestor, Clie
         await area.validateAreaCreated(areaName);
     })
 
-    test ("Create a new Requestor company and a Requestor-admin user", async ( {webActions, homePage, dashboard, myAccount, company, user, configurationInstance, mailCatcher, passwordReset}) =>{
+    test ("Create a Requestor company and a Requestor-admin user.", async ( {webActions, homePage, dashboard, myAccount, company, user, configurationInstance, mailCatcher, passwordReset}) =>{
         await webActions.navigateTo(ENV.BASE_URL);
         await homePage.enterCredentials(ENV.SUPER_ADMIN, ENV.SUPER_ADMIN_PASSWORD);
         await homePage.signIn();
@@ -85,12 +86,12 @@ test.describe ('Create a RQ base flow, Supplier, Property, Area, Requestor, Clie
         await myAccount.clickOnEditUser(requestorAdminUser);
         await user.editUserPassword()
         await user.verifyUserSaved();
-        await homePage.impersonate(requestorAdminUser);
+        await dashboard.impersonate(requestorAdminUser);
         await homePage.acceptPrivacyAndTermsOfUse();
         await dashboard.validateDashboard();
     })
 
-    test ("Create a new Client", async ({webActions, homePage, dashboard, myAccount, client}) =>{
+    test ("Create, edit, and duplicate a Client.", async ({webActions, homePage, dashboard, myAccount, client}) =>{
         await webActions.navigateTo(`${ENV.BASE_URL}`);
         await homePage.enterCredentials(requestorAdminUser, ENV.REQUESTOR_ADMIN_PASSWORD);
         await homePage.signIn();
@@ -104,7 +105,7 @@ test.describe ('Create a RQ base flow, Supplier, Property, Area, Requestor, Clie
         await client.duplicateClient(clientName);
     })
 
-    test ("Add a Supplier to a Requestor's network and approving-creating Areas", async ({webActions, homePage, dashboard, supplier}) => {
+    test ("Add a Supplier to a Requestor's network and approve/create Areas.", async ({webActions, homePage, dashboard, supplier}) => {
         await webActions.navigateTo(`${ENV.BASE_URL}`);
         await homePage.enterCredentials(requestorAdminUser, ENV.REQUESTOR_ADMIN_PASSWORD);
         await homePage.signIn();
@@ -114,5 +115,17 @@ test.describe ('Create a RQ base flow, Supplier, Property, Area, Requestor, Clie
         await supplier.editSupplierArea();
         await supplier.addExceptionFeeAndReferralCommision("Miami, FL, USA");
         await supplier.createCustomArea("Miami Beach, FL, USA", `Custom - ${areaName}`);
+    })
+
+    test.only ("Validate Area and Custom Area.", async ({webActions, homePage, dashboard, newRequest}) =>{
+        await webActions.navigateTo(`${ENV.BASE_URL}`);
+        await homePage.enterCredentials(ENV.SUPER_ADMIN, ENV.SUPER_ADMIN_PASSWORD); 
+        await homePage.signIn();
+        requestorAdminUser = "samuelreqadmin@azuuz630429-requestor.com";
+        clientName = "azuuz630429-requestor_Client_2640";
+        await dashboard.impersonate(requestorAdminUser); //requestorAdminUser
+        await dashboard.clickNewRequest();
+        await newRequest.createNewRequest(clientName, requestorAdminUser, "Miami, FL, USA", guest_email);
+        // clientName, requestorAdminUser
     })
 })

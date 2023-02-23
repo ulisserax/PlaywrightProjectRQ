@@ -64,16 +64,20 @@ export default class Supplier {
         console.info(`Click on the edit link in the Default Referral Fee box.`);
         await this.page.click(Link.default_referral_fee);
         await WebActions.delay(300);
+        await this.page.waitForLoadState('domcontentloaded');
+        await this.page.waitForLoadState('networkidle');
         await this.page.fill(Input.default_referral_fee,'');
         await this.page.type(Input.default_referral_fee, `${chance.integer({ min: 11, max: 15 })}`, {delay: 50});
-        await WebActions.delay(300);
+        await WebActions.delay(500);
         await this.page.keyboard.press('Enter');
-        await WebActions.delay(300);
+        await WebActions.delay(500);
         await this.page.click(Button.save_default_referral);
     }
 
     async verifyDefaultReferralFee(){
         console.info(`Verifying that the default referral fee was successfully updated.`);
+        await this.page.waitForLoadState('domcontentloaded');
+        await this.page.waitForLoadState('networkidle');
         await this.page.click(Element.supplier_referral_icon);
         await this.page.waitForLoadState('networkidle');
         await expect(this.page.locator(Element.default_referral_fee)).not.toContainText('0.00');
@@ -102,6 +106,7 @@ export default class Supplier {
         await this.page.waitForLoadState('networkidle');
         await expect (await this.page.locator(Element.supplier_fee_modal)).toBeVisible();
         await this.page.type(Input.referral_commision, `${chance.integer({ min: 5, max: 9 })}`, {delay: 40});
+        await WebActions.delay(200);
         await this.page.type(Input.desired_location, location, {delay: 60});
         await WebActions.delay(200);
         await this.page.locator(Link.desired_location).first().click();
@@ -145,6 +150,7 @@ export default class Supplier {
     async filterSupplierByName(supplierName:string) {
         console.info(`Filter a Supplier by Name.`);
         await this.page.type(Input.supplier_filter, supplierName, {delay:60});
+        await WebActions.delay(300);
         await this.page.click(Button.search_supplier);
         await WebActions.delay(300);
     }

@@ -35,4 +35,5 @@ export default class Dropdown{
     static select_taxes             = `//h2[contains(text(),'Taxes')]/parent::div//select[contains(@class,'feesegment-taxtype segment-tax-type')]`;
     static select_taxes_type        = `//h2[contains(text(),'Taxes')]/parent::div//select[contains(@class,'tax-type-type')]`;
     static select_deposits          = `//h2[contains(text(),'Deposits')]/parent::div//select[contains(@class,'feesegment-taxtype')]`;
+    static readonly_assigned_to     = `form_request_type-readonly`;
 }

@@ -63,7 +63,9 @@ export default class NewRequestPage{
         console.info("Filling the new request details.");
         await this.page.waitForLoadState('domcontentloaded');
         await this.select_desired_location(location);
-        await this.page.selectOption(Dropdown.select_request_type, { label: `${request_type}`});
+        if (await this.page.locator(Dropdown.readonly_assigned_to).isVisible()){
+            await this.page.selectOption(Dropdown.select_request_type, { label: `${request_type}`});
+        }
         await this.page.selectOption(Dropdown.select_assigned_to, { label: requestor});
         await this.page.selectOption(Dropdown.select_guest_type,{ label: `${guest_type}`});
         await this.select_arrival_date();
@@ -126,6 +128,15 @@ export default class NewRequestPage{
         await this.page.click(Button.update_request);
         await this.page.waitForLoadState('domcontentloaded');
         await this.page.click(Button.close);
+    }
+
+    async createNewRequest (client: string, requestor: string, location: string, guest_email: string ): Promise<void> {
+        await this.select_client(client);
+        await this.fillRequestDetails(ENV.REQUEST_TYPE[0], requestor,ENV.GUEST_TYPE[0], location, `15`);
+        await this.fillGuestInfo(`${chance.first()}`,`${chance.last()}`,guest_email,`${chance.phone({formatted: false })}`);
+        await this.fillCorporateHousingDetails();
+        await this.submitRequest();
+        await this.page.pause();
     }
 
     
