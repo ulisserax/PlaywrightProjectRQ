@@ -26,12 +26,19 @@ export default class B2eSearchPage {
         await expect(await this.page.url()).toContain(url);
     }
 
+    async newSearch(){
+        console.info(`Clicking in the new search`);
+        await this.page.waitForLoadState(`domcontentloaded`);
+        await WebActions.delay(1900);
+        await this.page.click(Link.new_search);
+    }
+
     async searchDestination(destination: string): Promise<void>{
         console.info(`Searching ${destination} ratecards`);
         await this.page.waitForLoadState(`domcontentloaded`);
-        await WebActions.delay(900);
+        await WebActions.delay(1000);
         await this.page.waitForSelector(Input.search_location);
-        await this.page.type(Input.search_location, `${destination}`, {delay:80});
+        await this.page.type(Input.search_location, `${destination}`, {delay:120});
         await this.page.waitForSelector(Element.destination_places);
         await this.page.locator(Element.destination_places).first().click();
         await this.page.click(Button.next);
@@ -159,6 +166,23 @@ export default class B2eSearchPage {
         await this.page.click(Dropdown.user_name);
         await this.page.click(Link.profile);
         await WebActions.delay(300);
+    }
+
+    async searchPropertyName(property_name:string){
+        console.info(`Searching property by Name`);
+        await this.page.waitForLoadState(`domcontentloaded`);
+        await WebActions.delay(1200);
+        await this.page.type(Input.search_property_name, property_name, {delay:100});
+        await WebActions.delay(1000);
+    }
+
+    async filterByBrand(brand_name:string){
+        console.info(`Filtering property by brand`);
+        await this.page.waitForLoadState(`domcontentloaded`);
+        await this.page.click(Element.plus_icon_brands);
+        await this.page.click(Link.uncheck_all);
+        await this.page.click(Checkbox.brand_name(brand_name));
+        await this.page.click(Button.apply_filters);
     }
 
    

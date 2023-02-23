@@ -1,4 +1,5 @@
 import test  from '@lib/BaseTest';
+import WebActions from '@lib/WebActions';
 import ENV  from '@utils/env';
 
 
@@ -12,9 +13,12 @@ import ENV  from '@utils/env';
       await b2eHomePage.acceptCookies();
       await b2eHomePage.enterCredentials(ENV.B2E_USER, ENV.B2E_USER_PASSWORD);
       await b2eHomePage.signIn();
+      await b2eSearchPage.newSearch();
+      await WebActions.delay(4300);
       await b2eSearchPage.searchDestination(`Miami, FL, USA`);
       await b2eSearchPage.selectDates();
       await b2eSearchPage.housingOptionsCorporate();
+      await b2eSearchPage.searchPropertyName('NT1supProperty');
       await b2eSearchPage.selectRatecard();
       console.info(ENV.REQUEST_ID);
       await b2ePropertyDetailPage.checkAvailability();

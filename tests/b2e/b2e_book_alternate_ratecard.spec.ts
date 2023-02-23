@@ -1,4 +1,5 @@
 import test  from '@lib/BaseTest';
+import WebActions from '@lib/WebActions';
 import ENV  from '@utils/env';
 
 
@@ -12,9 +13,12 @@ test.describe("Test Suite Book an alternate ratecard for B2E", () => {
       await b2eHomePage.acceptCookies();
       await b2eHomePage.enterCredentials(ENV.B2E_USER, ENV.B2E_USER_PASSWORD);
       await b2eHomePage.signIn();
+      await b2eSearchPage.newSearch();
+      await WebActions.delay(1500);
       await b2eSearchPage.searchDestination(`Miami, FL, USA`);
       await b2eSearchPage.selectDates();
       await b2eSearchPage.housingOptionsCorporate();
+      await b2eSearchPage.filterByBrand('NT1sup');
       await b2eSearchPage.selectRatecard();
       console.info(ENV.REQUEST_ID);
       await b2ePropertyDetailPage.checkAvailability();

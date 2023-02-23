@@ -97,6 +97,7 @@ export default class OptionPage {
     async fillSecondRateDetails(): Promise<void>{
         console.info("Filling second rate details.");
         await this.page.click(Link.add_rate);
+        await this.page.locator(Input.rate).last().fill('');
         await this.page.locator(Input.rate).last().type(`${chance.floating({ min: 70, max: 299, fixed: 2 })}`);
         await this.page.keyboard.press('Enter');
     }
@@ -257,7 +258,7 @@ export default class OptionPage {
             console.info(`Rate (${rate}) - referral/commission (${referral_commission_value}) - reloquest fee (${reloquest_fee}) should be equal to net rate (${net_rate})`);
             await expect(Number(referral_commission_value)).toEqual(2.00);
             await expect(Number(reloquest_fee)).toEqual(0.00);
-            await expect(exception_fee_calculation).toEqual(Number(net_rate));
+            await expect(Number(exception_fee_calculation.toFixed(2))).toEqual(Number(net_rate));
         }
 
     }
