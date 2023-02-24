@@ -8,7 +8,7 @@ export default class Text{
     static email_to                             = `#message dd.to`;
     static email_subject                        = `#message dd.subject`;
     static acknowledge_text                     = `#container-inner .acknowledgement-item__text`;
-    static reservation_info_header              = `h2.header-title`; 
+    static reservation_info_header              = `div.header-title p`; 
     static segment_pending_approval_section     = `div#segments-history-modal strong:text('Segments Pending Approval:')`;  
     static reservation_information              = `div.reservation`;
     static hotel_reservation_id                 = `div#hotelOptionDetailSection span:text('Reloquest Reservation ID:') span`;

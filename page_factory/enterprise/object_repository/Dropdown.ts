@@ -1,4 +1,5 @@
 export default class Dropdown{
+
     static select_client                = `#s2id_form_client_list .select2-arrow`;
     static select_request_type          = `#form_request_type`;
     static select_assigned_to           = `#form_user`;
@@ -43,4 +44,5 @@ export default class Dropdown{
     static reservation_deposit_segment  = `//div[contains(@class,'deposit-section')]//select[contains(@class,'feesegment-taxtype segment-tax-type')]`;
     static reservation_tax_seg_type     = `//div[@id='taxable-section']//select[contains(@class, 'tax-type-type')]`;
     static reservation_fee_seg_type     = `//div[contains(@class,'fee-section')]//select[contains(@class, 'tax-type-type')]`;
+    static readonly_assigned_to         = `form_request_type-readonly`;
 }
