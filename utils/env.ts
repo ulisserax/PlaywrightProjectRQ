@@ -84,5 +84,15 @@ export default class ENV{
     static API_VALIDATION_TOKEN        = process.env.API_VALIDATION_TOKEN
     static API_RESET_PASSWORD_TOKEN    = process.env.API_RESET_PASSWORD_TOKEN
     static API_CORPROPERTIES_REFERENCE = process.env.API_CORPROPERTIES_REFERENCE
+    static API_RATECARD_ID             = ''
+    static API_REQUEST_UID             = ''
+    static API_PROPERTY_ID             = ''
+    static API_OPTION_ID               = ''
+    static STRIPE_KEY                  = process.env.STRIPE_KEY
+    static STRIPE_GUID                 = process.env.STRIPE_GUID
+    static STRIPE_MUID                 = process.env.STRIPE_MUID
+    static STRIPE_SID                  = process.env.STRIPE_SID
+    static STRIPE_PAYMENT_TOKEN        = process.env.STRIPE_PAYMENT_TOKEN
+    static STRIPE_TOKEN                = ''
 
 }

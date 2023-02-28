@@ -31,8 +31,6 @@ export default class RequestEndpoints {
     }
 
     async createRequest( base_url: string, api_key:string, client_id:number, loc:string, arr_date:string, dep_date:string){
-
-         
         const _response = await this.request.post(`${base_url}/api/v1/request/create?apikey=${api_key}`, {
             data: {
                 "client" : client_id,

@@ -21,7 +21,43 @@ export default class V2Endpoints {
                 password:`${password}`
             }
         });
-        console.log(await _response.text());
+        // console.log(await _response.text());
+        await expect(_response.status()).toBe(200);
+        const body = await _response.text();
+        return body;
+    }
+
+    async getProfile(base_url: string, token:string){
+        const _response = await this.request.get(`${base_url}/api/v2/profile`, {
+            headers:{
+                'Authorization':`Bearer ${token}`
+            }
+        });
+        // console.log(await _response.text());
+        await expect(_response.status()).toBe(200);
+        const body = await _response.text();
+        return body;
+    }
+
+    async getReservations(base_url: string, token:string){
+        const _response = await this.request.get(`${base_url}/api/v2/getreservations`, {
+            headers:{
+                'Authorization':`Bearer ${token}`
+            }
+        });
+        //console.log(await _response.text());
+        await expect(_response.status()).toBe(200);
+        const body = await _response.text();
+        return body;
+    }
+
+    async getPropertyDetails(base_url: string, token:string, reference:string){
+        const _response = await this.request.get(`${base_url}/api/v2/property_details?reference=${reference}`, {
+            headers:{
+                'Authorization':`Bearer ${token}`
+            }
+        });
+        // console.log(await _response.text());
         await expect(_response.status()).toBe(200);
         const body = await _response.text();
         return body;
@@ -41,7 +77,7 @@ export default class V2Endpoints {
                 rooms:`${rooms}`
             }
         });
-        console.log(await _response.text());
+        //console.log(await _response.text());
         await expect(_response.status()).toBe(200);
         const body = await _response.text();
         return body;
@@ -63,14 +99,14 @@ export default class V2Endpoints {
                 
             }
         });
-        console.log(await _response.text())
+        //console.log(await _response.text())
         await expect(_response.status()).toBe(200);
         const body = await _response.text();
         return body;
     }
 
     async go2Network(base_url: string, token:string, request_uid:string ,unit_type_lookup:string, kitchen_type:string, hours_to_deadline:string, disability_access:boolean, pet_number:number, maid_service:string,parking_spaces:number,smoking_unit:boolean, wd:string, ratecard_id:number,currency:string){
-        const _response = await this.request.put(`${base_url}/api/v2/go2network?id=${request_uid}`, {
+        const _response = await this.request.put(`${base_url}/api/v2/go2network?id=RQ${request_uid}`, {
             headers:{
                 'Authorization':`Bearer ${token}`
             },
@@ -79,23 +115,96 @@ export default class V2Endpoints {
                 unit_type_lookup:`${unit_type_lookup}`,
                 kitchen_type:`${kitchen_type}`,
                 hours_to_deadline:`${hours_to_deadline}`,
-                disability_access: `${disability_access}`,
-                pet_number:`${pet_number}`,
+                disability_access: disability_access,
+                pet_number:pet_number,
                 maid_service:`${maid_service}`,
-                parking_spaces:`${parking_spaces}`,
-                smoking_unit:`${smoking_unit}`,
+                parking_spaces:parking_spaces,
+                smoking_unit:smoking_unit,
                 wd:`${wd}`,
                 maid:[],
-                ratecard_id:`${ratecard_id}`,
+                ratecard_id:ratecard_id,
                 currency: `${currency}`
                 
             }
         });
-        console.log(await _response.text());
+        //console.log(await _response.text());
         await expect(_response.status()).toBe(200);
         const body = await _response.text();
         return body;
     }
 
+    async corProperties(base_url: string, token:string, request_uid:string){
+        const _response = await this.request.post(`${base_url}/api/v2/corpproperties?request_uid=RQ${request_uid}&currency=USD`, {
+            headers:{
+                'Authorization':`Bearer ${token}`
+            },
+            data: {
+                request_uid:`RQ${request_uid}`
+                               
+            }
+        });
+        // console.info(await _response.text());
+        await expect(_response.status()).toBe(200);
+        const body = await _response.text();
+        return body;
+    }
+
+    async propertyDetails(base_url: string, token:string, reference:string){
+        const _response = await this.request.get(`${base_url}/api/v2/property_details?reference=${reference}`, {
+            headers:{
+                'Authorization':`Bearer ${token}`
+            }
+        });
+        // console.info(await _response.text());
+        await expect(_response.status()).toBe(200);
+        const body = await _response.text();
+        return body;
+    }
+
+    async acceptTermsOfReservation(base_url: string, token:string, request_uid:string, option_id:string){
+        const _response = await this.request.post(`${base_url}/api/v2/acceptTermsOfReservation?id=${request_uid}`, {
+            headers:{
+                'Authorization':`Bearer ${token}`
+            },
+            data:{
+                "optionId":`${option_id}`,
+                "action":"AWARD"
+            }
+
+        });
+        //console.info(await _response.text());
+        await expect(_response.status()).toBe(200);
+        const body = await _response.text();
+        return body;
+    }
+
+
+    async book(base_url: string, token:string, rate_token:string, payment_token:string){
+        const _response = await this.request.post(`${base_url}/api/v2/book`, {
+            headers:{
+                'Authorization':`Bearer ${token}`
+            },
+            data:{
+                "rate_token":`${rate_token}`,
+                "payment_token":`${payment_token}`,
+                "secondary_payment_token":"",
+                "rooms_requested":[],
+                "rooms_details":[
+                    {
+                        "firstName":"John",
+                        "lastName":"doe"
+                    }
+                ],
+                "wbs_element":"",
+                "internal_id":"",
+                "background_check":""
+            }
+
+        });
+        // console.info(await _response.text());
+        await expect(_response.status()).toBe(200);
+        const body = await _response.text();
+        return body;
+    }
 
 }
