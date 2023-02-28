@@ -4,6 +4,7 @@ import Textarea from "@enterprise_objects/Textarea";
 import WebActions from "@lib/WebActions";
 import { Page } from "@playwright/test";
 import Input from "../object_repository/Input";
+import Element from "@enterprise_objects/Element";
 const Chance = require ('chance');
 const chance = new Chance();
 
@@ -71,6 +72,7 @@ export default class OptionPage {
           await this.page.setInputFiles(Input.image_upload_file, `${image_path}`);
           await this.page.click(Button.crop_and_use);
           await this.page.waitForLoadState('networkidle');
+          await this.page.waitForSelector(Element.insert_image_modal, {state: 'hidden'});
       }
     } 
 }
