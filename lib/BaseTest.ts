@@ -27,11 +27,14 @@ import B2ePropertyDetailPage from "@b2e_pages/B2ePropertyDetailPage";
 import B2eQuestsPage from "@b2e_pages/B2eQuestsPage";
 import B2eBookingPage from "@b2e_pages/B2eBookingPage";
 import B2eQuestDetailsPage from "@b2e_pages/B2eQuestDetailsPage";
-import ReservationEndpoints from "@api/ReservationEndpoints";
-import RequestEndpoints from "@api/RequestEndpoints";
+import ReservationEndpoints from "@api/v1/ReservationEndpoints";
+import RequestEndpoints from "@api/v1/RequestEndpoints";
 import B2eLoginPage from "@b2e_pages/B2eLoginPage";
 import B2eProfilePage from "@b2e_pages/B2eProfilePage";
 import B2eForgotPasswordPage from "@b2e_pages/B2eForgotPasswordPage";
+import OptionEndpoints from "@api/v1/OptionEndpoints";
+import V2Endpoints from "@api/v2/V2Endpoints";
+import Stripe from "@api/v2/Stripe";
 
 
 const test = baseTest.extend<{
@@ -68,6 +71,9 @@ const test = baseTest.extend<{
     reservationEndpoints: ReservationEndpoints;
     requestEndpoints: RequestEndpoints;
     b2eForgotPasswordPage: B2eForgotPasswordPage;
+    optionEndpoints: OptionEndpoints;
+    v2Endpoints: V2Endpoints;
+    stripe: Stripe;
 }>({
     homePage: async ({ page }, use) => {
         await use(new HomePage(page));
@@ -167,6 +173,15 @@ const test = baseTest.extend<{
     },
     b2eForgotPasswordPage: async ({ page }, use) => {
         await use(new B2eForgotPasswordPage(page));
+    },
+    optionEndpoints: async ({ request }, use) => {
+        await use(new OptionEndpoints(request));
+    },
+    v2Endpoints: async ({ request }, use) => {
+        await use(new V2Endpoints(request));
+    },
+    stripe: async ({ request }, use) => {
+        await use(new Stripe(request));
     }
 });
 

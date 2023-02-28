@@ -31,8 +31,6 @@ export default class RequestEndpoints {
     }
 
     async createRequest( base_url: string, api_key:string, client_id:number, loc:string, arr_date:string, dep_date:string){
-
-         
         const _response = await this.request.post(`${base_url}/api/v1/request/create?apikey=${api_key}`, {
             data: {
                 "client" : client_id,
@@ -48,8 +46,8 @@ export default class RequestEndpoints {
                 "alternate_id": null,
                 "location": `${loc}`,
                 "radius": 804.672,
-                "arrival_date": "2023-03-18",
-                "departure_date": "2023-03-30",
+                "arrival_date": arr_date,
+                "departure_date": dep_date,
                 "stay_based": "DAY",
                 "parking": 0,
                 "smoking_unit": 0,
