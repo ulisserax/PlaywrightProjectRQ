@@ -33,5 +33,5 @@ export default class Link{
     static add_supplier            = `#add-supplier.btn`;
     static add_exception_fee       = `a#addRequestorSupplierAreaFee`;
     static default_referral_fee    = `#show_default_referral_fee~.editDefaultFee`;     
-         
+    static notified_supplier       = `#showNotifiedSuppliers`; 
 }

@@ -53,4 +53,9 @@ export default class Element{
     static rate_length                     = `#rate_segment_placement .segment-length-stay`;
     static delete_rate_segment             = `//div[@id='rate_segment_1']//span[contains(@class,'delete_rate_segment')]`;
     static rate_segment_rows               = `//div[@id='rate_segment_placement']/div[contains(@class,'row_rate_segment')]`;
+    static no_area_modal                   = `//div[contains(text(),'No suppliers for this area.')]`;
+
+    static clickByClientName(client: string){
+        return `div[role=option] span:text('${client}')`;
+    }
 }

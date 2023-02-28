@@ -12,6 +12,8 @@ export default class Dropdown{
     static select_property              = `#s2id_property_list`;
     static select_unit_type             = `#form_unit_type_lookup`;
     static select_kitchen_type          = `#form_kitchen_type`;
+    static select_currency              = `#form_currency`; 
+    static select_lease_terms           = `#form_lease_terms`;
     static select_style                 = `#form_style`;
     static select_bedrooms              = `#form_bedrooms`;
     static select_bathrooms             = `#form_bathrooms`;
@@ -43,4 +45,6 @@ export default class Dropdown{
     static reservation_deposit_segment  = `//div[contains(@class,'deposit-section')]//select[contains(@class,'feesegment-taxtype segment-tax-type')]`;
     static reservation_tax_seg_type     = `//div[@id='taxable-section']//select[contains(@class, 'tax-type-type')]`;
     static reservation_fee_seg_type     = `//div[contains(@class,'fee-section')]//select[contains(@class, 'tax-type-type')]`;
+    static readonly_assigned_to         = `form_request_type-readonly`;
+    static bill_to                      = `#form_bill_to`;
 }
