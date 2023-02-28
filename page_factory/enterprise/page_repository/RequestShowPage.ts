@@ -307,5 +307,20 @@ export default class RequestShowPage {
         await expect(await this.page.locator(Element.awarded_options_table_row).count()).toEqual(1);
     }
 
+    async verifyNotifiedsupplier(supplier: string, status: string, areaValidated: string): Promise<void>{
+        console.info(`Verifying that the expected Supplier was notified.`);
+        await this.page.waitForLoadState('networkidle');
+        await this.page.waitForLoadState('domcontentloaded');
+        const request_status = await this.page.locator(Text.request_status).innerText().valueOf();
+        await expect(request_status).toEqual(status);
+        if (await request_status == "Current"){
+            await this.page.click(Link.notified_supplier);
+            await expect(await this.page.locator(Text.supplier_notified(supplier))).toBeVisible();
+            console.info(`The ${areaValidated} has been validated.`);
+        }else if (await request_status == "No Area") {
+            await expect(await this.page.locator(Element.no_area_modal)).toBeVisible();
+            console.info(`The ${areaValidated} has been validated.`);
+        }  
+    }
 
 }

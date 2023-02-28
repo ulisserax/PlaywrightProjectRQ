@@ -1,4 +1,5 @@
 import MyAccount from '@enterprise_pages/MyAccountPage';
+import RequestShowPage from '@enterprise_pages/RequestShowPage';
 import test from '@lib/Basetest';
 import ENV from '@utils/env';
 import { request } from 'playwright-core';
@@ -13,11 +14,11 @@ test.describe.only ('Create a RQ base flow, Supplier, Property, Area, Requestor,
     const requestorCompanyName = `${chance.word({length: 5})}${chance.string({length: 6, numeric: true})}-requestor`; //'nevol554230-requestor//
     const supplierCompanyName  = `${chance.word({length: 5})}${chance.string({length: 6, numeric: true})}-supplier`; //'iceha419483-supplier' //
     const supplierAdminUser    = `${chance.first()}supadmin@${supplierCompanyName}.com`.toLowerCase(); //'charliesupadmin@iceha419483-supplier.com'//
-    let requestorAdminUser   = `${chance.first()}reqadmin@${requestorCompanyName}.com`.toLowerCase();//'brucereqadmin@nevol554230-requestor.com' //
+    const requestorAdminUser   = `${chance.first()}reqadmin@${requestorCompanyName}.com`.toLowerCase();//'brucereqadmin@nevol554230-requestor.com' //
     const property_name        = `${supplierCompanyName}Property_`;
     const areaName             = `${supplierCompanyName}_Area_${number}`;
-    let clientName             = `${requestorCompanyName}_Client_${number}`; 
-    const guest_email          = `${chance.first()}-guest@${requestorCompanyName}.toLocaleLowerCase()`   
+    const clientName           = `${requestorCompanyName}_Client_${number}`; 
+    const guest_email          = `${chance.first()}-guest@${requestorCompanyName}`.toLocaleLowerCase();   
 
     test ("Create and configure a new Supplier company and a Supplier-admin user.", async ({webActions, user, configurationInstance, mailCatcher, passwordReset, homePage, dashboard, myAccount, company})=>{
         await webActions.navigateTo(ENV.BASE_URL);
@@ -117,15 +118,19 @@ test.describe.only ('Create a RQ base flow, Supplier, Property, Area, Requestor,
         await supplier.createCustomArea("Miami Beach, FL, USA", `Custom - ${areaName}`);
     })
 
-    test.only ("Validate Area and Custom Area.", async ({webActions, homePage, dashboard, newRequest}) =>{
+    test ("Validate Area and Custom Area.", async ({webActions, homePage, dashboard, newRequest, requestShow}) =>{
         await webActions.navigateTo(`${ENV.BASE_URL}`);
         await homePage.enterCredentials(ENV.SUPER_ADMIN, ENV.SUPER_ADMIN_PASSWORD); 
         await homePage.signIn();
-        requestorAdminUser = "samuelreqadmin@azuuz630429-requestor.com";
-        clientName = "azuuz630429-requestor_Client_2640";
-        await dashboard.impersonate(requestorAdminUser); //requestorAdminUser
-        await dashboard.clickNewRequest();
+        await dashboard.impersonate(requestorAdminUser);
+        await newRequest.createNewRequest(clientName, requestorAdminUser, "Miami Beach, FL, USA", guest_email);
+        await requestShow.getRequestId();
+        await requestShow.verifyNotifiedsupplier(supplierCompanyName, 'Current', 'Supplier Area');
         await newRequest.createNewRequest(clientName, requestorAdminUser, "Miami, FL, USA", guest_email);
-        // clientName, requestorAdminUser
+        await requestShow.getRequestId();
+        await requestShow.verifyNotifiedsupplier(supplierCompanyName, 'Current', 'Custom Area');
+        await newRequest.createNewRequest(clientName, requestorAdminUser, "Weston, FL, USA", guest_email);
+        await requestShow.getRequestId();
+        await requestShow.verifyNotifiedsupplier(supplierCompanyName, 'No Area', 'No Area');
     })
 })

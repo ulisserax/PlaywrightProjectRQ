@@ -10,6 +10,7 @@ import Checkbox from "@enterprise_objects/Checkbox";
 import Text from "@enterprise_objects/Text";
 import Element from "@enterprise_objects/Element";
 import Textarea from "@enterprise_objects/Textarea";
+import DashboardPage from "./DashboardPage";
 const Chance = require ('chance');
 const chance = new Chance();
 
@@ -17,9 +18,11 @@ const chance = new Chance();
 
 export default class NewRequestPage{
     readonly page: Page;
+    readonly dashboard: DashboardPage;
 
     constructor(page){
         this.page = page;
+        this.dashboard = new DashboardPage(page);
     }
 
     async select_arrival_date(): Promise<void>{
@@ -35,9 +38,10 @@ export default class NewRequestPage{
     async select_client(client:string): Promise<void>{
         console.info(`Select client ${client}`);
         await this.page.click(Dropdown.select_client);
-        await this.page.type(Input.search_client, `${client}`, {delay:30});
+        await this.page.type(Input.search_client, `${client}`, {delay:50});
         await this.page.waitForLoadState('domcontentloaded');
-        await this.page.click(Element.client_name);
+        await WebActions.delay(500);
+        await this.page.click(Element.clickByClientName(client));
     }
 
     async select_desired_location(location:string): Promise<void>{
@@ -130,14 +134,32 @@ export default class NewRequestPage{
         await this.page.click(Button.close);
     }
 
-    async createNewRequest (client: string, requestor: string, location: string, guest_email: string ): Promise<void> {
-        await this.select_client(client);
-        await this.fillRequestDetails(ENV.REQUEST_TYPE[0], requestor,ENV.GUEST_TYPE[0], location, `15`);
-        await this.fillGuestInfo(`${chance.first()}`,`${chance.last()}`,guest_email,`${chance.phone({formatted: false })}`);
-        await this.fillCorporateHousingDetails();
-        await this.submitRequest();
-        await this.page.pause();
+    async fillBillTo(bill: string){
+        console.info('Filling the Bill To field.');
+        await this.page.click(Dropdown.bill_to);
+        await this.page.locator(Dropdown.bill_to).selectOption({ label: bill });
     }
 
+    async fillNonDefaultedCorporateHousingDetails(){
+        console.info('Filling the non - defaulted Corporate housing fields.');
+        await this.page.selectOption(Dropdown.select_kitchen_type, {label:'Kitchenette'});
+        await this.page.click(Dropdown.select_currency);
+        await this.page.selectOption(Dropdown.select_currency, {value: 'USD'});
+        await this.page.selectOption(Dropdown.select_bedrooms, {value: '1'});
+        await this.page.selectOption(Dropdown.select_bathrooms, {label: '1' });
+        await this.page.selectOption(Dropdown.select_lease_terms, {value: '0'});
+        await this.page.type(Input.approval_days, '5');
+    }
+
+    async createNewRequest (client: string, requestor: string, location: string, guest_email: string ): Promise<void> {
+        await this.dashboard.clickNewRequest();
+        await this.select_client(client);
+        await this.fillRequestDetails(ENV.REQUEST_TYPE[0], requestor,ENV.GUEST_TYPE[0], location, `15`);
+        await this.fillBillTo('Guest');
+        await this.fillGuestInfo(`${chance.first()}`,`${chance.last()}`,guest_email,`${chance.phone({formatted: false })}`);
+        await this.fillCorporateHousingDetails();
+        await this.fillNonDefaultedCorporateHousingDetails();
+        await this.submitRequest();
+    }
     
 }
