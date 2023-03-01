@@ -1,8 +1,5 @@
-import MyAccount from '@enterprise_pages/MyAccountPage';
-import RequestShowPage from '@enterprise_pages/RequestShowPage';
 import test from '@lib/Basetest';
 import ENV from '@utils/env';
-import { request } from 'playwright-core';
 
 const Chance = require("chance");
 const chance = new Chance();
@@ -49,7 +46,7 @@ test.describe.serial ('Create a RQ base flow, Supplier, Property, Area, Requesto
         await webActions.navigateTo(`${ENV.BASE_URL}/account`);
         await myAccount.filterUser(supplierAdminUser);
         await myAccount.clickOnEditUser(supplierAdminUser);
-        await user.editUserPassword();
+        await user.editUserPassword(ENV.SUPPLIER_ADMIN_PASSWORD);
         await user.verifyUserSaved();
     })
 
@@ -87,7 +84,7 @@ test.describe.serial ('Create a RQ base flow, Supplier, Property, Area, Requesto
         await user.verifyUserSaved();
         await myAccount.filterUser(requestorAdminUser);
         await myAccount.clickOnEditUser(requestorAdminUser);
-        await user.editUserPassword()
+        await user.editUserPassword(ENV.REQUESTOR_ADMIN_PASSWORD);
         await user.verifyUserSaved();
         await dashboard.impersonate(requestorAdminUser);
         await homePage.acceptPrivacyAndTermsOfUse();

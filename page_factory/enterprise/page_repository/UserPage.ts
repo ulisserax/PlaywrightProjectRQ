@@ -44,12 +44,12 @@ export default class User {
         await this.page.waitForLoadState("networkidle");
         await expect(await this.page).toHaveURL(/\/account/);
     }
-    async editUserPassword(): Promise<void>{
+    async editUserPassword(password): Promise<void>{
         console.info(`Editing the User password.`);
         await this.page.click(Input.reg_password);
-        await this.page.type(Input.reg_password, ENV.SUPPLIER_ADMIN_PASSWORD, {delay:40});
+        await this.page.type(Input.reg_password, password, {delay:40});
         await this.page.click(Input.reg_repeat_password);
-        await this.page.type(Input.reg_repeat_password, ENV.SUPPLIER_ADMIN_PASSWORD, {delay: 40});
+        await this.page.type(Input.reg_repeat_password, password, {delay: 40});
         await this.page.click(Button.create_account); 
     }
 

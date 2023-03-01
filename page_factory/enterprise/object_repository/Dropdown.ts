@@ -45,6 +45,6 @@ export default class Dropdown{
     static reservation_deposit_segment  = `//div[contains(@class,'deposit-section')]//select[contains(@class,'feesegment-taxtype segment-tax-type')]`;
     static reservation_tax_seg_type     = `//div[@id='taxable-section']//select[contains(@class, 'tax-type-type')]`;
     static reservation_fee_seg_type     = `//div[contains(@class,'fee-section')]//select[contains(@class, 'tax-type-type')]`;
-    static readonly_assigned_to         = `form_request_type-readonly`;
+    static readonly_request_type        = `//select[@id='form_request_type' and @disabled]`;
     static bill_to                      = `#form_bill_to`;
 }
