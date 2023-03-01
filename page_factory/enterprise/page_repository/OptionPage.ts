@@ -4,8 +4,10 @@ import Dropdown from "@enterprise_objects/Dropdown";
 import Element from "@enterprise_objects/Element";
 import Link from "@enterprise_objects/Link";
 import Text from "@enterprise_objects/Text";
+import Textarea from "@enterprise_objects/Textarea";
 import WebActions from "@lib/WebActions";
 import { expect, Page } from "@playwright/test";
+import ENV from "@utils/env";
 import Input from "../object_repository/Input";
 const Chance = require ('chance');
 const chance = new Chance();
@@ -155,10 +157,10 @@ export default class OptionPage {
         await this.page.waitForLoadState('networkidle');
         await this.page.waitForLoadState('domcontentloaded');
         await WebActions.delay(600);
-        let count = await this.page.locator(Text.property_distance_modal_notification).count();
-        if(count>0){
-            await this.page.click(Button.yes);
-        }
+        // let count = await this.page.locator(Text.property_distance_modal_notification).count();
+        // if(count>0){
+        //     await this.page.click(Button.yes);
+        // }
         
     }
 
@@ -261,5 +263,15 @@ export default class OptionPage {
             await expect(Number(exception_fee_calculation.toFixed(2))).toEqual(Number(net_rate));
         }
 
+    }
+    
+    async propertyEditvalidation(){
+        console.info(`Validating the edited porperty fields`);
+        let property_description = await this.page.locator(Textarea.property_description).innerText();
+        let property_features = await this.page.locator(Textarea.property_features).innerText();
+        let property_amenities = await this.page.locator(Textarea.property_amenities).innerText();
+        await expect(property_description).toEqual(ENV.PROPERTY_DESCRIPTION);
+        await expect(property_features).toEqual(ENV.PROPERTY_FEATURES);
+        await expect(property_amenities).toEqual(ENV.PROPERTY_AMENITIES);
     }
 }

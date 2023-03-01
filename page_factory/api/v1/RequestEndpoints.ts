@@ -73,7 +73,7 @@ export default class RequestEndpoints {
             }
         });
 
-        //console.log(await _response);
+        console.log(await _response.text());
         await expect(_response.status()).toBe(200);
         const body = await _response.text();
         return body;

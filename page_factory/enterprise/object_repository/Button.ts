@@ -107,5 +107,6 @@ export default class Button{
     static save_default_referral     = `#editDefaultReferralFeeForm .btn-primary`;
     static disabled_default_referral = `#editDefaultReferralFeeForm .disabled`;
     static create_area               = `#create-custom-area`;
-    static confirm_change            = `button#btnConfirm`
+    static confirm_change            = `button#btnConfirm`;
+    static update_property           = `//button[@id='form_submit_btn']`;
 }
