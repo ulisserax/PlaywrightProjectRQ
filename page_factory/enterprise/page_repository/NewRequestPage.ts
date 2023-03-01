@@ -73,7 +73,7 @@ export default class NewRequestPage{
         await this.page.selectOption(Dropdown.select_assigned_to, { label: requestor});
         await this.page.selectOption(Dropdown.select_guest_type,{ label: `${guest_type}`});
         await this.select_arrival_date();
-        await this.page.selectOption(Dropdown.select_radius,{ index: 5});
+        await this.page.selectOption(Dropdown.select_radius,{ index: 8});
         await this.page.type(Input.length_of_stay,`${length_of_stay}`);
         await this.page.selectOption(Dropdown.number_of_pets, { index: 1 });
     }
