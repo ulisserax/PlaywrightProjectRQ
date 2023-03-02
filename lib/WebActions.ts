@@ -58,5 +58,9 @@ export default class WebActions {
     async clickElementJS(locator: string): Promise<void> {
         await this.page.$eval(locator, (element: HTMLElement) => element.click());
     }
+
+    async isSelectorExists(selector: string) {
+        return await this.page.$(selector).catch(() => null) !== null;
+      }
     
 }

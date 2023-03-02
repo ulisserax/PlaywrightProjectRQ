@@ -68,13 +68,14 @@ export default class Supplier {
         await this.page.waitForLoadState('networkidle');
         await this.page.fill(Input.default_referral_fee,'');
         await WebActions.delay(200);
-        await this.page.type(Input.default_referral_fee, `${chance.integer({ min: 11, max: 15 })}`);
+        await this.page.type(Input.default_referral_fee, `${chance.floating({ min: 8, max: 15, fixed: 2 })}`,{delay: 40});
         await WebActions.delay(500);
         await this.page.keyboard.press('Enter');
+        await this.page.locator(Element.reloquest_fee_card).last().click();
         await WebActions.delay(500);
-        if (await this.page.locator(Button.disabled_default_referral).isVisible()){
+        //if (await this.page.locator(Button.disabled_default_referral).isVisible()){
             await this.page.click(Button.save_default_referral);
-        }  
+        //}  
     }
 
     async verifyDefaultReferralFee(){

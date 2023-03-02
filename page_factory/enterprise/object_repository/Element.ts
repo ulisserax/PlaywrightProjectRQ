@@ -55,6 +55,7 @@ export default class Element{
     static rate_segment_rows               = `//div[@id='rate_segment_placement']/div[contains(@class,'row_rate_segment')]`;
     static no_area_modal                   = `//div[contains(text(),'No suppliers for this area.')]`;
     static insert_image_modal              = `//h3[contains(text(),'Image')]`;
+    static reloquest_fee_card              = `//div[@id='requestorSupplierDefaultFees']//div[contains(@class, 'default_fee_box')]`;
     
     static clickByClientName(client: string){
         return `div[role=option] span:text('${client}')`;
