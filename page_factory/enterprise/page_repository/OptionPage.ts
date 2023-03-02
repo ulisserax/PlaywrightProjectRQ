@@ -15,9 +15,11 @@ const chance = new Chance();
 export default class OptionPage {
 
      readonly page: Page;
+     readonly webActions: WebActions;
 
      constructor(page:Page){
         this.page = page;
+        this.webActions = new WebActions(this.page);
      }
 
     async selectProperty(property: string): Promise<void>{
@@ -150,17 +152,20 @@ export default class OptionPage {
 
     async submitOption(): Promise<void>{
         console.info("Submitting option.");
+         
         await this.page.click(Checkbox.cancellation_police_checkbox);
         await this.page.click(Checkbox.read_supplier_notes_checkbox);
         await this.page.click(Button.submit);
-        await WebActions.delay(400);
+        await WebActions.delay(500);
         await this.page.waitForLoadState('networkidle');
         await this.page.waitForLoadState('domcontentloaded');
         await WebActions.delay(600);
+        // console.info(await this.page.locator(Text.property_distance_modal_notification).count());
         // let count = await this.page.locator(Text.property_distance_modal_notification).count();
-        // if(count>0){
-        //     await this.page.click(Button.yes);
-        // }
+       
+        if(await this.webActions.isSelectorExists(Text.property_distance_modal_notification)){
+            await this.page.click(Button.yes);
+        }
         
     }
 

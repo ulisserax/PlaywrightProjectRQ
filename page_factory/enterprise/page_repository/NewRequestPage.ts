@@ -67,7 +67,7 @@ export default class NewRequestPage{
         console.info("Filling the new request details.");
         await this.page.waitForLoadState('domcontentloaded');
         await this.select_desired_location(location);
-        if (await this.page.locator(Dropdown.readonly_request_type).count()<=0){
+        if (await this.page.locator(Dropdown.readonly_request_type).count()==0){
             await this.page.selectOption(Dropdown.select_request_type, { label: `${request_type}`});
         }
         await this.page.selectOption(Dropdown.select_assigned_to, { label: requestor});
