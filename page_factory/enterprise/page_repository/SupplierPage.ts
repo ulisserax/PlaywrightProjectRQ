@@ -111,11 +111,13 @@ export default class Supplier {
         await expect (await this.page.locator(Element.supplier_fee_modal)).toBeVisible();
         await this.page.type(Input.referral_commision, `${chance.integer({ min: 5, max: 9 })}`, {delay: 40});
         await WebActions.delay(200);
-        await this.page.type(Input.desired_location, location, {delay: 60});
-        await WebActions.delay(200);
+        await this.page.type(Input.desired_location, location, {delay: 80});
+        await WebActions.delay(700);
         await this.page.locator(Link.desired_location).first().click();
         await this.page.keyboard.press('Enter');
+        await WebActions.delay(700);
         await this.page.click(Button.save_area_fee);
+        await this.page.waitForLoadState('networkidle');
     }
 
     async verifyExpectionFee(location: string){
