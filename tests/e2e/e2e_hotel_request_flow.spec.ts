@@ -23,11 +23,17 @@ test.describe.serial("Create Hotel request, cancel reservation and validate emai
         console.info(`Request Id: ${ENV.REQUEST_ID}`);
         await requestShow.validateHotelSpecialInformation();
         await requestShow.searchHotelOptions();
-        await hotelSearchPage.searchHotelRoomProcess();
+        let hotel_selected = await hotelSearchPage.searchHotelRoomProcess(-1);
         count = await hotelSearchPage.unavailableRoom();
-        if(count!=0){
-            console.info(`No available rooms...`);
-            test.skip();
+        
+        if(count!=0){ 
+            await hotelSearchPage.backToSearchResults();
+            await hotelSearchPage.searchHotelRoomProcess(hotel_selected);
+            count = await hotelSearchPage.unavailableRoom();
+            if(count!=0){
+                console.info(`No available rooms...`);
+                test.skip();
+            }
         }
         await hotelSearchPage.bookHotelRoom();
         await hotelSearchPage.verifyHotelRoomBooking();

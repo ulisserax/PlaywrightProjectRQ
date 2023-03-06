@@ -5,6 +5,7 @@ import WebActions from "@lib/WebActions";
 import Checkbox from "@enterprise_objects/Checkbox";
 import Element from "@enterprise_objects/Element";
 import ENV from "@utils/env";
+import Link from "@enterprise_objects/Link";
 const Chance = require ('chance');
 const chance = new Chance();
 
@@ -15,16 +16,17 @@ export default class RequestShowPage {
           this.page = page;
     }
 
-    async searchHotelRoomProcess(): Promise<void>{
+    async searchHotelRoomProcess(exclude): Promise<number>{
         console.info(`Searching for the hotel rooms`);
         await WebActions.delay(400);
         await this.page.waitForSelector(Button.view_details);
         let hotel_count = await this.page.locator(Button.view_details).count();
         console.info(hotel_count);
+        let hotel_selected = await WebActions.generateRandom(0, hotel_count, [exclude]);
         await WebActions.delay(500);
         await this.page.waitForLoadState('networkidle');
-        await this.page.locator(Button.view_details).nth(chance.integer({min:1, max:hotel_count-1})).click();
-               
+        await this.page.locator(Button.view_details).nth(hotel_selected).click();
+        return hotel_selected;    
     }
 
     async unavailableRoom() : Promise<number>{
@@ -75,5 +77,13 @@ export default class RequestShowPage {
             await expect(await this.page.locator(Text.canceledReservation(reservation_id)).count()).toEqual(1);
         }
         
+    }
+
+    async backToSearchResults(): Promise<void>{
+        console.info(`Back to the search results`);
+        await this.page.click(Link.back_to_search_results);
+        await WebActions.delay(1200);
+        await this.page.waitForLoadState('domcontentloaded');
+        await this.page.waitForSelector(Element.hotels_options_table_row);
     }
 }

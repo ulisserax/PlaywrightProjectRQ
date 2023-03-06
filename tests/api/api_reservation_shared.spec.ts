@@ -259,8 +259,8 @@ test.describe("Api Reservation Shared", () => {
       const res = await reservationEndpoints.getReservationsShared('NT2reqAdmin_apikey', '2019-01-01');
       console.log(`Reservation endpoint array contains ${JSON.parse(res).length} item(s)`);
       await expect((JSON.parse(res).length)).toBeGreaterThanOrEqual(1);
-      console.log('Error array - '+(v.validate(JSON.parse(res), schema).errors).length);
-      //console.log(`Error array is ${(v.validate(JSON.parse(res), schema).errors)}`);
+      console.log('Reservation shared endpoint do not have any error - the array error have lenght '+(v.validate(JSON.parse(res), schema).errors).length);
+      console.log(v.validate(JSON.parse(res), schema));
       await expect((v.validate(JSON.parse(res), schema).errors).length).toEqual(0);
    })
 })

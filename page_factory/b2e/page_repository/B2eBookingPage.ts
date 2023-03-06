@@ -29,13 +29,13 @@ export default class B2eBookingPage {
 
     async paymentInformation(credit_card:string, card_expiration:string, card_cvc:string, zip_code:string ){
         console.info(`Filling payment information`);
-        await WebActions.delay(1200);
+        await WebActions.delay(1500);
         if (await this.page.context().pages()[1].locator(Element.are_you_sure_modal).count()>0){
             await this.page.context().pages()[1].waitForSelector(Element.are_you_sure_modal);
             await WebActions.delay(400);
             await this.page.context().pages()[1].click(Button.continue);
         }
-        await WebActions.delay(400);
+        await WebActions.delay(1000);
         await this.page.context().pages()[1].waitForSelector(Input.card_holder);
         await this.page.context().pages()[1].locator(Input.card_holder).type(chance.name(), {delay:30});
         await this.page.context().pages()[1].frameLocator(Iframe.card_number).locator(Input.credit_card_number).type(`${credit_card}`, {delay:30});

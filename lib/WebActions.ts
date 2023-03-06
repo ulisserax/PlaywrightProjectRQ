@@ -61,6 +61,15 @@ export default class WebActions {
 
     async isSelectorExists(selector: string) {
         return await this.page.$(selector).catch(() => null) !== null;
-      }
+    }
+
+    static async generateRandom(min: number, max: number, exclude: Array<number>){
+        let random;
+        while(!random){
+            const x = Math.floor(Math.random() * (max - min))+ min;
+            if (exclude.indexOf(x) === - 1) random = x;
+        }
+        return random;
+    }
     
 }

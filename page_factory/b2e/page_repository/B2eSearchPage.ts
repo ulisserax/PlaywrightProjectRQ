@@ -90,7 +90,9 @@ export default class B2eSearchPage {
         await WebActions.delay(2000);
         let hotel_count = await this.page.locator(Button.hotel_details).count();
         console.info(hotel_count);
-        await this.page.locator(Button.hotel_details).nth(chance.integer({min:1, max:hotel_count-1})).click();
+        let hotel_selected = chance.integer({min:0, max:hotel_count-1});
+        console.log(hotel_selected);
+        await this.page.locator(Button.hotel_details).nth(hotel_selected).click();
         await WebActions.delay(1000); 
         let currentPage = await this.page.url();
         ENV.REQUEST_ID = await WebActions.getRequestId(currentPage);
@@ -183,6 +185,23 @@ export default class B2eSearchPage {
         await this.page.click(Link.uncheck_all);
         await this.page.click(Checkbox.brand_name(brand_name));
         await this.page.click(Button.apply_filters);
+    }
+
+    async selectNewHotel(exclude: Array<number>): Promise<void>{
+        console.info(`Selecting a random hotel`);
+        await this.page.waitForLoadState(`domcontentloaded`);
+        //await this.page.waitForLoadState(`networkidle`);
+        await WebActions.delay(2000);
+        let hotel_count = await this.page.locator(Button.hotel_details).count();
+        console.info(hotel_count);
+        await this.page.locator(Button.hotel_details).nth(chance.integer({min:1, max:hotel_count})).click();
+        await WebActions.delay(1000); 
+        let currentPage = await this.page.url();
+        ENV.REQUEST_ID = await WebActions.getRequestId(currentPage);
+        ENV.PROPERTY_NAME = await this.page.context().pages()[1].locator(Text.property_name).textContent();
+        ENV.PROPERTY_ADDRESS = await (await this.page.context().pages()[1].locator(Text.property_address).textContent()).trim();
+        console.log(ENV.PROPERTY_NAME);
+        console.log(ENV.PROPERTY_ADDRESS);  
     }
 
    
