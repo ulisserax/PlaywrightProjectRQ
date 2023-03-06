@@ -48,7 +48,7 @@ export default class B2eSearchPage {
         console.info(`Selecting start and end dates`);
         await this.page.click(Button.next_month);
         await this.page.locator(Element.start_date).first().click();
-        await this.page.locator(Element.end_date).last().click();
+        await this.page.locator(Element.end_date).nth(1).click();
         await this.page.click(Button.next);
     }
 
@@ -154,7 +154,7 @@ export default class B2eSearchPage {
         console.info(`Sorting properties result by: '${by}'`);
         await this.page.waitForLoadState(`domcontentloaded`);
         await this.page.waitForSelector(Button.hotel_details);
-        await WebActions.delay(300);
+        await WebActions.delay(2500);
         await this.page.click(Button.sort);
         await WebActions.delay(300);
         await this.page.click(Text.sortBy(by));

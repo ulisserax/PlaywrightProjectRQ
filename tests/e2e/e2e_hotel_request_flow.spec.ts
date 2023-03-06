@@ -27,6 +27,7 @@ test.describe.serial("Create Hotel request, cancel reservation and validate emai
         count = await hotelSearchPage.unavailableRoom();
         
         if(count!=0){ 
+            console.info(`No available rooms, searching again...`);
             await hotelSearchPage.backToSearchResults();
             await hotelSearchPage.searchHotelRoomProcess(hotel_selected);
             count = await hotelSearchPage.unavailableRoom();

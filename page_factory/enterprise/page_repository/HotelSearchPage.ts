@@ -73,6 +73,7 @@ export default class RequestShowPage {
         }else{
             console.info(`Verifying reservation was cancelled`);
             await this.page.waitForLoadState('networkidle');
+            await WebActions.delay(1500);
             //await expect(await this.page.locator(Element.booking_confirmation).textContent()).toContain(`Booking Status - CANCELLED`);
             await expect(await this.page.locator(Text.canceledReservation(reservation_id)).count()).toEqual(1);
         }
