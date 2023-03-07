@@ -51,6 +51,7 @@ export default class DashboardPage {
         await WebActions.delay(400);
         await this.page.type(Input.search_by, request_id, {delay:35});
         await this.page.keyboard.press('Enter');
+        await WebActions.delay(1400);
     }
 
     async findReservation(reservation_id): Promise<void>{

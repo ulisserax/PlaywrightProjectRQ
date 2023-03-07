@@ -23,10 +23,10 @@ test.describe.serial("Test Suite Hotel booking for B2E", () => {
       console.info(ENV.REQUEST_ID);
       await b2ePropertyDetailPage.viewRooms();
       let count = await b2ePropertyDetailPage.unavailableRooms();
-        if(count==0){
-            console.info(`No available rooms...`);
-            test.skip();
-        }
+      if(count==0){
+          console.info(`No available rooms...`);
+          test.skip();
+      }
       await b2ePropertyDetailPage.bookThisRoom();
       await b2eBookingPage.paymentInformation(ENV.CREDIT_CARD, ENV.CARD_EXPIRATION, ENV.CARD_CVC, ENV.ZIP_CODE);
       await b2eBookingPage.completeYourQuest();

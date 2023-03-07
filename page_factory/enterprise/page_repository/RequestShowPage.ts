@@ -126,6 +126,7 @@ export default class RequestShowPage {
         await this.page.click(Button.reservation_info);
         await this.page.waitForLoadState('domcontentloaded');
         await expect(await this.page.url()).toContain(`${ENV.BASE_URL}/reservation`);
+        await WebActions.delay(1500);
     }
 
     async clickServiceIssue(): Promise<void>{
