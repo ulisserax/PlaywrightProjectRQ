@@ -16,15 +16,15 @@ export default class MailCatcher{
         console.info(`Opening mailcatcher ${url}`);
         await this.page.goto(url);
         await this.page.waitForLoadState('domcontentloaded');
-
+        await WebActions.delay(1500);
     }
     async searchEmail( email:string ,subject:string): Promise<void>{
         console.info(`Searching email ${email}`);
         await this.page.type(Input.search_message, `${email}`, {delay:40});
-        await WebActions.delay(500);
+        await WebActions.delay(800);
         await this.page.click(Text.specificEmail(email, subject));
         await this.page.waitForLoadState('domcontentloaded');
-        await WebActions.delay(500);
+        await WebActions.delay(1000);
         await expect(await (await this.page.locator(Text.email_to).textContent()).toLocaleLowerCase()).toContain(`<${email.toLocaleLowerCase()}>`);
         await expect(await this.page.locator(Text.email_subject).textContent()).toContain(`${subject}`);
         

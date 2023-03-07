@@ -5,7 +5,7 @@ const Validator = require('jsonschema').Validator;
 const v = new Validator();
 
 
-test.describe("Api B2E Main Flow", () => {
+test.describe.serial("Api B2E Main Flow", () => {
     
    test("POST: oauth token", async ({v2Endpoints}) => {
       const _response = await v2Endpoints.oauth(ENV.BASE_URL, ENV.API_GRANT_TYPE, ENV.API_CLIENT_ID, ENV.API_CLIENT_SECRET, "john_doe@nt1req.com", ENV.B2E_USER_PASSWORD);

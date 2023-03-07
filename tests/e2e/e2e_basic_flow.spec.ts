@@ -34,6 +34,7 @@ test.describe.serial("Test Suite Basic Flow ", () => {
         await requestShow.acceptRequest();
         await requestShow.bidOption();
         await option.selectProperty(ENV.PROPERTY);
+        await option.addPropertyImages(`images/property1.jpeg`);
         await option.fillUnitDetails(ENV.UNIT_TYPE[1], ENV.KITCHEN_TYPE[2],ENV.STYLE[0],ENV.BEDROOMS[1],ENV.BATHROOMS[1]);
         await option.fillRateDetails();
         await option.fillFees(ENV.FEES_TYPE[0]);

@@ -31,7 +31,7 @@ export default class WebActions {
         await this.page.goto(url);
         console.info(`Opening ${url}`);
         await this.page.waitForLoadState('domcontentloaded');
-        await WebActions.delay(700);
+        await WebActions.delay(2500);
     }
 
     async refresh(): Promise<void>{
