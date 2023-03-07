@@ -11,6 +11,7 @@ export default class OptionEndpoints {
         this.request = request;
     }
 
+    
     async optionCreate( base_url: string, api_key:string, request_id:string, property_id:number, start_date:string, end_date:string){
         const _response = await this.request.post(`${base_url}/api/v1/option/create/${request_id}?apikey=${api_key}`, {
             data: {
@@ -70,7 +71,7 @@ export default class OptionEndpoints {
                     "rentersInsurance": 1,
                     "overviewPath": null,
                     "cancellation_policy_confirmed": true,
-                    "cancellation_policies": {
+                    "cancellation_policy_data": {
                         "policy_confirmed": 1,
                         "pre_move_in": {
                             "monthly_reservationn": {
@@ -127,7 +128,7 @@ export default class OptionEndpoints {
                 
         });
         console.log(property_id);
-        //console.log(await _response);
+        console.log(await _response.text());
         await expect(_response.status()).toBe(200);
         const body = await _response.text();
         return body;

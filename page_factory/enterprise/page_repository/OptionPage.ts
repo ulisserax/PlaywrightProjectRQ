@@ -162,7 +162,10 @@ export default class OptionPage {
         await WebActions.delay(600);
         // console.info(await this.page.locator(Text.property_distance_modal_notification).count());
         // let count = await this.page.locator(Text.property_distance_modal_notification).count();
-       
+        if(await this.webActions.isSelectorExists(Text.updated_fields)){
+            await this.page.click(Button.update_property_fields_modal);
+        }
+        await WebActions.delay(600);
         if(await this.webActions.isSelectorExists(Text.property_distance_modal_notification)){
             await this.page.click(Button.yes);
         }
@@ -278,5 +281,20 @@ export default class OptionPage {
         await expect(property_description).toEqual(ENV.PROPERTY_DESCRIPTION);
         await expect(property_features).toEqual(ENV.PROPERTY_FEATURES);
         await expect(property_amenities).toEqual(ENV.PROPERTY_AMENITIES);
+    }
+
+    async addPropertyImages(image_path){
+        if(await this.page.locator(Element.property_image).count() == 0){
+            console.info(`Adding property images`); 
+            await this.page.waitForLoadState('domcontentloaded');
+            for(let i = 0; i < 3; i++){
+                await this.page.click(Button.add_image);
+                await WebActions.delay(300);
+                await this.page.setInputFiles(Input.image_upload_file, `${image_path}`);
+                await this.page.click(Button.crop_and_use);
+                await this.page.waitForLoadState('networkidle');
+                await this.page.waitForSelector(Element.insert_image_modal, {state: 'hidden'});
+            }
+        }
     }
 }

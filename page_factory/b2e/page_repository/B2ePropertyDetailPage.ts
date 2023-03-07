@@ -51,6 +51,7 @@ export default class B2ePropertyDetailPage {
     async bookThisRoom(){
         console.info(`Booking the first option`);
         await this.page.context().pages()[1].locator(Button.book_this_option).first().click();
+        await WebActions.delay(2500);
         if(await this.page.context().pages()[1].locator(Element.are_you_sure_modal).isVisible()){
             await this.page.context().pages()[1].click(Button.continue);
         }
