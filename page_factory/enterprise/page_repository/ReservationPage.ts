@@ -54,7 +54,7 @@ export default class Reservation {
         await this.page.click(Checkbox.edit_segment_understand);
         await this.page.click(Button.submit_changes);
         await this.page.waitForLoadState('domcontentloaded');
-        await WebActions.delay(1500);
+        await WebActions.delay(2500);
     }
 
     async checkReservationFeeSegments(){
@@ -98,10 +98,11 @@ export default class Reservation {
         await this.page.type(Input.guest_name, chance.name(), {delay:20});
         await WebActions.delay(400);
         await this.page.click(Button.submit);
-        await WebActions.delay(400);
+        await WebActions.delay(600);
         await this.page.waitForLoadState('domcontentloaded');
         await this.page.click(Button.close);
         await this.page.waitForLoadState('domcontentloaded');
+        await WebActions.delay(1200);
     }
 
     async activityLogRequestor(requestor_admin): Promise<void>{
@@ -117,6 +118,7 @@ export default class Reservation {
 
     async approveReservationChanges(): Promise<void>{
         console.info('Approving the reservation changes');
+        await WebActions.delay(1200);
         await this.page.waitForLoadState('networkidle');
         await this.page.click(Element.pending_approval_icon);
         await this.page.click(Link.view_link);
