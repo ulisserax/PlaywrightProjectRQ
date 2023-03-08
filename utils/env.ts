@@ -93,11 +93,19 @@ export default class ENV{
     static API_REQUEST_UID             = ''
     static API_PROPERTY_ID             = ''
     static API_OPTION_ID               = ''
+    static API_RESERVATION_UID         = ''
     static STRIPE_KEY                  = process.env.STRIPE_KEY
     static STRIPE_GUID                 = process.env.STRIPE_GUID
     static STRIPE_MUID                 = process.env.STRIPE_MUID
     static STRIPE_SID                  = process.env.STRIPE_SID
     static STRIPE_PAYMENT_TOKEN        = process.env.STRIPE_PAYMENT_TOKEN
     static STRIPE_TOKEN                = ''
+
+    static RQPRO_COMPANY               = process.env.RQPRO_COMPANY
+    static RQPRO_BASE_URL              = process.env.RQPRO_BASE_URL
+    static RQPRO_REQ_ADMIN             = process.env.RQPRO_REQ_ADMIN
+    static RQPRO_REQ_API_KEY           = process.env.RQPRO_REQ_API_KEY
+    static RQPRO_EB2E_CLIENT           = process.env.RQPRO_EB2E_CLIENT
+    static SUPPLIER_FOR_RQPRO_API_KEY  = process.env.SUPPLIER_FOR_RQPRO_API_KEY
 
 }
