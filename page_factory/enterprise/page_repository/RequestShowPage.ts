@@ -212,7 +212,7 @@ export default class RequestShowPage {
         let property_name =  await this.page.locator(Text.first_property_name).textContent();
         await this.page.locator(Checkbox.option_checkbox).first().click();
         await this.page.click(Button.map_view);
-        await this.page.click(Element.option_map_icon);
+        await this.page.locator(Element.option_map_icon).click();
         let card_property_rate = await this.page.locator(Text.card_property_rate).textContent();
         let card_property_name = await this.page.locator(Text.card_property_name).textContent();
         await expect(await card_property_rate).toContain(rate);

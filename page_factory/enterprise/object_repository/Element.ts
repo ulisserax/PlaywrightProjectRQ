@@ -21,7 +21,7 @@ export default class Element{
     static hotel_special_information       = `#request-profile-container div.request-details--item.request-notes`;
     static confirm_booking_h1              = `.hotel-option-details h1`;
     static booking_confirmation            = `#hotelOptionDetailSection h1`;
-    static option_map_icon                 = `//div[@id="request_map_view"]/div/div/div[2]/div[2]/div/div[3]/div[3]/img`
+    static option_map_icon                 = `//div[@id="request_map_view"]//div[@aria-label='Map']//div[@tabindex="0"]/img`
     static icon_option_confirmation        = `table#all_options tbody tr span.icon-option-confirmation`;
     static icon_confirm_availability       = `table#all_options tbody tr span.responded.available`;
     static option_availability_message     = `//div[contains(text(),'remaining to confirm option availability')]`;
