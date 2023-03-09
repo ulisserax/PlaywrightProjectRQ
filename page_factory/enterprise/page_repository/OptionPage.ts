@@ -284,6 +284,7 @@ export default class OptionPage {
     }
 
     async addPropertyImages(image_path){
+        await WebActions.delay(1500);
         if(await this.page.locator(Element.property_image).count() == 0){
             console.info(`Adding property images`); 
             await this.page.waitForLoadState('domcontentloaded');
