@@ -4,8 +4,10 @@ import Dropdown from "@enterprise_objects/Dropdown";
 import Element from "@enterprise_objects/Element";
 import Link from "@enterprise_objects/Link";
 import Text from "@enterprise_objects/Text";
+import Textarea from "@enterprise_objects/Textarea";
 import WebActions from "@lib/WebActions";
 import { expect, Page } from "@playwright/test";
+import ENV from "@utils/env";
 import Input from "../object_repository/Input";
 const Chance = require ('chance');
 const chance = new Chance();
@@ -13,9 +15,11 @@ const chance = new Chance();
 export default class OptionPage {
 
      readonly page: Page;
+     readonly webActions: WebActions;
 
      constructor(page:Page){
         this.page = page;
+        this.webActions = new WebActions(this.page);
      }
 
     async selectProperty(property: string): Promise<void>{
@@ -148,15 +152,21 @@ export default class OptionPage {
 
     async submitOption(): Promise<void>{
         console.info("Submitting option.");
+         
         await this.page.click(Checkbox.cancellation_police_checkbox);
         await this.page.click(Checkbox.read_supplier_notes_checkbox);
         await this.page.click(Button.submit);
-        await WebActions.delay(400);
+        await WebActions.delay(500);
         await this.page.waitForLoadState('networkidle');
         await this.page.waitForLoadState('domcontentloaded');
         await WebActions.delay(600);
-        let count = await this.page.locator(Text.property_distance_modal_notification).count();
-        if(count>0){
+        // console.info(await this.page.locator(Text.property_distance_modal_notification).count());
+        // let count = await this.page.locator(Text.property_distance_modal_notification).count();
+        if(await this.webActions.isSelectorExists(Text.updated_fields)){
+            await this.page.click(Button.update_property_fields_modal);
+        }
+        await WebActions.delay(600);
+        if(await this.webActions.isSelectorExists(Text.property_distance_modal_notification)){
             await this.page.click(Button.yes);
         }
         
@@ -261,5 +271,30 @@ export default class OptionPage {
             await expect(Number(exception_fee_calculation.toFixed(2))).toEqual(Number(net_rate));
         }
 
+    }
+    
+    async propertyEditvalidation(){
+        console.info(`Validating the edited porperty fields`);
+        let property_description = await this.page.locator(Textarea.property_description).innerText();
+        let property_features = await this.page.locator(Textarea.property_features).innerText();
+        let property_amenities = await this.page.locator(Textarea.property_amenities).innerText();
+        await expect(property_description).toEqual(ENV.PROPERTY_DESCRIPTION);
+        await expect(property_features).toEqual(ENV.PROPERTY_FEATURES);
+        await expect(property_amenities).toEqual(ENV.PROPERTY_AMENITIES);
+    }
+
+    async addPropertyImages(image_path){
+        if(await this.page.locator(Element.property_image).count() == 0){
+            console.info(`Adding property images`); 
+            await this.page.waitForLoadState('domcontentloaded');
+            for(let i = 0; i < 3; i++){
+                await this.page.click(Button.add_image);
+                await WebActions.delay(300);
+                await this.page.setInputFiles(Input.image_upload_file, `${image_path}`);
+                await this.page.click(Button.crop_and_use);
+                await this.page.waitForLoadState('networkidle');
+                await this.page.waitForSelector(Element.insert_image_modal, {state: 'hidden'});
+            }
+        }
     }
 }

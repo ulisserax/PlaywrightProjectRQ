@@ -47,6 +47,7 @@ export default class ShareOptionPage {
         await this.page.waitForLoadState('domcontentloaded');
         await this.page.click(Button.close);
         await this.page.waitForLoadState('networkidle');
+        await WebActions.delay(1500);
         await expect(await this.page.locator(Element.awarded_options_table_row).count()).toEqual(1);
     }
 

@@ -12,6 +12,7 @@ export default class Input{
     static cost_center                  = `#form_cost_center`;
     static adults                       = `#form_adults`;
     static days_notice                  = `#form_notice_vacate`;
+    static approval_days                = `#form_approval_days`;
     static search_by                    = `#search-form-criteria`;
     static search_property              = `#s2id_autogen1_search`;
     static square_foot                  = `#form_square_foot`;

@@ -106,9 +106,9 @@ export default class B2eQuestDetailsPage {
     }
 
     async verifyQuestDetails(reservation_id:string, property_name: string, property_address:string){
-        console.info(`Verifying reservation, property name and propert address`);
-        await WebActions.delay(700);
-        await this.page.context().pages()[1].waitForLoadState(`networkidle`);
+        console.info(`Verifying reservation, property name and property address`);
+        await WebActions.delay(2700);
+        //await this.page.context().pages()[1].waitForLoadState(`networkidle`);
         await expect(await this.page.context().pages()[1].locator(Text.questDetails(`Reservation #${reservation_id}`)).count()).toBeGreaterThan(0);
         await expect(await this.page.context().pages()[1].locator(Text.questDetails(property_name)).count()).toBeGreaterThan(0);
         await expect(await this.page.context().pages()[1].locator(Text.questDetails(property_address)).count()).toBeGreaterThan(0);

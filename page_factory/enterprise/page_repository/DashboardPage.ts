@@ -51,6 +51,7 @@ export default class DashboardPage {
         await WebActions.delay(400);
         await this.page.type(Input.search_by, request_id, {delay:35});
         await this.page.keyboard.press('Enter');
+        await WebActions.delay(1400);
     }
 
     async findReservation(reservation_id): Promise<void>{
@@ -88,4 +89,13 @@ export default class DashboardPage {
         await this.page.waitForLoadState(`domcontentloaded`);
         await this.page.click(Button.suppliers);
     }
+
+    async impersonate(user:string): Promise<void>{
+        console.info(`Impersonating an user`);
+        await this.page.click(Input.impersonate_search);
+        await this.page.type(Input.impersonate_search, user, {delay:40});
+        await this.page.waitForLoadState('domcontentloaded');
+        await this.page.waitForLoadState('networkidle');
+        await this.page.click(Input.impersonate_result);
+   }
 }

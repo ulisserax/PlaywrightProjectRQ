@@ -2,7 +2,7 @@ import test  from '@lib/BaseTest';
 import ENV  from '@utils/env';
 
 
-test.describe("Test Suite Basic Flow ", () => {
+test.describe.serial("Test Suite Basic Flow ", () => {
     test.slow();
     let guest_email = ENV.GUEST_EMAIL.toLocaleLowerCase();
     let client_email = ENV.CLIENT_EMAIL.toLocaleLowerCase();
@@ -34,6 +34,7 @@ test.describe("Test Suite Basic Flow ", () => {
         await requestShow.acceptRequest();
         await requestShow.bidOption();
         await option.selectProperty(ENV.PROPERTY);
+        await option.addPropertyImages(`images/property1.jpeg`);
         await option.fillUnitDetails(ENV.UNIT_TYPE[1], ENV.KITCHEN_TYPE[2],ENV.STYLE[0],ENV.BEDROOMS[1],ENV.BATHROOMS[1]);
         await option.fillRateDetails();
         await option.fillFees(ENV.FEES_TYPE[0]);

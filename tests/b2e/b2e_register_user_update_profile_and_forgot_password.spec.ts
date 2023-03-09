@@ -4,7 +4,7 @@ const Chance = require ('chance');
 const chance = new Chance();
 
 
-test.describe("Test Suite Register user, update profile and forgot password for B2E", () => {
+test.describe.serial("Test Suite Register user, update profile and forgot password for B2E", () => {
   test.slow();
 
   let firstname = `${chance.first()}`;  

@@ -31,7 +31,7 @@ export default class WebActions {
         await this.page.goto(url);
         console.info(`Opening ${url}`);
         await this.page.waitForLoadState('domcontentloaded');
-        await WebActions.delay(700);
+        await WebActions.delay(2500);
     }
 
     async refresh(): Promise<void>{
@@ -57,6 +57,19 @@ export default class WebActions {
 
     async clickElementJS(locator: string): Promise<void> {
         await this.page.$eval(locator, (element: HTMLElement) => element.click());
+    }
+
+    async isSelectorExists(selector: string) {
+        return await this.page.$(selector).catch(() => null) !== null;
+    }
+
+    static async generateRandom(min: number, max: number, exclude: Array<number>){
+        let random;
+        while(!random){
+            const x = Math.floor(Math.random() * (max - min))+ min;
+            if (exclude.indexOf(x) === - 1) random = x;
+        }
+        return random;
     }
     
 }

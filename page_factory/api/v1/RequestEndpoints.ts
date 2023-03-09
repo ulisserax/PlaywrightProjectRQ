@@ -31,8 +31,6 @@ export default class RequestEndpoints {
     }
 
     async createRequest( base_url: string, api_key:string, client_id:number, loc:string, arr_date:string, dep_date:string){
-
-         
         const _response = await this.request.post(`${base_url}/api/v1/request/create?apikey=${api_key}`, {
             data: {
                 "client" : client_id,
@@ -48,9 +46,8 @@ export default class RequestEndpoints {
                 "alternate_id": null,
                 "location": `${loc}`,
                 "radius": 804.672,
-                "arrival_date": "2023-03-18",
-                "departure_date": "2023-03-30",
-                "stay_based": "DAY",
+                "arrival_date": arr_date,
+                "departure_date": dep_date,
                 "parking": 0,
                 "smoking_unit": 0,
                 "disability_access": 0,
@@ -63,6 +60,7 @@ export default class RequestEndpoints {
                 "kitchen_type": 1,
                 "maid_service": 0,
                 "wd": 0,
+                "notice_vacate":5,
                 "internet": 1,
                 "currency": "USD",
                 "budget": null,
@@ -75,7 +73,7 @@ export default class RequestEndpoints {
             }
         });
 
-        //console.log(await _response);
+        console.log(await _response.text());
         await expect(_response.status()).toBe(200);
         const body = await _response.text();
         return body;
