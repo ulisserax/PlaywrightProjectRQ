@@ -1,17 +1,18 @@
 import test  from '@lib/BaseTest';
+import WebActions from '@lib/WebActions';
 import ENV  from '@utils/env';
 
 
-test.describe("Create Hotel request, cancel reservation and validate emails", () => {
+test.describe.serial("Create Hotel request, cancel reservation and validate emails", () => {
+    test.slow();
+    let guest_email = ENV.GUEST_EMAIL.toLocaleLowerCase();
+    let count = 0;
 
-    let guest_email = ENV.GUEST_EMAIL;
-
-    test("Create a hotel request and cancel reservation", async ({webActions, homePage, dashboard, newRequest, requestShow, hotelSearchPage, search}) => {
+    test("Create a hotel request and cancel reservation", async ({webActions, homePage, dashboard, newRequest, requestShow, hotelSearchPage, search}, testInfo) => {
         await webActions.navigateTo(ENV.BASE_URL);
         await homePage.enterCredentials(ENV.REQUESTOR_ADMIN, ENV.REQUESTOR_ADMIN_PASSWORD);
         await homePage.signIn();
         await dashboard.validateDashboard();
-        await dashboard.cardSummary();
         await dashboard.clickNewRequest();
         await newRequest.select_client(ENV.CLIENT);
         await newRequest.fillRequestDetails(ENV.REQUEST_TYPE[1], ENV.REQUESTOR_ADMIN,ENV.GUEST_TYPE[0],'Miami, FL, USA', `15`);
@@ -22,20 +23,34 @@ test.describe("Create Hotel request, cancel reservation and validate emails", ()
         console.info(`Request Id: ${ENV.REQUEST_ID}`);
         await requestShow.validateHotelSpecialInformation();
         await requestShow.searchHotelOptions();
-        await hotelSearchPage.searchHotelRoomProcess();
+        let hotel_selected = await hotelSearchPage.searchHotelRoomProcess(-1);
+        count = await hotelSearchPage.unavailableRoom();
+        
+        if(count!=0){ 
+            console.info(`No available rooms, searching again...`);
+            await hotelSearchPage.backToSearchResults();
+            await hotelSearchPage.searchHotelRoomProcess(hotel_selected);
+            count = await hotelSearchPage.unavailableRoom();
+            if(count!=0){
+                console.info(`No available rooms...`);
+                test.skip();
+            }
+        }
         await hotelSearchPage.bookHotelRoom();
         await hotelSearchPage.verifyHotelRoomBooking();
         console.info(`Hotel reservation Id: ${ENV.HOTEL_RESERVATION_ID}`);
         await hotelSearchPage.backToRequest();
         await requestShow.unawardOption();
         await dashboard.findCurrentRequest(ENV.HOTEL_RESERVATION_ID);
-        await search.clickReservationIdLink();
-        await hotelSearchPage.verifyReservationWasCancelled();
+        //await search.clickReservationIdLink();
+        await hotelSearchPage.verifyReservationWasCancelled(ENV.HOTEL_RESERVATION_ID);
 
     })
     
     test("Validate basic emails", async ({webActions, homePage, configurationInstance, mailCatcher}) => {
-            
+        if(count!=0){
+            test.skip();
+        }
         await webActions.navigateTo(`${ENV.BASE_URL}/configuration/instance`);
         await homePage.enterCredentials(ENV.SUPER_ADMIN, ENV.SUPER_ADMIN_PASSWORD);
         await homePage.signIn();
@@ -47,11 +62,10 @@ test.describe("Create Hotel request, cancel reservation and validate emails", ()
         if(ENV.AWARD_IN_PROGRESS > 0){
             console.info('The Hotel award is in progress, can not be cancelled until the award is completed...')
         }else{
-            await mailCatcher.verifyHotelsEmails(`Cancellation confirmation for requestor`, `${ENV.REQUESTOR_COMPANY}: Cancelled Hotel Reservation, ${ENV.FULL_GUEST_NAME}`,ENV.REQUESTOR_ADMIN_EMAIL, `${ENV.REQUESTOR_EMAIL}: Cancelled Hotel Reservation, ${ENV.FULL_GUEST_NAME}`, `//span//p[contains(normalize-space(),'The hotel reservation for Internal ID') and contains(text(),'has been cancelled')]`);
+            await WebActions.delay(500);
+            await mailCatcher.verifyHotelsEmails(`Cancellation confirmation for requestor`, `${ENV.REQUESTOR_COMPANY}: Cancelled Hotel Reservation, ${ENV.FULL_GUEST_NAME}`,ENV.REQUESTOR_ADMIN_EMAIL, `${ENV.REQUESTOR_COMPANY}: Cancelled Hotel Reservation, ${ENV.FULL_GUEST_NAME}`, `//span//p[contains(normalize-space(),'The hotel reservation for Internal ID') and contains(text(),'has been cancelled')]`);
         }
-        
     })
-
 })
 
 

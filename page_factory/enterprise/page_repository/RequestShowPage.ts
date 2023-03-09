@@ -65,10 +65,8 @@ export default class RequestShowPage {
         console.info(`Sharing the options with the client`);
         await this.page.waitForLoadState('networkidle');
         await this.page.waitForLoadState('domcontentloaded');
+        await this.page.waitForSelector(Element.approved_options_table_row);
         await expect(await this.page.locator(Element.approved_options_table_row)).toBeVisible();
-        if (await this.page.locator(Element.request_loading)){
-            this.page.reload();
-        }
         const items = await this.page.locator(Checkbox.option_checkbox);
         for (let i=0; i<await items.count(); i++){
             await items.nth(i).click();
@@ -128,6 +126,7 @@ export default class RequestShowPage {
         await this.page.click(Button.reservation_info);
         await this.page.waitForLoadState('domcontentloaded');
         await expect(await this.page.url()).toContain(`${ENV.BASE_URL}/reservation`);
+        await WebActions.delay(1500);
     }
 
     async clickServiceIssue(): Promise<void>{
@@ -298,5 +297,31 @@ export default class RequestShowPage {
         await this.page.click(Checkbox.b2e_term_of_reservation);
         await this.page.click(Button.b2e_modal_continue);
     } 
+
+    async awardOption(): Promise<void>{
+        console.info(`Awarding option`);
+        await this.page.waitForLoadState('networkidle');
+        await this.page.waitForLoadState('domcontentloaded');
+        await this.page.click(Button.award);
+        await this.page.click(Button.yes);
+        await this.page.waitForLoadState('networkidle');
+        await expect(await this.page.locator(Element.awarded_options_table_row).count()).toEqual(1);
+    }
+
+    async verifyNotifiedsupplier(supplier: string, status: string, areaValidated: string): Promise<void>{
+        console.info(`Verifying that the expected Supplier was notified.`);
+        await this.page.waitForLoadState('networkidle');
+        await this.page.waitForLoadState('domcontentloaded');
+        const request_status = await this.page.locator(Text.request_status).innerText().valueOf();
+        await expect(request_status).toEqual(status);
+        if (await request_status == "Current"){
+            await this.page.click(Link.notified_supplier);
+            await expect(await this.page.locator(Text.supplier_notified(supplier))).toBeVisible();
+            console.info(`The ${areaValidated} has been validated.`);
+        }else if (await request_status == "No Area") {
+            await expect(await this.page.locator(Element.no_area_modal)).toBeVisible();
+            console.info(`The ${areaValidated} has been validated.`);
+        }  
+    }
 
 }

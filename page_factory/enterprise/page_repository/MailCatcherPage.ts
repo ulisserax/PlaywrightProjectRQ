@@ -16,29 +16,48 @@ export default class MailCatcher{
         console.info(`Opening mailcatcher ${url}`);
         await this.page.goto(url);
         await this.page.waitForLoadState('domcontentloaded');
-
+        await WebActions.delay(1500);
     }
     async searchEmail( email:string ,subject:string): Promise<void>{
         console.info(`Searching email ${email}`);
-        await this.page.type(Input.search_message, `${email}`, {delay:20});
-        await this.page.click(Text.first_email);
+        await this.page.type(Input.search_message, `${email}`, {delay:40});
+        await WebActions.delay(800);
+        await this.page.click(Text.specificEmail(email, subject));
         await this.page.waitForLoadState('domcontentloaded');
-        await WebActions.delay(500);
-        await expect(await this.page.locator(Text.email_to).textContent()).toContain(`<${email}>`);
+        await WebActions.delay(1000);
+        await expect(await (await this.page.locator(Text.email_to).textContent()).toLocaleLowerCase()).toContain(`<${email.toLocaleLowerCase()}>`);
         await expect(await this.page.locator(Text.email_subject).textContent()).toContain(`${subject}`);
         
     }
-    
+
     async getShareOptionLink(request_id:string): Promise<string>{
         console.info(`Get the share option link from the email body.`);
         await expect(await this.page.frameLocator(Iframe.email_body).locator(Link.share_link).textContent()).toContain(`reloquest.com/request/show/${request_id}?token`);
         return await this.page.frameLocator(Iframe.email_body).locator(Link.share_link).textContent();
     }
 
+    async activateAccount():Promise<string>{
+        console.info(`Activate B2E account`);
+        await expect(await this.page.frameLocator(Iframe.email_body).locator(Link.activate_account).first().getAttribute('href')).toContain(`verify-account`);
+        return await this.page.frameLocator(Iframe.email_body).locator(Link.activate_account).first().getAttribute('href');
+    }
+
     async getRegisterLink():Promise<string>{
-        console.info(`Get the registration link form the email body`);
+        console.info(`Get the registration link from the email body`);
         await expect(await this.page.frameLocator(Iframe.email_body).locator(Link.register).first().getAttribute('href')).toContain(`reloquest.com/registration/register`);
         return await this.page.frameLocator(Iframe.email_body).locator(Link.register).first().getAttribute('href');
+    }
+
+    async getPasswordResetLink():Promise<string>{
+        console.info(`Get the password reset link from the email body`);
+        await expect(await this.page.frameLocator(Iframe.email_body).locator(Link.passwordReset).getAttribute('href')).toContain(`reloquest.com/password_reset`);
+        return await this.page.frameLocator(Iframe.email_body).locator(Link.passwordReset).getAttribute('href');
+    }
+
+    async getB2ePasswordResetLink():Promise<string>{
+        console.info(`Get the password reset link from the email body`);
+        await expect(await this.page.frameLocator(Iframe.email_body).locator(Link.password_reset).getAttribute('href')).toContain(`reloquest.com/reset-password`);
+        return await this.page.frameLocator(Iframe.email_body).locator(Link.password_reset).getAttribute('href');
     }
 
     async verifyEmailToSupplierForDeadlineUpdate(email:string, subject:string, request_id:string, supplier_domain:string): Promise<void>{

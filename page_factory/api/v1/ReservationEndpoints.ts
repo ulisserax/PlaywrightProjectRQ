@@ -27,4 +27,11 @@ export default class ReservationEndpoints {
         const body = await _response.text();
         return body;
     }
+
+    async getReservationsShared(api_key:string, date:string){
+        const _response = await this.request.get(`${ENV.BASE_URL}/api/v1/reservations_shared?apikey=${api_key}&lease_start_date_from=${date}`);
+        await expect(_response.status()).toBe(200);
+        const body = await _response.text();
+        return body;
+    }
 }

@@ -2,15 +2,14 @@ import test  from '@lib/BaseTest';
 import ENV  from '@utils/env';
 
 
- test.describe("Test Suite Alternate Option", () => {
-
-    let guest_email = ENV.GUEST_EMAIL;
+test.describe.serial("Test Suite Alternate Option", () => {
+    test.slow();
+    let guest_email = ENV.GUEST_EMAIL.toLocaleLowerCase();
 
     test("Create a new Request", async({webActions, homePage, dashboard, newRequest, requestShow}) =>{
         await webActions.navigateTo(ENV.BASE_URL);
         await homePage.enterCredentials(ENV.REQUESTOR_ADMIN, ENV.REQUESTOR_ADMIN_PASSWORD);
         await homePage.signIn();
-        await dashboard.cardSummary();
         await dashboard.clickNewRequest();
         await newRequest.select_client(ENV.CLIENT);
         await newRequest.fillRequestDetails(ENV.REQUEST_TYPE[0], ENV.REQUESTOR_ADMIN,ENV.GUEST_TYPE[0],'Miami, FL, USA', `23`);
@@ -24,11 +23,11 @@ import ENV  from '@utils/env';
         await webActions.navigateTo(ENV.BASE_URL);
         await homePage.enterCredentials(ENV.SUPPLIER_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);
         await homePage.signIn();
-        await dashboard.cardSummary();
         await dashboard.findCurrentRequest(ENV.REQUEST_ID);
         await search.clickRequestIdLink();
         await requestShow.bidOption();
         await option.selectProperty(ENV.PROPERTY);
+        await option.addPropertyImages(`images/property1.jpeg`);
         await option.fillUnitDetails(ENV.UNIT_TYPE[1], ENV.KITCHEN_TYPE[2],ENV.STYLE[0],ENV.BEDROOMS[1],ENV.BATHROOMS[1]);
         await option.fillRateDetails();
         await option.fillFees(ENV.FEES_TYPE[0]);
@@ -39,7 +38,6 @@ import ENV  from '@utils/env';
         await webActions.navigateTo(ENV.BASE_URL);
         await homePage.enterCredentials(ENV.REQUESTOR_ADMIN, ENV.REQUESTOR_ADMIN_PASSWORD);
         await homePage.signIn();
-        await dashboard.cardSummary();
         await dashboard.findCurrentRequest(ENV.REQUEST_ID);
         await search.clickRequestIdLink();
         await requestShow.editRequest();
@@ -52,7 +50,6 @@ import ENV  from '@utils/env';
         await webActions.navigateTo(ENV.BASE_URL);
         await homePage.enterCredentials(ENV.SUPPLIER_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);
         await homePage.signIn();
-        await dashboard.cardSummary();
         await dashboard.findCurrentRequest(ENV.REQUEST_ID);
         await search.clickRequestIdLink();
         await requestShow.alternateOption(ENV.ACKNOWLEDGE_AWARD[2]);
@@ -69,7 +66,6 @@ import ENV  from '@utils/env';
         await webActions.navigateTo(ENV.BASE_URL);
         await homePage.enterCredentials(ENV.REQUESTOR_ADMIN, ENV.REQUESTOR_ADMIN_PASSWORD);
         await homePage.signIn();
-        await dashboard.cardSummary();
         await dashboard.findCurrentRequest(ENV.REQUEST_ID);
         await search.clickRequestIdLink();
         await requestShow.awardAlternateOption();
@@ -80,7 +76,6 @@ import ENV  from '@utils/env';
         await webActions.navigateTo(ENV.BASE_URL);
         await homePage.enterCredentials(ENV.SUPPLIER_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);
         await homePage.signIn();
-        await dashboard.cardSummary();
         await dashboard.findCurrentRequest(ENV.REQUEST_ID);
         await search.clickRequestIdLink();
         await requestShow.acknowledgeAward(ENV.ACKNOWLEDGE_AWARD[0]);
@@ -93,7 +88,6 @@ import ENV  from '@utils/env';
         await webActions.navigateTo(ENV.BASE_URL);
         await homePage.enterCredentials(ENV.REQUESTOR_ADMIN, ENV.REQUESTOR_ADMIN_PASSWORD);
         await homePage.signIn();
-        await dashboard.cardSummary();
         await dashboard.findReservation(ENV.RESERVATION_ID);
         await search.clickRequestIdLink();
         await requestShow.viewReservation();

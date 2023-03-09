@@ -27,5 +27,38 @@ export default class Element{
     static option_availability_message     = `//div[contains(text(),'remaining to confirm option availability')]`;
     static table_option_declined           = `table#all_options tbody tr.corporate-option.unavailable`;
     static invitation_form                 = `#invitation-form`;
-    static invitation_sent                 = `//div[contains(text(),'sent successfully')]`;   
+    static invitation_sent                 = `//div[contains(text(),'sent successfully')]`;
+    static hotel_rooms_available           = `div.hotel-rooms-available`; 
+    static company_form_title              = `//h1[contains(text(),'Update Company')]`;
+    static new_company_country             = `//div[contains(text(),'United States')]`;
+    static default_washer_dryer            = `//div[@id='s2id_form_default_washer_dryer']`;  
+    static profile_timezone                = `#s2id_form_timezone`;
+    static profile_company                 = `#s2id_form_company`;
+    static confirm_password_reset          = `//h3[contains(text(),"password successfully")]`;
+    static edit_user                       = `.profile-actions-td .edit`;
+    static areas_of_coverage               = `//h1[contains(text(),'Areas of Coverage')]`;
+    static custom_area                     = `//h2[contains(text(),'Custom Areas for this Supplier')]`;
+    static image_modal                     = `//div[@id='image_upload_modal' and @class='modal fade in']`;
+    static client_form_title               = `//h1/span[contains(text(),'Client:')]`;
+    static client_settings                 = `.client-ico-settings`;
+    static client_details                  = `.client-ico-client-details`;
+    static supplier_area_icon              = `//a[@href='#supplier-areas']`;
+    static supplier_referral_icon          = `.icon-supplier-referral`;
+    static area_confirmation_title         = `//h4[contains(text(),'The approved areas')]`;
+    static supplier_fee_modal              = `#area_fee_modal  h4.modal-title`;
+    static supplier_seting_updated         = `//div[contains(text(),'Supplier setting has been saved')]`;
+    static exception_fee_area              = `//table[@id='area_fee_list']  //td[text()='Miami, FL, USA']`;
+    static default_referral_fee            = `#show_default_referral_fee .number`;
+    static segment_summary_section         = `div.segment-summary-section`;
+    static rate_length                     = `#rate_segment_placement .segment-length-stay`;
+    static delete_rate_segment             = `//div[@id='rate_segment_1']//span[contains(@class,'delete_rate_segment')]`;
+    static rate_segment_rows               = `//div[@id='rate_segment_placement']/div[contains(@class,'row_rate_segment')]`;
+    static no_area_modal                   = `//div[contains(text(),'No suppliers for this area.')]`;
+    static insert_image_modal              = `//h3[contains(text(),'Image')]`;
+    static reloquest_fee_card              = `//div[@id='requestorSupplierDefaultFees']//div[contains(@class, 'default_fee_box')]`;
+    static property_image                  = `//div[@id='gallery_preview_form_gallery_gallery']//div[contains(@class,'gallery-image-container mainImageBox')]`;
+    
+    static clickByClientName(client: string){
+        return `div[role=option] span:text('${client}')`;
+    }
 }

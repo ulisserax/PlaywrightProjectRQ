@@ -1,5 +1,7 @@
 import type { PlaywrightTestConfig } from '@playwright/test';
 import { devices } from '@playwright/test';
+import  ENV from '@utils/env';
+
 
 /**
  * Read environment variables from file.
@@ -30,9 +32,23 @@ const config: PlaywrightTestConfig = {
   /* Retry on CI only */
   retries: process.env.CI ? 2 : 0,
   /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? 1 : 5,
+  workers: process.env.CI ? 1 : 6,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: [['html', {open: "never"}]],
+  reporter: [
+    [
+      'html', {open: "never"}
+    ],
+    // [
+    //   "./node_modules/playwright-slack-report/dist/src/SlackReporter.js",
+    //   {
+        
+    //     channels: [`stage`], // provide one or more Slack channels
+    //     sendResults: "always", // "always" , "on-failure", "off"
+    //     slackOAuthToken: 'xoxb-19273017088-4757708162966-avveBI977nam0Z1T6Akensy8'
+    //   },
+      
+    // ],
+  ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Maximum time each action such as `click()` can take. Defaults to 0 (no limit). */
@@ -43,7 +59,7 @@ const config: PlaywrightTestConfig = {
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on',
     browserName:'chromium',
-    headless:false,
+    headless:true,
     screenshot:'only-on-failure',
     video:'off'
     

@@ -1,20 +1,24 @@
 import test  from '@lib/BaseTest';
+import WebActions from '@lib/WebActions';
 import ENV  from '@utils/env';
 
 
-test.describe("Test Suite Book an alternate ratecard for B2E", () => {
-    //test.slow();
+test.describe.serial("Test Suite Book an alternate ratecard for B2E", () => {
+    test.slow();
 
-   //ENV.REQUEST_ID =`RQEFF57F`;
+   ENV.B2E_USER =`jane_doe@nt1req.com`;
 
    test("Request a ratecard", async ({webActions, b2eHomePage, b2eSearchPage, b2ePropertyDetailPage}) => {
       await webActions.navigateTo(ENV.B2E_URL);
       await b2eHomePage.acceptCookies();
       await b2eHomePage.enterCredentials(ENV.B2E_USER, ENV.B2E_USER_PASSWORD);
       await b2eHomePage.signIn();
+      await b2eSearchPage.newSearch();
+      await WebActions.delay(1500);
       await b2eSearchPage.searchDestination(`Miami, FL, USA`);
       await b2eSearchPage.selectDates();
       await b2eSearchPage.housingOptionsCorporate();
+      await b2eSearchPage.filterByBrand('NT1sup');
       await b2eSearchPage.selectRatecard();
       console.info(ENV.REQUEST_ID);
       await b2ePropertyDetailPage.checkAvailability();
@@ -24,7 +28,6 @@ test.describe("Test Suite Book an alternate ratecard for B2E", () => {
       await webActions.navigateTo(ENV.BASE_URL);
       await homePage.enterCredentials(ENV.SUPPLIER_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);
       await homePage.signIn();
-      await dashboard.cardSummary();
       await dashboard.findCurrentRequest(ENV.REQUEST_ID);
       await search.clickRequestIdLink();
       await requestShow.bidPropertiesRequestedForB2E();
@@ -54,7 +57,6 @@ test.describe("Test Suite Book an alternate ratecard for B2E", () => {
       await webActions.navigateTo(ENV.BASE_URL);
       await homePage.enterCredentials(ENV.SUPPLIER_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);
       await homePage.signIn();
-      await dashboard.cardSummary();
       await dashboard.findCurrentRequest(ENV.REQUEST_ID);
       await search.clickRequestIdLink();
       await requestShow.alternateOption(ENV.ACKNOWLEDGE_AWARD[2]);
@@ -86,7 +88,6 @@ test.describe("Test Suite Book an alternate ratecard for B2E", () => {
       await webActions.navigateTo(ENV.BASE_URL);
       await homePage.enterCredentials(ENV.SUPPLIER_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);
       await homePage.signIn();
-      await dashboard.cardSummary();
       await dashboard.findCurrentRequest(ENV.REQUEST_ID);
       await search.clickRequestIdLink();
       await requestShow.acknowledgeAward(ENV.ACKNOWLEDGE_AWARD[0]);

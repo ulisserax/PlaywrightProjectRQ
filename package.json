@@ -6,16 +6,14 @@
   "scripts": {
     "env:rc": "cross-env test_env=rc npx playwright test",
     "env:stage": "cross-env test_env=stage npx playwright test",
-    "env:rc:e2e:chrome": "cross-env test_env=rc npx playwright test --config=e2e.config.ts --project=Chromium",
+    "env:stage:jose": "cross-env test_env=rc npx playwright test --config=e2e.config.ts --project=Chromium",
+    "env:rc:e2e": "cross-env test_env=rc npx playwright test --config=e2e.config.ts --project=Chromium",
     "env:rc:e2e:firefox": "cross-env test_env=rc npx playwright test --config=e2e.config.ts --project=Firefox",
-    "env:rc:e2e:webkit": "cross-env test_env=rc npx playwright test --config=e2e.config.ts --project=Webkit",
-    "env:stage:e2e:chrome": "cross-env test_env=stage npx playwright test --config=e2e.config.ts --project=Chromium",
+    "env:stage:e2e": "cross-env test_env=stage npx playwright test --config=e2e.config.ts --project=Chromium",
     "env:stage:e2e:firefox": "cross-env test_env=stage npx playwright test --config=e2e.config.ts --project=Firefox",
-    "env:stage:e2e:webkit": "cross-env test_env=stage npx playwright test --config=e2e.config.ts --project=Webkit",
     "env:rc:b2e": "cross-env test_env=rc npx playwright test --config=b2e.config.ts --project=Chromium",
-    "env:stage:b2e": "cross-env test_env=stage npx playwright test --config=b2e.config.ts --project=Chromium"
-    
-    
+    "env:stage:b2e": "cross-env test_env=stage npx playwright test --config=b2e.config.ts --project=Chromium",
+    "env:stage:api": "cross-env test_env=stage npx playwright test --config=api.config.ts --project=Chromium"
   },
   "keywords": [],
   "author": "",
@@ -26,7 +24,11 @@
     "cross-env": "^7.0.3",
     "crypto-js": "^4.1.1",
     "dotenv": "^16.0.3",
+    "jsonschema": "^1.4.1",
     "playwright": "^1.28.1",
     "playwright-zephyr": "^0.0.10"
+  },
+  "devDependencies": {
+    "playwright-slack-report": "^1.1.0"
   }
 }
