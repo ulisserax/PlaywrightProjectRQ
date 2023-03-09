@@ -4,7 +4,6 @@ import ENV from '@utils/env';
 const Validator = require('jsonschema').Validator;
 const v = new Validator();
 
-
 test.describe.serial("Api B2E Main Flow", () => {
     
    test("POST: oauth token", async ({v2Endpoints}) => {
