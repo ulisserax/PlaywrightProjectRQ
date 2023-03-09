@@ -1,3 +1,4 @@
+import WebActions from "@lib/WebActions";
 import { expect } from "@playwright/test";
 import ENV from "@utils/env";
 const Chance = require("chance");
@@ -11,7 +12,6 @@ export default class OptionEndpoints {
         this.request = request;
     }
 
-    
     async optionCreate( base_url: string, api_key:string, request_id:string, property_id:number, start_date:string, end_date:string){
         const _response = await this.request.post(`${base_url}/api/v1/option/create/${request_id}?apikey=${api_key}`, {
             data: {
@@ -117,18 +117,22 @@ export default class OptionEndpoints {
                     "fee_segments": [
                         {
                             "start_date": start_date,
-                            "end_date": start_date,
+                            "end_date": end_date,
                             "calculation_method": "FLAT",
                             "fee_basis_amount": chance.integer({min:100, max:1000}),
                             "fee_type": 1
                         }
                     ]
-                }
-                
-                
+                }      
         });
-        console.log(property_id);
-        console.log(await _response.text());
+        await expect(_response.status()).toBe(200);
+        const body = await _response.text();
+        return body;
+    }
+
+    async optionAward( base_url: string, api_key:string, option_id:string){
+        const _response = await this.request.post(`${base_url}/api/v1/option/${option_id}/award?apikey=${api_key}`, {
+        });
         await expect(_response.status()).toBe(200);
         const body = await _response.text();
         return body;
