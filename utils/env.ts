@@ -91,7 +91,7 @@ export default class ENV{
     static API_CORPROPERTIES_REFERENCE = process.env.API_CORPROPERTIES_REFERENCE
     static API_RATECARD_ID             = ''
     static API_REQUEST_UID             = ''
-    static API_PROPERTY_ID             = ''
+    static API_PROPERTY_ID             = process.env.PROPERTY_ID
     static API_OPTION_ID               = ''
     static API_RESERVATION_UID         = ''
     static STRIPE_KEY                  = process.env.STRIPE_KEY
