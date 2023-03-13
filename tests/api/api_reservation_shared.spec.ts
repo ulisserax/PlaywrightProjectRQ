@@ -257,7 +257,7 @@ test.describe.only("Api Reservation Shared", () => {
    test("Validate the reservation shared schema", async ({reservationEndpoints}) => {
       //const res = await reservationEndpoints.getReservationsShared(ENV.REQUESTOR_API_KEY);
       
-      const res = await reservationEndpoints.getReservationsShared(ENV.NT1REQUESTOR_API_KEY, '2019-01-01');
+      const res = await reservationEndpoints.getReservationsShared(ENV.REQUESTOR_API_KEY, '2017-01-01');
       const _response = JSON.parse(res);
       console.log(`Reservation endpoint array contains ${_response.length} item(s)`);
       await expect(_response.length).toBeGreaterThanOrEqual(1);
