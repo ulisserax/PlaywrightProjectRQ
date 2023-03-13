@@ -3,7 +3,7 @@ import ENV from "@utils/env";
 
 export default class Element{
     static start_date                 = `//ngb-datepicker-month//span[@class='custom-day' and contains(text(),'16')]`;
-    static end_date                   = `//ngb-datepicker-month//span[@class='custom-day' and contains(text(),'11')]`;
+    static end_date                   = `//ngb-datepicker-month//span[@class='custom-day' and contains(text(),'28')]`;
     static destination_places         = `div.search-list div.places-list`;
     static new_option_modal           = `app-modal[header='New Option(s) Received!']`;
     static are_you_sure_modal         = `app-modal[header='Are you sure?']`;

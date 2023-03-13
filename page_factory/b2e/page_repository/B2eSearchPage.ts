@@ -21,8 +21,9 @@ export default class B2eSearchPage {
 
     async validateUrl(url: string){
         console.info(`Validate url`);
+        await WebActions.delay(3000);
         await this.page.waitForLoadState(`domcontentloaded`);
-        await WebActions.delay(1900);
+        await WebActions.delay(5000);
         await expect(await this.page.url()).toContain(url);
     }
 
@@ -116,7 +117,7 @@ export default class B2eSearchPage {
         await this.page.waitForSelector(Element.new_option_modal);
         await expect(await this.page.locator(Element.new_option_modal).count()).toEqual(1);
         await this.page.click(Button.continue);
-        await WebActions.delay(600);
+        await WebActions.delay(1000);
         await this.page.waitForLoadState('domcontentloaded');
         await WebActions.delay(500);
         await this.page.waitForSelector(Button.new);
