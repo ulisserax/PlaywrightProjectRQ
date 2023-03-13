@@ -3,7 +3,7 @@ import { expect } from '@playwright/test';
 import ENV from '@utils/env';
 
 
-test.describe.serial.only("EB2E RQPRO API main flow", ()=>{
+test.describe.serial("EB2E RQPRO API main flow", ()=>{
 
 
     test("POST: Create an EB2E RQPRO Request", async ({requestEndpoints}) => {
