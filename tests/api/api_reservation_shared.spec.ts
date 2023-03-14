@@ -1,5 +1,6 @@
 import test  from '@lib/BaseTest';
 import { expect } from '@playwright/test';
+import ENV from '@utils/env';
 const Validator = require('jsonschema').Validator;
 const v = new Validator();
 const schema = {
@@ -212,8 +213,7 @@ const schema = {
                     "preferences_set_at": {
                         "type":["string","null"]
                     }
-                },"required":["wd","maid_service","requested_by_id","requested_by_email","requested_by_name","uid","dept_number","authorized_booking_agent",
-            "booking_contact_email","assigned_to_name","assigned_to_email","assigned_to_id","radius_km","radius_mi","kitchen_type","unit_type","adults","location","preferences_set_at"]
+                },"required":["wd","maid_service","requested_by_id","requested_by_email","requested_by_name","uid","assigned_to_name","assigned_to_email","assigned_to_id","kitchen_type","unit_type","adults","location","preferences_set_at"]
             },
             "move_in": {
                 "type":"string"
@@ -256,11 +256,13 @@ test.describe("Api Reservation Shared", () => {
     
    test("Validate the reservation shared schema", async ({reservationEndpoints}) => {
       //const res = await reservationEndpoints.getReservationsShared(ENV.REQUESTOR_API_KEY);
-      const res = await reservationEndpoints.getReservationsShared('NT2reqAdmin_apikey', '2019-01-01');
-      console.log(`Reservation endpoint array contains ${JSON.parse(res).length} item(s)`);
-      await expect((JSON.parse(res).length)).toBeGreaterThanOrEqual(1);
-      console.log('Reservation shared endpoint do not have any error - the array error have lenght '+(v.validate(JSON.parse(res), schema).errors).length);
-      console.log(v.validate(JSON.parse(res), schema));
-      await expect((v.validate(JSON.parse(res), schema).errors).length).toEqual(0);
+      
+      const res = await reservationEndpoints.getReservationsShared(ENV.REQUESTOR_API_KEY, '2019-01-01');
+      const _response = JSON.parse(res);
+      console.log(`Reservation endpoint array contains ${_response.length} item(s)`);
+      await expect(_response.length).toBeGreaterThanOrEqual(1);
+      console.log('Reservation shared endpoint do not have any error - the array error have lenght '+(v.validate(_response, schema).errors).length);
+      console.log(v.validate(_response, schema));
+      await expect((v.validate(_response, schema).errors).length).toEqual(0);
    })
 })

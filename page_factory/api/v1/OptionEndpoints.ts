@@ -55,6 +55,7 @@ export default class OptionEndpoints {
                     ],
                     "minimum_stay": 1,
                     "notice": 1,
+                    "require_ntv":1,
                     "rate_type": "NIGHT",
                     "other_charges": null,
                     "smoking_unit": 0,
