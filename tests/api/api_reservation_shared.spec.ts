@@ -252,7 +252,7 @@ const schema = {
 }
 
 
-test.describe.only("Api Reservation Shared", () => {
+test.describe("Api Reservation Shared", () => {
     
    test("Validate the reservation shared schema", async ({reservationEndpoints}) => {
       //const res = await reservationEndpoints.getReservationsShared(ENV.REQUESTOR_API_KEY);
