@@ -27,12 +27,13 @@ export default class NewRequestPage{
 
     async select_arrival_date(): Promise<void>{
         await this.page.waitForLoadState('domcontentloaded');
-        await WebActions.delay(400);
+        await WebActions.delay(600);
         await this.page.click(Calendar.arrival_date);
-        await WebActions.delay(300);
+        await WebActions.delay(500);
         await this.page.click(Calendar.arrow_next_month);
-        await WebActions.delay(300);
+        await WebActions.delay(500);
         await this.page.locator(Calendar.middle_date).last().click();
+        await WebActions.delay(500);
     }
 
     async select_client(client:string): Promise<void>{
