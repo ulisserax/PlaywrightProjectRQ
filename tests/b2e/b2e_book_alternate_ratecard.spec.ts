@@ -48,6 +48,8 @@ test.describe.serial("Test Suite Book an alternate ratecard for B2E", () => {
       await b2eQuestsPage.confirmNewOption(); 
       await b2eSearchPage.optionReceived();
       await b2eBookingPage.bookRateCard();
+      await WebActions.delay(2500);
+      await b2eBookingPage.areYouSureModal();
       await b2eBookingPage.paymentInformation(ENV.CREDIT_CARD, ENV.CARD_EXPIRATION, ENV.CARD_CVC, ENV.ZIP_CODE);
       await b2eBookingPage.completeYourQuest();
       await b2eBookingPage.verifyPendingQuest();

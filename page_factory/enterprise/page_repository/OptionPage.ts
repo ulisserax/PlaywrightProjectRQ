@@ -159,7 +159,7 @@ export default class OptionPage {
         await WebActions.delay(500);
         await this.page.waitForLoadState('networkidle');
         await this.page.waitForLoadState('domcontentloaded');
-        await WebActions.delay(600);
+        await WebActions.delay(2000);
         // console.info(await this.page.locator(Text.property_distance_modal_notification).count());
         // let count = await this.page.locator(Text.property_distance_modal_notification).count();
         if(await this.webActions.isSelectorExists(Text.updated_fields)){
@@ -284,6 +284,7 @@ export default class OptionPage {
     }
 
     async addPropertyImages(image_path){
+        await WebActions.delay(1500);
         if(await this.page.locator(Element.property_image).count() == 0){
             console.info(`Adding property images`); 
             await this.page.waitForLoadState('domcontentloaded');

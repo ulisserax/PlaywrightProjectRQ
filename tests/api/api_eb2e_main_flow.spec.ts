@@ -1,13 +1,9 @@
-import OptionEndpoints from '@api/v1/OptionEndpoints';
 import test from '@lib/BaseTest';
 import { expect } from '@playwright/test';
 import ENV from '@utils/env';
-const Validator = require('jsonschema').Validator;
-const v = new Validator();
-const Chance = require ('chance');
-const chance = new Chance();
 
-test.describe("EB2E RQPRO API main flow", ()=>{
+
+test.describe.serial("EB2E RQPRO API main flow", ()=>{
 
 
     test("POST: Create an EB2E RQPRO Request", async ({requestEndpoints}) => {
@@ -20,7 +16,7 @@ test.describe("EB2E RQPRO API main flow", ()=>{
 
     test("POST: Submit an Option to the EB2E RQPRO Request", async ({optionEndpoints}) => {
         console.info(`Submitting an Option to an EB2E Request through the V1 API.`);
-        const _res = await optionEndpoints.optionCreate(ENV.BASE_URL, ENV.SUPPLIER_FOR_RQPRO_API_KEY, ENV.API_REQUEST_UID, 89186, ENV.START_DATE, ENV.END_DATE);
+        const _res = await optionEndpoints.optionCreate(ENV.BASE_URL, ENV.SUPPLIER_FOR_RQPRO_API_KEY, ENV.API_REQUEST_UID, Number(ENV.API_PROPERTY_ID), ENV.START_DATE, ENV.END_DATE);
         const _response = JSON.parse(_res)
         ENV.API_OPTION_ID = `${_response.option_id}`;
         console.info(`Option id: ${ENV.API_OPTION_ID}`);

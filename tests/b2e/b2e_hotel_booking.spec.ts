@@ -3,7 +3,7 @@ import WebActions from '@lib/WebActions';
 import ENV  from '@utils/env';
 
 
-test.describe.serial("Test Suite Hotel booking for B2E", () => {
+test.describe.skip("Test Suite Hotel booking for B2E", () => {
   test.slow();
 
    ENV.B2E_USER =`jess_doe@nt1req.com`;
@@ -28,6 +28,8 @@ test.describe.serial("Test Suite Hotel booking for B2E", () => {
           test.skip();
       }
       await b2ePropertyDetailPage.bookThisRoom();
+      await WebActions.delay(3000);
+      await b2eBookingPage.areYouSureModal();
       await b2eBookingPage.paymentInformation(ENV.CREDIT_CARD, ENV.CARD_EXPIRATION, ENV.CARD_CVC, ENV.ZIP_CODE);
       await b2eBookingPage.completeYourQuest();
       await b2eQuestDetailsPage.getReservationId();

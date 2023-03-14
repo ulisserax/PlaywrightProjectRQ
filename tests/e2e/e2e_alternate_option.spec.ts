@@ -2,7 +2,7 @@ import test  from '@lib/BaseTest';
 import ENV  from '@utils/env';
 
 
-test.describe.serial.only("Test Suite Alternate Option", () => {
+test.describe.serial("Test Suite Alternate Option", () => {
     test.slow();
     let guest_email = ENV.GUEST_EMAIL.toLocaleLowerCase();
 

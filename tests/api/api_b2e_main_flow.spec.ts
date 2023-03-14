@@ -1,14 +1,15 @@
 import test  from '@lib/BaseTest';
 import { expect } from '@playwright/test';
 import ENV from '@utils/env';
-const Validator = require('jsonschema').Validator;
-const v = new Validator();
+
 
 test.describe.serial("Api B2E Main Flow", () => {
     
    test("POST: oauth token", async ({v2Endpoints}) => {
-      const _response = await v2Endpoints.oauth(ENV.BASE_URL, ENV.API_GRANT_TYPE, ENV.API_CLIENT_ID, ENV.API_CLIENT_SECRET, "john_doe@nt1req.com", ENV.B2E_USER_PASSWORD);
-      ENV.API_TOKEN = JSON.parse(_response).access_token;
+      const _res = await v2Endpoints.oauth(ENV.BASE_URL, ENV.API_GRANT_TYPE, ENV.API_CLIENT_ID, ENV.API_CLIENT_SECRET, "john_doe@nt1req.com", ENV.B2E_USER_PASSWORD);
+      const _response = JSON.parse(_res);
+      console.log(_response);
+      ENV.API_TOKEN = _response.access_token;
       console.info(`Access Token: ${ENV.API_TOKEN}`);
     
    })
