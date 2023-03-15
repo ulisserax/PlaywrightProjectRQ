@@ -3,7 +3,7 @@ import WebActions from '@lib/WebActions';
 import ENV  from '@utils/env';
 
 
- test.describe.serial.only("Test Suite Book a ratecard for B2E", () => {
+ test.describe.serial("Test Suite Book a ratecard for B2E", () => {
     test.slow();
 
     ENV.B2E_USER =`james_doe@nt1req.com`;
@@ -48,7 +48,7 @@ import ENV  from '@utils/env';
       await b2eQuestsPage.confirmNewOption(); 
       await b2eSearchPage.optionReceived();
       await b2eBookingPage.bookRateCard();
-      await WebActions.delay(3500);
+      await WebActions.delay(4500);
       await b2eBookingPage.areYouSureModal();
       await b2eBookingPage.paymentInformation(ENV.CREDIT_CARD, ENV.CARD_EXPIRATION, ENV.CARD_CVC, ENV.ZIP_CODE);
       await b2eBookingPage.completeYourQuest();
