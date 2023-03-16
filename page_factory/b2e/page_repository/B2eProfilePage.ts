@@ -26,7 +26,7 @@ export default class B2eProfilePage {
         await this.page.type(Input.user_password, new_password, {delay:40});
         await this.page.type(Input.confirm_password, new_password, {delay:40});
         await this.page.click(Button.save);
-        await WebActions.delay(1200);
+        await WebActions.delay(3200);
     }
 
 }

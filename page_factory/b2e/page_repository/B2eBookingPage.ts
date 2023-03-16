@@ -30,7 +30,8 @@ export default class B2eBookingPage {
     }
 
     async areYouSureModal(){
-        await WebActions.delay(2000);
+        await WebActions.delay(3000);
+        await this.page.context().pages()[1].waitForSelector(Input.card_holder);
         if (await this.page.context().pages()[1].locator(Element.are_you_sure_modal).count()>0){
             await WebActions.delay(400);
             await this.page.context().pages()[1].click(Button.continue);
@@ -59,7 +60,7 @@ export default class B2eBookingPage {
         await this.page.context().pages()[1].waitForSelector(Element.checkout_success);
         await expect(await this.page.context().pages()[1].locator(Element.checkout_success).count()).toEqual(1);
         await this.page.context().pages()[1].click(Button.view_your_quest);
-        await WebActions.delay(1200);
+        await WebActions.delay(3200);
     }
 
     async verifyPendingQuest(){

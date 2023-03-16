@@ -19,10 +19,11 @@ export default class B2eSearchPage {
         this.page = page;        
     }
 
-    async validateUrl(url: string){
+    async validateUrl(url: string, selector:string){
         console.info(`Validate url`);
-        await WebActions.delay(3000);
+        await WebActions.delay(7000);
         await this.page.waitForLoadState(`domcontentloaded`);
+        await this.page.waitForSelector(selector);
         await WebActions.delay(5000);
         await expect(await this.page.url()).toContain(url);
     }

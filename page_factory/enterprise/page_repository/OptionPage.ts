@@ -162,12 +162,12 @@ export default class OptionPage {
         await WebActions.delay(2000);
         // console.info(await this.page.locator(Text.property_distance_modal_notification).count());
         // let count = await this.page.locator(Text.property_distance_modal_notification).count();
-        if(await this.webActions.isSelectorExists(Text.updated_fields)){
-            await this.page.click(Button.update_property_fields_modal);
-        }
-        await WebActions.delay(600);
         if(await this.webActions.isSelectorExists(Text.property_distance_modal_notification)){
             await this.page.click(Button.yes);
+        }
+        await WebActions.delay(1600);
+        if(await this.webActions.isSelectorExists(Text.updated_fields)){
+            await this.page.click(Button.update_property_fields_modal);
         }
         
     }
