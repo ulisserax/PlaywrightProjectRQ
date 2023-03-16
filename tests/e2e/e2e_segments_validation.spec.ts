@@ -34,6 +34,7 @@ test.describe.serial("Test Suite for Segments Validation", () => {
         await option.selectRateType(`NIGHT`);
         await option.totalRateCalculation('Nights');
         await option.submitOption();
+        await requestShow.verifyOptionSubmitted();
     })
 
     test("Award option", async ({webActions, homePage, dashboard, search, requestShow, requestEndpoints}) => {
