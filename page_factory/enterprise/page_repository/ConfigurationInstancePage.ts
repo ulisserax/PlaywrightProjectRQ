@@ -17,6 +17,7 @@ export default class ConfigurationInstancePage {
         await WebActions.delay(2000);
         await this.page.click(Button.swiftmailer_spool_send);
         await expect(await this.page.locator(Text.console_output).textContent()).toContain(`Executing command`);
+        await WebActions.delay(300);
         await this.page.waitForLoadState('networkidle'); 
         await this.page.waitForLoadState('domcontentloaded');
         await WebActions.delay(1800);

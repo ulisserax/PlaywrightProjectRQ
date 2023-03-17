@@ -57,7 +57,9 @@ export default class Element{
     static insert_image_modal              = `//h3[contains(text(),'Image')]`;
     static reloquest_fee_card              = `//div[@id='requestorSupplierDefaultFees']//div[contains(@class, 'default_fee_box')]`;
     static property_image                  = `//div[@id='gallery_preview_form_gallery_gallery']//div[contains(@class,'gallery-image-container mainImageBox')]`;
-    
+    static modal_availability_not_visible  = `//div[@id='confirm_modal' and @class='modal fade']`;
+    static modal_option_verification       = `//div[@data-show='true' and @class='modal fade in']`;
+
     static clickByClientName(client: string){
         return `div[role=option] span:text('${client}')`;
     }

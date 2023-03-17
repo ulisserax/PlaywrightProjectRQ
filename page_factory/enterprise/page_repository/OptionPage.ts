@@ -275,6 +275,9 @@ export default class OptionPage {
     
     async propertyEditvalidation(){
         console.info(`Validating the edited porperty fields`);
+        await WebActions.delay(500);
+        await this.page.waitForLoadState('networkidle');
+        await this.page.waitForLoadState('domcontentloaded');
         let property_description = await this.page.locator(Textarea.property_description).innerText();
         let property_features = await this.page.locator(Textarea.property_features).innerText();
         let property_amenities = await this.page.locator(Textarea.property_amenities).innerText();
