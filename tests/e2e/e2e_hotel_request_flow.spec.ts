@@ -5,7 +5,7 @@ import ENV  from '@utils/env';
 
 test.describe.serial("Create Hotel request, cancel reservation and validate emails", () => {
     test.slow();
-    let guest_email = ENV.GUEST_EMAIL.toLocaleLowerCase();
+    let guestEmail = ENV.GUEST_EMAIL.toLocaleLowerCase();
     let count = 0;
 
     test("Create a hotel request and cancel reservation", async ({webActions, homePage, dashboard, newRequest, requestShow, hotelSearchPage, search}, testInfo) => {
@@ -16,7 +16,7 @@ test.describe.serial("Create Hotel request, cancel reservation and validate emai
         await dashboard.clickNewRequest();
         await newRequest.select_client(ENV.CLIENT);
         await newRequest.fillRequestDetails(ENV.REQUEST_TYPE[1], ENV.REQUESTOR_ADMIN,ENV.GUEST_TYPE[0],'Miami, FL, USA', `15`);
-        await newRequest.fillGuestInfo(ENV.GUEST_FIRSTNAME,ENV.GUEST_LASTNAME,guest_email,ENV.GUEST_PHONE);
+        await newRequest.fillGuestInfo(ENV.GUEST_FIRSTNAME,ENV.GUEST_LASTNAME,guestEmail,ENV.GUEST_PHONE);
         await newRequest.fillHotelDetails('1','2');
         await newRequest.submitHotelRequest();
         await requestShow.getRequestId();
@@ -57,7 +57,7 @@ test.describe.serial("Create Hotel request, cancel reservation and validate emai
         await configurationInstance.mailPush();
         await webActions.navigateTo(ENV.MAILCATCHER_URL);
         await mailCatcher.verifyHotelsEmails(`Reservation Confirmation for supplier`, `Reservation Confirmation for ${ENV.INTERNAL_ID}`, ENV.REQUESTOR_ADMIN_EMAIL, `ReloQuest - Success! - Reservation Confirmation for ${ENV.INTERNAL_ID}`, `//div[@class='hotel-confirmation-header' and contains (div,'Your Booking is Confirmed') and contains(div,"${ENV.HOTEL_RESERVATION_ID}")]`);
-        await mailCatcher.verifyHotelsEmails(`Reservation Confirmation for guest`, `Reservation Confirmation for ${ENV.INTERNAL_ID}` , guest_email, `ReloQuest - Success! - Reservation Confirmation for ${ENV.INTERNAL_ID}`, `//div[@class='hotel-confirmation-header' and contains (div,'Your Booking is Confirmed') and contains(div,"${ENV.HOTEL_RESERVATION_ID}")]`);
+        await mailCatcher.verifyHotelsEmails(`Reservation Confirmation for guest`, `Reservation Confirmation for ${ENV.INTERNAL_ID}` , guestEmail, `ReloQuest - Success! - Reservation Confirmation for ${ENV.INTERNAL_ID}`, `//div[@class='hotel-confirmation-header' and contains (div,'Your Booking is Confirmed') and contains(div,"${ENV.HOTEL_RESERVATION_ID}")]`);
         await mailCatcher.verifyHotelsEmails(`Billing confirmation`,`SABRE_HOTEL / ${ENV.REQUESTOR_COMPANY.toLocaleUpperCase()} hotel reservation`, ENV.BILLING_EMAIL, `SABRE_HOTEL / ${ENV.REQUESTOR_COMPANY.toLocaleUpperCase()} hotel reservation`, `//div[@class='hotel-confirmation-header' and contains (div,'Your Booking is Confirmed') and contains(div,"${ENV.HOTEL_RESERVATION_ID}")]`);
         if(ENV.AWARD_IN_PROGRESS > 0){
             console.info('The Hotel award is in progress, can not be cancelled until the award is completed...')

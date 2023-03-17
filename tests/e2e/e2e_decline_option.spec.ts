@@ -4,8 +4,8 @@ import ENV  from '@utils/env';
 
  test.describe.serial("Test Suite Decline Option", () => {
     test.slow();
-    let guest_email   = ENV.GUEST_EMAIL.toLocaleLowerCase();
-    const property_name = ENV.SUPPLIER_COMPANY + "Property_#";
+    let guestEmail      = ENV.GUEST_EMAIL.toLocaleLowerCase();
+    const propertyName  = ENV.SUPPLIER_COMPANY + "property_#";
 
 
     test("Create a new Request", async({webActions, homePage, dashboard, newRequest, requestShow}) =>{
@@ -15,7 +15,7 @@ import ENV  from '@utils/env';
         await dashboard.clickNewRequest();
         await newRequest.select_client(ENV.CLIENT);
         await newRequest.fillRequestDetails(ENV.REQUEST_TYPE[0], ENV.REQUESTOR_ADMIN,ENV.GUEST_TYPE[0],'Miami, FL, USA', `23`);
-        await newRequest.fillGuestInfo(ENV.GUEST_FIRSTNAME,ENV.GUEST_LASTNAME,guest_email,ENV.GUEST_PHONE);
+        await newRequest.fillGuestInfo(ENV.GUEST_FIRSTNAME,ENV.GUEST_LASTNAME,guestEmail,ENV.GUEST_PHONE);
         await newRequest.fillCorporateHousingDetails();
         await newRequest.submitRequest();
         await requestShow.getRequestId();
@@ -37,10 +37,10 @@ import ENV  from '@utils/env';
         await requestShow.verifyOptionSubmitted();
         await requestShow.bidOption();
         await option.clickNewProperty();
-        await property.fillPropertyOverview(property_name, 'miami beach','Yes','Central A/C','1 bedroom','No Pets');
+        await property.fillPropertyOverview(propertyName, 'miami beach','Yes','Central A/C','1 bedroom','No Pets');
         await property.addImage(`images/property1.jpeg`);
         await property.cancellationAndTaxFeePolicy();
-        await option.fillContactInformation(ENV.SUPPLIER_EMAIL);
+        await option.fillContactInformation(ENV.SUPPLIER_SERVICE_EMAIL, ENV.SUPPLIER_ESCALATION_EMAIL);
         await property.createNewProperty();
         await option.fillUnitDetails(ENV.UNIT_TYPE[1], ENV.KITCHEN_TYPE[2],ENV.STYLE[0],ENV.BEDROOMS[1],ENV.BATHROOMS[1]);
         await option.fillRateDetails();
@@ -75,11 +75,11 @@ import ENV  from '@utils/env';
         await homePage.signIn();
         await dashboard.findCurrentRequest(ENV.REQUEST_ID);
         await search.clickRequestIdLink();
-        const current_page = await requestShow.getCurrentLink();
-        const share_link = await shareOption.shareWithGuest();
-        await webActions.navigateTo(share_link);
+        const currentPage = await requestShow.getCurrentLink();
+        const shareLink = await shareOption.shareWithGuest();
+        await webActions.navigateTo(shareLink);
         await shareOption.submitPreferences();
-        await webActions.navigateTo(current_page);
+        await webActions.navigateTo(currentPage);
         await requestShow.awardByPreference();
     })
 

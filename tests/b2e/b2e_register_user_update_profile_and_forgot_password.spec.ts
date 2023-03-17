@@ -11,10 +11,10 @@ test.describe.serial("Test Suite Register user, update profile and forgot passwo
   let lastname = `Doe`;
   let email = `${firstname}_${lastname}${chance.integer({min:0, max:99999})}@nt1req.com`.toLocaleLowerCase();
   let password = `Test1234`;
-  let new_password = `Test1234!`;
-  let reset_password = `Test123!`;
-  let activate_account_link = ``;
-  let reset_password_link = ``;
+  let newPassword = `Test1234!`;
+  let resetPassword = `Test123!`;
+  let activateAccountLink = ``;
+  let resetPasswordLink = ``;
 
   test("Register new user on B2E", async ({webActions, b2eHomePage, b2eLoginPage}) => {
     await webActions.navigateTo(ENV.B2E_URL);
@@ -31,22 +31,22 @@ test.describe.serial("Test Suite Register user, update profile and forgot passwo
     await configurationInstance.mailPush();
     await webActions.navigateTo(ENV.MAILCATCHER_URL);
     await mailCatcher.searchEmail(email, `Thank you for registering at ReloQuest!`);
-    activate_account_link= await mailCatcher.activateAccount();
+    activateAccountLink = await mailCatcher.activateAccount();
   })
 
   test("Activate account and update profile", async ({webActions, b2eHomePage, b2eSearchPage, b2eProfilePage}) => {
-    await webActions.navigateTo(activate_account_link);
+    await webActions.navigateTo(activateAccountLink);
     await b2eHomePage.acceptCookies();
     await b2eHomePage.enterPassword(password);
     await b2eHomePage.signIn();
     await b2eSearchPage.openProfile();
-    await b2eProfilePage.updatePassword(password, new_password);
+    await b2eProfilePage.updatePassword(password, newPassword);
   })
 
   test("Validate password was updated", async ({webActions, b2eHomePage, b2eSearchPage}) => {
     await webActions.navigateTo(ENV.B2E_URL);
     await b2eHomePage.acceptCookies();
-    await b2eHomePage.enterCredentials(email, new_password);
+    await b2eHomePage.enterCredentials(email, newPassword);
     await b2eHomePage.signIn();
     await b2eSearchPage.validateUrl(`${ENV.B2E_URL}/b2e/search`);
   })
@@ -66,13 +66,13 @@ test.describe.serial("Test Suite Register user, update profile and forgot passwo
     await configurationInstance.mailPush();
     await webActions.navigateTo(ENV.MAILCATCHER_URL);
     await mailCatcher.searchEmail(email, `Password Reset`);
-    reset_password_link = await mailCatcher.getB2ePasswordResetLink();
-    await webActions.navigateTo(reset_password_link);
+    resetPasswordLink = await mailCatcher.getB2ePasswordResetLink();
+    await webActions.navigateTo(resetPasswordLink);
     await b2eHomePage.acceptCookies();
-    await b2eForgotPasswordPage.resetPassword(reset_password);
+    await b2eForgotPasswordPage.resetPassword(resetPassword);
     await b2eForgotPasswordPage.LogIn();
     await webActions.navigateTo(ENV.B2E_URL);
-    await b2eHomePage.enterCredentials(email, reset_password);
+    await b2eHomePage.enterCredentials(email, resetPassword);
     await b2eHomePage.signIn();
     await b2eSearchPage.validateUrl(`${ENV.B2E_URL}/b2e/search`);
   })

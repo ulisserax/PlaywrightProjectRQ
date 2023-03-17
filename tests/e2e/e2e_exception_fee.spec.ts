@@ -8,7 +8,7 @@ test.describe.serial("Test Suite Exception Fee", () => {
 
     for(let i = 0; i < location.length; i++){
         test(`Create a new Request via api and validate the exception fee for ${location[i]}`, async({requestEndpoints, webActions,homePage, dashboard, search, requestShow, option}) =>{
-            const _response = await requestEndpoints.createRequest(ENV.BASE_URL,'nt1reqadmin_api_key', Number(ENV.EXCEPTION_FEE_CLIENT_ID), location[i], ENV.START_DATE, ENV.END_DATE);
+            const _response = await requestEndpoints.createRequest(ENV.BASE_URL,'nt1req_admin_api_key', Number(ENV.EXCEPTION_FEE_CLIENT_ID), location[i], ENV.START_DATE, ENV.END_DATE);
             ENV.REQUEST_ID = JSON.parse(_response).request_id;
             console.info(`Request Id: ${ENV.REQUEST_ID}`);
             await webActions.navigateTo(ENV.BASE_URL);

@@ -15,12 +15,12 @@ export default class User {
         this.page = page;
     }
 
-    async fillNewUser(CompanyName: string, User:string, userType:string): Promise<void>{
+    async fillNewUser(CompanyName: string, User:string, userType:string, email:string): Promise<void>{
         console.info(`Filling the New User form`);
         await this.page.type(Input.profile_username, User);
         await this.page.type(Input.profile_first_name, chance.first());
         await this.page.type(Input.profile_last_name, chance.last());
-        await this.page.type(Input.profile_email, User);
+        await this.page.type(Input.profile_email, email);
         await this.page.click(Element.profile_timezone);
         await this.page.type(Input.profile_timezone, 'New york', {delay:40});
         await this.page.keyboard.press('Enter');

@@ -137,16 +137,16 @@ export default class OptionPage {
         
     }
 
-    async fillContactInformation(email:string): Promise<void>{
+    async fillContactInformation(service_email:string, escalation_email:string): Promise<void>{
         console.info("Filling contact information.");
         let phone = chance.phone();
         await WebActions.delay(1500);
         await this.page.locator(Element.image_modal).isHidden();
         await this.page.type(Input.customer_service_number, `${phone}`, {delay:35});
-        await this.page.type(Input.email_for_service_issues, `${email}`, {delay:35});
+        await this.page.type(Input.email_for_service_issues, `${service_email}`, {delay:35});
         await this.page.type(Input.phone_for_services_issues, `${phone}`, {delay:35});
         await this.page.type(Input.escalation_contact_name, `CSN-${chance.integer({ min: 10000, max: 99999})}`, {delay:35});
-        await this.page.type(Input.escalation_contact_email, `${email}`, {delay:35});
+        await this.page.type(Input.escalation_contact_email, `${escalation_email}`, {delay:35});
         await this.page.type(Input.escalation_contact_phone, `${phone}`, {delay:35});
     }
 
