@@ -19,12 +19,12 @@ export default class Registration {
         await expect(await this.page.locator(Text.supplier_registration)).toBeVisible();
     }
 
-    async fillSupplierRegistrationForm(): Promise<void> {
+    async fillSupplierRegistrationForm(email): Promise<void> {
         console.info(`Filling the Supplier registration form`);
         await this.page.type(Input.title, `Supplier Admininstrator`);
         await this.page.type(Input.reg_password, ENV.SUPPLIER_ADMIN_PASSWORD);
         await this.page.type(Input.reg_repeat_password, ENV.SUPPLIER_ADMIN_PASSWORD);
-        await this.page.type(Input.notification_email, `notification@${ENV.SUPPLIER_COMPANY}.com`);
+        await this.page.type(Input.notification_email, `${email}`);
         await this.page.type(Input.company_phone, chance.phone({ formatted: false }));
         await this.page.click(Button.create_account);
     }

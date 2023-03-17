@@ -9,7 +9,7 @@ test.describe.serial("Test Suite for Segments Validation", () => {
         
     test(`Create request via api, bid and `, async({requestEndpoints, webActions,homePage, dashboard, search, requestShow, option}) =>{
         
-        const _response = await requestEndpoints.createRequest(ENV.BASE_URL,'nt1reqadmin_api_key', Number(ENV.CLIENT_ID), 'Miami, FL, USA', ENV.START_DATE, 
+        const _response = await requestEndpoints.createRequest(ENV.BASE_URL,'nt1req_admin_api_key', Number(ENV.CLIENT_ID), 'Miami, FL, USA', ENV.START_DATE, 
         ENV.END_DATE);
         ENV.REQUEST_ID = JSON.parse(_response).request_id;
         console.info(`Request Id: ${ENV.REQUEST_ID}`);
