@@ -78,10 +78,11 @@ export default class B2eQuestDetailsPage {
     async savePaymentMethod(){
         console.info(`Saving payment method`);
         await this.page.click(Button.save_card);
-        //await this.page.locator(Button.save_card).isHidden({timeout:5000});
         await WebActions.delay(6000);
         await this.page.waitForSelector(Text.payment_updated);
+        await WebActions.delay(1500);
         await this.page.click(Button.got_it);
+        await WebActions.delay(5000);
         await this.page.waitForLoadState(`domcontentloaded`);
     }
 

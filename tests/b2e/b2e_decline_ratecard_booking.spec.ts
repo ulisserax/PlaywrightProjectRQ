@@ -47,9 +47,9 @@ test.describe.serial("Test Suite Decline ratecard booking for B2E", () => {
       await b2eSearchPage.viewAllQuests();
       await b2eQuestsPage.confirmNewOption(); 
       await b2eSearchPage.optionReceived();
-      await WebActions.delay(3000);
-      await b2eBookingPage.areYouSureModal();
       await b2eBookingPage.bookRateCard();
+      await WebActions.delay(3500);
+      await b2eBookingPage.areYouSureModal();
       await b2eBookingPage.paymentInformation(ENV.CREDIT_CARD, ENV.CARD_EXPIRATION, ENV.CARD_CVC, ENV.ZIP_CODE);
       await b2eBookingPage.completeYourQuest();
       await b2eBookingPage.verifyPendingQuest();

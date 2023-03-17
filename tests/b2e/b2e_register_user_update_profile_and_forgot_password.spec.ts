@@ -1,3 +1,4 @@
+import Element from '@b2e_objects/Element';
 import test  from '@lib/BaseTest';
 import ENV  from '@utils/env';
 const Chance = require ('chance');
@@ -48,7 +49,7 @@ test.describe.serial("Test Suite Register user, update profile and forgot passwo
     await b2eHomePage.acceptCookies();
     await b2eHomePage.enterCredentials(email, new_password);
     await b2eHomePage.signIn();
-    await b2eSearchPage.validateUrl(`${ENV.B2E_URL}/b2e/search`);
+    await b2eSearchPage.validateUrl(`${ENV.B2E_URL}/b2e/search`, Element.navigation_navBar);
   })
 
   test("Forgot password B2E", async ({webActions, b2eHomePage, b2eLoginPage, b2eForgotPasswordPage}) => {
@@ -74,7 +75,7 @@ test.describe.serial("Test Suite Register user, update profile and forgot passwo
     await webActions.navigateTo(ENV.B2E_URL);
     await b2eHomePage.enterCredentials(email, reset_password);
     await b2eHomePage.signIn();
-    await b2eSearchPage.validateUrl(`${ENV.B2E_URL}/b2e/search`);
+    await b2eSearchPage.validateUrl(`${ENV.B2E_URL}/b2e/search`, Element.navigation_navBar);
   })
    
 })
