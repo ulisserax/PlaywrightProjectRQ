@@ -27,7 +27,7 @@ test.describe.serial("Api B2E Main Flow", () => {
       const res = await v2Endpoints.propertiesRateCard(ENV.BASE_URL, ENV.API_TOKEN, ENV.REQUEST_ID, '1','1',ENV.START_DATE, ENV.END_DATE, 'Miami, FL, USA');
       const _response = JSON.parse(res);
       for(let i = 0; i<_response.properties.length; i++){
-         if(_response.properties[i].provider_name == "NT1sup"){
+         if(_response.properties[i].provider_name == "nt1sup"){
              console.log(_response.properties[i].reference);
              let reference = _response.properties[i].reference;
              let ref_arr = reference.split('|');
