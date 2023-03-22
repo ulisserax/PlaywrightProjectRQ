@@ -49,7 +49,7 @@ import ENV  from '@utils/env';
         await requestShow.verifyOptionSubmitted();
     })
 
-    test("Verify option avialability", async ({webActions, homePage, dashboard, search, requestShow, newRequest}) => {
+    test("Verify option availability", async ({webActions, homePage, dashboard, search, requestShow, newRequest}) => {
         await webActions.navigateTo(ENV.BASE_URL);
         await homePage.enterCredentials(ENV.REQUESTOR_ADMIN, ENV.REQUESTOR_ADMIN_PASSWORD);
         await homePage.signIn();
@@ -61,7 +61,7 @@ import ENV  from '@utils/env';
     })
 
     test("Confirm option avialability", async ({webActions, homePage, dashboard, search, requestShow}) => {
-        await webActions.navigateTo(ENV.BASE_URL);
+        await webActions.navigateTo(ENV.SUPPLIER_DOMAIN);
         await homePage.enterCredentials(ENV.SUPPLIER_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);
         await homePage.signIn();
         await dashboard.findCurrentRequest(ENV.REQUEST_ID);

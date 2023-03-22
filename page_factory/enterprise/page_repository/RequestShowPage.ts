@@ -250,9 +250,11 @@ export default class RequestShowPage {
         await this.page.click(Checkbox.option_checkbox);
         await this.page.click(Button.verify_option);
         await this.page.click(Button.send);
-        await WebActions.delay(1400);
+        await WebActions.delay(400);
         await this.page.waitForLoadState(`networkidle`);
         await this.page.waitForLoadState(`domcontentloaded`);
+        await this.page.waitForSelector(Element.modal_availability_not_visible);
+        await WebActions.delay(400);
         await expect(await this.page.locator(Element.option_availability_message).count()).toEqual(1);
     }
 
@@ -265,7 +267,11 @@ export default class RequestShowPage {
         await expect(await this.page.locator(Switch.avialable_yes).count()).toEqual(1);
         await this.page.click(Button.apply_confimation);
         await this.page.click(Button.yes);
-        await WebActions.delay(1400);
+        await WebActions.delay(400);
+        await this.page.waitForLoadState(`networkidle`);
+        await this.page.waitForLoadState(`domcontentloaded`);
+        await expect(await this.page.locator(Element.modal_option_verification)).toHaveCount(0);
+        await WebActions.delay(400);
         await expect(await this.page.locator(Element.icon_confirm_availability).count()).toEqual(1);
     }
 
