@@ -14,10 +14,10 @@ test.describe.serial('Create a RQ base flow, Supplier, Property, Area, Requestor
     const supplierCompanyName  = `${chance.word({length: 5})}${chance.string({length: 6, numeric: true})}-supplier`; //'iceha419483-supplier' //
     const supplierAdminUser    = `${chance.first()}${number}sup_admin@${supplierCompanyName}.com`.toLowerCase(); //'charliesupadmin@iceha419483-supplier.com'//
     const requestorAdminUser   = `${chance.first()}${number}req_admin@${requestorCompanyName}.com`.toLowerCase();//'brucereqadmin@nevol554230-requestor.com' //
-    const property_name        = `${supplierCompanyName}Property_`;
-    const areaName             = `${supplierCompanyName}_Area_${number}`;
-    const clientName           = `${requestorCompanyName}_Client_${number}`; 
-    const guest_email          = `${chance.first()}-guest@${requestorCompanyName}`.toLocaleLowerCase();   
+    const property_name        = `${supplierCompanyName}_property_`;
+    const areaName             = `${supplierCompanyName}_area_${number}`;
+    const clientName           = `${requestorCompanyName}_client_${number}`; 
+    const guest_email          = `${chance.first()}_guest@${requestorCompanyName}`.toLocaleLowerCase();   
 
     test ("Create and configure a new Supplier company and a Supplier-admin user.", async ({webActions, user, configurationInstance, mailCatcher, passwordReset, homePage, dashboard, myAccount, company})=>{
         await webActions.navigateTo(ENV.BASE_URL);
