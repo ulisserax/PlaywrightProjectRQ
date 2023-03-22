@@ -12,8 +12,8 @@ test.describe.serial('Create a RQ base flow, Supplier, Property, Area, Requestor
     let number = chance.integer({min:1,max:9999});
     const requestorCompanyName = `${chance.word({length: 5})}${chance.string({length: 6, numeric: true})}-requestor`; //'nevol554230-requestor//
     const supplierCompanyName  = `${chance.word({length: 5})}${chance.string({length: 6, numeric: true})}-supplier`; //'iceha419483-supplier' //
-    const supplierAdminUser    = `${chance.first()}supadmin@${supplierCompanyName}.com`.toLowerCase(); //'charliesupadmin@iceha419483-supplier.com'//
-    const requestorAdminUser   = `${chance.first()}reqadmin@${requestorCompanyName}.com`.toLowerCase();//'brucereqadmin@nevol554230-requestor.com' //
+    const supplierAdminUser    = `${chance.first()}${number}sup_admin@${supplierCompanyName}.com`.toLowerCase(); //'charliesupadmin@iceha419483-supplier.com'//
+    const requestorAdminUser   = `${chance.first()}${number}req_admin@${requestorCompanyName}.com`.toLowerCase();//'brucereqadmin@nevol554230-requestor.com' //
     const property_name        = `${supplierCompanyName}Property_`;
     const areaName             = `${supplierCompanyName}_Area_${number}`;
     const clientName           = `${requestorCompanyName}_Client_${number}`; 
