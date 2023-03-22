@@ -18,7 +18,7 @@ test.describe.serial("Test Suite Decline ratecard booking for B2E", () => {
       await b2eSearchPage.searchDestination(`Miami, FL, USA`);
       await b2eSearchPage.selectDates();
       await b2eSearchPage.housingOptionsCorporate();
-      await b2eSearchPage.filterByBrand('NT1sup');
+      await b2eSearchPage.filterByBrand('nt1sup');
       await b2eSearchPage.selectRatecard();
       console.info(ENV.REQUEST_ID);
       await b2ePropertyDetailPage.checkAvailability();

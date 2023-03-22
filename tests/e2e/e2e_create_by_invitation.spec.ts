@@ -7,6 +7,7 @@ test.describe.serial ("Create Supplier company and Supplier admin user by invita
     test.slow();
     let registerLink, subject;
     let supplierCompany = 'auto-supplier-company-' + chance.string({length: 6, numeric: true});
+    let companyEmailNotification = `${supplierCompany}@notification.com`
     let supplierAdmin   = 'supplieradminuser@' + supplierCompany + '.com';
 
     test ("Submit Supplier invitation by email",async ({webActions, homePage, myAccount, dashboard, registration, configurationInstance})=> {

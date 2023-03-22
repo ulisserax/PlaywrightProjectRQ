@@ -71,10 +71,12 @@ export default class MailCatcher{
     async verifyBasicEmails(log_text:string,  email:string, subject:string, element_to_assert: string ,body_link_element:string, domain:string): Promise<void>{
         console.info(`Verifying email sent ${log_text}`);
         await this.page.fill(Input.search_message,'');
-        await this.page.type(Input.search_message, `${subject}`, {delay:20});
-        await WebActions.delay(400);
-        await expect(await this.page.locator(`nav#messages tr:not([style='display: none']) td:text('<${email}>') + td:has-text('${subject}')`).count()).toBeGreaterThanOrEqual(1)
-        await this.page.locator(`nav#messages tr:not([style='display: none']) td:text('<${email}>') + td:has-text('${subject}')`).first().click();
+        await this.page.type(Input.search_message, `${subject}`, {delay:40});
+        await WebActions.delay(1400);
+        //nav[@id='messages']//tbody//tr[not(contains(@style,'display: none'))]//td[contains(text(),'<${email}')]//following-sibling::td[contains(text(),'${subject}')]
+        //nav#messages tr:not([style='display: none']) td:text('<${email}>') + td:has-text('${subject}')
+        await expect(await this.page.locator(`//nav[@id='messages']//tbody//tr[not(contains(@style,'display: none'))]//td[contains(text(),'<${email}')]//following-sibling::td[contains(text(),'${subject}')]`).count()).toBeGreaterThanOrEqual(1)
+        await this.page.locator(`//nav[@id='messages']//tbody//tr[not(contains(@style,'display: none'))]//td[contains(text(),'<${email}')]//following-sibling::td[contains(text(),'${subject}')]`).first().click();
         await this.page.waitForLoadState('domcontentloaded');
         await WebActions.delay(700);
         await expect(await this.page.frameLocator(Iframe.email_body).locator(`${element_to_assert}`).count()).toBeGreaterThanOrEqual(1);
@@ -85,10 +87,10 @@ export default class MailCatcher{
     async verifyBasicEmails1(log_text:string, email:string, subject:string, element_to_assert: string ,body_link_element:string, domain:string): Promise<void>{
         console.info(`Verifying email sent ${log_text}`);
         await this.page.fill(Input.search_message,'');
-        await this.page.type(Input.search_message, `${subject}`, {delay:20});
-        await WebActions.delay(400);
-        await expect(await this.page.locator(`nav#messages tr:not([style='display: none']) td:text('<${email}>') + td:has-text('${subject}')`).count()).toBeGreaterThanOrEqual(1)
-        await this.page.locator(`nav#messages tr:not([style='display: none']) td:text('<${email}>') + td:has-text('${subject}')`).nth(1).click();
+        await this.page.type(Input.search_message, `${subject}`, {delay:40});
+        await WebActions.delay(1400);
+        await expect(await this.page.locator(`//nav[@id='messages']//tbody//tr[not(contains(@style,'display: none'))]//td[contains(text(),'<${email}')]//following-sibling::td[contains(text(),'${subject}')]`).count()).toBeGreaterThanOrEqual(1)
+        await this.page.locator(`//nav[@id='messages']//tbody//tr[not(contains(@style,'display: none'))]//td[contains(text(),'<${email}')]//following-sibling::td[contains(text(),'${subject}')]`).nth(1).click();
         await this.page.waitForLoadState('domcontentloaded');
         await WebActions.delay(700);
         await expect(await this.page.frameLocator(Iframe.email_body).locator(`${element_to_assert}`).count()).toBeGreaterThanOrEqual(1);
@@ -98,8 +100,8 @@ export default class MailCatcher{
     async verifyHotelsEmails(log_text:string, search_term:string, email:string, subject:string, element_to_assert: string ): Promise<void>{
         console.info(`Verifying email sent ${log_text}`);
         await this.page.fill(Input.search_message,'');
-        await this.page.type(Input.search_message, `${search_term}`, {delay:20});
-        await WebActions.delay(400);
+        await this.page.type(Input.search_message, `${search_term}`, {delay:40});
+        await WebActions.delay(1400);
         await expect(await this.page.locator(`nav#messages tr:not([style='display: none']) td:text('<${email}>') + td:has-text('${subject}')`).count()).toBeGreaterThanOrEqual(1)
         await this.page.locator(`nav#messages tr:not([style='display: none']) td:text('<${email}>') + td:has-text('${subject}')`).first().click();
         await this.page.waitForLoadState('domcontentloaded');

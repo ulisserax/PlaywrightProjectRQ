@@ -62,7 +62,7 @@ export default class B2eQuestDetailsPage {
         console.info(`Verifying payment method`);
         await WebActions.delay(2000);
         await this.page.click(Link.edit_payment_method);
-        await WebActions.delay(2000);
+        await WebActions.delay(4000);
         await expect(await this.page.locator(Text.current_card).textContent()).toContain(cc_last_digit);
     }
 

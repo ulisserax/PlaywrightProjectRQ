@@ -22,7 +22,8 @@ export default class Reservation {
 
     async getReservationId(): Promise<void>{
         console.log(`Getting the reservation id`);
-        let reservation_id = await this.page.locator('h2.header-title').textContent();// TO UPDATE ON 3.55 => Text.reservation_info_header).textContent();
+        let reservation_id = await this.page.locator(Text.reservation_info_header).textContent();
+        //let reservation_id = await this.page.locator('h2.header-title').textContent();// TO UPDATE ON 3.55 => Text.reservation_info_header).textContent();
         ENV.RESERVATION_ID = reservation_id.split('-')[1].trim();
     }
 

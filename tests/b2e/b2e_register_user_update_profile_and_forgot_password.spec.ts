@@ -10,7 +10,7 @@ test.describe.serial("Test Suite Register user, update profile and forgot passwo
 
   let firstname = `${chance.first()}`;  
   let lastname = `Doe`;
-  let email = `${firstname}_${lastname}${chance.integer({min:0, max:99999})}@nt1req.com`.toLocaleLowerCase();
+  let email = `${firstname}_${lastname}${chance.integer({min:0, max:99999})}@${ENV.REQUESTOR_COMPANY}.com`.toLocaleLowerCase();
   let password = `Test1234`;
   let new_password = `Test1234!`;
   let reset_password = `Test123!`;

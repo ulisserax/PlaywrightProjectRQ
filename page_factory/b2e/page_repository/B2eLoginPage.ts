@@ -38,6 +38,7 @@ export default class B2eLoginPage {
 
     async verifyEmailSendSuccessfull(){
         console.info(`Email sent successfully`);
+        await WebActions.delay(1200);
         await this.page.waitForSelector(Element.check_your_email_icon);
         await expect (await this.page.locator(Element.check_your_email_icon).count()).toBeGreaterThan(0);
     }
