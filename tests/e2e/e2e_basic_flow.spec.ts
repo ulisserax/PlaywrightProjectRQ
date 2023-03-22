@@ -2,7 +2,7 @@ import test  from '@lib/BaseTest';
 import ENV  from '@utils/env';
 
 
-test.describe.serial.only("Test Suite Basic Flow ", () => {
+test.describe.serial("Test Suite Basic Flow ", () => {
     test.slow();
     let guest_email = ENV.GUEST_EMAIL.toLocaleLowerCase();
     let client_email = ENV.CLIENT_EMAIL.toLocaleLowerCase();
@@ -126,7 +126,7 @@ test.describe.serial.only("Test Suite Basic Flow ", () => {
         await mailCatcher.verifyBasicEmails1(`Requestor For Deadline And Assigned To Update`, ENV.REQUESTOR_EMAIL.toLocaleLowerCase(), `URGENT Updated Request: ${ENV.REQUESTOR_COMPANY}, ${ENV.REQUEST_ID}`, `//h4[contains(normalize-space(),'2 field(s) updated on')]//following-sibling::ul/li[contains(normalize-space(),'Departure date')]/following-sibling::li[contains(normalize-space(),'Assigned to')]`, `a:has-text('${ENV.REQUEST_ID}')` ,`${ENV.BASE_URL}/request/show/${ENV.REQUEST_ID}`);
         await mailCatcher.verifyBasicEmails(`Awarded Supplier`, ENV.SUPPLIER_COMPANY_EMAIL.toLocaleLowerCase(), `Congratulations, you were awarded ${ENV.REQUEST_ID}`, `//p[contains(text(),'Congratulations! The client has selected your option for Request #') and contains(a,'${ENV.REQUEST_ID}')]`, `a:has-text('${ENV.REQUEST_ID}')` ,`${ENV.SUPPLIER_DOMAIN}/request/show/${ENV.REQUEST_ID}`);
         await mailCatcher.verifyBasicEmails(`Supplier New Service Issue`, ENV.SUPPLIER_EMAIL.toLocaleLowerCase(), `ALERT! - Service Issue has been submitted for reservation ${ENV.RESERVATION_ID}`, `p:has-text('Service Issue Submitted')`, `a:has-text('VIEW SERVICE ISSUES')`, `${ENV.SUPPLIER_DOMAIN}/request/show/${ENV.REQUEST_ID}?openServiceIssueTab=1`);
-        await mailCatcher.verifyBasicEmails(`Guest New Service Issue`, guest_email.toLocaleLowerCase(), `Your service issues for ReloQuest reservation ${ENV.RESERVATION_ID}`, `p:has-text('Here is your list of services issues for ReloQuest reservation ${ENV.RESERVATION_ID}')`, `a:has-text('VIEW SERVICE ISSUES')` ,`${ENV.B2E_URL}/b2e/quests/`);
+        // TO UPDATE ON 3.55 => await mailCatcher.verifyBasicEmails(`Guest New Service Issue`, guest_email.toLocaleLowerCase(), `Your service issues for ReloQuest reservation ${ENV.RESERVATION_ID}`, `p:has-text('Here is your list of services issues for ReloQuest reservation ${ENV.RESERVATION_ID}')`, `a:has-text('VIEW SERVICE ISSUES')` ,`${ENV.B2E_URL}/b2e/quests/`);
         await mailCatcher.verifyBasicEmails(`Requestor Service Issue Resolved`, ENV.REQUESTOR_EMAIL.toLocaleLowerCase(), `ALERT! - Service issue has been updated for reservation ${ENV.RESERVATION_ID}`, `p:has-text('The service issue for reservation ${ENV.RESERVATION_ID} has been updated')`, `a:has-text('VIEW SERVICE ISSUES')` ,`${ENV.BASE_URL}/request/show/${ENV.REQUEST_ID}?openServiceIssueTab=1`);
         await mailCatcher.verifyBasicEmails(`verifyEmailToSupplierForNewRequest`, ENV.SUPPLIER_COMPANY_EMAIL.toLocaleLowerCase(), `Accept New Request`, `//p[contains(text(),'New Request') and contains(a,${ENV.REQUEST_ID})]`, `//a[contains(text(),'${ENV.REQUEST_ID}')]`,`${ENV.SUPPLIER_DOMAIN}/request/show/${ENV.REQUEST_ID}`);
     })

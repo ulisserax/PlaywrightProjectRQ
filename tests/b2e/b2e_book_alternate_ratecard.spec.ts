@@ -25,7 +25,7 @@ test.describe.serial("Test Suite Book an alternate ratecard for B2E", () => {
    })
 
    test("Bid option for B2E", async({webActions, homePage, dashboard, search, requestShow, option}) =>{
-      await webActions.navigateTo(ENV.BASE_URL);
+      await webActions.navigateTo(ENV.SUPPLIER_DOMAIN);
       await homePage.enterCredentials(ENV.SUPPLIER_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);
       await homePage.signIn();
       await dashboard.findCurrentRequest(ENV.REQUEST_ID);
