@@ -5,7 +5,7 @@ import ENV  from '@utils/env';
  test.describe.serial("Test Suite Decline Option", () => {
     test.slow();
     let guestEmail      = ENV.GUEST_EMAIL.toLocaleLowerCase();
-    const propertyName  = ENV.SUPPLIER_COMPANY + "property_#";
+    const propertyName  = ENV.SUPPLIER_COMPANY + "_property_#";
 
 
     test("Create a new Request", async({webActions, homePage, dashboard, newRequest, requestShow}) =>{
