@@ -1,0 +1,27 @@
+pipeline{
+    agent {
+        docker {
+            image 'mcr.microsoft.com/playwright:v1.32.0-focal'
+        }
+    }
+    stages {
+        stage('install all dependencies'){
+            steps {
+                sh 'npm install'
+            }
+        }
+        stage('help') {
+            steps {
+                sh 'npx playwright test --help'
+            }
+        }
+        stage('test') {
+            steps {
+                sh '''
+                    npm playwright test --list
+                    npm run env:stage
+                '''
+            }
+        }
+    }
+}
