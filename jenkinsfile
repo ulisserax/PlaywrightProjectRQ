@@ -5,8 +5,11 @@ pipeline {
    stages {
         stage('docker run test') {
             agent {
-                label 'docker'
-                image 'mcr.microsoft.com/playwright:v1.32.0-focal' 
+                docker {
+                    label 'docker'
+                    image 'mcr.microsoft.com/playwright:v1.32.0-focal'
+                }
+                 
             }
              
             steps {
