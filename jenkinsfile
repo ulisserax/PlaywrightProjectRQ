@@ -17,7 +17,7 @@ pipeline {
             steps {
                 script {
                     CI_ERROR = "Failed while checking out SCM"
-                    . . .  ### Code for SCM Checkout
+                    
                 }
             }
         }
