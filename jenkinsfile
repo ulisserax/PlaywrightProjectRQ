@@ -1,17 +1,8 @@
 pipeline {
-   agent { 
-        label 'docker'
-   }
+   
    stages {
-        stage('docker run test') {
-            agent {
-                docker {
-                    label 'docker'
-                    image 'mcr.microsoft.com/playwright:v1.32.0-focal'
-                }
-                 
-            }
-             
+        stage('runing test') {
+                        
             steps {
                 // Depends on your language / test framework
                 sh 'npm install'
