@@ -6,6 +6,8 @@ pipeline {
                         
             steps {
                 // Depends on your language / test framework
+                sh 'node -v'
+                sh 'npm -v'
                 sh 'npm install'
                 sh 'npm run env:stage'
             }
