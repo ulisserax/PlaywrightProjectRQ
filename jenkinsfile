@@ -1,7 +1,7 @@
 pipeline {
    agent any
-   tools { nodejs "default" }
-   stages {
+    tools { nodejs "default" }
+    stages {
         stage('runing test') {
                         
             steps {
@@ -11,6 +11,21 @@ pipeline {
                 sh 'npm install'
                 sh 'npm run env:stage'
             }
+        }
+
+        stage ('SCM Checkout') {
+            steps {
+                script {
+                    CI_ERROR = "Failed while checking out SCM"
+                    . . .  ### Code for SCM Checkout
+                }
+            }
+        }
+    }
+
+    post{
+        always{
+            slackSend( channel: "#playwright", token: "slack-token", color: "good", message: "${custom_msg()}")
         }
     }
 }
