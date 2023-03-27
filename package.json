@@ -29,6 +29,6 @@
     "playwright-zephyr": "^0.0.10"
   },
   "devDependencies": {
-    "playwright-slack-report": "^1.1.0"
+    "playwright-slack-report": "^1.1.2"
   }
 }
