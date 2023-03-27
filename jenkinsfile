@@ -24,8 +24,14 @@ pipeline {
     }
 
     post{
-        always{
-            slackSend( channel: "#playwright", token: "slack-token", color: "good", message: "${custom_msg()}")
+        success{
+            slackSend( channel: "#playwright", token: "slack-token", color: "#00ff00", message: "${custom_msg()}")
+        }
+        failure{
+            slackSend( channel: "#playwright", token: "slack-token", color: "#ff0000", message: "${custom_msg()}")
+        }
+        unstable{
+            slackSend( channel: "#playwright", token: "slack-token", color: "#0000fe", message: "${custom_msg()}")
         }
     }
 }
