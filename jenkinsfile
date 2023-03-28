@@ -2,6 +2,13 @@ pipeline {
    agent any
     tools { nodejs "default" }
     stages {
+        stage( 'Setup parameters'){
+            steps {
+                script {
+                    properties([parameters([string(defaultValue: 'stage', name: 'env', trim: true)])])
+                }
+            }
+        }
         stage('runing test') {
                         
             steps {
@@ -9,7 +16,7 @@ pipeline {
                 sh 'node -v'
                 sh 'npm -v'
                 sh 'npm install'
-                sh 'npm run env:stage'
+                sh 'npm run env:$params.env'
             }
         }
 
