@@ -1,14 +1,18 @@
 pipeline {
    agent any
     tools { nodejs "default" }
+    parameters {
+        string(defaultValue: 'stage', name: 'env', trim: true)
+
+    }
     stages {
-        stage( 'Setup parameters'){
-            steps {
-                script {
-                    properties([parameters([string(defaultValue: 'stage', name: 'env', trim: true)])])
-                }
-            }
-        }
+        // stage( 'Setup parameters'){
+        //     steps {
+        //         script {
+        //             properties([parameters([string(defaultValue: 'stage', name: 'env', trim: true)])])
+        //         }
+        //     }
+        // }
         stage('runing test') {
                         
             steps {
