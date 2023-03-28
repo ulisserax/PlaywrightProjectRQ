@@ -2,7 +2,7 @@ import test  from '@lib/BaseTest';
 import ENV  from '@utils/env';
 
 
- test.describe("Test Suite Decline Option", () => {
+ test.describe.serial("Test Suite Decline Option", () => {
     test.slow();
     let guestEmail      = ENV.GUEST_EMAIL.toLocaleLowerCase();
     const propertyName  = ENV.SUPPLIER_COMPANY + "_property_#";
