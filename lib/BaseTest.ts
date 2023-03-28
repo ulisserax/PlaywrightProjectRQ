@@ -31,10 +31,12 @@ import ReservationEndpoints from "@api/v1/ReservationEndpoints";
 import RequestEndpoints from "@api/v1/RequestEndpoints";
 import B2eLoginPage from "@b2e_pages/B2eLoginPage";
 import B2eProfilePage from "@b2e_pages/B2eProfilePage";
+import B2eServices from "@b2e_pages/B2eServices";
 import B2eForgotPasswordPage from "@b2e_pages/B2eForgotPasswordPage";
 import OptionEndpoints from "@api/v1/OptionEndpoints";
 import V2Endpoints from "@api/v2/V2Endpoints";
 import Stripe from "@api/v2/Stripe";
+
 
 
 const test = baseTest.extend<{
@@ -68,6 +70,7 @@ const test = baseTest.extend<{
     b2eQuestDetailsPage: B2eQuestDetailsPage;
     b2eLoginPage: B2eLoginPage;
     b2eProfilePage: B2eProfilePage;
+    b2eServices: B2eServices;
     reservationEndpoints: ReservationEndpoints;
     requestEndpoints: RequestEndpoints;
     b2eForgotPasswordPage: B2eForgotPasswordPage;
@@ -164,6 +167,9 @@ const test = baseTest.extend<{
     },
     b2eProfilePage: async ({ page }, use) => {
         await use(new B2eProfilePage(page));
+    },
+    b2eServices: async ({ page }, use) => {
+        await use(new B2eServices(page));
     },
     reservationEndpoints: async ({ request }, use) => {
         await use(new ReservationEndpoints(request));

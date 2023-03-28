@@ -1,9 +1,10 @@
+import B2eServices from '@b2e_pages/B2eServices';
 import test  from '@lib/BaseTest';
 import WebActions from '@lib/WebActions';
 import ENV  from '@utils/env';
 
 
- test.describe.serial("Test Suite Book a ratecard for B2E", () => {
+ test.describe.serial.only("Test Suite Book a ratecard for B2E", () => {
     test.slow();
 
     ENV.B2E_USER =`james_doe@nt1req.com`;
@@ -18,7 +19,7 @@ import ENV  from '@utils/env';
       await b2eSearchPage.searchDestination(`Miami, FL, USA`);
       await b2eSearchPage.selectDates();
       await b2eSearchPage.housingOptionsCorporate();
-      await b2eSearchPage.searchPropertyName('nt1sup_property');
+      await b2eSearchPage.searchPropertyName(ENV.PROPERTY); 
       await b2eSearchPage.selectRatecard();
       console.info(ENV.REQUEST_ID);
       await b2ePropertyDetailPage.checkAvailability();
@@ -65,7 +66,7 @@ import ENV  from '@utils/env';
       await requestShow.viewReservation();
    })
 
-   test("Modify payment and create a service issue", async ({webActions, b2eHomePage, b2eSearchPage, b2eQuestsPage, b2eQuestDetailsPage}) => {
+   test("Modify payment and create a service issue", async ({webActions, b2eHomePage, b2eSearchPage, b2eQuestsPage, b2eQuestDetailsPage, b2eServices}) => {
       await webActions.navigateTo(ENV.B2E_URL);
       await b2eHomePage.acceptCookies();
       await b2eHomePage.enterCredentials(ENV.B2E_USER, ENV.B2E_USER_PASSWORD);
@@ -80,11 +81,11 @@ import ENV  from '@utils/env';
       await b2eQuestDetailsPage.verifyPaymentMethod(`4242`);
       await b2eQuestDetailsPage.cancelPaymentModal();
       await b2eQuestDetailsPage.closeQuestDetails();
-
-      //Create a service issue
+      await b2eQuestDetailsPage.requestServiceIssue();
+      await b2eServices.createNewServiceIssue();
    })
 
-   test.skip("Resolve service issue for B2E", async ({webActions, homePage, dashboard, search, requestShow, serviceIssue}) => {
+   test("Resolve service issue for B2E", async ({webActions, homePage, dashboard, search, requestShow, serviceIssue}) => {
       await webActions.navigateTo(ENV.BASE_URL);
       await homePage.enterCredentials(ENV.SUPPLIER_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);
       await homePage.signIn();
