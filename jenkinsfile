@@ -36,7 +36,7 @@ def custom_msg()
   def JOB_NAME = env.JOB_NAME
   def BUILD_ID = env.BUILD_ID
   def STATUS = currentBuild.currentResult
-  def JENKINS_LOG= "Job: ${JOB_NAME}\n Status: ${STATUS} \n Logs path: ${JENKINS_URL}job/${JOB_NAME}/${BUILD_ID}/consoleText \n HTML-Report: ${env.WORKSPACE} \n a(href:${env.WORKSPACE}/Playwright_pipeline/playwright-report/index.html)"
+  def JENKINS_LOG= "Job: ${JOB_NAME}\n Status: ${STATUS} \n Logs path: ${JENKINS_URL}job/${JOB_NAME}/${BUILD_ID}/consoleText \n HTML-Report: ${env.WORKSPACE}/Playwright_pipeline/playwright-report/index.html"
   return JENKINS_LOG
 }
 
