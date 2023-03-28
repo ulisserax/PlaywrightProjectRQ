@@ -18,9 +18,17 @@ export default class Element{
     static reset_password_successfull = `div#reset-password-notification span.icon-B2E-icons_Check-circle.c-green`;
     static plus_icon_brands           = `//span[contains(text(),'Brand')]/following-sibling::span[contains(@class,'icon-B2E-icons_plus')]`;
     static navigation_navBar          = `//nav[@role='navigation']`;
+    static request_service            = `//img[contains(@src, 'service-issue')]`;
+    static create_service_title       = `//div[contains(text(),'Create Service Issues')]`;
+    static issue_submitted_modal      = `//app-modal //h5[contains(text(),'Issue Submitted!')]`;
+    static issue_status               = `span.status`;
 
     static quests_card(request_id){
         return `a[request-id=${request_id}]`;
     }
+
+    static service_issue_item(description){
+        return `//div[@class='issue-description'] //span[contains(text(),'${description}')]`;
+    };
     
 }

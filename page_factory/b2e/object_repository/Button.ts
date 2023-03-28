@@ -33,7 +33,9 @@ export default class Button{
     static save_password         = `//button[contains(text(),'Save')]`;
     static log_in                = `//a[contains(text(),'Log in')]`;
     static apply_filters         = `//button[contains(text(),'APPLY FILTERS')]`;
-
+    static new_issue             = `//a[contains(@href, 'add')]`;
+    static submit_service_issue  = `.submit-issue button`;
+    static view_your_issues      = `//button[contains(text(),'View your issues')]`;
 
     static new_quest(request_id){
         return `a[request-id=${request_id}] button.quest-status.search-status`;

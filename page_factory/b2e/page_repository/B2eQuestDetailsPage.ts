@@ -116,5 +116,15 @@ export default class B2eQuestDetailsPage {
         await expect(await this.page.context().pages()[1].locator(Text.questDetails(property_name)).count()).toBeGreaterThan(0);
         await expect(await this.page.context().pages()[1].locator(Text.questDetails(property_address)).count()).toBeGreaterThan(0);
     }
+
+    async requestServiceIssue() {
+        console.info(`Clicking on Request Service`);
+        await this.page.click(Element.request_service);
+        await WebActions.delay(500);
+        //await this.page.waitForLoadState(`networkidle`);
+        await this.page.waitForLoadState(`domcontentloaded`);
+        await WebActions.delay(2000);
+        console.info(`Clicked on Request Service`);
+    }
     
 }

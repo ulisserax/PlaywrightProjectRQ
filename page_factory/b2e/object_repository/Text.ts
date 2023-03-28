@@ -10,6 +10,7 @@ export default class Text{
     static payment_updated           = `h5:has-text('Payment Method updated!')`;
     static current_card              = `span.card-label`;
     static canceled_quest            = `//*[contains(text(),'canceled')]`;
+    static issue_description         = `//textarea[@formcontrolname='description']`;
 
     static sortBy(by: string){
         return `//div[contains(text(),'${by}')]`;

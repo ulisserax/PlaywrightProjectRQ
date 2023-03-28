@@ -55,6 +55,7 @@ export default class ENV{
     static PROPERTY_DESCRIPTION      = ''
     static PROPERTY_FEATURES         = ''
     static PROPERTY_AMENITIES        = ''
+    static SERVICE_DESCRIPTION       = `${chance.string({length: 5, numeric: true})} - Service Issue created by: `
     
     static EXCEPTION_FEE_CLIENT_ID  = process.env.EXCEPTION_FEE_CLIENT_ID
     static  CLIENT_ID               = process.env.CLIENT_ID
