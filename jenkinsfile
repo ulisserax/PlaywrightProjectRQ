@@ -40,12 +40,12 @@ pipeline {
 def custom_msg()
 {
 
-    //file:///Users/equinta/.jenkins/workspace/Playwright_pipeline/playwright-report/index.html
   def JENKINS_URL = env.JENKINS_URL
   def JOB_NAME = env.JOB_NAME
   def BUILD_ID = env.BUILD_ID
   def STATUS = currentBuild.currentResult
-  def JENKINS_LOG= "Job: ${JOB_NAME}\n Status: ${STATUS} \n Logs path: ${JENKINS_URL}job/${JOB_NAME}/${BUILD_ID}/consoleText \n HTML-Report: ${env.WORKSPACE}/playwright-report/index.html"
+  
+  def JENKINS_LOG= "Job: ${JOB_NAME} \n Test Suite: ${params.env} \n Status: ${STATUS} \n Logs path: ${JENKINS_URL}job/${JOB_NAME}/${BUILD_ID}/consoleText \n HTML-Report: ${env.WORKSPACE}/playwright-report/index.html"
   return JENKINS_LOG
 }
 
