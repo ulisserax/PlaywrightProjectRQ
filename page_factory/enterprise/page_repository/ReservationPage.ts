@@ -22,8 +22,8 @@ export default class Reservation {
 
     async getReservationId(): Promise<void>{
         console.log(`Getting the reservation id`);
-        let reservation_id = await this.page.locator(Text.reservation_info_header).textContent();
-        //let reservation_id = await this.page.locator('h2.header-title').textContent();// TO UPDATE ON 3.55 => Text.reservation_info_header).textContent();
+        //let reservation_id = await this.page.locator(Text.reservation_info_header).textContent();
+        let reservation_id = await this.page.locator('h2.header-title').textContent();// TO UPDATE ON 3.55 => Text.reservation_info_header).textContent();
         ENV.RESERVATION_ID = reservation_id.split('-')[1].trim();
     }
 
@@ -86,7 +86,7 @@ export default class Reservation {
     }
 
     async verifyReservation(reservation_id): Promise<void>{
-        console.info("Verifying reservation was acknowledge");
+        console.info("Verifying reservation was acknowledged");
 		await this.page.waitForLoadState('domcontentloaded');
         await expect(await this.page.locator(Text.reservation_information).textContent()).toContain(`Award acknowledged on:`);
         await expect(await this.page.locator(Text.reservation_information).textContent()).toContain(`${ENV.SUPPLIER_COMPANY}`);

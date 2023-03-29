@@ -125,7 +125,7 @@ export default class RequestShowPage {
         console.info(`View reservation`);
         await this.page.click(Button.reservation_info);
         await this.page.waitForLoadState('domcontentloaded');
-        await expect(await this.page.url()).toContain(`${ENV.BASE_URL}/reservation`);
+        await expect(await this.page.url()).toContain(`/reservation/RQR`);
         await WebActions.delay(1500);
     }
 
