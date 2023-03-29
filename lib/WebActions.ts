@@ -1,12 +1,22 @@
+import HomePage from '@enterprise_pages/HomePage';
 import type { Page , Browser} from '@playwright/test';
 
 
 export default class WebActions {
 
     readonly page: Page;
+    readonly homePage: HomePage;
 
     constructor(page: Page) {
         this.page = page;
+        this.homePage = new HomePage(page);
+    }
+
+    async login(role: string, url:string, user: string, password: string): Promise<void>{
+        console.info(`logging in as a ${role}`);
+        await this.navigateTo(url);
+        await this.homePage.enterCredentials(user, password);
+        await this.homePage.signIn();
     }
 
     static async delay(time: number): Promise<void> {
