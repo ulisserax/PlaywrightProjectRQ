@@ -1,4 +1,4 @@
-import test from '@lib/Basetest';
+import test from '@lib/BaseTest';
 import ENV from '@utils/env';
 
 const Chance = require("chance");
