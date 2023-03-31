@@ -126,6 +126,7 @@ export default class OptionEndpoints {
                     ]
                 }      
         });
+        console.log(await _response.text());
         await expect(_response.status()).toBe(200);
         const body = await _response.text();
         return body;
@@ -134,6 +135,7 @@ export default class OptionEndpoints {
     async optionAward( base_url: string, api_key:string, option_id:string){
         const _response = await this.request.post(`${base_url}/api/v1/option/${option_id}/award?apikey=${api_key}`, {
         });
+        console.log(await _response.text());
         await expect(_response.status()).toBe(200);
         const body = await _response.text();
         return body;

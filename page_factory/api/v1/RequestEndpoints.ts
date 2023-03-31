@@ -25,6 +25,7 @@ export default class RequestEndpoints {
                 supplier_deadline:`${body_data}`
             }
           });
+          console.log(await _response.text());
         await expect(_response.status()).toBe(200);
         const body = await _response.text();
         return body;

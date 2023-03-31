@@ -109,6 +109,7 @@ export default class ENV{
     static RQPRO_REQ_ADMIN             = process.env.RQPRO_REQ_ADMIN
     static RQPRO_REQ_API_KEY           = process.env.RQPRO_REQ_API_KEY
     static RQPRO_EB2E_CLIENT           = process.env.RQPRO_EB2E_CLIENT
+    static SUPPLIER_FOR_RQPRO_ADMIN    = process.env.SUPPLIER_FOR_RQPRO_ADMIN
     static SUPPLIER_FOR_RQPRO_API_KEY  = process.env.SUPPLIER_FOR_RQPRO_API_KEY
 
 }

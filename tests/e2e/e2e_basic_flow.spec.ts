@@ -8,7 +8,7 @@ test.describe.serial.only("Test Suite Basic Flow ", () => {
     let client_email = ENV.CLIENT_EMAIL.toLocaleLowerCase();
     let client_share_link;
 
-    test("Create a new Request and edit", async({webActions, homePage, dashboard, newRequest, requestShow}) =>{
+    test("Create a new Request and edit", async({webActions, dashboard, newRequest, requestShow}) =>{
         await webActions.login(`requestor`, ENV.BASE_URL, ENV.REQUESTOR_ADMIN, ENV.REQUESTOR_ADMIN_PASSWORD);
         await dashboard.validateDashboard();
         await dashboard.cardSummary();
@@ -22,7 +22,7 @@ test.describe.serial.only("Test Suite Basic Flow ", () => {
         await requestShow.editRequest();
         await newRequest.editRequest(ENV.REQUESTOR_USER);
     })
-    test("Bid an existing option", async({webActions, homePage, dashboard, search, requestShow, option}) =>{
+    test("Bid an existing option", async({webActions, dashboard, search, requestShow, option}) =>{
         await webActions.login(`supplier`, ENV.SUPPLIER_DOMAIN, ENV.SUPPLIER_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);
         await dashboard.cardSummary();
         await dashboard.findCurrentRequest(ENV.REQUEST_ID);
@@ -37,7 +37,7 @@ test.describe.serial.only("Test Suite Basic Flow ", () => {
         await option.submitOption();
         await requestShow.verifyOptionSubmitted();
     })
-    test("Share with client", async ({webActions, homePage, dashboard, search, requestShow, newRequest}) => {
+    test("Share with client", async ({webActions, dashboard, search, requestShow, newRequest}) => {
         await webActions.login(`requestor`, ENV.BASE_URL, ENV.REQUESTOR_ADMIN, ENV.REQUESTOR_ADMIN_PASSWORD);
         await dashboard.cardSummary();
         await dashboard.findCurrentRequest(ENV.REQUEST_ID);
@@ -47,7 +47,7 @@ test.describe.serial.only("Test Suite Basic Flow ", () => {
         await requestShow.shareWithClient(client_email);
         
     })
-    test("Push emails, validate email was send, set preference and award from share template", async ({webActions, homePage, configurationInstance, mailCatcher, shareOption}) => {
+    test("Push emails, validate email was send, set preference and award from share template", async ({webActions, configurationInstance, mailCatcher, shareOption}) => {
         await webActions.login(`superadmin`, `${ENV.BASE_URL}/configuration/instance`, ENV.SUPER_ADMIN, ENV.SUPER_ADMIN_PASSWORD);
         await configurationInstance.mailPush();
         let subject = "Temporary Living Options Available";
@@ -60,7 +60,7 @@ test.describe.serial.only("Test Suite Basic Flow ", () => {
         await shareOption.submitPreferencesAndAward();
     })
     
-    test("Acknowledge award, edit rate segments and set reservation in current", async ({webActions, homePage, dashboard, search, requestShow, reservation}) => {
+    test("Acknowledge award, edit rate segments and set reservation in current", async ({webActions, dashboard, search, requestShow, reservation}) => {
         await webActions.login(`supplier`, ENV.SUPPLIER_DOMAIN, ENV.SUPPLIER_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);
         await dashboard.cardSummary();
         await dashboard.findCurrentRequest(ENV.REQUEST_ID);
@@ -77,14 +77,12 @@ test.describe.serial.only("Test Suite Basic Flow ", () => {
         await reservation.viewRateSegmentHistory();
     })
 
-    test("Verify reservation and create service issue", async ({webActions, homePage, dashboard, search, requestShow, reservation, serviceIssue}) => {
+    test("Verify reservation and create service issue", async ({webActions, dashboard, search, requestShow, reservation}) => {
         await webActions.login(`requestor`, ENV.BASE_URL, ENV.REQUESTOR_ADMIN, ENV.REQUESTOR_ADMIN_PASSWORD);
         await dashboard.cardSummary();
         await dashboard.findCurrentRequest(ENV.REQUEST_ID);
         await search.clickRequestIdLink();
-        await requestShow.clickServiceIssue();
         await requestShow.createServiceIssue();
-        await serviceIssue.fillServiceIssueInformation();
         await requestShow.viewReservation();
         await reservation.verifyReservation(ENV.RESERVATION_ID);
         await reservation.editGuestInformation();
@@ -92,17 +90,17 @@ test.describe.serial.only("Test Suite Basic Flow ", () => {
         await reservation.approveReservationChanges();
     })
 
-    test("Resolve service issue", async ({webActions, homePage, dashboard, search, requestShow, serviceIssue}) => {
+    test("Resolve service issue", async ({webActions, dashboard, search, requestShow, serviceIssue}) => {
         await webActions.login(`supplier`, ENV.SUPPLIER_DOMAIN, ENV.SUPPLIER_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);
         await dashboard.cardSummary();
         await dashboard.findCurrentRequest(ENV.REQUEST_ID);
         await search.clickRequestIdLink();
-        await requestShow.clickServiceIssue();
+        await requestShow.clickOnServiceIssueTab();
         await requestShow.viewServiceIssue();
         await serviceIssue.resolveServiceIssue();
     })
 
-    test("Validate basic emails", async ({webActions, homePage, configurationInstance, mailCatcher}) => {
+    test("Validate basic emails", async ({webActions, configurationInstance, mailCatcher}) => {
         await webActions.login(`superadmin`,`${ENV.BASE_URL}/configuration/instance`,ENV.SUPER_ADMIN, ENV.SUPER_ADMIN_PASSWORD);
         await configurationInstance.mailPush();
         await webActions.navigateTo(ENV.MAILCATCHER_URL);
