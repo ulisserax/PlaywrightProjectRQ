@@ -21,11 +21,6 @@ pipeline {
                 sh "npm run env:${params.env}"
             }
         }
-        stage('Uploading to S3...') {
-            steps {
-                sh "aws s3 cp --region us-east-1 s3://rq-playwright-test-report ./playwright-report/"
-            }
-        }
     }
 
     post{
@@ -38,6 +33,9 @@ pipeline {
         unstable{
             slackSend( channel: "#playwright", token: "slack-token", color: "#0000fe", message: "${custom_msg()}")
         }
+        always{
+            sh "aws s3 cp --region us-east-1 s3://rq-playwright-test-report ./playwright-report/"
+        }
     }
 }
 
@@ -49,7 +47,7 @@ def custom_msg()
   def BUILD_ID = env.BUILD_ID
   def STATUS = currentBuild.currentResult
   
-  def JENKINS_LOG= "Job: ${JOB_NAME} \n Test Suite: ${params.env} \n Status: ${STATUS} \n Logs path: ${JENKINS_URL}job/${JOB_NAME}/${BUILD_ID}/consoleText \n HTML-Report: ${env.WORKSPACE}/playwright-report/index.html"
+  def JENKINS_LOG= "Job: ${JOB_NAME} \n Test Suite: ${params.env} \n Status: ${STATUS} \n Logs path: ${JENKINS_URL}job/${JOB_NAME}/${BUILD_ID}/consoleText \n HTML-Report: http://rq-playwright-test-report.s3-website-us-east-1.amazonaws.com"
   return JENKINS_LOG
 }
 
