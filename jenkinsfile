@@ -21,7 +21,11 @@ pipeline {
                 sh "npm run env:${params.env}"
             }
         }
-
+        stage('Uploading to S3...') {
+            steps {
+                sh "aws s3 cp --region us-east-1 s3://rq-playwright-test-report ./playwright-report/"
+            }
+        }
     }
 
     post{
