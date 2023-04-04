@@ -2,7 +2,7 @@ import test  from '@lib/BaseTest';
 import ENV  from '@utils/env';
 
 
-test.describe.serial("Test Suite Exception Fee", () => {
+test.describe.serial.only("Test Suite Exception Fee", () => {
     test.slow();
     const location = ["New York State, USA","Central Park North, Manhattan, New York, NY, USA","Melrose, Manhattan, NY, USA","Manhattan, New York, NY, USA","New York, NY, USA","Queens, NY, USA","Bronx, NY, USA"];
 
@@ -17,7 +17,7 @@ test.describe.serial("Test Suite Exception Fee", () => {
             await dashboard.findCurrentRequest(ENV.REQUEST_ID);
             await search.clickRequestIdLink();
             await requestShow.bidOption();
-            await option.fillRateDetails();
+            await option.enterRate(200.00);
             await option.verifyExceptionFeeApplied(location[i]);
         })
     }   
