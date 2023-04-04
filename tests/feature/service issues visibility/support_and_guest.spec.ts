@@ -55,10 +55,11 @@ const chance = new Chance();
         await requestShow.createServiceIssue(descriptionServiceIssue1 ,ENV.ROLE_VISIBILITY);
         await requestShow.validateServiceIssueWasCreated(descriptionServiceIssue1);
         await requestShow.addServiceIssueComment(descriptionServiceIssue1);
-
     })
 
-    test("AS")
+    test("Guest account creation, then review and create a new Service Issue, and also add a comment ", async () => {
+        
+    })
     
 // SMS Testing is out of the scope for all the scenarios (at the moment)
 
