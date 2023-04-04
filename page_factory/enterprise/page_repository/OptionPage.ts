@@ -94,7 +94,7 @@ export default class OptionPage {
 
     async fillRateDetails(): Promise<void>{
         console.info("Filling rate details.");
-        await this.page.type(Input.rate, `${chance.floating({ min: 70, max: 299, fixed: 2 })}`);
+        await this.page.type(Input.rate, `${chance.floating({ min: 90, max: 299, fixed: 2 })}`);
         await this.page.keyboard.press('Enter');
     }
 
@@ -102,7 +102,7 @@ export default class OptionPage {
         console.info("Filling second rate details.");
         await this.page.click(Link.add_rate);
         await this.page.locator(Input.rate).last().fill('');
-        await this.page.locator(Input.rate).last().type(`${chance.floating({ min: 70, max: 299, fixed: 2 })}`);
+        await this.page.locator(Input.rate).last().type(`${chance.floating({ min: 90, max: 299, fixed: 2 })}`);
         await this.page.keyboard.press('Enter');
     }
 

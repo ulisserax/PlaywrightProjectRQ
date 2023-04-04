@@ -113,4 +113,10 @@ export default class ENV{
     static SUPPLIER_FOR_RQPRO_ADMIN    = process.env.SUPPLIER_FOR_RQPRO_ADMIN
     static SUPPLIER_FOR_RQPRO_API_KEY  = process.env.SUPPLIER_FOR_RQPRO_API_KEY
 
+    static DB_URL       = process.env.DB_URL
+    static DB_NAME      = process.env.DB_NAME
+    static DB_PORT      = process.env.DB_PORT
+    static DB_USERNAME  = process.env.DB_USERNAME
+    static DB_PASSWORD  = process.env.DB_PASSWORD
+
 }
