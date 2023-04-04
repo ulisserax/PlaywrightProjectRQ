@@ -27,6 +27,7 @@
     "crypto-js": "^4.1.1",
     "dotenv": "^16.0.3",
     "jsonschema": "^1.4.1",
+    "mysql2": "^3.2.0",
     "playwright": "^1.28.1",
     "playwright-zephyr": "^0.0.10"
   },

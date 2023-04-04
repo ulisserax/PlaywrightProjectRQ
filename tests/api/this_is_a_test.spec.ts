@@ -1,10 +1,14 @@
-import WebActions from "@lib/WebActions";
+import Database from "@lib/Database";
 import test from "@playwright/test";
 
-test.skip("testing the random", async ()=> {
+test.only("testing the random", async ()=> {
 
-    for (let i = 0 ; i <= 20 ; i++){
-        
-        console.log(await WebActions.generateRandom(0,10,[8])); 
-    }
+  
+
+  // const results = await Database.execute('UPDATE smart_company SET name="nt1sup" where id = 500;');
+  // console.log(results);
+
+  const result =  await Database.execute('SELECT name FROM smart_company WHERE id = 500');
+  console.log(result);
+
 })
