@@ -7,7 +7,7 @@ import WebActions from "@lib/WebActions";
 import Checkbox from "@enterprise_objects/Checkbox";
 import ENV from "@utils/env";
 
-export default class MyAccount {
+export default class MyAccountPage {
     readonly page: Page;
     
     constructor(page: Page) {

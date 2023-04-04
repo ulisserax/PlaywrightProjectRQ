@@ -6,7 +6,7 @@ import Iframe from "@enterprise_objects/Iframe";
 import WebActions from "@lib/WebActions";
 
 
-export default class MailCatcher{
+export default class MailCatcherPage{
     readonly page:Page;
 
     constructor(page:Page){

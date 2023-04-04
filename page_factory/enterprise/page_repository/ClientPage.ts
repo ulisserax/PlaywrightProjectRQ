@@ -7,7 +7,7 @@ import Checkbox from '@enterprise_objects/Checkbox';
 const Chance = require("chance");
 const chance = new Chance();
 
-export default class Client {
+export default class ClientPage {
     readonly page: Page;
     readonly webActions: WebActions;
 

@@ -9,7 +9,7 @@ import Link from "@enterprise_objects/Link";
 const Chance = require ('chance');
 const chance = new Chance();
 
-export default class RequestShowPage {
+export default class HotelSearchPage {
     readonly page: Page;
 
      constructor(page:Page){

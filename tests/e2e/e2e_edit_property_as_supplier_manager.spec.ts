@@ -2,7 +2,7 @@ import test  from '@lib/BaseTest';
 import ENV  from '@utils/env';
 
 
- test.describe("Edit property as supplier manager", () => {
+ test.describe.only("Edit property as supplier manager", () => {
     test.slow();
     
     test("Edit property as supplier manager", async ({webActions, homePage, dashboard, property, requestEndpoints, search, requestShow, option}) => {

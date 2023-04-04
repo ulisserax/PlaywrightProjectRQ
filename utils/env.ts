@@ -116,5 +116,7 @@ export default class ENV{
     static DB_PORT      = process.env.DB_PORT
     static DB_USERNAME  = process.env.DB_USERNAME
     static DB_PASSWORD  = process.env.DB_PASSWORD
+    static IMAGE_PATH   = 'images/property1.jpeg'
+
 
 }

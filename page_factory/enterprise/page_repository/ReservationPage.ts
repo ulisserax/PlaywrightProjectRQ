@@ -13,7 +13,7 @@ const Chance = require ('chance');
 const chance = new Chance();
 
 
-export default class Reservation {
+export default class ReservationPage {
     readonly page: Page;
 
     constructor(page){
