@@ -82,7 +82,8 @@ test.describe.serial.only("Test Suite Basic Flow ", () => {
         await dashboard.cardSummary();
         await dashboard.findCurrentRequest(ENV.REQUEST_ID);
         await search.clickRequestIdLink();
-        await requestShow.createServiceIssue();
+        ENV.ROLE_VISIBILITY = ['NON-RQPRO'];
+        await requestShow.createServiceIssue(`Requestor --> Supplier`, ENV.ROLE_VISIBILITY );
         await requestShow.viewReservation();
         await reservation.verifyReservation(ENV.RESERVATION_ID);
         await reservation.editGuestInformation();

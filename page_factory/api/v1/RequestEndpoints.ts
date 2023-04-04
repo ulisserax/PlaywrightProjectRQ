@@ -31,18 +31,20 @@ export default class RequestEndpoints {
         return body;
     }
 
-    async createRequest( base_url: string, api_key:string, client_id:number, loc:string, arr_date:string, dep_date:string){
+    async createRequest( base_url: string, api_key:string, client_id:number, loc:string, 
+        arr_date:string, dep_date:string, guest_first_name: string,  guest_last_name:string, 
+        guest_email:string, guest_phone: string){
         const _response = await this.request.post(`${base_url}/api/v1/request/create?apikey=${api_key}`, {
             data: {
                 "client" : client_id,
                 "request_type": "CORPORATE_HOUSING",
                 "network_type": "NETWORK",
                 "guestTypeLookup": 4,
-                "guest_first_name": "John",
-                "guest_last_name": "Smith",
-                "guest_email": "iberkner+johnsmith@reloquest.com",
+                "guest_first_name": guest_first_name,
+                "guest_last_name": guest_last_name,
+                "guest_email": guest_email,
                 "guest_phone_country_code": "1",
-                "guest_phone": "7863256523",
+                "guest_phone": guest_phone,
                 "internal_identification": "API-1234",
                 "alternate_id": null,
                 "location": `${loc}`,

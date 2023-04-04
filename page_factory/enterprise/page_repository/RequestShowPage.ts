@@ -11,6 +11,7 @@ import Element from "@enterprise_objects/Element";
 import Link from "@enterprise_objects/Link";
 import Switch from "@enterprise_objects/Switch";
 import ServiceIssuePage from "./ServiceIssuePage";
+import Textarea from "@enterprise_objects/Textarea";
 
 export default class RequestShowPage {
     readonly page: Page;
@@ -154,11 +155,16 @@ export default class RequestShowPage {
         await expect(await this.page.locator(Button.service_issues).count()).toEqual(1);
     }
 
-    async createServiceIssue(): Promise<void> {
+    async createServiceIssue(description: string, role_visibility: string[] ): Promise<void> {
         console.info(`Creating a new Service issues`);
         await this.clickOnServiceIssueTab();
         await this.clickOnCreateServiceIssue();
-        await this.serviceIssue.fillServiceIssueInformation();
+        await this.serviceIssue.fillServiceIssueInformation(description);
+        await this.serviceIssue.setVisibility(role_visibility);
+        await this.serviceIssue.submitServiceIssue();
+        await WebActions.delay(300);
+        await this.page.waitForLoadState('networkidle');
+        await this.page.waitForLoadState('domcontentloaded');
     }
 
     async clickOnServiceIssueTab(): Promise<void>{
@@ -181,13 +187,26 @@ export default class RequestShowPage {
     async viewServiceIssue(): Promise<void>{
         console.info(`view service issue button`);
         await this.page.click(Link.view_service_issue);
+        await WebActions.delay(300);
+        await this.page.waitForLoadState('networkidle');
         await this.page.waitForLoadState('domcontentloaded');
     }
 
-    async validateServiceIssueWasCreated(): Promise<void>{
+    async validateServiceIssueWasCreated(description: string): Promise<void>{
         console.info(`Validate that service issue was created`);
         await this.page.waitForLoadState('domcontentloaded');
-        await expect(await this.page.locator(Element.service_issue_row).count()).toBeGreaterThanOrEqual(1);
+        await expect(await this.page.locator(Element.service_issue_created(description)).count()).toBeGreaterThanOrEqual(1);
+    }
+
+    async addServiceIssueComment(description: string):Promise<void> {
+        console.info(`Adding a Comment to a service Issue`);
+        await this.viewServiceIssue();
+        await this.page.click(Link.add_a_comment);
+        await this.page.type(Textarea.new_comment, `Adding a Comment to the Service Issue - ${description}.`, {delay: 50});
+        await this.page.click(Button.update_service_issue);
+        await WebActions.delay(500);
+        await this.page.waitForLoadState('networkidle');
+        await this.page.waitForLoadState('domcontentloaded');
     }
 
     async validateHotelSpecialInformation(): Promise<void>{
