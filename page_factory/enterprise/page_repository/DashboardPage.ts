@@ -91,7 +91,7 @@ export default class DashboardPage {
     }
 
     async impersonate(user:string): Promise<void>{
-        console.info(`Impersonating an user`);
+        console.info(`Impersonating the user ${user}`);
         await this.page.click(Input.impersonate_search);
         await this.page.type(Input.impersonate_search, user, {delay:40});
         await this.page.waitForLoadState('domcontentloaded');

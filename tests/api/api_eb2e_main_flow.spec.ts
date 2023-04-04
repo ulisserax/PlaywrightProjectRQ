@@ -3,7 +3,7 @@ import { expect } from '@playwright/test';
 import ENV from '@utils/env';
 
 
-test.describe.serial("EB2E RQPRO API main flow", ()=>{
+test.describe.serial.only("EB2E RQPRO API main flow", ()=>{
 
 
     test("POST: Create an EB2E RQPRO Request", async ({requestEndpoints}) => {
@@ -24,7 +24,7 @@ test.describe.serial("EB2E RQPRO API main flow", ()=>{
     })
 
     test("POST: Award the Option", async ({optionEndpoints, requestEndpoints}) => {
-        console.info(`Awarding an Option submitted for the EB2E - RQPRO Request.`);
+        console.info(`Awarding an Option to create an EB2E - RQPRO Reservation.`);
         const _current_date = new Date().toISOString();
         await requestEndpoints.updateDeadlineRequest(ENV.BASE_URL, ENV.RQPRO_REQ_API_KEY, ENV.API_REQUEST_UID, _current_date);
         const _res = await optionEndpoints.optionAward(ENV.BASE_URL, ENV.RQPRO_REQ_API_KEY, ENV.API_OPTION_ID);

@@ -91,7 +91,7 @@ import ENV  from '@utils/env';
       await homePage.signIn();
       await dashboard.findCurrentRequest(ENV.REQUEST_ID);
       await search.clickRequestIdLink();
-      await requestShow.clickServiceIssue();
+      await requestShow.clickOnServiceIssueTab();
       await requestShow.viewServiceIssue();
       await serviceIssue.resolveServiceIssue();
   })

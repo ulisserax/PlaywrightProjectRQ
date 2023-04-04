@@ -56,6 +56,7 @@ export default class ENV{
     static PROPERTY_FEATURES         = ''
     static PROPERTY_AMENITIES        = ''
     static SERVICE_DESCRIPTION       = `${chance.string({length: 5, numeric: true})} - Service Issue created by: `
+    static ROLE_VISIBILITY           = ['REQUESTOR', 'EMPLOYEE', 'SUPPLIER'];
     
     static EXCEPTION_FEE_CLIENT_ID  = process.env.EXCEPTION_FEE_CLIENT_ID
     static  CLIENT_ID               = process.env.CLIENT_ID
@@ -109,6 +110,7 @@ export default class ENV{
     static RQPRO_REQ_ADMIN             = process.env.RQPRO_REQ_ADMIN
     static RQPRO_REQ_API_KEY           = process.env.RQPRO_REQ_API_KEY
     static RQPRO_EB2E_CLIENT           = process.env.RQPRO_EB2E_CLIENT
+    static SUPPLIER_FOR_RQPRO_ADMIN    = process.env.SUPPLIER_FOR_RQPRO_ADMIN
     static SUPPLIER_FOR_RQPRO_API_KEY  = process.env.SUPPLIER_FOR_RQPRO_API_KEY
 
     static DB_URL       = process.env.DB_URL
