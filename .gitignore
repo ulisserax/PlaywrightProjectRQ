@@ -8,4 +8,4 @@ node_modules/
 dist/
 playwright-report/
 test-results/
-utils/env_files/
+
