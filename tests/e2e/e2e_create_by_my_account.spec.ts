@@ -7,6 +7,8 @@ const chance = new Chance();
 
 test.describe.serial('Create a RQ base flow, Supplier, Property, Area, Requestor, Client, Area and Link the companies', () => {
 
+    // test.describe.configure({ retries:2 });
+
     test.slow();
     let subject, passwordResetLink;
     let number = chance.integer({min:1,max:9999});

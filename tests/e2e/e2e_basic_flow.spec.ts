@@ -3,6 +3,9 @@ import ENV  from '@utils/env';
 
 
 test.describe.serial("Test Suite Basic Flow ", () => {
+
+    // test.describe.configure({ retries:2 });
+    
     test.slow();
     let guest_email = ENV.GUEST_EMAIL.toLocaleLowerCase();
     let client_email = ENV.CLIENT_EMAIL.toLocaleLowerCase();

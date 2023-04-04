@@ -3,6 +3,9 @@ import ENV  from '@utils/env';
 
 
 test.describe.serial("Test Suite Alternate Option", () => {
+    
+    // test.describe.configure({ retries:2 });
+
     test.slow();
     let guest_email = ENV.GUEST_EMAIL.toLocaleLowerCase();
 
