@@ -47,7 +47,7 @@ const chance = new Chance();
         await requestShow.validateServiceIssueTab();
     })
 
-    test("As a Support user, create a Service Issue visible to Guest", async ({webActions, dashboard, requestShow}) => {
+    test("Support user creates a Service Issue , sets visibility to Guest and add a comment", async ({webActions, dashboard, requestShow}) => {
         console.info(`Create a Service Issue as Support`);
         await webActions.login(`superadmin`,`${ENV.SUPPLIER_DOMAIN}/request/show/${ENV.API_REQUEST_UID}`,ENV.SUPER_ADMIN, ENV.SUPER_ADMIN_PASSWORD);
         await dashboard.impersonate(`relosupport`);
@@ -55,7 +55,10 @@ const chance = new Chance();
         await requestShow.createServiceIssue(descriptionServiceIssue1 ,ENV.ROLE_VISIBILITY);
         await requestShow.validateServiceIssueWasCreated(descriptionServiceIssue1);
         await requestShow.addServiceIssueComment(descriptionServiceIssue1);
+    })
 
+    test("Guest account creation, then review and create a new Service Issue, and also add a comment ", async () => {
+        
     })
     
 // SMS Testing is out of the scope for all the scenarios (at the moment)
