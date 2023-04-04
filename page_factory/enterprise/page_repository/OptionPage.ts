@@ -297,4 +297,10 @@ export default class OptionPage {
             }
         }
     }
+
+    async enterRate(rate): Promise<void>{
+        console.info("Filling rate details.");
+        await this.page.type(Input.rate, `${rate}`);
+        await this.page.keyboard.press('Enter');
+    }
 }

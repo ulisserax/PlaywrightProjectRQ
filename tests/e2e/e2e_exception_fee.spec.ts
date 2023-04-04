@@ -17,7 +17,7 @@ test.describe.serial("Test Suite Exception Fee", () => {
             await dashboard.findCurrentRequest(ENV.REQUEST_ID);
             await search.clickRequestIdLink();
             await requestShow.bidOption();
-            await option.fillRateDetails();
+            await option.enterRate(200.00);
             await option.verifyExceptionFeeApplied(location[i]);
         })
     }   
