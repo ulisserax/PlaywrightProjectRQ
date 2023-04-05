@@ -1,7 +1,9 @@
 import Input from "@b2e_objects/Input";
 import Link from "@b2e_objects/Link";
-import { Page } from "@playwright/test";
+import { Page, expect } from "@playwright/test";
 import Button from "../object_repository/Button";
+import ENV from "@utils/env";
+import WebActions from "@lib/WebActions";
 
 export default class B2eHomePage {
 
@@ -41,6 +43,20 @@ export default class B2eHomePage {
     async forgotPassword(): Promise<void>{
         console.info(`Clicking forgot password link`);
         await this.page.click(Link.forgot_password);
-    } 
+    }
+
+    async validateAccountActivatedURL():Promise<void> {
+        console.info(`Validating that the account was activated by an URL parameter.`);
+        await expect(await this.page).toHaveURL(/activated=1/);
+    }
+
+    async eb2eCompleteActivationAndLogin():Promise<void> {
+        console.info(`Complete the login process coming from an EB2E account activation.`);
+        await this.validateAccountActivatedURL();
+        await this.enterPassword(ENV.B2E_USER_PASSWORD);
+        await this.signIn();
+        await WebActions.delay(300);
+        await this.page.waitForLoadState(`networkidle`);
+    }
 
 }

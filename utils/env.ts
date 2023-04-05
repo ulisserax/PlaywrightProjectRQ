@@ -28,7 +28,7 @@ export default class ENV{
     static PROPERTY                  = process.env.PROPERTY
     static CLIENT_EMAIL              = `client_${chance.first()}_${chance.integer({min:0,max:9999})}@reloquest.com`
     static GUEST_EMAIL               = `${this.GUEST_FIRSTNAME}_${chance.integer({min:0,max:9999})}@reloquest.com`
-    static GUEST_PHONE               = chance.phone()
+    static GUEST_PHONE               = chance.phone({ country: "us", formatted: false })
     static REQUEST_TYPE              = [`Corporate Housing Only`,`Hotels Only`,`Hotels and Corporate Housing`]
     static GUEST_TYPE                = [`Standard`,`VIP`,`High Visibility`, `Executive`, `Intern`, `Group Move`]
     static INTERNAL_ID               = `internal_id-${chance.integer({min:0, max:99999})}`

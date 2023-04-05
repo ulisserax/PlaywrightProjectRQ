@@ -1,4 +1,7 @@
+import B2eHomePage from '@b2e_pages/B2eHomePage';
+import MailCatcher from '@enterprise_pages/MailCatcherPage';
 import test from '@lib/BaseTest';
+import WebActions from '@lib/WebActions';
 import { expect } from '@playwright/test';
 import ENV from '@utils/env'
 const Chance = require("chance");
@@ -10,6 +13,7 @@ const chance = new Chance();
     const descriptionServiceIssue1 = `${idServiceIssue1} - Support=>Guest`;
     const idServiceIssue2 = chance.string({length: 6, numeric: true}); 
     const descriptionServiceIssue2 = `${idServiceIssue2} - Guest=>Service`;
+    ENV.GUEST_PHONE = `7869250000`;
 
     test("POST: Create an EB2E RQPRO Request", async ({requestEndpoints}) => {
         console.info(`Creating an EB2E - RQPro Request through the V1 API.`);
@@ -57,15 +61,28 @@ const chance = new Chance();
         await requestShow.addServiceIssueComment(descriptionServiceIssue1);
     })
 
-    test("Guest account creation, then review and create a new Service Issue, and also add a comment ", async () => {
+    test("Guest account creation, then review and create a new Service Issue, and also add a comment ", async ({webActions, configurationInstance, mailCatcher, b2eLoginPage, b2eHomePage}) => {
+        console.info(`Guest user creation to review and creates a Service Issue`);
+        await webActions.login(`superadmin`,`${ENV.SUPPLIER_DOMAIN}/configuration/instance`,ENV.SUPER_ADMIN, ENV.SUPER_ADMIN_PASSWORD);
+        await configurationInstance.mailPush();
+        await webActions.navigateTo(ENV.MAILCATCHER_URL);
+        await mailCatcher.searchEmail(ENV.GUEST_EMAIL, `ReloQuest - Success! - Reservation Confirmation`);
+        await mailCatcher.navigateToEb2eRegistration();
+        await b2eLoginPage.completeEb2eRegistration(ENV.GUEST_FIRSTNAME, ENV.GUEST_LASTNAME, ENV.B2E_USER_PASSWORD);
+        await configurationInstance.mailPush();
+        await webActions.navigateTo(ENV.MAILCATCHER_URL);
+        await mailCatcher.searchEmail(ENV.GUEST_EMAIL, `Thank you for registering at ReloQuest!`);
+        await mailCatcher.activateEb2eAccount();
+        await b2eHomePage.eb2eCompleteActivationAndLogin();
         
+
     })
     
 // SMS Testing is out of the scope for all the scenarios (at the moment)
 
 // REQUESTOR and SUPPLIER should NOT have VISIBILITY of ServiceIssue#1 
 //        [go to the service tab and verify that the ServiceIssue is NOT PRESENT]
-// GUEST should have VISIBILITY of ServiceIssue#1 
+// == GUEST should have VISIBILITY of ServiceIssue#1 
 //        [Register the eb2e user, activate the account, go to the Reservation Service view, verify that the ServiceIssue#1 IS PRESENT]                              
 // GUEST RECEIVES an EMAIL 
 //        [verify Guest received the email about ServiceIssue#1 created]
