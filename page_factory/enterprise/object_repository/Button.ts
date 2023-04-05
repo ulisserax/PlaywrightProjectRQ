@@ -110,4 +110,7 @@ export default class Button{
     static confirm_change               = `button#btnConfirm`;
     static update_property              = `//button[@id='form_submit_btn']`;
     static update_property_fields_modal = `//button[@id='property-fields-modal-update-btn']`;
+    static submit_notice                = `//button[@id='submit-ntv']`;
+    static keep_this_date               = `//div[contains(@class,'modal fade ntv-modal in')]//a[contains(text(),'Keep this Date')]`;
+    static request_date                 = `//div[contains(@class,'modal fade ntv-modal in')]//button[contains(text(),'Request Date')]`;
 }
