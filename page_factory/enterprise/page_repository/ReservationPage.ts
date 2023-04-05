@@ -312,5 +312,11 @@ export default class ReservationPage {
         await expect(await this.page.locator(Text.reservation_information).textContent()).toContain(`ReloQuest: on`);
 
     }
+
+    async verifyNoticeToVacateSubmitted(){
+        await WebActions.delay(5000);
+        await this.page.waitForLoadState(`domcontentloaded`);
+        await expect(await this.page.locator(Text.ntv_status).textContent()).toContain(`Notice given / Accepted`);
+    }
     
 }

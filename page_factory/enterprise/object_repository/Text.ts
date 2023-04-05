@@ -57,6 +57,7 @@ export default class Text{
     static modal_tax_segment_length             = `//div[@id='rate_segment_placement']//input[contains(@class,'segment-length-stay')]`;
     static request_status                       = `.request-link`;
     static updated_fields                       = `//div[@class='modal fade in']//p[contains(text(),'The following property fields on')]`;
+    static ntv_status                           = `//label[contains(text(),'NTV Status:')]//following-sibling::div//div[contains(@class,'ntv-input')]`;
 
     static specificEmail(email: string, email_subject: string){
         return `//td[contains(text(),'${email.toLocaleLowerCase()}')]/following-sibling::td[contains(text(),'${email_subject}')]`;

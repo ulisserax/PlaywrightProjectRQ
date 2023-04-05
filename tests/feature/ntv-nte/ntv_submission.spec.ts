@@ -43,17 +43,25 @@ test.describe.parallel.only('ntv submission',()=>{
             await requestShow.acknowledgeAward(ENV.ACKNOWLEDGE_AWARD[0]);
         })
 
-        test('Submit a Notice and validate submission', async ({webActions, reservation})=>{
-            console.info(`Submit a Notice`);
-            console.info(`submitted by requestor. ${ENV.API_RESERVATION_UID}`);
+        test('Submit a Notice by requestor and validate submission', async ({webActions, reservation})=>{
+            console.info(`Submit a Notice by requestor`);
             await webActions.login(`requestor`, `${ENV.RQPRO_BASE_URL}/reservation/${ENV.API_RESERVATION_UID}`, ENV.RQPRO_REQ_ADMIN, ENV.REQUESTOR_ADMIN_PASSWORD);
             await reservation.verifyRqProReservationAcknowledge(ENV.API_RESERVATION_UID);
             await reservation.submitNoticeToVacate();
+            console.info(`validate submission by requestor`);
+            await reservation.verifyNoticeToVacateSubmitted();
             
+            //validate the activity log
         })
 
-        test('submitted by Requestor', ()=>{
+        test('Validate submission by supplier', async ({webActions, reservation})=>{
             console.info(`submitted by requestor. ${ENV.API_RESERVATION_UID}`);
+            await webActions.login(`requestor`, `${ENV.RQPRO_BASE_URL}/reservation/${ENV.API_RESERVATION_UID}`, ENV.SUPPLIER_FOR_RQPRO_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);
+            //await reservation.verifyRqProReservationAcknowledge(ENV.API_RESERVATION_UID);
+            //await reservation.submitNoticeToVacate();
+            await reservation.verifyNoticeToVacateSubmitted();
+            
+            //validate the activity log
         })
 
     })
