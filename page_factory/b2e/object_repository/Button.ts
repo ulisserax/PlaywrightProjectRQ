@@ -38,6 +38,7 @@ export default class Button{
     static view_your_issues      = `//button[contains(text(),'View your issues')]`;
     static ntv_confirm           = `//app-ntv-reminder//button[contains(text(),'CONFIRM')]`;
     static ntv_submitted_ok      = `//app-ntv-submitted//button[contains(text(),'OK')]`;
+    static nte_request_extension = `//app-ntv-quest//button[contains(text(),'REQUEST EXTENSION')]`;
 
     static new_quest(request_id){
         return `a[request-id=${request_id}] button.quest-status.search-status`;

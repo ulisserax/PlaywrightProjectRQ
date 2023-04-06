@@ -23,6 +23,8 @@ export default class Element{
     static issue_submitted_modal      = `//app-modal //h5[contains(text(),'Issue Submitted!')]`;
     static issue_status               = `span.status`;
     static ntv_submitted_box          = `//app-ntv-approval//div[@class='ntv-approval']//div`;
+    static nte_next_month             = `//app-ntv-quest//button[@title='Next month']`;
+    static nte_end_date               = `//app-ntv-quest//ngb-datepicker-month//span`;
 
     static quests_card(request_id){
         return `a[request-id=${request_id}]`;

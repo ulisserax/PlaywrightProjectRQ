@@ -10,5 +10,5 @@ export default class Link{
     static new_search          = `//a[contains(text(),'NEW SEARCH')]`;
     static uncheck_all         = `//a[contains(text(),'Uncheck All')]`;
     static notice_to_vacate    = `//span[contains(text(),'Notice to Vacate')]`;
-
+    static ntv_change_date     = `//app-ntv-reminder//button[contains(text(),'Change Date')]`;
 }
