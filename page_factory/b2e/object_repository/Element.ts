@@ -22,6 +22,7 @@ export default class Element{
     static create_service_title       = `//div[contains(text(),'Create Service Issues')]`;
     static issue_submitted_modal      = `//app-modal //h5[contains(text(),'Issue Submitted!')]`;
     static issue_status               = `span.status`;
+    static ntv_submitted_box          = `//app-ntv-approval//div[@class='ntv-approval']//div`;
 
     static quests_card(request_id){
         return `a[request-id=${request_id}]`;

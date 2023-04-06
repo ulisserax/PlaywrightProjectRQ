@@ -121,10 +121,21 @@ export default class B2eQuestDetailsPage {
         console.info(`Clicking on Request Service`);
         await this.page.click(Element.request_service);
         await WebActions.delay(500);
-        //await this.page.waitForLoadState(`networkidle`);
         await this.page.waitForLoadState(`domcontentloaded`);
         await WebActions.delay(2000);
         console.info(`Clicked on Request Service`);
+    }
+
+    async requestNtv(){
+        console.info(`Clicking on Notice to Vacate`);
+        await this.page.click(Link.notice_to_vacate);
+        await this.page.waitForSelector(Button.ntv_confirm);
+        await this.page.click(Button.ntv_confirm);
+        await this.page.waitForSelector(Button.ntv_submitted_ok);
+        await this.page.click(Button.ntv_submitted_ok);
+        await WebActions.delay(3000);
+        await this.page.waitForSelector(Element.ntv_submitted_box);
+        await expect(await this.page.locator(Element.ntv_submitted_box).first().textContent()).toContain('Notice to Vacate Submitted');
     }
     
 }

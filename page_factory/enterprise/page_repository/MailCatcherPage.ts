@@ -110,6 +110,10 @@ export default class MailCatcherPage{
        
     }
 
-    
+    async getCreateAccountLink(email:string): Promise<string>{
+        console.info(`Get the share option link from the email body.`);
+        await expect(await this.page.frameLocator(Iframe.email_body).locator(Link.create_account).getAttribute('href')).toContain(`.reloquest.com/register?email=${email}`);
+        return await this.page.frameLocator(Iframe.email_body).locator(Link.create_account).getAttribute('href');
+    }
 
 }
