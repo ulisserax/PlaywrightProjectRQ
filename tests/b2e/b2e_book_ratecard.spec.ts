@@ -72,7 +72,7 @@ import ENV  from '@utils/env';
       await b2eHomePage.enterCredentials(ENV.B2E_USER, ENV.B2E_USER_PASSWORD);
       await b2eHomePage.signIn();
       await b2eSearchPage.viewAllQuests();
-      await b2eQuestsPage.viewFutureQuest();
+      await b2eQuestsPage.viewFutureQuest(ENV.REQUEST_ID);
       await b2eQuestDetailsPage.verifyFutureQuest();
       await b2eQuestDetailsPage.viewQuestDetails();
       await b2eQuestDetailsPage.verifyPaymentMethod(`1111`);

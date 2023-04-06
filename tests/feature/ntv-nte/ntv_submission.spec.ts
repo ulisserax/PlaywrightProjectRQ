@@ -10,7 +10,7 @@ test.describe.parallel.only('ntv submission',()=>{
 
         //Create a request for a rqpro company and a eb2e client
         console.info(`Creating an EB2E Request through the V1 API.`);
-        const _createRequestResponse = await requestEndpoints.createRequest(ENV.RQPRO_BASE_URL, ENV.RQPRO_REQ_API_KEY, Number(ENV.RQPRO_EB2E_CLIENT), 'Miami, FL, USA', ENV.START_DATE, ENV.END_DATE, ENV.GUEST_FIRSTNAME, ENV.GUEST_LASTNAME, ENV.GUEST_EMAIL, ENV.GUEST_PHONE);
+        const _createRequestResponse = await requestEndpoints.createRequest(ENV.RQPRO_BASE_URL, ENV.RQPRO_REQ_API_KEY, Number(ENV.RQPRO_EB2E_CLIENT), 'Miami, FL, USA', ENV.START_DATE, ENV.END_DATE, ENV.GUEST_FIRSTNAME, ENV.GUEST_LASTNAME, ENV.GUEST_EMAIL, `7863256523`);
         ENV.API_REQUEST_UID = `${JSON.parse(_createRequestResponse).request_id}`;
         console.info(`REQUEST_UID: ${ENV.API_REQUEST_UID}`);
     
@@ -57,8 +57,6 @@ test.describe.parallel.only('ntv submission',()=>{
         test('Validate submission by supplier', async ({webActions, reservation})=>{
             console.info(`submitted by requestor. ${ENV.API_RESERVATION_UID}`);
             await webActions.login(`requestor`, `${ENV.RQPRO_BASE_URL}/reservation/${ENV.API_RESERVATION_UID}`, ENV.SUPPLIER_FOR_RQPRO_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);
-            //await reservation.verifyRqProReservationAcknowledge(ENV.API_RESERVATION_UID);
-            //await reservation.submitNoticeToVacate();
             await reservation.verifyNoticeToVacateSubmitted();
             
             //validate the activity log
@@ -71,14 +69,53 @@ test.describe.parallel.only('ntv submission',()=>{
 
         test("Acknowledge the EB2E - RQPro Reservation", async ({webActions, requestShow}) => {
             console.info(`Acknowledging the Reservation.`);
-            console.info(`submitted by guest. ${ENV.API_RESERVATION_UID}`);
             await webActions.login(`supplier`, `${ENV.SUPPLIER_DOMAIN}/request/show/${ENV.API_REQUEST_UID}`, ENV.SUPPLIER_FOR_RQPRO_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);
             await requestShow.acknowledgeAward(ENV.ACKNOWLEDGE_AWARD[0]);
            // await requestShow.validateServiceIssueTab();
         })
 
-        test('submitted by guest', ()=>{
-            console.info(`submitted by guest. ${ENV.API_RESERVATION_UID}`);
+        test("Guest Registration", async ({webActions, configurationInstance,  mailCatcher, b2eHomePage, b2eLoginPage}) =>{
+            await webActions.login(`superadmin`, `${ENV.RQPRO_BASE_URL}/configuration/instance`, ENV.SUPER_ADMIN, ENV.SUPER_ADMIN_PASSWORD);
+            await configurationInstance.mailPush();
+            let subject = "ReloQuest - Success! - Reservation Confirmation";
+            await mailCatcher.openMailCatcher(ENV.MAILCATCHER_URL);
+            await mailCatcher.searchEmail(ENV.GUEST_EMAIL.toLocaleLowerCase(), subject);
+            let register_link = await mailCatcher.getCreateAccountLink(ENV.GUEST_EMAIL.toLocaleLowerCase());
+            await webActions.navigateTo(register_link);
+            await b2eHomePage.acceptCookies(); 
+            await b2eLoginPage.registerNewGuest(ENV.GUEST_FIRSTNAME, ENV.GUEST_LASTNAME, 'Test123!');
+            await b2eLoginPage.verifyRegisterSuccess();
+        })
+
+        test("Active the Guest account and submit the NTV", async ({webActions, configurationInstance,  mailCatcher, b2eHomePage, b2eQuestDetailsPage, b2eQuestsPage}) =>{
+            await webActions.login(`superadmin`, `${ENV.BASE_URL}/configuration/instance`, ENV.SUPER_ADMIN, ENV.SUPER_ADMIN_PASSWORD);
+            await configurationInstance.mailPush();
+            await webActions.navigateTo(ENV.MAILCATCHER_URL);
+            await mailCatcher.searchEmail(ENV.GUEST_EMAIL.toLocaleLowerCase(), `Thank you for registering at ReloQuest!`);
+            let activate_account_link= await mailCatcher.activateAccount();
+            await webActions.navigateTo(activate_account_link);
+            await b2eHomePage.acceptCookies(); 
+            await b2eHomePage.enterPassword('Test123!');
+            await b2eHomePage.signIn();
+            await b2eQuestsPage.viewFutureQuest(ENV.API_REQUEST_UID);
+            await b2eQuestDetailsPage.verifyFutureQuest();
+            await b2eQuestDetailsPage.requestNtv();
+        })
+
+        test('Submit a Notice by requestor and validate submission', async ({webActions, reservation})=>{
+            console.info(`validate submission by requestor`);            await webActions.login(`requestor`, `${ENV.RQPRO_BASE_URL}/reservation/${ENV.API_RESERVATION_UID}`, ENV.RQPRO_REQ_ADMIN, ENV.REQUESTOR_ADMIN_PASSWORD);
+            await reservation.verifyRqProReservationAcknowledge(ENV.API_RESERVATION_UID);
+            await reservation.verifyNoticeToVacateSubmitted();
+            
+            //validate the activity log
+        })
+
+        test('Validate submission by supplier', async ({webActions, reservation})=>{
+            console.info(`submitted by requestor. ${ENV.API_RESERVATION_UID}`);
+            await webActions.login(`requestor`, `${ENV.RQPRO_BASE_URL}/reservation/${ENV.API_RESERVATION_UID}`, ENV.SUPPLIER_FOR_RQPRO_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);
+            await reservation.verifyNoticeToVacateSubmitted();
+            
+            //validate the activity log
         })
 
     })

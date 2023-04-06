@@ -314,7 +314,7 @@ export default class ReservationPage {
     }
 
     async verifyNoticeToVacateSubmitted(){
-        await WebActions.delay(5000);
+        await WebActions.delay(7000);
         await this.page.waitForLoadState(`domcontentloaded`);
         await expect(await this.page.locator(Text.ntv_status).textContent()).toContain(`Notice given / Accepted`);
     }

@@ -24,13 +24,13 @@ export default class B2eQuestsPage {
         await this.page.click(Element.quests_card(ENV.REQUEST_ID));
     }
 
-    async viewFutureQuest(){
+    async viewFutureQuest(request_id){
         console.info(`Viewing future quest`);
         await WebActions.delay(500);
         await this.page.waitForLoadState(`domcontentloaded`);
-        await this.page.waitForSelector(Button.future_quest(ENV.REQUEST_ID));
-        await expect(await this.page.locator(Button.future_quest(ENV.REQUEST_ID)).count()).toEqual(1);
-        await this.webActions.clickElementJS(Button.future_quest(ENV.REQUEST_ID));
+        await this.page.waitForSelector(Button.future_quest(request_id));
+        await expect(await this.page.locator(Button.future_quest(request_id)).count()).toEqual(1);
+        await this.webActions.clickElementJS(Button.future_quest(request_id));
     }
 
     async confirmAlternateQuest(){
@@ -48,5 +48,9 @@ export default class B2eQuestsPage {
         await this.page.waitForLoadState(`domcontentloaded`);
         await this.page.waitForSelector(Button.declined_option(ENV.REQUEST_ID));
         await expect(await this.page.locator(Button.declined_option(ENV.REQUEST_ID)).count()).toEqual(1);
+    }
+
+    async clickFutureQuestByGuest(){
+
     }
 }
