@@ -150,6 +150,7 @@ export default class B2eQuestDetailsPage {
         await this.page.click(Button.nte_request_extension);
         await this.page.waitForSelector(Element.ntv_submitted_box);
         await expect(await this.page.locator(Element.ntv_submitted_box).first().textContent()).toContain('Extension Requested');
+        
     }
     
 }

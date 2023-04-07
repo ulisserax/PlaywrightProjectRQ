@@ -113,4 +113,8 @@ export default class Button{
     static submit_notice                = `//button[@id='submit-ntv']`;
     static keep_this_date               = `//div[contains(@class,'modal fade ntv-modal in')]//a[contains(text(),'Keep this Date')]`;
     static request_date                 = `//div[contains(@class,'modal fade ntv-modal in')]//button[contains(text(),'Request Date')]`;
+    static approve_deny                 = `//a[@id='supplier-approve-deny-btn']`;
+    static decline_extension            = `//div[@id='ntv-approve-deny-modal-supplier' and contains(@class, 'fade in')]//button[contains(text(),'Decline')]`;
+    static notify_guest                 = `//div[@id='ntv-approve-deny-modal-supplier' and contains(@class, 'fade in')]//button[contains(text(),'Notify Guest')]`;
+
 }
