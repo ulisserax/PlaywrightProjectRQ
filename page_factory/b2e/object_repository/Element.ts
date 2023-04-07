@@ -23,6 +23,9 @@ export default class Element{
     static issue_submitted_modal      = `//app-modal //h5[contains(text(),'Issue Submitted!')]`;
     static issue_status               = `span.status`;
     static email_activation_sent      = `//div[contains(text(),' activate your account.')]`;
+    static service_alert_icon         = `div .red-badge`;
+    static comment_modal              = `//h5[contains(text(),'Comments')]`;
+    static close_services_list        = `div .icon-B2E-icons_Close`;
 
     static quests_card(request_id){
         return `a[request-id=${request_id}]`;

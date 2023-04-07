@@ -72,7 +72,7 @@ import ENV  from '@utils/env';
       await b2eHomePage.enterCredentials(ENV.B2E_USER, ENV.B2E_USER_PASSWORD);
       await b2eHomePage.signIn();
       await b2eSearchPage.viewAllQuests();
-      await b2eQuestsPage.viewFutureQuest();
+      await b2eQuestsPage.viewFutureQuest(ENV.REQUEST_ID);
       await b2eQuestDetailsPage.verifyFutureQuest();
       await b2eQuestDetailsPage.viewQuestDetails();
       await b2eQuestDetailsPage.verifyPaymentMethod(`1111`);
@@ -82,7 +82,7 @@ import ENV  from '@utils/env';
       await b2eQuestDetailsPage.cancelPaymentModal();
       await b2eQuestDetailsPage.closeQuestDetails();
       await b2eQuestDetailsPage.requestServiceIssue();
-      await b2eServices.createNewServiceIssue();
+      await b2eServices.createNewServiceIssue(ENV.SERVICE_DESCRIPTION);
    })
 
    test("Resolve service issue for B2E", async ({webActions, homePage, dashboard, search, requestShow, serviceIssue}) => {
@@ -93,6 +93,6 @@ import ENV  from '@utils/env';
       await search.clickRequestIdLink();
       await requestShow.clickOnServiceIssueTab();
       await requestShow.viewServiceIssue();
-      await serviceIssue.resolveServiceIssue();
+      await serviceIssue.addCommentAndResolveServiceIssue();
   })
  })

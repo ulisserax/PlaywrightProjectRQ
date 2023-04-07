@@ -68,5 +68,13 @@ export default class Element{
 
     static service_issue_created(description: string) {
         return `//table[@id='supplier_status_list']//tbody//tr//td[contains(.,'${description}')]`;
-    }              
+    }
+    
+    static view_service_issue(description: string) {
+        return `//td[contains(text(),'${description}')]//following-sibling::td//a`;
+    }
+
+    static service_issue_status(description: string) {
+        return `//td[contains(text(),'${description}')]//following-sibling::td//span`;
+    }
 }

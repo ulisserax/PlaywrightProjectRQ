@@ -24,13 +24,16 @@ export default class B2eQuestsPage {
         await this.page.click(Element.quests_card(ENV.REQUEST_ID));
     }
 
-    async viewFutureQuest(){
+    async viewFutureQuest(request: string){
         console.info(`Viewing future quest`);
         await WebActions.delay(500);
         await this.page.waitForLoadState(`domcontentloaded`);
-        await this.page.waitForSelector(Button.future_quest(ENV.REQUEST_ID));
-        await expect(await this.page.locator(Button.future_quest(ENV.REQUEST_ID)).count()).toEqual(1);
-        await this.webActions.clickElementJS(Button.future_quest(ENV.REQUEST_ID));
+        await this.page.waitForSelector(Button.future_quest(request));
+        await expect(await this.page.locator(Button.future_quest(request)).count()).toEqual(1);
+        await this.webActions.clickElementJS(Button.future_quest(request));
+        await WebActions.delay(300);
+        await this.page.waitForLoadState(`networkidle`);
+        await this.page.waitForLoadState(`domcontentloaded`);
     }
 
     async confirmAlternateQuest(){
