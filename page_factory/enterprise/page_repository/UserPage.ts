@@ -2,13 +2,12 @@ import {Page, expect} from "@playwright/test";
 import Input from "@enterprise_objects/Input";
 import Element from "@enterprise_objects/Element";
 import Button from "@enterprise_objects/Button";
-import ENV from "@utils/env";
 import WebActions from "@lib/WebActions";
 
 const Chance = require("chance");
 const chance = new Chance();
 
-export default class User {
+export default class UserPage {
     readonly page: Page;
 
     constructor (page: Page){

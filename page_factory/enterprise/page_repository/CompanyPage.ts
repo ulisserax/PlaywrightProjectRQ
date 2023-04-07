@@ -7,7 +7,7 @@ import Link from "@enterprise_objects/Link";
 const Chance = require("chance");
 const chance = new Chance();
 
-export default class Company {
+export default class CompanyPage {
     readonly page: Page;
 
     constructor (page:Page){

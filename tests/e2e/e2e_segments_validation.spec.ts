@@ -5,6 +5,7 @@ const chance = new Chance();
 
 
 test.describe.serial("Test Suite for Segments Validation", () => {
+    
     test.slow();
         
     test(`Create request via api, bid and `, async({requestEndpoints, webActions,homePage, dashboard, search, requestShow, option}) =>{

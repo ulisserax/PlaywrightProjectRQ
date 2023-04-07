@@ -13,7 +13,7 @@ const Chance = require ('chance');
 const chance = new Chance();
 
 
-export default class Reservation {
+export default class ReservationPage {
     readonly page: Page;
 
     constructor(page){
@@ -293,6 +293,30 @@ export default class Reservation {
         console.log('(rent_total + taxes_total + fees_total + deposit_total) == totals --> '+Number((rent_total+taxes_total+fees_total+deposit_total).toFixed(2))+ ' == ' +totals);
         await expect(Number((rate_segment_total+tax_detail_total+fee_detail_total+deposit_detail_total).toFixed(2))).toEqual(totals);
         await expect(Number((rent_total+taxes_total+fees_total+deposit_total).toFixed(2))).toEqual(totals);
+    }
+
+    async submitNoticeToVacate(){
+        await this.page.click(Button.submit_notice);
+        await this.page.waitForSelector(Button.keep_this_date);
+        await this.page.click(Button.keep_this_date);
+        await this.page.waitForSelector(Button.request_date);
+        await this.page.click(Button.request_date);
+        await WebActions.delay(3000);
+    }
+
+    async verifyRqProReservationAcknowledge(reservation_id){
+        console.info("Verifying RQPRO reservation was acknowledged");
+		await this.page.waitForLoadState('domcontentloaded');
+        await this.page.waitForSelector(Text.reservation_information);
+        await expect(await this.page.locator(Text.reservation_information).textContent()).toContain(`Reservation Information - ${reservation_id}`);
+        await expect(await this.page.locator(Text.reservation_information).textContent()).toContain(`ReloQuest: on`);
+
+    }
+
+    async verifyNoticeToVacateSubmitted(){
+        await WebActions.delay(7000);
+        await this.page.waitForLoadState(`domcontentloaded`);
+        await expect(await this.page.locator(Text.ntv_status).textContent()).toContain(`Notice given / Accepted`);
     }
     
 }

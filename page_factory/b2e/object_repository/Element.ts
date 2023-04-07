@@ -26,6 +26,7 @@ export default class Element{
     static service_alert_icon         = `div .red-badge`;
     static comment_modal              = `//h5[contains(text(),'Comments')]`;
     static close_services_list        = `div .icon-B2E-icons_Close`;
+    static ntv_submitted_box          = `//app-ntv-approval//div[@class='ntv-approval']//div`;
 
     static quests_card(request_id){
         return `a[request-id=${request_id}]`;

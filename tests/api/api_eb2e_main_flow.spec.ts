@@ -3,12 +3,12 @@ import { expect } from '@playwright/test';
 import ENV from '@utils/env';
 
 
-test.describe.serial.only("EB2E RQPRO API main flow", ()=>{
+test.describe.serial("EB2E RQPRO API main flow", ()=>{
 
 
     test("POST: Create an EB2E RQPRO Request", async ({requestEndpoints}) => {
         console.info(`Creating an EB2E Request through the V1 API.`);
-        const _response = await requestEndpoints.createRequest(ENV.RQPRO_BASE_URL, ENV.RQPRO_REQ_API_KEY, Number(ENV.RQPRO_EB2E_CLIENT), 'Miami, FL, USA', ENV.START_DATE, ENV.END_DATE);
+        const _response = await requestEndpoints.createRequest(ENV.RQPRO_BASE_URL, ENV.RQPRO_REQ_API_KEY, Number(ENV.RQPRO_EB2E_CLIENT), 'Miami, FL, USA', ENV.START_DATE, ENV.END_DATE, ENV.GUEST_FIRSTNAME, ENV.GUEST_LASTNAME, ENV.GUEST_EMAIL, ENV.GUEST_PHONE);
         ENV.API_REQUEST_UID = `${JSON.parse(_response).request_id}`;
         console.info(`REQUEST_UID: ${ENV.API_REQUEST_UID}`);
         // I need to update the requestEndpoints() to accept the daily_rate as a parameter

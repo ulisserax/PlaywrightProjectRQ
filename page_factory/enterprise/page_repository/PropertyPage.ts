@@ -7,15 +7,18 @@ import { Page } from "@playwright/test";
 import ENV from "@utils/env";
 import Input from "../object_repository/Input";
 import Element from "@enterprise_objects/Element";
+import OptionPage from "./OptionPage";
 const Chance = require ('chance');
 const chance = new Chance();
 
-export default class OptionPage {
+export default class PropertyPage {
 
    readonly page: Page;
+   readonly optionPage: OptionPage;
 
    constructor(page:Page){
       this.page = page;
+      this.optionPage = new OptionPage(page);
    }
    
    async fillPropertyOverview(property_name:string, location:string, background_req:string, air_conditioning:string, room_types:string, pet_policy:string ): Promise<void>{
@@ -84,9 +87,10 @@ export default class OptionPage {
       ENV.PROPERTY_DESCRIPTION = chance.sentence();
       ENV.PROPERTY_FEATURES = chance.sentence();
       ENV.PROPERTY_AMENITIES = chance.sentence();
-      ENV.PROPERTY_NAME = `NT1supProperty-#${number}${chance.character({ alpha: true , casing: 'upper'})}`;
+      ENV.PROPERTY_NAME = `nt1sup_property_#_${number}${chance.character({ alpha: true , casing: 'lower'})}`;
       await this.page.locator(Link.edit_property).first().click();
       await this.page.fill(Input.property_name,'');
+      await this.optionPage.addPropertyImages(ENV.IMAGE_PATH);
       await this.page.type(Input.property_name, ENV.PROPERTY_NAME, {delay: 50});
       await this.page.fill(Input.property_number,'');
       await this.page.type(Input.property_number,`#${number}`, {delay:40});

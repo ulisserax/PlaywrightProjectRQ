@@ -76,4 +76,16 @@ export default class B2eLoginPage {
         await expect (await this.page.locator(Element.email_activation_sent).count()).toBeGreaterThan(0);
     }
 
+    async registerNewGuest(firstname: string, lastname: string, password: string){
+        console.info(`Filling new user information`);
+        await this.page.type(Input.firstname,`${firstname}`, {delay:30});
+        await this.page.type(Input.lastname,`${lastname}`, {delay:30});
+        await this.page.type(Input.user_password,`${password}`, {delay:30});
+        await this.page.type(Input.confirm_password,`${password}`, {delay:30});
+        await this.page.click(Checkkox.terms);
+        await WebActions.delay(500);
+        await this.page.click(Button.register);
+
+    }
+
 }    

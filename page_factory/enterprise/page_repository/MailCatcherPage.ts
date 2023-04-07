@@ -6,7 +6,7 @@ import Iframe from "@enterprise_objects/Iframe";
 import WebActions from "@lib/WebActions";
 
 
-export default class MailCatcher{
+export default class MailCatcherPage{
     readonly page:Page;
 
     constructor(page:Page){
@@ -130,6 +130,10 @@ export default class MailCatcher{
        
     }
 
-    
+    async getCreateAccountLink(email:string): Promise<string>{
+        console.info(`Get the share option link from the email body.`);
+        await expect(await this.page.frameLocator(Iframe.email_body).locator(Link.create_account).getAttribute('href')).toContain(`.reloquest.com/register?email=${email}`);
+        return await this.page.frameLocator(Iframe.email_body).locator(Link.create_account).getAttribute('href');
+    }
 
 }

@@ -5,7 +5,7 @@ import WebActions from "@lib/WebActions";
 import Element from "@enterprise_objects/Element";
 import Link from "@enterprise_objects/Link";
 
-export default class Area {
+export default class AreaPage {
     readonly page:Page;
 
     constructor (page:Page){

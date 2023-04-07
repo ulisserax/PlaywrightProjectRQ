@@ -36,4 +36,5 @@ export default class Link{
     static default_referral_fee    = `#show_default_referral_fee~.editDefaultFee`;     
     static notified_supplier       = `#showNotifiedSuppliers`; 
     static edit_property           = `//table[contains(@id,'DataTables_Table')]//tbody//a[contains(@href,'/property/')]`;
+    static create_account          = `//a[contains(@href,'reloquest.com/register?')]`;
 }
