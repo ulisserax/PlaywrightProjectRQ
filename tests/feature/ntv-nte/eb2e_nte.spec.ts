@@ -68,8 +68,8 @@ test.describe.serial.only('ntv submission',()=>{
         await b2eQuestDetailsPage.requestNTE();
     })
 
-    test('Submit a Notice by requestor and validate submission', async ({webActions, reservation})=>{
-        console.info(`validate submission by requestor`);            
+    test('As requestor verify the submitted NTE by guest', async ({webActions, reservation})=>{
+        console.info(`Verifying the submitted NTE by the guest.`);            
         await webActions.login(`requestor`, `${ENV.RQPRO_BASE_URL}/reservation/${ENV.API_RESERVATION_UID}`, ENV.RQPRO_REQ_ADMIN, ENV.REQUESTOR_ADMIN_PASSWORD);
         await reservation.verifyRqProReservationAcknowledge(ENV.API_RESERVATION_UID);
         await reservation.verifyNoticeToVacateSubmitted(`Guest requested an Extension / checking availability with Supplier`);
@@ -77,18 +77,19 @@ test.describe.serial.only('ntv submission',()=>{
             //validate the activity log
     })
 
-    test('Validate submission by supplier', async ({webActions, reservation})=>{
-        console.info(`submitted by requestor. ${ENV.API_RESERVATION_UID}`);
+    test('As supplier verify the submitted NTE by guest and decline the NTE', async ({webActions, reservation})=>{
+        console.info(`Verifying the submitted NTE by the guest. ${ENV.API_RESERVATION_UID}`);
         await webActions.login(`requestor`, `${ENV.RQPRO_BASE_URL}/reservation/${ENV.API_RESERVATION_UID}`, ENV.SUPPLIER_FOR_RQPRO_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);
         await reservation.closeExtensionSubmitted();
         await reservation.verifyNoticeToVacateSubmitted(`Guest requested an Extension / waiting for supplier approval`);
+        console.info(`Declining the NTE.`);
         await reservation.declineExtension();
         await reservation.verifyNoticeToVacateSubmitted(`Notice given / Extension declined (see activity log for any additional details)`);    
             //validate the activity log
     })
 
-    test('Validate nte decline by supplier', async ({webActions, reservation})=>{
-        console.info(`validate submission by requestor`);            
+    test('As requestor validate NTE declined by supplier', async ({webActions, reservation})=>{
+        console.info(`Validate nte declined by supplier`);            
         await webActions.login(`requestor`, `${ENV.RQPRO_BASE_URL}/reservation/${ENV.API_RESERVATION_UID}`, ENV.RQPRO_REQ_ADMIN, ENV.REQUESTOR_ADMIN_PASSWORD);
         await reservation.verifyRqProReservationAcknowledge(ENV.API_RESERVATION_UID);
         await reservation.verifyNoticeToVacateSubmitted(`Notice given / Extension declined (see activity log for any additional details)`);
