@@ -40,6 +40,7 @@ export default class Button{
     static modal_close           = `//button[contains(text(),'CLOSE')]`;
     static ntv_confirm           = `//app-ntv-reminder//button[contains(text(),'CONFIRM')]`;
     static ntv_submitted_ok      = `//app-ntv-submitted//button[contains(text(),'OK')]`;
+    static nte_request_extension = `//app-ntv-quest//button[contains(text(),'REQUEST EXTENSION')]`;
 
     static new_quest(request_id){
         return `a[request-id=${request_id}] button.quest-status.search-status`;

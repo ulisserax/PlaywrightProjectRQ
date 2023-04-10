@@ -59,6 +59,8 @@ export default class Element{
     static modal_availability_not_visible  = `//div[@id='confirm_modal' and @class='modal fade']`;
     static modal_option_verification       = `//div[@data-show='true' and @class='modal fade in']`;
     static modal_notice_to_vacate          = `//div[not(contains(@class,'modal fade ntv-modal in'))]`;
+    static modal_nte_extension             = `//div[@id='ntv-approve-deny-modal-supplier' and contains(@class, 'fade in')]`;
+    static modal_nte_extension_close       = `//div[@id='ntv-approve-deny-modal-supplier' and contains(@class, 'fade in')]//button[@class='close']`;
 
     static clickByClientName(client: string){
         return `div[role=option] span:text('${client}')`;
