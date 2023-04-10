@@ -22,6 +22,10 @@ export default class Element{
     static create_service_title       = `//div[contains(text(),'Create Service Issues')]`;
     static issue_submitted_modal      = `//app-modal //h5[contains(text(),'Issue Submitted!')]`;
     static issue_status               = `span.status`;
+    static email_activation_sent      = `//div[contains(text(),' activate your account.')]`;
+    static service_alert_icon         = `div .red-badge`;
+    static comment_modal              = `//h5[contains(text(),'Comments')]`;
+    static close_services_list        = `div .icon-B2E-icons_Close`;
     static ntv_submitted_box          = `//app-ntv-approval//div[@class='ntv-approval']//div`;
 
     static quests_card(request_id){

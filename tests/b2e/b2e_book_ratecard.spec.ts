@@ -82,7 +82,7 @@ import ENV  from '@utils/env';
       await b2eQuestDetailsPage.cancelPaymentModal();
       await b2eQuestDetailsPage.closeQuestDetails();
       await b2eQuestDetailsPage.requestServiceIssue();
-      await b2eServices.createNewServiceIssue();
+      await b2eServices.createNewServiceIssue(ENV.SERVICE_DESCRIPTION);
    })
 
    test("Resolve service issue for B2E", async ({webActions, homePage, dashboard, search, requestShow, serviceIssue}) => {
@@ -93,6 +93,6 @@ import ENV  from '@utils/env';
       await search.clickRequestIdLink();
       await requestShow.clickOnServiceIssueTab();
       await requestShow.viewServiceIssue();
-      await serviceIssue.resolveServiceIssue();
+      await serviceIssue.addCommentAndResolveServiceIssue();
   })
  })

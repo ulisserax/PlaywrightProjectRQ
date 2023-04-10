@@ -1,15 +1,20 @@
+import B2eHomePage from '@b2e_pages/B2eHomePage';
+import B2eServices from '@b2e_pages/B2eServices';
+import MailCatcher from '@enterprise_pages/MailCatcherPage';
+import ServiceIssuePage from '@enterprise_pages/ServiceIssuePage';
 import test from '@lib/BaseTest';
+import WebActions from '@lib/WebActions';
 import { expect } from '@playwright/test';
 import ENV from '@utils/env'
 const Chance = require("chance");
 const chance = new Chance();
 
-    test.describe (" EB2E - RQPro Service Issue created by Support and visible to Supplier", () => {
+test.describe (" EB2E - RQPro Service Issue created by Support and visible to Supplier", () => {
     test.slow();
-    const idServiceIssue1 = chance.string({length: 6, numeric: true});
-    const descriptionServiceIssue1 = `${idServiceIssue1} - Support=>Guest`;
-    const idServiceIssue2 = chance.string({length: 6, numeric: true}); 
-    const descriptionServiceIssue2 = `${idServiceIssue2} - Guest=>Service`;
+    const idServiceIssue = chance.string({length: 6, numeric: true});
+    const descriptionServiceIssue1 = `${idServiceIssue} - Support=>Guest`;
+    const descriptionServiceIssue2 = `${idServiceIssue} - Guest=>Service`;
+    ENV.GUEST_PHONE = `7869250000`;
 
     test("POST: Create an EB2E RQPRO Request", async ({requestEndpoints}) => {
         console.info(`Creating an EB2E - RQPro Request through the V1 API.`);
@@ -57,27 +62,57 @@ const chance = new Chance();
         await requestShow.addServiceIssueComment(descriptionServiceIssue1);
     })
 
-    test("Guest account creation, then review and create a new Service Issue, and also add a comment ", async () => {
-        
+    test("Guest account creation, then review and create a new Service Issue, and also add a comment ", async ({webActions, configurationInstance, mailCatcher, b2eLoginPage, b2eHomePage, b2eQuestsPage, b2eQuestDetailsPage, b2eServices}) => {
+        console.info(`Guest user creation to review and creates a Service Issue`);
+        await webActions.login(`superadmin`,`${ENV.SUPPLIER_DOMAIN}/configuration/instance`,ENV.SUPER_ADMIN, ENV.SUPER_ADMIN_PASSWORD);
+        await configurationInstance.mailPush();
+        await webActions.navigateTo(ENV.MAILCATCHER_URL);
+        await mailCatcher.searchEmail(ENV.GUEST_EMAIL, `ReloQuest - Success! - Reservation Confirmation`);
+        await mailCatcher.navigateToEb2eRegistration();
+        await b2eLoginPage.completeEb2eRegistration(ENV.GUEST_FIRSTNAME, ENV.GUEST_LASTNAME, ENV.B2E_USER_PASSWORD);
+        await configurationInstance.mailPush();
+        await webActions.navigateTo(ENV.MAILCATCHER_URL);
+        await mailCatcher.searchEmail(ENV.GUEST_EMAIL, `Thank you for registering at ReloQuest!`);
+        await mailCatcher.activateEb2eAccount();
+        await b2eHomePage.eb2eCompleteActivationAndLogin();
+        await b2eQuestsPage.viewFutureQuest(ENV.API_REQUEST_UID);
+        await b2eQuestDetailsPage.validateServiceRedBadge();
+        await b2eQuestDetailsPage.requestServiceIssue();
+        await b2eServices.verifyServiceDescriptionOnList(descriptionServiceIssue1);
+        await b2eServices.addServiceComment(descriptionServiceIssue1);
+        await b2eServices.createNewServiceIssue(descriptionServiceIssue2);
+        await b2eServices.verifyServiceDescriptionOnList(descriptionServiceIssue2);
+    })
+
+    test("Support adds a comment and resolves a Service Issue", async ({webActions,dashboard, requestShow, serviceIssue}) => {
+        console.info(`Support adds a comment and resolves a service issue.`);
+        await webActions.login(`superadmin`,`${ENV.SUPPLIER_DOMAIN}/request/show/${ENV.API_REQUEST_UID}`,ENV.SUPER_ADMIN, ENV.SUPER_ADMIN_PASSWORD);
+        await dashboard.impersonate(`relosupport`);
+        await requestShow.clickOnServiceIssueTab();
+        await requestShow.validateServiceIssueWasCreated(descriptionServiceIssue2);
+        await requestShow.editServiceIssue(descriptionServiceIssue1);
+        await serviceIssue.resolveService(descriptionServiceIssue1);
+
     })
     
-// SMS Testing is out of the scope for all the scenarios (at the moment)
+///////// SMS Testing is out of the scope for all the scenarios (at the moment)
 
 // REQUESTOR and SUPPLIER should NOT have VISIBILITY of ServiceIssue#1 
 //        [go to the service tab and verify that the ServiceIssue is NOT PRESENT]
-// GUEST should have VISIBILITY of ServiceIssue#1 
-//        [Register the eb2e user, activate the account, go to the Reservation Service view, verify that the ServiceIssue#1 IS PRESENT]                              
+// ** GUEST should have VISIBILITY of ServiceIssue#1 
+// **       [Register the eb2e user, activate the account, go to the Reservation Service view, verify that the ServiceIssue#1 IS PRESENT]                              
 // GUEST RECEIVES an EMAIL 
 //        [verify Guest received the email about ServiceIssue#1 created]
 // REQUESTOR and SUPPLIER should NOT receive EMAIL 
 //        [verify req and sup do not receives email about ServiceIssue created]]
-
-
-// GUEST add a comment to ServiceIssue#1
-// Guest Creates ServiceIssue #2
+// ** GUEST add a comment to ServiceIssue#1
+// ** Guest Creates ServiceIssue #2
 // Guest receives an EMAIl about ServiceIssue#1 UPDATED
-// Guest and Support should see the ServiceIssue#2 [REQUESTOR should NOT because the setting is OFF]
-// Guest and Support should get the EMAIL about ServiceIssue#2 created [REQUESTOR should NOT because the setting is OFF]
+// ** Guest should see the ServiceIssue#2 
+// ** Support should see the ServiceIssue#2 
+// REQUESTOR should NOT see ANY Service [because the setting is OFF]
+// Guest and Support should get the EMAIL about ServiceIssue#2 created 
+// REQUESTOR should NOT get ANY email [because the setting is OFF]
 
 // ** SUPPORT add the comment on ServiceIssue#1
 // GUEST receives an EMAIL about ServiceIssue#1 updated
@@ -85,7 +120,7 @@ const chance = new Chance();
 // GUEST resolves ServiceIssue#2 
 // GUEST see ServiceIssue#2 with Resolved status
 
-// SUPPORT resolves the ServiceIssue#1
+// ** SUPPORT resolves the ServiceIssue#1
 // GUEST receives 2 EMAILS [ServiceIssue#1 updated and How-was-your-service?] 
 
 // GUEST fill out the Survey with 2 stars rating

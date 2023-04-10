@@ -176,6 +176,7 @@ export default class RequestShowPage {
         await WebActions.delay(500);
         await this.page.waitForLoadState('networkidle');
         await this.page.waitForLoadState('domcontentloaded');
+        await WebActions.delay(500);
     }
     
     async clickOnCreateServiceIssue(): Promise<void>{
@@ -185,7 +186,7 @@ export default class RequestShowPage {
     }
 
     async viewServiceIssue(): Promise<void>{
-        console.info(`view service issue button`);
+        console.info(`Click on the service issue button`);
         await this.page.click(Link.view_service_issue);
         await WebActions.delay(300);
         await this.page.waitForLoadState('networkidle');
@@ -205,6 +206,14 @@ export default class RequestShowPage {
         await this.page.type(Textarea.new_comment, `Adding a Comment to the Service Issue - ${description}.`, {delay: 50});
         await this.page.click(Button.update_service_issue);
         await WebActions.delay(500);
+        await this.page.waitForLoadState('networkidle');
+        await this.page.waitForLoadState('domcontentloaded');
+    }
+
+    async editServiceIssue(description: string): Promise<void> {
+        console.info(`Clicking on view link to editing a especific Service Issue.`);
+        await this.page.click(Element.view_service_issue(description));
+        await WebActions.delay(300);
         await this.page.waitForLoadState('networkidle');
         await this.page.waitForLoadState('domcontentloaded');
     }

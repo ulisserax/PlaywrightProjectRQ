@@ -42,6 +42,26 @@ export default class MailCatcherPage{
         return await this.page.frameLocator(Iframe.email_body).locator(Link.activate_account).first().getAttribute('href');
     }
 
+    async activateEb2eAccount(): Promise<void> {
+        console.info(`Activating an EB2E account.`);
+        await this.page.goto(await this.activateAccount());
+    }
+
+    async navigateToEb2eRegistration():Promise<void> {
+        console.info(`Creating an EB2E account.`);
+        await this.page.goto(await this.getCreateEb2eAccountLink());
+        await WebActions.delay(300);
+        await this.page.waitForLoadState(`networkidle`);
+        await this.page.waitForLoadState('domcontentloaded');
+        await WebActions.delay(500);
+    }
+
+    async getCreateEb2eAccountLink():Promise<string>{
+        console.info(`Get EB2E account link.`);
+        await expect(await this.page.frameLocator(Iframe.email_body).locator(Link.create_an_account).first().getAttribute('href')).toContain(`register`);
+        return await this.page.frameLocator(Iframe.email_body).locator(Link.create_an_account).first().getAttribute('href');
+    }
+
     async getRegisterLink():Promise<string>{
         console.info(`Get the registration link from the email body`);
         await expect(await this.page.frameLocator(Iframe.email_body).locator(Link.register).first().getAttribute('href')).toContain(`reloquest.com/registration/register`);

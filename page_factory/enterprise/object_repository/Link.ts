@@ -20,6 +20,7 @@ export default class Link{
     static terms_of_use            = `//div[@class='login-container']//a[contains(text(),'Terms of Use')]`;
     static dpa                     = `//div[@class='login-container']//a[contains(text(),'Data Processing Addendum')]`;
     static activate_account        = `//a[contains(text(), 'Activate My Account')]`;
+    static create_an_account         = `//a[contains(text(), 'create an account')]`;
     static tab_settings            = `//a[text() = 'Settings']`;
     static passwordReset           = `//a[contains(@href,'reloquest.com/password_reset')]`;   
     static password_reset          = `//a[contains(@href,'reloquest.com/reset-password')]`; 

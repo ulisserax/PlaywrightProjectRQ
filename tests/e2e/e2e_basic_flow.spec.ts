@@ -101,7 +101,7 @@ test.describe.serial("Test Suite Basic Flow ", () => {
         await search.clickRequestIdLink();
         await requestShow.clickOnServiceIssueTab();
         await requestShow.viewServiceIssue();
-        await serviceIssue.resolveServiceIssue();
+        await serviceIssue.addCommentAndResolveServiceIssue();
     })
 
     test("Validate basic emails", async ({webActions, configurationInstance, mailCatcher}) => {
