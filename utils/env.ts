@@ -27,7 +27,7 @@ export default class ENV{
     static GUEST_LASTNAME            = chance.last()
     static PROPERTY                  = process.env.PROPERTY
     static CLIENT_EMAIL              = `client_${chance.first()}_${chance.integer({min:0,max:9999})}@reloquest.com`
-    static GUEST_EMAIL               = `${this.GUEST_FIRSTNAME}_${chance.integer({min:0,max:9999})}@reloquest.com`
+    static GUEST_EMAIL               = `${this.GUEST_FIRSTNAME}_${chance.integer({min:0,max:9999})}@${this.REQUESTOR_COMPANY}.com`
     static GUEST_PHONE               = chance.phone()
     static REQUEST_TYPE              = [`Corporate Housing Only`,`Hotels Only`,`Hotels and Corporate Housing`]
     static GUEST_TYPE                = [`Standard`,`VIP`,`High Visibility`, `Executive`, `Intern`, `Group Move`]
@@ -112,6 +112,7 @@ export default class ENV{
     static RQPRO_EB2E_CLIENT           = process.env.RQPRO_EB2E_CLIENT
     static SUPPLIER_FOR_RQPRO_ADMIN    = process.env.SUPPLIER_FOR_RQPRO_ADMIN
     static SUPPLIER_FOR_RQPRO_API_KEY  = process.env.SUPPLIER_FOR_RQPRO_API_KEY
+    static RQPRO_GUEST_EMAIL           = `${this.GUEST_FIRSTNAME}_${chance.integer({min:0,max:9999})}@${this.RQPRO_COMPANY}.com`;
 
     static DB_URL       = process.env.DB_URL
     static DB_NAME      = process.env.DB_NAME

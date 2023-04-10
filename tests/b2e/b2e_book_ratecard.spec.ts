@@ -4,7 +4,7 @@ import WebActions from '@lib/WebActions';
 import ENV  from '@utils/env';
 
 
- test.describe.serial.only("Test Suite Book a ratecard for B2E", () => {
+ test.describe.serial("Test Suite Book a ratecard for B2E", () => {
     test.slow();
 
     ENV.B2E_USER =`james_doe@nt1req.com`;
