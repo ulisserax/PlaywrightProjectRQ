@@ -1,4 +1,6 @@
 import B2eHomePage from '@b2e_pages/B2eHomePage';
+import B2eQuestDetailsPage from '@b2e_pages/B2eQuestDetailsPage';
+import B2eQuestsPage from '@b2e_pages/B2eQuestsPage';
 import B2eServices from '@b2e_pages/B2eServices';
 import MailCatcher from '@enterprise_pages/MailCatcherPage';
 import ServiceIssuePage from '@enterprise_pages/ServiceIssuePage';
@@ -9,18 +11,19 @@ import ENV from '@utils/env'
 const Chance = require("chance");
 const chance = new Chance();
 
-test.describe (" EB2E - RQPro Service Issue created by Support and visible to Supplier", () => {
+test.describe.serial.only(" EB2E - RQPro Service Issue created by Support and visible to Supplier", () => {
     test.slow();
     const idServiceIssue = chance.string({length: 6, numeric: true});
     const descriptionServiceIssue1 = `${idServiceIssue} - Support=>Guest`;
     const descriptionServiceIssue2 = `${idServiceIssue} - Guest=>Service`;
     ENV.GUEST_PHONE = `7869250000`;
 
+
     test("POST: Create an EB2E RQPRO Request", async ({requestEndpoints}) => {
         console.info(`Creating an EB2E - RQPro Request through the V1 API.`);
         const _response = await requestEndpoints.createRequest(ENV.RQPRO_BASE_URL, ENV.RQPRO_REQ_API_KEY, 
             Number(ENV.RQPRO_EB2E_CLIENT), 'Miami, FL, USA', ENV.START_DATE, ENV.END_DATE, ENV.GUEST_FIRSTNAME, 
-            ENV.GUEST_LASTNAME, ENV.GUEST_EMAIL, ENV.GUEST_PHONE);
+            ENV.GUEST_LASTNAME, ENV.RQPRO_GUEST_FOR_SERVICE, ENV.GUEST_PHONE);
         ENV.API_REQUEST_UID = `${JSON.parse(_response).request_id}`;
         console.info(`REQUEST_UID: ${ENV.API_REQUEST_UID}`);
     })
@@ -64,17 +67,7 @@ test.describe (" EB2E - RQPro Service Issue created by Support and visible to Su
 
     test("Guest account creation, then review and create a new Service Issue, and also add a comment ", async ({webActions, configurationInstance, mailCatcher, b2eLoginPage, b2eHomePage, b2eQuestsPage, b2eQuestDetailsPage, b2eServices}) => {
         console.info(`Guest user creation to review and creates a Service Issue`);
-        await webActions.login(`superadmin`,`${ENV.SUPPLIER_DOMAIN}/configuration/instance`,ENV.SUPER_ADMIN, ENV.SUPER_ADMIN_PASSWORD);
-        await configurationInstance.mailPush();
-        await webActions.navigateTo(ENV.MAILCATCHER_URL);
-        await mailCatcher.searchEmail(ENV.GUEST_EMAIL, `ReloQuest - Success! - Reservation Confirmation`);
-        await mailCatcher.navigateToEb2eRegistration();
-        await b2eLoginPage.completeEb2eRegistration(ENV.GUEST_FIRSTNAME, ENV.GUEST_LASTNAME, ENV.B2E_USER_PASSWORD);
-        await configurationInstance.mailPush();
-        await webActions.navigateTo(ENV.MAILCATCHER_URL);
-        await mailCatcher.searchEmail(ENV.GUEST_EMAIL, `Thank you for registering at ReloQuest!`);
-        await mailCatcher.activateEb2eAccount();
-        await b2eHomePage.eb2eCompleteActivationAndLogin();
+        await b2eHomePage.login(`eb2e-rqpro user`, `${ENV.RQPRO_B2E_URL}/b2e/quests`, ENV.RQPRO_GUEST_FOR_SERVICE, ENV.B2E_USER_PASSWORD);
         await b2eQuestsPage.viewFutureQuest(ENV.API_REQUEST_UID);
         await b2eQuestDetailsPage.validateServiceRedBadge();
         await b2eQuestDetailsPage.requestServiceIssue();
@@ -92,39 +85,41 @@ test.describe (" EB2E - RQPro Service Issue created by Support and visible to Su
         await requestShow.validateServiceIssueWasCreated(descriptionServiceIssue2);
         await requestShow.editServiceIssue(descriptionServiceIssue1);
         await serviceIssue.resolveService(descriptionServiceIssue1);
+    })
+
+    test("Guest resolves a Service Issue and validates the -resolved- status", async ({b2eHomePage, b2eQuestsPage, b2eQuestDetailsPage, b2eServices}) =>{
+        console.info(`Resolving a Service Isuse and validating it has the correct status.`);
+        await b2eHomePage.login(`eb2e user`, ENV.RQPRO_B2E_URL, ENV.RQPRO_GUEST_FOR_SERVICE, ENV.B2E_USER_PASSWORD);
+        await b2eQuestsPage.viewFutureQuest(ENV.API_REQUEST_UID);
+        await b2eQuestDetailsPage.requestServiceIssue();
+        await b2eServices.openServiceItem(descriptionServiceIssue2);
+        await b2eServices.markAsResolved();
+        await b2eServices.verifyServiceResolved(descriptionServiceIssue2);
+    })
+
+    test("Verifying that Suppier and Requestor can't see RQPro Service Issues.", async ({webActions, requestShow, dashboard}) => {
+        console.info(`Verifying that Supplier and Requestor can't see the RQPro Services.`);
+        await webActions.login(`superadmin`, `${ENV.SUPPLIER_DOMAIN}/request/show/${ENV.API_REQUEST_UID}`, ENV.SUPER_ADMIN, ENV.SUPER_ADMIN_PASSWORD);
+        await dashboard.impersonate(ENV.SUPPLIER_FOR_RQPRO_ADMIN);
+        await requestShow.clickOnServiceIssueTab();
+        await requestShow.validateServiceIssueIsNotVisible(descriptionServiceIssue1);
+        await requestShow.validateServiceIssueIsNotVisible(descriptionServiceIssue2);
+        await dashboard.exit_impersonation();
+        await dashboard.impersonate(ENV.RQPRO_REQ_ADMIN);
+        await webActions.navigateTo(`${ENV.RQPRO_BASE_URL}/request/show/${ENV.API_REQUEST_UID}`);
+        await requestShow.validateServiceIssueIsNotVisible(descriptionServiceIssue1);
+        await requestShow.validateServiceIssueIsNotVisible(descriptionServiceIssue2);
+    })
+
+    test.skip("Guest complete the - How was your Servicve? - Survey ", async ({}) => {
+        console.info(`Guest fills out the Service Survey.`);
+        console.info(`THIS TEST SHOULD BE IMPLEMENTED AFTER SOLVING THE ISSUE WITH THE MS-NOTIFICATION EMAILS NOT AVAILABLE ON THE MAILCATCHER!`);
 
     })
-    
-///////// SMS Testing is out of the scope for all the scenarios (at the moment)
 
-// REQUESTOR and SUPPLIER should NOT have VISIBILITY of ServiceIssue#1 
-//        [go to the service tab and verify that the ServiceIssue is NOT PRESENT]
-// ** GUEST should have VISIBILITY of ServiceIssue#1 
-// **       [Register the eb2e user, activate the account, go to the Reservation Service view, verify that the ServiceIssue#1 IS PRESENT]                              
-// GUEST RECEIVES an EMAIL 
-//        [verify Guest received the email about ServiceIssue#1 created]
-// REQUESTOR and SUPPLIER should NOT receive EMAIL 
-//        [verify req and sup do not receives email about ServiceIssue created]]
-// ** GUEST add a comment to ServiceIssue#1
-// ** Guest Creates ServiceIssue #2
-// Guest receives an EMAIl about ServiceIssue#1 UPDATED
-// ** Guest should see the ServiceIssue#2 
-// ** Support should see the ServiceIssue#2 
-// REQUESTOR should NOT see ANY Service [because the setting is OFF]
-// Guest and Support should get the EMAIL about ServiceIssue#2 created 
-// REQUESTOR should NOT get ANY email [because the setting is OFF]
-
-// ** SUPPORT add the comment on ServiceIssue#1
-// GUEST receives an EMAIL about ServiceIssue#1 updated
-// GUEST should see the alert icon on the Service Icon on the Quest detail view
-// GUEST resolves ServiceIssue#2 
-// GUEST see ServiceIssue#2 with Resolved status
-
-// ** SUPPORT resolves the ServiceIssue#1
-// GUEST receives 2 EMAILS [ServiceIssue#1 updated and How-was-your-service?] 
-
-// GUEST fill out the Survey with 2 stars rating
-// SUPPORT receives a survey result email [REQUESTOR should NOT because the setting is OFF]
-
+    test.skip("Validating Service Issue emails", async ({}) => {
+        console.info(`Validating al the emails related to the Support-Guest RQPRO Service Issue flow`);
+        console.info(`THIS TEST SHOULD BE IMPLEMENTED AFTER SOLVING THE ISSUE WITH THE MS-NOTIFICATION EMAILS NOT AVAILABLE ON THE MAILCATCHER!`);
+    })
 
 })

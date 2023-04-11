@@ -8,9 +8,11 @@ import WebActions from "@lib/WebActions";
 export default class B2eHomePage {
 
     readonly page: Page;
+    readonly webActions: WebActions;
 
     constructor(page:Page){
         this.page = page;
+        this.webActions = new WebActions(page);
     }
 
     async acceptCookies(): Promise<void>{
@@ -50,13 +52,20 @@ export default class B2eHomePage {
         await expect(await this.page).toHaveURL(/activated=1/);
     }
 
+    async login(usertype: string, url: string, email: string, password: string): Promise<void> {
+        console.info(`Loggin in as a ${usertype}`);
+        await this.webActions.navigateTo(ENV.RQPRO_B2E_URL);
+        await this.acceptCookies();
+        await this.enterCredentials(email, password);
+        await this.signIn();
+    }
+
     async eb2eCompleteActivationAndLogin():Promise<void> {
         console.info(`Complete the login process coming from an EB2E account activation.`);
         await this.validateAccountActivatedURL();
         await this.enterPassword(ENV.B2E_USER_PASSWORD);
         await this.signIn();
-        await WebActions.delay(300);
-        await this.page.waitForLoadState(`networkidle`);
+        await WebActions.delay(3000);
     }
 
 }
