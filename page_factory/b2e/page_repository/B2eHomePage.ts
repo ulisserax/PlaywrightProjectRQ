@@ -1,5 +1,6 @@
 import Input from "@b2e_objects/Input";
 import Link from "@b2e_objects/Link";
+import WebActions from "@lib/WebActions";
 import { Page } from "@playwright/test";
 import Button from "../object_repository/Button";
 
@@ -13,6 +14,7 @@ export default class B2eHomePage {
 
     async acceptCookies(): Promise<void>{
         console.info(`Accepting cookies`);
+        await WebActions.delay(2000);
         if(await this.page.locator(Button.accept_cookies).count()>0){
             await this.page.click(Button.accept_cookies);
         }

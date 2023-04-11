@@ -3,12 +3,13 @@ import test from '@lib/BaseTest';
 import ENV from "@utils/env";
 
 
-test.describe.serial('ntv submission',()=>{
+test.describe.serial.only('nte by requestor, approved by supplier and declined by requestor',()=>{
 
+    let rqpro_guest_email = `juan_1314@nt3reqrqpro.com`;
 
     test("POST: Create an EB2E RQPRO Request", async ({requestEndpoints}) => {
         console.info(`Creating an EB2E Request through the V1 API.`);
-        const _response = await requestEndpoints.createRequest(ENV.RQPRO_BASE_URL, ENV.RQPRO_REQ_API_KEY, Number(ENV.RQPRO_EB2E_CLIENT), 'Miami, FL, USA', ENV.START_DATE, ENV.END_DATE, ENV.GUEST_FIRSTNAME, ENV.GUEST_LASTNAME, ENV.RQPRO_GUEST_EMAIL, `7863256523`);
+        const _response = await requestEndpoints.createRequest(ENV.RQPRO_BASE_URL, ENV.RQPRO_REQ_API_KEY, Number(ENV.RQPRO_EB2E_CLIENT), 'Miami, FL, USA', ENV.START_DATE, ENV.END_DATE, ENV.GUEST_FIRSTNAME, ENV.GUEST_LASTNAME, rqpro_guest_email, `7863256523`);
         ENV.API_REQUEST_UID = `${JSON.parse(_response).request_id}`;
         console.info(`REQUEST_UID: ${ENV.API_REQUEST_UID}`);
         // I need to update the requestEndpoints() to accept the daily_rate as a parameter
@@ -40,62 +41,51 @@ test.describe.serial('ntv submission',()=>{
         await requestShow.acknowledgeAward(ENV.ACKNOWLEDGE_AWARD[0]);
     })
 
-    test("Guest Registration", async ({webActions, configurationInstance,  mailCatcher, b2eHomePage, b2eLoginPage}) =>{
-        await webActions.login(`superadmin`, `${ENV.RQPRO_BASE_URL}/configuration/instance`, ENV.SUPER_ADMIN, ENV.SUPER_ADMIN_PASSWORD);
-        await configurationInstance.mailPush();
-        let subject = "ReloQuest - Success! - Reservation Confirmation";
-        await mailCatcher.openMailCatcher(ENV.MAILCATCHER_URL);
-        await mailCatcher.searchEmail(ENV.RQPRO_GUEST_EMAIL.toLocaleLowerCase(), subject);
-        let register_link = await mailCatcher.getCreateAccountLink(ENV.RQPRO_GUEST_EMAIL.toLocaleLowerCase());
-        await webActions.navigateTo(register_link);
-        await b2eHomePage.acceptCookies(); 
-        await b2eLoginPage.registerNewGuest(ENV.GUEST_FIRSTNAME, ENV.GUEST_LASTNAME, 'Test123!');
-        await b2eLoginPage.verifyRegisterSuccess();
-    })
-
-    test("Active the Guest account and submit the NTE", async ({webActions, configurationInstance,  mailCatcher, b2eHomePage, b2eQuestDetailsPage, b2eQuestsPage}) =>{
-        await webActions.login(`superadmin`, `${ENV.RQPRO_BASE_URL}/configuration/instance`, ENV.SUPER_ADMIN, ENV.SUPER_ADMIN_PASSWORD);
-        await configurationInstance.mailPush();
-        await webActions.navigateTo(ENV.MAILCATCHER_URL);
-        await mailCatcher.searchEmail(ENV.RQPRO_GUEST_EMAIL.toLocaleLowerCase(), `Thank you for registering at ReloQuest!`);
-        let activate_account_link= await mailCatcher.activateAccount();
-        await webActions.navigateTo(activate_account_link);
-        await b2eHomePage.acceptCookies(); 
-        await b2eHomePage.enterPassword('Test123!');
-        await b2eHomePage.signIn();
-        await b2eQuestsPage.viewFutureQuest(ENV.API_REQUEST_UID);
-        await b2eQuestDetailsPage.verifyFutureQuest();
-        await b2eQuestDetailsPage.requestNTE();
-    })
-
-    test('As requestor verify the submitted NTE by guest', async ({webActions, reservation})=>{
-        console.info(`Verifying the submitted NTE by the guest.`);            
+    test('As requestor submit the NTE', async ({webActions, reservation})=>{
+        console.info(`Submit NTE by the requestor.`);            
         await webActions.login(`requestor`, `${ENV.RQPRO_BASE_URL}/reservation/${ENV.API_RESERVATION_UID}`, ENV.RQPRO_REQ_ADMIN, ENV.REQUESTOR_ADMIN_PASSWORD);
         await reservation.verifyRqProReservationAcknowledge(ENV.API_RESERVATION_UID);
+        await reservation.submitExtension();
         await reservation.verifyNoticeToVacateSubmitted(`Guest requested an Extension / checking availability with Supplier`);
             
             //validate the activity log
     })
 
-    test('As supplier verify the submitted NTE by guest and decline the NTE', async ({webActions, reservation})=>{
-        console.info(`Verifying the submitted NTE by the guest. ${ENV.API_RESERVATION_UID}`);
+    test('As supplier verify the submitted NTE by requestor and approve the NTE', async ({webActions, reservation})=>{
+        console.info(`Verifying the submitted NTE by the requestor. ${ENV.API_RESERVATION_UID}`);
         await webActions.login(`requestor`, `${ENV.RQPRO_BASE_URL}/reservation/${ENV.API_RESERVATION_UID}`, ENV.SUPPLIER_FOR_RQPRO_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);
         await reservation.closeExtensionSubmitted();
         await reservation.verifyNoticeToVacateSubmitted(`Guest requested an Extension / waiting for supplier approval`);
-        console.info(`Declining the NTE.`);
-        await reservation.declineExtension();
-        await reservation.verifyNoticeToVacateSubmitted(`Notice given / Extension declined (see activity log for any additional details)`);    
+        console.info(`Approving the NTE.`);
+        await reservation.approveExtension();
+        await reservation.acceptExtensionRateSegmentsTerms();
+        await reservation.verifyNoticeToVacateSubmitted(`Waiting for Requestor Approval / Supplier approved guest extension`);    
             //validate the activity log
     })
 
-    test('As requestor validate NTE declined by supplier', async ({webActions, reservation})=>{
-        console.info(`Validate nte declined by supplier`);            
+   
+    test('As requestor decline the NTE', async ({webActions, reservation})=>{
+        console.info(`Declining NTE by the requestor.`);            
         await webActions.login(`requestor`, `${ENV.RQPRO_BASE_URL}/reservation/${ENV.API_RESERVATION_UID}`, ENV.RQPRO_REQ_ADMIN, ENV.REQUESTOR_ADMIN_PASSWORD);
         await reservation.verifyRqProReservationAcknowledge(ENV.API_RESERVATION_UID);
-        await reservation.verifyNoticeToVacateSubmitted(`Notice given / Extension declined (see activity log for any additional details)`);
+        //await reservation.submitExtension();
+        await reservation.verifyNoticeToVacateSubmitted(`Guest requested an Extension / checking availability with Supplier`);
             
             //validate the activity log
     })
+
+    
+
+    
+
+    // test('As requestor validate NTE declined by supplier', async ({webActions, reservation})=>{
+    //     console.info(`Validate nte declined by supplier`);            
+    //     await webActions.login(`requestor`, `${ENV.RQPRO_BASE_URL}/reservation/${ENV.API_RESERVATION_UID}`, ENV.RQPRO_REQ_ADMIN, ENV.REQUESTOR_ADMIN_PASSWORD);
+    //     await reservation.verifyRqProReservationAcknowledge(ENV.API_RESERVATION_UID);
+    //     await reservation.verifyNoticeToVacateSubmitted(`Notice given / Extension declined (see activity log for any additional details)`);
+            
+    //         //validate the activity log
+    // })
 
 
 })

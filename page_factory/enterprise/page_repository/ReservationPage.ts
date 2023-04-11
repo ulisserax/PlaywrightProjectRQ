@@ -302,7 +302,7 @@ export default class ReservationPage {
         await this.page.click(Button.keep_this_date);
         await this.page.waitForSelector(Button.request_date);
         await this.page.click(Button.request_date);
-        await WebActions.delay(3000);
+        await WebActions.delay(4000);
     }
 
     async verifyRqProReservationAcknowledge(reservation_id){
@@ -315,8 +315,10 @@ export default class ReservationPage {
     }
 
     async verifyNoticeToVacateSubmitted(message:string){
-        await WebActions.delay(7000);
+        await WebActions.delay(5000);
         await this.page.waitForLoadState(`domcontentloaded`);
+        await this.page.waitForLoadState(`networkidle`);
+        await WebActions.delay(4000);
         await expect(await this.page.locator(Text.ntv_status).textContent()).toContain(message);
     }
 
@@ -326,6 +328,7 @@ export default class ReservationPage {
         await this.page.waitForLoadState(`domcontentloaded`);
         await expect(await this.page.locator(Element.modal_nte_extension).count()).toEqual(1);
         await this.page.click(Element.modal_nte_extension_close);
+        
     }
     
     async declineExtension(){
@@ -335,5 +338,33 @@ export default class ReservationPage {
         await this.page.type(Textarea.reason_for_decline, `testing purpose`,{delay:50});
         await this.page.click(Checkbox.acknowledge_notice_given);
         await this.page.click(Button.notify_guest);
+    }
+
+    async submitExtension(){
+        await this.page.click(Button.submit_notice);
+        await this.page.waitForSelector(Button.choose_a_date);
+        await this.page.click(Button.choose_a_date);
+        await this.page.waitForSelector(Calendar.ntv_next_month);
+        await this.page.click(Calendar.ntv_next_month);
+        await this.page.locator(Calendar.nte_new_end_date).nth(25).click();
+        await this.page.click(Checkbox.acknowledge_date_changes);
+        await this.page.click(Button.request_date);
+        await WebActions.delay(4000);
+    }
+
+    async approveExtension(){
+        console.info('Acepting extension');
+        await this.page.click(Button.approve_deny);
+        await this.page.click(Button.create_new_reservation_segment);
+        
+    }
+
+    async acceptExtensionRateSegmentsTerms(){
+        console.info(`Accepting the extension rate segments terms.`);
+        await this.page.click(Checkbox.edit_segment_understand);
+        await this.page.click(Checkbox.ntv_confirmation);
+        await this.page.click(Checkbox.ntv_taxes_and_fees_acknowledge);
+        // await this.page.pause()
+        await this.page.click(Button.submit_changes);
     }
 }

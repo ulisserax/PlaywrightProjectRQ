@@ -42,7 +42,7 @@ export default class B2eQuestDetailsPage {
         await WebActions.delay(1000);
         await this.page.waitForSelector(Text.future_quest);
         await expect(await this.page.locator(Text.future_quest).count()).toEqual(1);
-        //await this.page.pause();
+        await this.page.pause();
     }
 
     async viewQuestDetails(){

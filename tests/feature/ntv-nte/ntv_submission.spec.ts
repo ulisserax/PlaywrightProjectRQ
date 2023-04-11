@@ -1,7 +1,6 @@
 import { expect} from "@playwright/test";
 import test from '@lib/BaseTest';
 import ENV from "@utils/env";
-import B2eHomePage from "@b2e_pages/B2eHomePage";
 
 
 test.describe.parallel('ntv submission',()=>{
