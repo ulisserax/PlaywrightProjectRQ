@@ -11,7 +11,7 @@ import ENV from '@utils/env'
 const Chance = require("chance");
 const chance = new Chance();
 
-test.describe.serial.only(" EB2E - RQPro Service Issue created by Support and visible to Supplier", () => {
+test.describe.serial(" EB2E - RQPro Service Issue created by Support and visible to Supplier", () => {
     test.slow();
     const idServiceIssue = chance.string({length: 6, numeric: true});
     const descriptionServiceIssue1 = `${idServiceIssue} - Support=>Guest`;
