@@ -33,6 +33,7 @@ import ENV  from '@utils/env';
       await requestShow.bidPropertiesRequestedForB2E();
       await requestShow.b2eNotificationModal();
       await option.fillUnitDetails(ENV.UNIT_TYPE[1], ENV.KITCHEN_TYPE[2],ENV.STYLE[0],ENV.BEDROOMS[1],ENV.BATHROOMS[1]);
+      await option.addPropertyImages(ENV.IMAGE_PATH);
       await option.fillRateDetails();
       await option.fillFees(ENV.FEES_TYPE[1]);
       await option.submitOption();
