@@ -42,6 +42,7 @@ export default class B2eQuestDetailsPage {
         await WebActions.delay(1000);
         await this.page.waitForSelector(Text.future_quest);
         await expect(await this.page.locator(Text.future_quest).count()).toEqual(1);
+        //await this.page.pause();
     }
 
     async viewQuestDetails(){
@@ -132,7 +133,7 @@ export default class B2eQuestDetailsPage {
         await expect (await this.page.locator(Element.service_alert_icon).count()).toBeGreaterThan(0);
     }
 
-    async requestNtv(){
+    async requestNTV(){
         console.info(`Clicking on Notice to Vacate`);
         await this.page.click(Link.notice_to_vacate);
         await this.page.waitForSelector(Button.ntv_confirm);
@@ -142,6 +143,20 @@ export default class B2eQuestDetailsPage {
         await WebActions.delay(3000);
         await this.page.waitForSelector(Element.ntv_submitted_box);
         await expect(await this.page.locator(Element.ntv_submitted_box).first().textContent()).toContain('Notice to Vacate Submitted');
+    }
+
+    async requestNTE(){
+        console.info(`Clicking on Notice to Vacate`);
+        await this.page.click(Link.notice_to_vacate);
+        await this.page.waitForSelector(Link.ntv_change_date);
+        await this.page.click(Link.ntv_change_date);
+        await this.page.waitForSelector(Element.nte_next_month);
+        await this.page.click(Element.nte_next_month);
+        await this.page.locator(Element.nte_end_date).nth(29).click();
+        await this.page.click(Button.nte_request_extension);
+        await this.page.waitForSelector(Element.ntv_submitted_box);
+        await expect(await this.page.locator(Element.ntv_submitted_box).first().textContent()).toContain('Extension Requested');
+        
     }
     
 }

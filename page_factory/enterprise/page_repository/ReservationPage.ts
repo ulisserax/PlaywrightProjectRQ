@@ -9,6 +9,7 @@ import Calendar from "@enterprise_objects/Calendar";
 import Element from "@enterprise_objects/Element";
 import ENV from "@utils/env";
 import Dropdown from "@enterprise_objects/Dropdown";
+import Textarea from "@enterprise_objects/Textarea";
 const Chance = require ('chance');
 const chance = new Chance();
 
@@ -313,10 +314,26 @@ export default class ReservationPage {
 
     }
 
-    async verifyNoticeToVacateSubmitted(){
+    async verifyNoticeToVacateSubmitted(message:string){
         await WebActions.delay(7000);
         await this.page.waitForLoadState(`domcontentloaded`);
-        await expect(await this.page.locator(Text.ntv_status).textContent()).toContain(`Notice given / Accepted`);
+        await expect(await this.page.locator(Text.ntv_status).textContent()).toContain(message);
+    }
+
+    async closeExtensionSubmitted(){
+        await WebActions.delay(1000);
+        console.info('Closing extension modal');
+        await this.page.waitForLoadState(`domcontentloaded`);
+        await expect(await this.page.locator(Element.modal_nte_extension).count()).toEqual(1);
+        await this.page.click(Element.modal_nte_extension_close);
     }
     
+    async declineExtension(){
+        console.info('Declining extension and notify guest');
+        await this.page.click(Button.approve_deny);
+        await this.page.click(Button.decline_extension);
+        await this.page.type(Textarea.reason_for_decline, `testing purpose`,{delay:50});
+        await this.page.click(Checkbox.acknowledge_notice_given);
+        await this.page.click(Button.notify_guest);
+    }
 }
