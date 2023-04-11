@@ -199,6 +199,12 @@ export default class RequestShowPage {
         await expect(await this.page.locator(Element.service_issue_created(description)).count()).toBeGreaterThanOrEqual(1);
     }
 
+    async validateServiceIssueIsNotVisible(description: string): Promise<void> {
+        console.info(`Validating if a Service Issue is not visible.`);
+        await this.page.waitForLoadState('domcontentloaded');
+        await expect(await this.page.locator(Element.service_issue_created(description)).count()).toBeGreaterThanOrEqual(0);
+    }
+
     async addServiceIssueComment(description: string):Promise<void> {
         console.info(`Adding a Comment to a service Issue`);
         await this.viewServiceIssue();

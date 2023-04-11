@@ -3,7 +3,7 @@ import test from '@lib/BaseTest';
 import ENV from "@utils/env";
 
 
-test.describe.parallel.only('ntv submission',()=>{
+test.describe.parallel('ntv submission',()=>{
 
 
     test.beforeAll(async ({requestEndpoints, optionEndpoints})=>{

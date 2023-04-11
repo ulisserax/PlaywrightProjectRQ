@@ -35,5 +35,9 @@ export default class Element{
     static service_issue_item(description){
         return `//div[@class='issue-description'] //span[contains(text(),'${description}')]`;
     };
+
+    static service_issue_resolved(description){
+        return `//div[@class='issue-description'] //span[contains(text(),'${description}')]/..//following-sibling::div[@class='issue-status is-resolved']`;
+    }
     
 }

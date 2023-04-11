@@ -128,7 +128,7 @@ export default class B2eQuestDetailsPage {
     async validateServiceRedBadge(): Promise<void> {
         console.info(`Validate if the red-badge alert is present on the Request Service icon.`);
         await this.page.waitForSelector(Element.request_service);
-        await WebActions.delay(300);
+        await WebActions.delay(1000);
         await expect (await this.page.locator(Element.service_alert_icon).count()).toBeGreaterThan(0);
     }
 

@@ -52,8 +52,9 @@ export default class B2eLoginPage {
         await this.page.type(Input.email, email, {delay:30});
         await expect (await this.page.locator(Element.check_your_email_icon).count()).toBeGreaterThan(0);
     }
+
     async completeEb2eRegistration(firstName: string, lastName: string, password: string) {
-        console.info (`Completing the EB2E Registration on the -Reservation Confirmation - email.`);
+        console.info (`Completing the EB2E Registration on the - Reservation Confirmation - email.`);
         await this.b2eHome.acceptCookies();
         console.info(ENV.GUEST_PHONE);
         await this.page.type(Input.firstname,`${firstName}`, {delay:30});

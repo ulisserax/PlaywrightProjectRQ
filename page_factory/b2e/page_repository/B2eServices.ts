@@ -61,8 +61,8 @@ export default class B2eServices {
     async verifyServiceDescriptionOnList(description: string): Promise<void> {
         console.info(`Verifying that the service Issue description is present.`);
         await WebActions.delay(300);
-        await this.page.waitForLoadState(`domcontentloaded`);
         await this.page.waitForLoadState(`networkidle`);
+        await this.page.waitForLoadState(`domcontentloaded`);
         await WebActions.delay(3000);
         await expect(await this.page.locator(Element.service_issue_item(description)).count()).toEqual(1);
         await WebActions.delay(2000);
@@ -106,6 +106,27 @@ export default class B2eServices {
         await WebActions.delay(500);
         await this.validateCommentsubmitted();
         await this.closeServiceItem();
+    }
+
+    async markAsResolved(): Promise<void> {
+        console.info(`Clicking on the - Mark as Resolved - button.`);
+        await this.page.click(Button.mark_as_resolved);
+        await WebActions.delay(500);
+        await this.page.waitForSelector(Element.are_you_sure_modal);
+        await this.page.click(Button.resolved_confirmation);
+        await WebActions.delay(1000);
+        await this.page.waitForLoadState(`domcontentloaded`);
+        await this.page.waitForLoadState(`networkidle`);
+        await WebActions.delay(2000);
+    }
+
+    async verifyServiceResolved(description: String): Promise<void> {
+        console.info(`Verifying if the Servie Issue status is Resolved.`);
+        await WebActions.delay(1000);
+        await this.page.waitForLoadState(`domcontentloaded`);
+        await this.page.waitForLoadState(`networkidle`);
+        await this.page.waitForSelector(Element.service_issue_item(description));
+        await expect(await this.page.locator(Element.service_issue_resolved(description)).count()).toEqual(1);
     }
 
 }
