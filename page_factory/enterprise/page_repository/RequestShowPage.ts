@@ -161,6 +161,7 @@ export default class RequestShowPage {
         await this.clickOnCreateServiceIssue();
         await this.serviceIssue.fillServiceIssueInformation(description);
         await this.serviceIssue.setVisibility(role_visibility);
+        await this.serviceIssue.validateCheckboxes(role_visibility);
         await this.serviceIssue.submitServiceIssue();
         await WebActions.delay(300);
         await this.page.waitForLoadState('networkidle');
@@ -168,12 +169,12 @@ export default class RequestShowPage {
     }
 
     async clickOnServiceIssueTab(): Promise<void>{
-        await WebActions.delay(500);
+        await WebActions.delay(1000);
         await this.page.waitForLoadState('networkidle');
         await this.page.waitForLoadState('domcontentloaded');
         console.info(`Clicking service issue button`);
         await this.page.click(Button.service_issues);
-        await WebActions.delay(500);
+        await WebActions.delay(1000);
         await this.page.waitForLoadState('networkidle');
         await this.page.waitForLoadState('domcontentloaded');
         await WebActions.delay(500);
@@ -203,23 +204,13 @@ export default class RequestShowPage {
         console.info(`Validating if a Service Issue is not visible.`);
         await this.page.waitForLoadState('domcontentloaded');
         await expect(await this.page.locator(Element.service_issue_created(description)).count()).toBeGreaterThanOrEqual(0);
-    }
-
-    async addServiceIssueComment(description: string):Promise<void> {
-        console.info(`Adding a Comment to a service Issue`);
-        await this.viewServiceIssue();
-        await this.page.click(Link.add_a_comment);
-        await this.page.type(Textarea.new_comment, `Adding a Comment to the Service Issue - ${description}.`, {delay: 50});
-        await this.page.click(Button.update_service_issue);
         await WebActions.delay(500);
-        await this.page.waitForLoadState('networkidle');
-        await this.page.waitForLoadState('domcontentloaded');
     }
 
     async editServiceIssue(description: string): Promise<void> {
         console.info(`Clicking on view link to editing a especific Service Issue.`);
         await this.page.click(Element.view_service_issue(description));
-        await WebActions.delay(300);
+        await WebActions.delay(500);
         await this.page.waitForLoadState('networkidle');
         await this.page.waitForLoadState('domcontentloaded');
     }

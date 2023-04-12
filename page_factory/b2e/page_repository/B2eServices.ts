@@ -20,7 +20,7 @@ export default class B2eServices {
     async createNewServiceIssue(description: string): Promise<void> {
         console.info(`Creating a new Service Issue.`);
         await this.click_new_issue();
-        await this.fillServiceIssue(`${description}`);
+        await this.fillServiceIssue(description);
         await this.click_submit_service_issue();
         await this.verifyIssueSubmitted(description);
     }
@@ -34,7 +34,7 @@ export default class B2eServices {
     async fillServiceIssue(issue_description: string): Promise<void> {
         console.info(`filling the Service Issue form.`);
         await this.page.waitForSelector(Element.create_service_title);
-        await this.page.type(Text.issue_description, issue_description, {delay:30});
+        await this.page.type(Text.issue_description, `Service Issue for testing purpose - ${issue_description}`, {delay:20});
     }
 
     async click_submit_service_issue(): Promise<void> {
@@ -95,10 +95,10 @@ export default class B2eServices {
         await this.page.click(Element.close_services_list);
     }
 
-    async addServiceComment(description: string): Promise<void> {
+    async addServiceComment(user: string, description: string): Promise<void> {
         console.info(`Adding a Service Issue comment.`);
         await this.openServiceItem(description);
-        await this.page.type(Textarea.service_issue_comment, 'Comment added by GUEST', {delay:30});
+        await this.page.type(Textarea.service_issue_comment, `Comment added by ${user} for the ${description}`, {delay:30});
         await this.submitService();
         await WebActions.delay(300);
         await this.page.waitForLoadState(`domcontentloaded`);
@@ -127,6 +127,15 @@ export default class B2eServices {
         await this.page.waitForLoadState(`networkidle`);
         await this.page.waitForSelector(Element.service_issue_item(description));
         await expect(await this.page.locator(Element.service_issue_resolved(description)).count()).toEqual(1);
+    }
+
+    async verifyServiceIssueIsNotVisible(description: string): Promise<void> {
+        console.info(`Verifying that the Service issue is not visible for the Guest.`);
+        await WebActions.delay(1000);
+        await this.page.waitForLoadState(`domcontentloaded`);
+        await this.page.waitForLoadState(`networkidle`);
+        await expect(await this.page.locator(Element.service_issue_item(description)).count()).toEqual(0);
+        await WebActions.delay(500);
     }
 
 }

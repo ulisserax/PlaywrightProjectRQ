@@ -3,7 +3,7 @@ import test from '@lib/BaseTest';
 import ENV from "@utils/env";
 
 
-test.describe.serial.only('ntv submission',()=>{
+test.describe.serial('ntv submission',()=>{
 
 
     test("POST: Create an EB2E RQPRO Request", async ({requestEndpoints}) => {
