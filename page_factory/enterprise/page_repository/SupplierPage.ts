@@ -2,7 +2,6 @@ import {Page, expect} from '@playwright/test';
 import Input from '@enterprise_objects/Input';
 import Button from '@enterprise_objects/Button';
 import Link from '@enterprise_objects/Link';
-import Checkbox from '@enterprise_objects/Checkbox';
 import Element from '@enterprise_objects/Element';
 import Switch from '@enterprise_objects/Switch';
 import WebActions from '@lib/WebActions';

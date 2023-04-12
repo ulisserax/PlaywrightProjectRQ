@@ -1,11 +1,6 @@
 import Input from "@b2e_objects/Input";
 import Link from "@b2e_objects/Link";
-<<<<<<< HEAD
-import WebActions from "@lib/WebActions";
-import { Page } from "@playwright/test";
-=======
 import { Page, expect } from "@playwright/test";
->>>>>>> develop
 import Button from "../object_repository/Button";
 import ENV from "@utils/env";
 import WebActions from "@lib/WebActions";

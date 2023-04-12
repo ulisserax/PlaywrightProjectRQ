@@ -1,4 +1,3 @@
-import Input from "@b2e_objects/Input";
 import Text from "@b2e_objects/Text";
 import Checkbox from "@b2e_objects/Checkbox";
 import WebActions from "@lib/WebActions";

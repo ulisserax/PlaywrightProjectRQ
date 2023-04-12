@@ -1,7 +1,6 @@
 import Checkkox from "@b2e_objects/Checkbox";
 import Element from "@b2e_objects/Element";
 import Input from "@b2e_objects/Input";
-import HomePage from "@enterprise_pages/HomePage";
 import WebActions from "@lib/WebActions";
 import { expect, Page } from "@playwright/test";
 import Button from "../object_repository/Button";

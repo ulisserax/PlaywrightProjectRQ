@@ -186,7 +186,7 @@ test.describe.parallel.only('nte flow',()=>{
             console.info(`Verifying extension was declined byt requestor. ${ENV.API_RESERVATION_UID}`);
             await webActions.login(`requestor`, `${ENV.RQPRO_BASE_URL}/reservation/${ENV.API_RESERVATION_UID}`, ENV.SUPPLIER_FOR_RQPRO_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);
             await reservation.verifyNoticeToVacateSubmitted(`Notice given / Extension declined (see activity log for any additional details)`);
-             
+            await reservation.acceptExtensionByRequestor(); 
                 //validate the activity log
         })
     })
