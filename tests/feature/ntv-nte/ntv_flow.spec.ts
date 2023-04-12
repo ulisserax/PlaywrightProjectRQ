@@ -3,7 +3,7 @@ import test from '@lib/BaseTest';
 import ENV from "@utils/env";
 
 
-test.describe.parallel('ntv submission',()=>{
+test.describe.parallel('ntv flow',()=>{
 
     let rqpro_guest_email = `juan_1314@nt3reqrqpro.com`;
 

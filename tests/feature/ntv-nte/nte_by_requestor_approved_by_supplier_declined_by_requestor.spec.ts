@@ -3,7 +3,7 @@ import test from '@lib/BaseTest';
 import ENV from "@utils/env";
 
 
-test.describe.serial.only('nte by requestor, approved by supplier and declined by requestor',()=>{
+test.describe.serial('nte by requestor, approved by supplier and declined by requestor',()=>{
 
     let rqpro_guest_email = `juan_1314@nt3reqrqpro.com`;
 

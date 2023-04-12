@@ -1,9 +1,7 @@
 import Database from "@lib/Database";
 import test from "@playwright/test";
 
-test("testing the random", async ()=> {
-
-  
+test("Test case for test purpose", async ()=> {
 
   // const results = await Database.execute('UPDATE smart_company SET name="nt1sup" where id = 500;');
   // console.log(results);
