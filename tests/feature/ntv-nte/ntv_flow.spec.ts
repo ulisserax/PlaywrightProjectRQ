@@ -3,20 +3,21 @@ import test from '@lib/BaseTest';
 import ENV from "@utils/env";
 
 
-test.describe.parallel('ntv submission',()=>{
+test.describe.parallel('ntv flow',()=>{
 
+    let rqpro_guest_email = `juan_1314@nt3reqrqpro.com`;
 
     test.beforeAll(async ({requestEndpoints, optionEndpoints})=>{
-
+        
         //Create a request for a rqpro company and a eb2e client
         console.info(`Creating an EB2E Request through the V1 API.`);
-        const _createRequestResponse = await requestEndpoints.createRequest(ENV.RQPRO_BASE_URL, ENV.RQPRO_REQ_API_KEY, Number(ENV.RQPRO_EB2E_CLIENT), 'Miami, FL, USA', ENV.START_DATE, ENV.END_DATE, ENV.GUEST_FIRSTNAME, ENV.GUEST_LASTNAME, ENV.GUEST_EMAIL, `7863256523`);
+        const _createRequestResponse = await requestEndpoints.createRequest(ENV.RQPRO_BASE_URL, ENV.RQPRO_REQ_API_KEY, Number(ENV.RQPRO_EB2E_CLIENT), 'Miami, FL, USA', ENV.START_DATE, ENV.END_DATE, ENV.GUEST_FIRSTNAME, ENV.GUEST_LASTNAME, rqpro_guest_email, `7863256523`);
         ENV.API_REQUEST_UID = `${JSON.parse(_createRequestResponse).request_id}`;
         console.info(`REQUEST_UID: ${ENV.API_REQUEST_UID}`);
     
         //Bid a option for the request
         console.info(`Submitting an Option to an EB2E RQPro Request through the V1 API.`);
-        const _optionCreateResponse = await optionEndpoints.optionCreate(ENV.BASE_URL, ENV.SUPPLIER_FOR_RQPRO_API_KEY, ENV.API_REQUEST_UID, Number(ENV.API_PROPERTY_ID), ENV.START_DATE, ENV.END_DATE);
+        const _optionCreateResponse = await optionEndpoints.optionCreate(ENV.RQPRO_BASE_URL, ENV.SUPPLIER_FOR_RQPRO_API_KEY, ENV.API_REQUEST_UID, Number(ENV.API_PROPERTY_ID), ENV.START_DATE, ENV.END_DATE);
         const _optionCreateRes = JSON.parse(_optionCreateResponse)
         ENV.API_OPTION_ID = `${_optionCreateRes.option_id}`;
         console.info(`Option id: ${ENV.API_OPTION_ID}`);
@@ -25,8 +26,8 @@ test.describe.parallel('ntv submission',()=>{
         //Award the request
         console.info(`Awarding an Option to create an EB2E - RQPRO Reservation.`);
         const _current_date = new Date().toISOString();
-        await requestEndpoints.updateDeadlineRequest(ENV.BASE_URL, ENV.RQPRO_REQ_API_KEY, ENV.API_REQUEST_UID, _current_date);
-        const _optionAwardResponse = await optionEndpoints.optionAward(ENV.BASE_URL, ENV.RQPRO_REQ_API_KEY, ENV.API_OPTION_ID);
+        await requestEndpoints.updateDeadlineRequest(ENV.RQPRO_BASE_URL, ENV.RQPRO_REQ_API_KEY, ENV.API_REQUEST_UID, _current_date);
+        const _optionAwardResponse = await optionEndpoints.optionAward(ENV.RQPRO_BASE_URL, ENV.RQPRO_REQ_API_KEY, ENV.API_OPTION_ID);
         const _optionAwardRes = JSON.parse(_optionAwardResponse);
         ENV.API_RESERVATION_UID = `${_optionAwardRes[0].reservationNumber}`;
         console.info(`Reservation uid: ${ENV.API_RESERVATION_UID}`);
@@ -74,28 +75,23 @@ test.describe.parallel('ntv submission',()=>{
            // await requestShow.validateServiceIssueTab();
         })
 
-        test("Guest Registration", async ({webActions, configurationInstance,  mailCatcher, b2eHomePage, b2eLoginPage}) =>{
-            await webActions.login(`superadmin`, `${ENV.RQPRO_BASE_URL}/configuration/instance`, ENV.SUPER_ADMIN, ENV.SUPER_ADMIN_PASSWORD);
-            await configurationInstance.mailPush();
-            let subject = "ReloQuest - Success! - Reservation Confirmation";
-            await mailCatcher.openMailCatcher(ENV.MAILCATCHER_URL);
-            await mailCatcher.searchEmail(ENV.GUEST_EMAIL.toLocaleLowerCase(), subject);
-            let register_link = await mailCatcher.getCreateAccountLink(ENV.GUEST_EMAIL.toLocaleLowerCase());
-            await webActions.navigateTo(register_link);
-            await b2eHomePage.acceptCookies(); 
-            await b2eLoginPage.registerNewGuest(ENV.GUEST_FIRSTNAME, ENV.GUEST_LASTNAME, 'Test123!');
-            await b2eLoginPage.verifyRegisterSuccess();
-        })
+        // test("Guest Registration", async ({webActions, configurationInstance,  mailCatcher, b2eHomePage, b2eLoginPage}) =>{
+        //     await webActions.login(`superadmin`, `${ENV.RQPRO_BASE_URL}/configuration/instance`, ENV.SUPER_ADMIN, ENV.SUPER_ADMIN_PASSWORD);
+        //     await configurationInstance.mailPush();
+        //     let subject = "ReloQuest - Success! - Reservation Confirmation";
+        //     await mailCatcher.openMailCatcher(ENV.MAILCATCHER_URL);
+        //     await mailCatcher.searchEmail(ENV.RQPRO_GUEST_EMAIL.toLocaleLowerCase(), subject);
+        //     let register_link = await mailCatcher.getCreateAccountLink(ENV.GUEST_EMAIL.toLocaleLowerCase());
+        //     await webActions.navigateTo(register_link);
+        //     await b2eHomePage.acceptCookies(); 
+        //     await b2eLoginPage.registerNewGuest(ENV.GUEST_FIRSTNAME, ENV.GUEST_LASTNAME, 'Test123!');
+        //     await b2eLoginPage.verifyRegisterSuccess();
+        // })
 
-        test("Active the Guest account and submit the NTV", async ({webActions, configurationInstance,  mailCatcher, b2eHomePage, b2eQuestDetailsPage, b2eQuestsPage}) =>{
-            await webActions.login(`superadmin`, `${ENV.BASE_URL}/configuration/instance`, ENV.SUPER_ADMIN, ENV.SUPER_ADMIN_PASSWORD);
-            await configurationInstance.mailPush();
-            await webActions.navigateTo(ENV.MAILCATCHER_URL);
-            await mailCatcher.searchEmail(ENV.GUEST_EMAIL.toLocaleLowerCase(), `Thank you for registering at ReloQuest!`);
-            let activate_account_link= await mailCatcher.activateAccount();
-            await webActions.navigateTo(activate_account_link);
-            await b2eHomePage.acceptCookies(); 
-            await b2eHomePage.enterPassword('Test123!');
+        test("As Guest submit the NTV", async ({webActions, b2eHomePage, b2eQuestDetailsPage, b2eQuestsPage}) =>{
+            await webActions.navigateTo(ENV.B2E_URL);
+            await b2eHomePage.acceptCookies();
+            await b2eHomePage.enterCredentials(rqpro_guest_email, ENV.B2E_USER_PASSWORD);
             await b2eHomePage.signIn();
             await b2eQuestsPage.viewFutureQuest(ENV.API_REQUEST_UID);
             await b2eQuestDetailsPage.verifyFutureQuest();

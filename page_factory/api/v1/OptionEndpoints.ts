@@ -48,7 +48,7 @@ export default class OptionEndpoints {
                         {
                             "type_of_parking": 5,
                             "start_date": start_date,
-                            "fee_basis_amount": chance.integer({min:1, max:25}),
+                            "fee_basis_amount": chance.integer({min:1, max:10}),
                             "end_date": end_date,
                             "calculation_method": "PERCENT"
                         }
@@ -121,6 +121,7 @@ export default class OptionEndpoints {
                             "end_date": end_date,
                             "calculation_method": "FLAT",
                             "fee_basis_amount": chance.integer({min:100, max:1000}),
+                            "fee_description":"tax for test",
                             "fee_type": 1
                         }
                     ]
