@@ -315,10 +315,10 @@ export default class ReservationPage {
     }
 
     async verifyNoticeToVacateSubmitted(message:string){
-        await WebActions.delay(5000);
+        await WebActions.delay(6000);
         await this.page.waitForLoadState(`domcontentloaded`);
         await this.page.waitForLoadState(`networkidle`);
-        await WebActions.delay(4000);
+        await WebActions.delay(6000);
         await expect(await this.page.locator(Text.ntv_status).textContent()).toContain(message);
     }
 
@@ -331,7 +331,7 @@ export default class ReservationPage {
         
     }
     
-    async declineExtension(){
+    async declineExtensionBySupplier(){
         console.info('Declining extension and notify guest');
         await this.page.click(Button.approve_deny);
         await this.page.click(Button.decline_extension);
@@ -366,5 +366,22 @@ export default class ReservationPage {
         await this.page.click(Checkbox.ntv_taxes_and_fees_acknowledge);
         // await this.page.pause()
         await this.page.click(Button.submit_changes);
+    }
+
+    async declineExtensionByRequestor(){
+        console.info('Declining extension and notify guest');
+        await this.page.click(Button.approve_deny);
+        await this.page.click(Button.decline);
+        await this.page.click(Textarea.decline_reason);
+        await this.page.type(Textarea.decline_reason, `testing purpose`,{delay:50});
+        await this.page.click(Button.decline_changes);
+        await this.page.click(Button.okay);
+    }
+
+    async acceptExtensionByRequestor(){
+        console.info('Accepting the extension approved by the supplier');
+        await this.page.pause();
+        await this.page.click(Button.approve_deny);
+        await this.page.click(Button.decline);
     }
 }

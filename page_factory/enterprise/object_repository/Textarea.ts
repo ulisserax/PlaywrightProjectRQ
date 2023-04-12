@@ -8,5 +8,6 @@ export default class Textarea{
     static property_features         = `//div[@id='form[features]']/p`;
     static property_amenities        = `//div[@id='form[amenities]']/p`;
     static reason_for_decline        = `//div[@id='ntv-approve-deny-modal-supplier' and contains(@class, 'fade in')]//textarea`;
+    static decline_reason            = `//div[@id='reject-modal']//textarea[@name='description']`;
     
 }
