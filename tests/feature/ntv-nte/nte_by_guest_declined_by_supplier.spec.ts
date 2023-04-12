@@ -2,7 +2,6 @@ import { expect} from "@playwright/test";
 import test from '@lib/BaseTest';
 import ENV from "@utils/env";
 
-
 test.describe.serial('nte submission by guest and declined by supplier',()=>{
 
     let rqpro_guest_email = `juan_1314@nt3reqrqpro.com`;
