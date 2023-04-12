@@ -1,7 +1,6 @@
 import Checkkox from "@b2e_objects/Checkbox";
 import Element from "@b2e_objects/Element";
 import Input from "@b2e_objects/Input";
-import HomePage from "@enterprise_pages/HomePage";
 import WebActions from "@lib/WebActions";
 import { expect, Page } from "@playwright/test";
 import Button from "../object_repository/Button";
@@ -41,7 +40,7 @@ export default class B2eLoginPage {
 
     async verifyEmailSendSuccessfull(){
         console.info(`Email sent successfully`);
-        await WebActions.delay(1200);
+        await WebActions.delay(2500);
         await this.page.waitForSelector(Element.check_your_email_icon);
         await expect (await this.page.locator(Element.check_your_email_icon).count()).toBeGreaterThan(0);
     }

@@ -60,7 +60,7 @@ export default class B2eBookingPage {
         await this.page.context().pages()[1].waitForSelector(Element.checkout_success);
         await expect(await this.page.context().pages()[1].locator(Element.checkout_success).count()).toEqual(1);
         await this.page.context().pages()[1].click(Button.view_your_quest);
-        await WebActions.delay(3200);
+        await WebActions.delay(5200);
     }
 
     async verifyPendingQuest(){

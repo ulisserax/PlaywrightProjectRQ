@@ -3,10 +3,8 @@ import Button from '@b2e_objects/Button';
 import Text from '@b2e_objects/Text';
 import Textarea from '@b2e_objects/Textarea';
 import Element from '@b2e_objects/Element';
-import ENV from '@utils/env';
 import WebActions from '@lib/WebActions';
-const Chance = require ('chance');
-const chance = new Chance();
+
 
 export default class B2eServices {
     readonly page: Page

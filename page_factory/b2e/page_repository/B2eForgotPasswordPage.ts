@@ -19,7 +19,7 @@ export default class B2eForgotPasswordPage {
         await this.page.waitForSelector(Input.email);
         await this.page.type(Input.email, email, {delay:30});
         await this.page.click(Button.send_link);
-        await WebActions.delay(4000);
+        await WebActions.delay(6000);
         await this.page.waitForLoadState(`domcontentloaded`);
         await expect (await this.page.locator(Element.check_your_email_icon).count()).toBeGreaterThan(0);
     }
