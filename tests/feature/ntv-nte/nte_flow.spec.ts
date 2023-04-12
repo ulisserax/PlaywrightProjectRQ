@@ -3,7 +3,7 @@ import test from '@lib/BaseTest';
 import ENV from "@utils/env";
 
 
-test.describe.parallel.only('nte flow',()=>{
+test.describe.parallel('nte flow -- ',()=>{
 
     let rqpro_guest_email = `juan_1314@nt3reqrqpro.com`;
 
@@ -36,7 +36,7 @@ test.describe.parallel.only('nte flow',()=>{
         
     })
 
-    test.describe.serial('NTE submitted by guest and declined by the supplier',()=>{
+    test.describe.serial('NTE submitted by guest and declined by the supplier --',()=>{
 
         test("Acknowledge the EB2E - RQPro Reservation", async ({webActions, requestShow}) => {
             console.info(`Acknowledging the Reservation.`);
@@ -86,7 +86,7 @@ test.describe.parallel.only('nte flow',()=>{
     })
     
 
-    test.describe.serial('NTE submitted by requestor, accepted by supplier and declined by the requestor',()=>{
+    test.describe.serial('NTE submitted by requestor, accepted by supplier and declined by the requestor -- ',()=>{
 
         test("Acknowledge the EB2E - RQPro Reservation", async ({webActions, requestShow}) => {
             console.info(`Acknowledging the Reservation.`);
@@ -139,7 +139,7 @@ test.describe.parallel.only('nte flow',()=>{
 
     })
 
-    test.describe.serial.only('NTE submitted by requestor, accepted by supplier and accepted by the requestor',()=>{
+    test.describe.serial('NTE submitted by requestor, accepted by supplier and accepted by the requestor -- ',()=>{
 
         test("Acknowledge the EB2E - RQPro Reservation", async ({webActions, requestShow}) => {
             console.info(`Acknowledging the Reservation.`);
@@ -177,18 +177,30 @@ test.describe.parallel.only('nte flow',()=>{
             await reservation.acceptExtensionByRequestor();
             await dashboard.findReservation(ENV.API_RESERVATION_UID);
             await search.clickReservationIdLink();
-            await reservation.verifyNoticeToVacateSubmitted(`Notice given / Extension declined (see activity log for any additional details)`);
+            await reservation.verifyNoticeToVacateSubmitted(`Notice given / Accepted`);
                 
                 //validate the activity log
         })
 
-        test('As supplier verify the NTE was declined by the requestor', async ({webActions, reservation})=>{
-            console.info(`Verifying extension was declined byt requestor. ${ENV.API_RESERVATION_UID}`);
+        test('As supplier verify the NTE was accepted by the requestor', async ({webActions, reservation, dashboard, search})=>{
+            console.info(`Verifying extension was accepted by requestor. ${ENV.API_RESERVATION_UID}`);
             await webActions.login(`requestor`, `${ENV.RQPRO_BASE_URL}/reservation/${ENV.API_RESERVATION_UID}`, ENV.SUPPLIER_FOR_RQPRO_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);
-            await reservation.verifyNoticeToVacateSubmitted(`Notice given / Extension declined (see activity log for any additional details)`);
-            await reservation.acceptExtensionByRequestor(); 
+            await reservation.verifyNoticeToVacateSubmitted(`Notice given / Accepted`);
+              
                 //validate the activity log
         })
+
+        // test("As Guest verify the accepted NTE", async ({webActions, b2eHomePage, b2eQuestDetailsPage, b2eQuestsPage}) =>{
+        //     await webActions.navigateTo(ENV.B2E_URL);
+        //     await b2eHomePage.acceptCookies();
+        //     await b2eHomePage.enterCredentials(rqpro_guest_email, ENV.B2E_USER_PASSWORD);
+        //     await b2eHomePage.signIn();
+        //     await b2eQuestsPage.viewFutureQuest(ENV.API_REQUEST_UID);
+        //     await b2eQuestDetailsPage.verifyFutureQuest();
+        //     await b2eQuestDetailsPage.requestNTV();
+        // })
+
+
     })
 
 })

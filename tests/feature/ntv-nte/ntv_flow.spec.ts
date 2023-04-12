@@ -3,7 +3,7 @@ import test from '@lib/BaseTest';
 import ENV from "@utils/env";
 
 
-test.describe.parallel('ntv flow',()=>{
+test.describe.parallel('ntv flow -- ',()=>{
 
     let rqpro_guest_email = `juan_1314@nt3reqrqpro.com`;
 
@@ -36,7 +36,7 @@ test.describe.parallel('ntv flow',()=>{
         
     })
 
-    test.describe.serial('submitted by requestor',()=>{
+    test.describe.serial('NTV submitted by requestor -- ',()=>{
 
         test("Acknowledge the EB2E - RQPro Reservation", async ({webActions, requestShow}) => {
             console.info(`Acknowledging the Reservation.`);
@@ -66,7 +66,7 @@ test.describe.parallel('ntv flow',()=>{
     })
     
 
-    test.describe.serial('submitted by guest',()=>{
+    test.describe.serial('NTV submitted by guest -- ',()=>{
 
         test("Acknowledge the EB2E - RQPro Reservation", async ({webActions, requestShow}) => {
             console.info(`Acknowledging the Reservation.`);

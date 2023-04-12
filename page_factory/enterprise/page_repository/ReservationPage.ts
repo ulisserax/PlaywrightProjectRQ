@@ -380,8 +380,10 @@ export default class ReservationPage {
 
     async acceptExtensionByRequestor(){
         console.info('Accepting the extension approved by the supplier');
-        await this.page.pause();
         await this.page.click(Button.approve_deny);
-        await this.page.click(Button.decline);
+        await this.page.waitForSelector(Button.approve);
+        await this.page.click(Button.approve);
+        await this.page.click(Button.approve_changes);
+        await this.page.click(Button.okay);
     }
 }
