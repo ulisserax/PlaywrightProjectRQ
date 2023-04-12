@@ -22,6 +22,10 @@ export default class Element{
     static create_service_title       = `//div[contains(text(),'Create Service Issues')]`;
     static issue_submitted_modal      = `//app-modal //h5[contains(text(),'Issue Submitted!')]`;
     static issue_status               = `span.status`;
+    static email_activation_sent      = `//div[contains(text(),' activate your account.')]`;
+    static service_alert_icon         = `div .red-badge`;
+    static comment_modal              = `//h5[contains(text(),'Comments')]`;
+    static close_services_list        = `div .icon-B2E-icons_Close`;
     static ntv_submitted_box          = `//app-ntv-approval//div[@class='ntv-approval']//div`;
     static nte_next_month             = `//app-ntv-quest//button[@title='Next month']`;
     static nte_end_date               = `//app-ntv-quest//ngb-datepicker-month//span`;
@@ -33,5 +37,9 @@ export default class Element{
     static service_issue_item(description){
         return `//div[@class='issue-description'] //span[contains(text(),'${description}')]`;
     };
+
+    static service_issue_resolved(description){
+        return `//div[@class='issue-description'] //span[contains(text(),'${description}')]/..//following-sibling::div[@class='issue-status is-resolved']`;
+    }
     
 }

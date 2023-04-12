@@ -36,8 +36,12 @@ export default class Button{
     static new_issue             = `//a[contains(@href, 'add')]`;
     static submit_service_issue  = `.submit-issue button`;
     static view_your_issues      = `//button[contains(text(),'View your issues')]`;
+    static submit_comment        = `//button[contains(text(), 'Submit comment')]`; 
+    static modal_close           = `//button[contains(text(),'CLOSE')]`;
     static ntv_confirm           = `//app-ntv-reminder//button[contains(text(),'CONFIRM')]`;
     static ntv_submitted_ok      = `//app-ntv-submitted//button[contains(text(),'OK')]`;
+    static mark_as_resolved      = `//button[contains(text(), 'MARK AS RESOLVED')]`;
+    static resolved_confirmation = `//app-modal[@class='service-modal']//button[contains(text(), 'MARK AS RESOLVED')]`;
     static nte_request_extension = `//app-ntv-quest//button[contains(text(),'REQUEST EXTENSION')]`;
 
     static new_quest(request_id){

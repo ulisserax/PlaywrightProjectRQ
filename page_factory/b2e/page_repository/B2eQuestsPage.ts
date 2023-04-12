@@ -26,7 +26,7 @@ export default class B2eQuestsPage {
 
     async viewFutureQuest(request_id){
         console.info(`Viewing future quest`);
-        await WebActions.delay(500);
+        await WebActions.delay(1000);
         await this.page.waitForLoadState(`domcontentloaded`);
         await this.page.waitForSelector(Button.future_quest(request_id));
         await expect(await this.page.locator(Button.future_quest(request_id)).count()).toEqual(1);

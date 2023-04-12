@@ -118,12 +118,18 @@ export default class B2eQuestDetailsPage {
     }
 
     async requestServiceIssue() {
-        console.info(`Clicking on Request Service`);
+        console.info(`Clicking on Request Service`);  
         await this.page.click(Element.request_service);
         await WebActions.delay(500);
         await this.page.waitForLoadState(`domcontentloaded`);
         await WebActions.delay(2000);
-        console.info(`Clicked on Request Service`);
+    }
+
+    async validateServiceRedBadge(): Promise<void> {
+        console.info(`Validate if the red-badge alert is present on the Request Service icon.`);
+        await this.page.waitForSelector(Element.request_service);
+        await WebActions.delay(1000);
+        await expect (await this.page.locator(Element.service_alert_icon).count()).toBeGreaterThan(0);
     }
 
     async requestNTV(){

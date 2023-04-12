@@ -3,6 +3,7 @@ import Button from "@enterprise_objects/Button";
 import Input from "@enterprise_objects/Input";
 import Card from "@enterprise_objects/Card";
 import WebActions from "@lib/WebActions";
+import Link from "@enterprise_objects/Link";
 
 
 export default class DashboardPage {
@@ -97,5 +98,13 @@ export default class DashboardPage {
         await this.page.waitForLoadState('domcontentloaded');
         await this.page.waitForLoadState('networkidle');
         await this.page.click(Input.impersonate_result);
+   }
+
+   async exit_impersonation(): Promise<void> {
+       console.info(`Clicking on exit impersonation.`);
+       await this.page.click(Link.exit_impersonation);
+       await WebActions.delay(300);
+       await this.page.waitForLoadState('domcontentloaded');
+       await this.page.waitForLoadState('networkidle');
    }
 }

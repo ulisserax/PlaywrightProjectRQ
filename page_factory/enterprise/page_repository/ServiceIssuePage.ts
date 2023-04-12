@@ -46,9 +46,20 @@ export default class ServiceIssuePage {
         await this.page.click(Button.create_new_service_issue);
         await this.page.waitForLoadState('domcontentloaded');
     }
-
-    async resolveServiceIssue(): Promise<void>{
-        console.info(`Resolving service issue`);
+    async resolveService(description: string): Promise<void> {
+        console.info(`Resolving a Service Issue`);
+        await WebActions.delay(800);
+        await this.page.waitForLoadState('networkidle');
+        await this.page.waitForLoadState('domcontentloaded');
+        await this.page.selectOption(Dropdown.issue_status, {value:'RESOLVED'});
+        await WebActions.delay(1000);
+        await this.page.click(Button.update_service_issue);
+        await WebActions.delay(1000);
+        await this.page.waitForLoadState('domcontentloaded');
+        await expect(await this.page.locator(Element.service_issue_status(description)).textContent()).toContain('RESOLVED');
+    }
+    async addCommentAndResolveServiceIssue(): Promise<void>{
+        console.info(`Adding a Comment and Resolving service issue`);
         await this.page.waitForLoadState('domcontentloaded');
         await this.page.waitForLoadState('networkidle');
         await this.page.click(Link.add_a_comment);
