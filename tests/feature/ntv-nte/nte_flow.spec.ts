@@ -4,7 +4,7 @@ import ENV from "@utils/env";
 import Element from "@enterprise_objects/Element";
 
 
-test.describe.parallel('nte flow -- ',()=>{
+test.describe.parallel.only('nte flow -- ',()=>{
 
     let rqpro_guest_email = `juan_1314@nt3reqrqpro.com`;
 
