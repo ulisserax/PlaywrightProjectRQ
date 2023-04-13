@@ -11,11 +11,11 @@ import ENV from '@utils/env'
 const Chance = require("chance");
 const chance = new Chance();
 
-test.describe.serial(" EB2E - RQPro Service Issue created by Support and visible to Supplier", () => {
+test.describe.serial("EB2E - RQPro Service Issue between Support and Guest", () => {
     test.slow();
-    const idServiceIssue = chance.string({length: 6, numeric: true});
-    const descriptionServiceIssue1 = `${idServiceIssue} - Support=>Guest`;
-    const descriptionServiceIssue2 = `${idServiceIssue} - Guest=>Service`;
+    //const idServiceIssue = chance.string({length: 6, numeric: true});
+    const descriptionServiceIssue1 = `${chance.string({length: 6, numeric: true})} - Support=>Guest`;
+    const descriptionServiceIssue2 = `${chance.string({length: 6, numeric: true})} - Guest=>Service`;
     ENV.GUEST_PHONE = `7869250000`;
 
 
@@ -55,14 +55,15 @@ test.describe.serial(" EB2E - RQPro Service Issue created by Support and visible
         await requestShow.validateServiceIssueTab();
     })
 
-    test("Support user creates a Service Issue , sets visibility to Guest and add a comment", async ({webActions, dashboard, requestShow}) => {
+    test("Support user creates a Service Issue , sets visibility to Guest and add a comment", async ({webActions, dashboard, requestShow, serviceIssue}) => {
         console.info(`Create a Service Issue as Support`);
         await webActions.login(`superadmin`,`${ENV.SUPPLIER_DOMAIN}/request/show/${ENV.API_REQUEST_UID}`,ENV.SUPER_ADMIN, ENV.SUPER_ADMIN_PASSWORD);
         await dashboard.impersonate(`relosupport`);
         ENV.ROLE_VISIBILITY = ['EMPLOYEE'];
         await requestShow.createServiceIssue(descriptionServiceIssue1 ,ENV.ROLE_VISIBILITY);
         await requestShow.validateServiceIssueWasCreated(descriptionServiceIssue1);
-        await requestShow.addServiceIssueComment(descriptionServiceIssue1);
+        await requestShow.viewServiceIssue();
+        await serviceIssue.addServiceIssueComment(`Support`,descriptionServiceIssue1);
     })
 
     test("Guest account creation, then review and create a new Service Issue, and also add a comment ", async ({webActions, configurationInstance, mailCatcher, b2eLoginPage, b2eHomePage, b2eQuestsPage, b2eQuestDetailsPage, b2eServices}) => {
@@ -72,7 +73,7 @@ test.describe.serial(" EB2E - RQPro Service Issue created by Support and visible
         await b2eQuestDetailsPage.validateServiceRedBadge();
         await b2eQuestDetailsPage.requestServiceIssue();
         await b2eServices.verifyServiceDescriptionOnList(descriptionServiceIssue1);
-        await b2eServices.addServiceComment(descriptionServiceIssue1);
+        await b2eServices.addServiceComment(`Guest`, descriptionServiceIssue1);
         await b2eServices.createNewServiceIssue(descriptionServiceIssue2);
         await b2eServices.verifyServiceDescriptionOnList(descriptionServiceIssue2);
     })
@@ -106,7 +107,6 @@ test.describe.serial(" EB2E - RQPro Service Issue created by Support and visible
         await requestShow.validateServiceIssueIsNotVisible(descriptionServiceIssue2);
         await dashboard.exit_impersonation();
         await dashboard.impersonate(ENV.RQPRO_REQ_ADMIN);
-        await webActions.navigateTo(`${ENV.RQPRO_BASE_URL}/request/show/${ENV.API_REQUEST_UID}`);
         await requestShow.validateServiceIssueIsNotVisible(descriptionServiceIssue1);
         await requestShow.validateServiceIssueIsNotVisible(descriptionServiceIssue2);
     })

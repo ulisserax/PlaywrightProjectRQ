@@ -77,15 +77,22 @@ export default class Element{
         return `#form_visibilityRoles_ROLE_${role}`;
     }
 
+    static role_checkbox(role: string){
+        return `//input[@id='form_visibilityRoles_ROLE_${role}' and @disabled='disabled']`;
+    }
+
     static service_issue_created(description: string) {
         return `//table[@id='supplier_status_list']//tbody//tr//td[contains(.,'${description}')]`;
     }
     
     static view_service_issue(description: string) {
-        return `//td[contains(text(),'${description}')]//following-sibling::td//a`;
+        return `//td[contains(.,'${description}')]//following-sibling::td//a`;
     }
 
     static service_issue_status(description: string) {
         return `//td[contains(text(),'${description}')]//following-sibling::td//span`;
+    }
+    static service_comment_content(description: string) {
+        return `//div[@id='comments-container']//div[contains(.,'${description}')]`;
     }
 }
