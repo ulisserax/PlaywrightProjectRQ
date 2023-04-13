@@ -1,4 +1,3 @@
-import WebActions from "@lib/WebActions";
 import { expect } from "@playwright/test";
 import ENV from "@utils/env";
 const Chance = require("chance");
