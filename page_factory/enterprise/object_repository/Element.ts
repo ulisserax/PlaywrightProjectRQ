@@ -61,6 +61,14 @@ export default class Element{
     static modal_notice_to_vacate          = `//div[not(contains(@class,'modal fade ntv-modal in'))]`;
     static modal_nte_extension             = `//div[@id='ntv-approve-deny-modal-supplier' and contains(@class, 'fade in')]`;
     static modal_nte_extension_close       = `//div[@id='ntv-approve-deny-modal-supplier' and contains(@class, 'fade in')]//button[@class='close']`;
+    static ntv_status_accepted             = `//label[contains(text(),'NTV Status:')]//following-sibling::div//div[contains(@class,'ntv-input')]//span[3][contains(@class,'icon-icons_check_mark green pull-right')]`;
+    static ntv_status_action_required      = `//label[contains(text(),'NTV Status:')]//following-sibling::div//div[contains(@class,'ntv-input ntv-status-action-required')]`;
+    static ntv_status_waiting              = `//label[contains(text(),'NTV Status:')]//following-sibling::div//div[contains(@class,'ntv-input')]//span[1][@class='orange']`;
+    static ntv_status_declined             = `//label[contains(text(),'NTV Status:')]//following-sibling::div//div[contains(@class,'ntv-input')]//span[@class='ntv-red-text']`;
+    static ntv_status_default              = `//label[contains(text(),'NTV Status:')]//following-sibling::div//div[contains(@class,'ntv-input')]`;
+    //static ntv_modal                       = `//div[@id='ntv-submit-modal' and @class='modal fade ntv-modal in']`;
+    static ntv_modal                       = `//div[@id='ntv-submit-modal']`;
+
 
     static clickByClientName(client: string){
         return `div[role=option] span:text('${client}')`;

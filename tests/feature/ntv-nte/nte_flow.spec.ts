@@ -1,9 +1,10 @@
 import { expect} from "@playwright/test";
 import test from '@lib/BaseTest';
 import ENV from "@utils/env";
+import Element from "@enterprise_objects/Element";
 
 
-test.describe.parallel.only('nte flow',()=>{
+test.describe.parallel('nte flow -- ',()=>{
 
     let rqpro_guest_email = `juan_1314@nt3reqrqpro.com`;
 
@@ -36,7 +37,7 @@ test.describe.parallel.only('nte flow',()=>{
         
     })
 
-    test.describe.serial('NTE submitted by guest and declined by the supplier',()=>{
+    test.describe.serial('NTE submitted by guest and declined by the supplier --',()=>{
 
         test("Acknowledge the EB2E - RQPro Reservation", async ({webActions, requestShow}) => {
             console.info(`Acknowledging the Reservation.`);
@@ -58,7 +59,7 @@ test.describe.parallel.only('nte flow',()=>{
             console.info(`Verifying the submitted NTE by the guest.`);            
             await webActions.login(`requestor`, `${ENV.RQPRO_BASE_URL}/reservation/${ENV.API_RESERVATION_UID}`, ENV.RQPRO_REQ_ADMIN, ENV.REQUESTOR_ADMIN_PASSWORD);
             await reservation.verifyRqProReservationAcknowledge(ENV.API_RESERVATION_UID);
-            await reservation.verifyNoticeToVacateSubmitted(`Guest requested an Extension / checking availability with Supplier`);
+            await reservation.verifyNoticeToVacateSubmitted(`Guest requested an Extension / checking availability with Supplier`, `//label[contains(text(),'NTV Status:')]//following-sibling::div//div[contains(@class,'ntv-input')]//span[1][@class='orange']`);
                 
                 //validate the activity log
         })
@@ -67,10 +68,10 @@ test.describe.parallel.only('nte flow',()=>{
             console.info(`Verifying the submitted NTE by the guest. ${ENV.API_RESERVATION_UID}`);
             await webActions.login(`requestor`, `${ENV.RQPRO_BASE_URL}/reservation/${ENV.API_RESERVATION_UID}`, ENV.SUPPLIER_FOR_RQPRO_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);
             await reservation.closeExtensionSubmitted();
-            await reservation.verifyNoticeToVacateSubmitted(`Guest requested an Extension / waiting for supplier approval`);
+            await reservation.verifyNoticeToVacateSubmitted(`Guest requested an Extension / waiting for supplier approval`, `//label[contains(text(),'NTV Status:')]//following-sibling::div//div[contains(@class,'ntv-input ntv-status-action-required')]`);
             console.info(`Declining the NTE.`);
             await reservation.declineExtensionBySupplier();
-            await reservation.verifyNoticeToVacateSubmitted(`Notice given / Extension declined (see activity log for any additional details)`);    
+            await reservation.verifyNoticeToVacateSubmitted(`Notice given / Extension declined (see activity log for any additional details)`, `//label[contains(text(),'NTV Status:')]//following-sibling::div//div[contains(@class,'ntv-input')]//span[@class='ntv-red-text']`);    
                 //validate the activity log
         })
     
@@ -78,7 +79,7 @@ test.describe.parallel.only('nte flow',()=>{
             console.info(`Validate nte declined by supplier`);            
             await webActions.login(`requestor`, `${ENV.RQPRO_BASE_URL}/reservation/${ENV.API_RESERVATION_UID}`, ENV.RQPRO_REQ_ADMIN, ENV.REQUESTOR_ADMIN_PASSWORD);
             await reservation.verifyRqProReservationAcknowledge(ENV.API_RESERVATION_UID);
-            await reservation.verifyNoticeToVacateSubmitted(`Notice given / Extension declined (see activity log for any additional details)`);
+            await reservation.verifyNoticeToVacateSubmitted(`Notice given / Extension declined (see activity log for any additional details)`, `//label[contains(text(),'NTV Status:')]//following-sibling::div//div[contains(@class,'ntv-input')]//span[@class='ntv-red-text']`);
                 
                 //validate the activity log
         })
@@ -86,7 +87,7 @@ test.describe.parallel.only('nte flow',()=>{
     })
     
 
-    test.describe.serial('NTE submitted by requestor, accepted by supplier and declined by the requestor',()=>{
+    test.describe.serial('NTE submitted by requestor, accepted by supplier and declined by the requestor -- ',()=>{
 
         test("Acknowledge the EB2E - RQPro Reservation", async ({webActions, requestShow}) => {
             console.info(`Acknowledging the Reservation.`);
@@ -99,7 +100,7 @@ test.describe.parallel.only('nte flow',()=>{
             await webActions.login(`requestor`, `${ENV.RQPRO_BASE_URL}/reservation/${ENV.API_RESERVATION_UID}`, ENV.RQPRO_REQ_ADMIN, ENV.REQUESTOR_ADMIN_PASSWORD);
             await reservation.verifyRqProReservationAcknowledge(ENV.API_RESERVATION_UID);
             await reservation.submitExtension();
-            await reservation.verifyNoticeToVacateSubmitted(`Guest requested an Extension / checking availability with Supplier`);
+            await reservation.verifyNoticeToVacateSubmitted(`Guest requested an Extension / checking availability with Supplier`, Element.ntv_status_waiting);
                 
                 //validate the activity log
         })
@@ -108,11 +109,11 @@ test.describe.parallel.only('nte flow',()=>{
             console.info(`Verifying the submitted NTE by the requestor. ${ENV.API_RESERVATION_UID}`);
             await webActions.login(`requestor`, `${ENV.RQPRO_BASE_URL}/reservation/${ENV.API_RESERVATION_UID}`, ENV.SUPPLIER_FOR_RQPRO_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);
             await reservation.closeExtensionSubmitted();
-            await reservation.verifyNoticeToVacateSubmitted(`Guest requested an Extension / waiting for supplier approval`);
+            await reservation.verifyNoticeToVacateSubmitted(`Guest requested an Extension / waiting for supplier approval`, Element.ntv_status_action_required);
             console.info(`Approving the NTE.`);
             await reservation.approveExtension();
             await reservation.acceptExtensionRateSegmentsTerms();
-            await reservation.verifyNoticeToVacateSubmitted(`Waiting for Requestor Approval / Supplier approved guest extension`);    
+            await reservation.verifyNoticeToVacateSubmitted(`Waiting for Requestor Approval / Supplier approved guest extension`, Element.ntv_status_waiting);    
                 //validate the activity log
         })
     
@@ -120,11 +121,11 @@ test.describe.parallel.only('nte flow',()=>{
         test('As requestor decline the NTE', async ({webActions, reservation,dashboard,search})=>{
             console.info(`Declining NTE by the requestor.`);            
             await webActions.login(`requestor`, `${ENV.RQPRO_BASE_URL}/reservation/${ENV.API_RESERVATION_UID}`, ENV.RQPRO_REQ_ADMIN, ENV.REQUESTOR_ADMIN_PASSWORD);
-            await reservation.verifyNoticeToVacateSubmitted(`Supplier approved guest extension / waiting for Requestor approval`);
+            await reservation.verifyNoticeToVacateSubmitted(`Supplier approved guest extension / waiting for Requestor approval`, Element.ntv_status_action_required);
             await reservation.declineExtensionByRequestor();
             await dashboard.findReservation(ENV.API_RESERVATION_UID);
             await search.clickReservationIdLink();
-            await reservation.verifyNoticeToVacateSubmitted(`Notice given / Extension declined (see activity log for any additional details)`);
+            await reservation.verifyNoticeToVacateSubmitted(`Notice given / Extension declined (see activity log for any additional details)`, Element.ntv_status_declined);
                 
                 //validate the activity log
         })
@@ -132,14 +133,14 @@ test.describe.parallel.only('nte flow',()=>{
         test('As supplier verify the NTE was declined by the requestor', async ({webActions, reservation})=>{
             console.info(`Verifying extension was declined byt requestor. ${ENV.API_RESERVATION_UID}`);
             await webActions.login(`requestor`, `${ENV.RQPRO_BASE_URL}/reservation/${ENV.API_RESERVATION_UID}`, ENV.SUPPLIER_FOR_RQPRO_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);
-            await reservation.verifyNoticeToVacateSubmitted(`Notice given / Extension declined (see activity log for any additional details)`);
+            await reservation.verifyNoticeToVacateSubmitted(`Notice given / Extension declined (see activity log for any additional details)`, Element.ntv_status_declined);
              
                 //validate the activity log
         })
 
     })
 
-    test.describe.serial.only('NTE submitted by requestor, accepted by supplier and accepted by the requestor',()=>{
+    test.describe.serial('NTE submitted by requestor, accepted by supplier and accepted by the requestor -- ',()=>{
 
         test("Acknowledge the EB2E - RQPro Reservation", async ({webActions, requestShow}) => {
             console.info(`Acknowledging the Reservation.`);
@@ -152,7 +153,7 @@ test.describe.parallel.only('nte flow',()=>{
             await webActions.login(`requestor`, `${ENV.RQPRO_BASE_URL}/reservation/${ENV.API_RESERVATION_UID}`, ENV.RQPRO_REQ_ADMIN, ENV.REQUESTOR_ADMIN_PASSWORD);
             await reservation.verifyRqProReservationAcknowledge(ENV.API_RESERVATION_UID);
             await reservation.submitExtension();
-            await reservation.verifyNoticeToVacateSubmitted(`Guest requested an Extension / checking availability with Supplier`);
+            await reservation.verifyNoticeToVacateSubmitted(`Guest requested an Extension / checking availability with Supplier`, Element.ntv_status_waiting);
                 
                 //validate the activity log
         })
@@ -161,11 +162,11 @@ test.describe.parallel.only('nte flow',()=>{
             console.info(`Verifying the submitted NTE by the requestor. ${ENV.API_RESERVATION_UID}`);
             await webActions.login(`requestor`, `${ENV.RQPRO_BASE_URL}/reservation/${ENV.API_RESERVATION_UID}`, ENV.SUPPLIER_FOR_RQPRO_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);
             await reservation.closeExtensionSubmitted();
-            await reservation.verifyNoticeToVacateSubmitted(`Guest requested an Extension / waiting for supplier approval`);
+            await reservation.verifyNoticeToVacateSubmitted(`Guest requested an Extension / waiting for supplier approval`, Element.ntv_status_action_required);
             console.info(`Approving the NTE.`);
             await reservation.approveExtension();
             await reservation.acceptExtensionRateSegmentsTerms();
-            await reservation.verifyNoticeToVacateSubmitted(`Waiting for Requestor Approval / Supplier approved guest extension`);    
+            await reservation.verifyNoticeToVacateSubmitted(`Waiting for Requestor Approval / Supplier approved guest extension`, Element.ntv_status_waiting);    
                 //validate the activity log
         })
     
@@ -173,22 +174,35 @@ test.describe.parallel.only('nte flow',()=>{
         test('As requestor accept the NTE', async ({webActions, reservation,dashboard,search})=>{
             console.info(`Accepting NTE by the requestor.`);            
             await webActions.login(`requestor`, `${ENV.RQPRO_BASE_URL}/reservation/${ENV.API_RESERVATION_UID}`, ENV.RQPRO_REQ_ADMIN, ENV.REQUESTOR_ADMIN_PASSWORD);
-            await reservation.verifyNoticeToVacateSubmitted(`Supplier approved guest extension / waiting for Requestor approval`);
+            await reservation.verifyNoticeToVacateSubmitted(`Supplier approved guest extension / waiting for Requestor approval`, Element.ntv_status_action_required);
             await reservation.acceptExtensionByRequestor();
             await dashboard.findReservation(ENV.API_RESERVATION_UID);
             await search.clickReservationIdLink();
-            await reservation.verifyNoticeToVacateSubmitted(`Notice given / Extension declined (see activity log for any additional details)`);
+            await reservation.verifyNoticeToVacateSubmitted(`Notice given / Accepted`, Element.ntv_status_accepted);
+            
                 
                 //validate the activity log
         })
 
-        test('As supplier verify the NTE was declined by the requestor', async ({webActions, reservation})=>{
-            console.info(`Verifying extension was declined byt requestor. ${ENV.API_RESERVATION_UID}`);
+        test('As supplier verify the NTE was accepted by the requestor', async ({webActions, reservation})=>{
+            console.info(`Verifying extension was accepted by requestor. ${ENV.API_RESERVATION_UID}`);
             await webActions.login(`requestor`, `${ENV.RQPRO_BASE_URL}/reservation/${ENV.API_RESERVATION_UID}`, ENV.SUPPLIER_FOR_RQPRO_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);
-            await reservation.verifyNoticeToVacateSubmitted(`Notice given / Extension declined (see activity log for any additional details)`);
-            await reservation.acceptExtensionByRequestor(); 
+            await reservation.verifyNoticeToVacateSubmitted(`Notice given / Accepted`, Element.ntv_status_accepted);
+              
                 //validate the activity log
         })
+
+        // test("As Guest verify the accepted NTE", async ({webActions, b2eHomePage, b2eQuestDetailsPage, b2eQuestsPage}) =>{
+        //     await webActions.navigateTo(ENV.B2E_URL);
+        //     await b2eHomePage.acceptCookies();
+        //     await b2eHomePage.enterCredentials(rqpro_guest_email, ENV.B2E_USER_PASSWORD);
+        //     await b2eHomePage.signIn();
+        //     await b2eQuestsPage.viewFutureQuest(ENV.API_REQUEST_UID);
+        //     await b2eQuestDetailsPage.verifyFutureQuest();
+        //     await b2eQuestDetailsPage.requestNTV();
+        // })
+
+
     })
 
 })
