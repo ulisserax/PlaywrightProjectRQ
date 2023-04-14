@@ -27,13 +27,13 @@ export default class NewRequestPage{
 
     async select_arrival_date(): Promise<void>{
         await this.page.waitForLoadState('domcontentloaded');
-        await WebActions.delay(600);
+        await WebActions.delay(1000);
         await this.page.click(Calendar.arrival_date);
-        await WebActions.delay(600);
+        await WebActions.delay(1000);
         await this.page.click(Calendar.arrow_next_month);
-        await WebActions.delay(600);
+        await WebActions.delay(1000);
         await this.page.locator(Calendar.middle_date).last().click();
-        await WebActions.delay(600);
+        await WebActions.delay(1000);
     }
 
     async select_client(client:string): Promise<void>{
@@ -76,6 +76,7 @@ export default class NewRequestPage{
         await this.select_arrival_date();
         await this.page.selectOption(Dropdown.select_radius,{ index: 8});
         await this.page.type(Input.length_of_stay,`${length_of_stay}`);
+        await this.page.keyboard.press('Enter');
         await this.page.selectOption(Dropdown.number_of_pets, { index: 1 });
     }
 
