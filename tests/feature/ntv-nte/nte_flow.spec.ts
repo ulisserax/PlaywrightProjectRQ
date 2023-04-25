@@ -3,7 +3,7 @@ import test from '@lib/BaseTest';
 import ENV from "@utils/env";
 
 
-test.describe.parallel.only('nte flow',()=>{
+test.describe.parallel('nte flow',()=>{
 
     let rqpro_guest_email = `juan_1314@nt3reqrqpro.com`;
 
@@ -17,7 +17,7 @@ test.describe.parallel.only('nte flow',()=>{
     
         //Bid a option for the request
         console.info(`Submitting an Option to an EB2E RQPro Request through the V1 API.`);
-        const _optionCreateResponse = await optionEndpoints.optionCreate(ENV.RQPRO_BASE_URL, ENV.SUPPLIER_FOR_RQPRO_API_KEY, ENV.API_REQUEST_UID, Number(ENV.API_PROPERTY_ID), ENV.START_DATE, ENV.END_DATE);
+        const _optionCreateResponse = await optionEndpoints.optionCreate(ENV.RQPRO_BASE_URL, ENV.SUPPLIER_FOR_RQPRO_API_KEY, ENV.SUPPLIER_COMPANY_FOR_RQPRO_EMAIL, ENV.API_REQUEST_UID, Number(ENV.API_PROPERTY_ID), ENV.START_DATE, ENV.END_DATE);
         const _optionCreateRes = JSON.parse(_optionCreateResponse)
         ENV.API_OPTION_ID = `${_optionCreateRes.option_id}`;
         console.info(`Option id: ${ENV.API_OPTION_ID}`);
@@ -139,7 +139,7 @@ test.describe.parallel.only('nte flow',()=>{
 
     })
 
-    test.describe.serial.only('NTE submitted by requestor, accepted by supplier and accepted by the requestor',()=>{
+    test.describe.serial('NTE submitted by requestor, accepted by supplier and accepted by the requestor',()=>{
 
         test("Acknowledge the EB2E - RQPro Reservation", async ({webActions, requestShow}) => {
             console.info(`Acknowledging the Reservation.`);

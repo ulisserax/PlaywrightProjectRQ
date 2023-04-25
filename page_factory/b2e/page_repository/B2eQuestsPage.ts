@@ -31,6 +31,11 @@ export default class B2eQuestsPage {
         await this.page.waitForSelector(Button.future_quest(request_id));
         await expect(await this.page.locator(Button.future_quest(request_id)).count()).toEqual(1);
         await this.webActions.clickElementJS(Button.future_quest(request_id));
+        await WebActions.delay(500);
+        await this.page.waitForLoadState(`domcontentloaded`);
+        await WebActions.delay(2000);
+        ENV.API_RESERVATION_ID = await this.page.url().split('/')[5].trim();
+        console.info(`res_id: ${ENV.API_RESERVATION_ID}`);
     }
 
     async confirmAlternateQuest(){

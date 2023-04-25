@@ -5,7 +5,7 @@ import ENV from '@utils/env';
 const Chance = require("chance");
 const chance = new Chance();
 
-test.describe.serial.only ("EB2E - RQPro Service Issue between Supplier and Support", () => {
+test.describe.serial ("EB2E - RQPro Service Issue between Supplier and Support", () => {
     test.slow();
     const idServiceIssue1 = chance.string({length: 6, numeric: true});
     const descriptionServiceIssue1 = `${idServiceIssue1} - Supplier=>Support`;
@@ -25,7 +25,7 @@ test.describe.serial.only ("EB2E - RQPro Service Issue between Supplier and Supp
 
     test("POST: Submit an Option to the EB2E RQPRO Request", async ({optionEndpoints}) => {
         console.info(`Submitting an Option to an EB2E RQPro Request through the V1 API.`);
-        const _res = await optionEndpoints.optionCreate(ENV.BASE_URL, ENV.SUPPLIER_FOR_RQPRO_API_KEY, ENV.API_REQUEST_UID, Number(ENV.API_PROPERTY_ID), ENV.START_DATE, ENV.END_DATE);
+        const _res = await optionEndpoints.optionCreate(ENV.BASE_URL, ENV.SUPPLIER_FOR_RQPRO_API_KEY, ENV.SUPPLIER_COMPANY_FOR_RQPRO_EMAIL, ENV.API_REQUEST_UID, Number(ENV.API_PROPERTY_ID), ENV.START_DATE, ENV.END_DATE);
         const _response = JSON.parse(_res)
         ENV.API_OPTION_ID = `${_response.option_id}`;
         console.info(`Option id: ${ENV.API_OPTION_ID}`);
