@@ -21,7 +21,8 @@ export default class SearchPage {
     }
 
     async clickReservationIdLink(): Promise<void>{
-        console.info('Clicking on the request id link');
+        console.info('Clicking on the reservation id link');
+        await this.page.waitForSelector(Link.reservation_id);
         await this.page.click(Link.reservation_id);
         await WebActions.delay(500);
     }

@@ -302,7 +302,10 @@ export default class ReservationPage {
         await this.page.click(Button.keep_this_date);
         await this.page.waitForSelector(Button.request_date);
         await this.page.click(Button.request_date);
-        await WebActions.delay(4000);
+        //await WebActions.delay(5000);
+        const hidden = await this.page.locator(Element.ntv_modal);
+        await hidden.waitFor({state:"hidden"})
+        //await this.page.waitForSelector(Element.ntv_modal_closed);
     }
 
     async verifyRqProReservationAcknowledge(reservation_id){
@@ -314,13 +317,14 @@ export default class ReservationPage {
 
     }
 
-    async verifyNoticeToVacateSubmitted(message:string){
-        await WebActions.delay(6000);
-        await this.page.waitForLoadState(`domcontentloaded`);
-        await this.page.waitForLoadState(`networkidle`);
-        await WebActions.delay(6000);
+    async verifyNoticeToVacateSubmitted(message:string, ntv_status_style: string){
+        await WebActions.delay(3000);
+        //await this.page.waitForResponse(resp => resp.url().includes('v1/api/ntvs?reservationId=') && resp.status() === 200);
+
+        await this.page.waitForSelector(ntv_status_style);    
         await expect(await this.page.locator(Text.ntv_status).textContent()).toContain(message);
     }
+    
 
     async closeExtensionSubmitted(){
         await WebActions.delay(1000);
@@ -380,8 +384,10 @@ export default class ReservationPage {
 
     async acceptExtensionByRequestor(){
         console.info('Accepting the extension approved by the supplier');
-        await this.page.pause();
         await this.page.click(Button.approve_deny);
-        await this.page.click(Button.decline);
+        await this.page.waitForSelector(Button.approve);
+        await this.page.click(Button.approve);
+        await this.page.click(Button.approve_changes);
+        await this.page.click(Button.okay);
     }
 }

@@ -98,6 +98,7 @@ export default class RequestShowPage {
         }
         await this.page.click(Button.submit_akcnowledge);
         await this.page.waitForLoadState('networkidle');
+        await WebActions.delay(2000);
         await expect(await this.page.locator(Text.acknowledge_text).first().textContent()).toContain(`Award acknowledged on:`);
     }
     async alternateOption(response:string): Promise<void>{

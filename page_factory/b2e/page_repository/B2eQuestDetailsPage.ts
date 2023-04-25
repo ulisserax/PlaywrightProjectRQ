@@ -134,6 +134,8 @@ export default class B2eQuestDetailsPage {
 
     async requestNTV(){
         console.info(`Clicking on Notice to Vacate`);
+
+        //await this.page.pause();
         await this.page.click(Link.notice_to_vacate);
         await this.page.waitForSelector(Button.ntv_confirm);
         await this.page.click(Button.ntv_confirm);

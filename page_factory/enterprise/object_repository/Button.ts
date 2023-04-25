@@ -30,7 +30,7 @@ export default class Button{
     static close      = `.modal.fade.in button:text('Close')`;
     static now        = `button:text("Now")`;
     static apply      = `.apply-button`;
-    static approve    = `button:text('Approve')`;
+    static approve    = `//button[contains(text(),'Approve')]`;
     static okay       = `:text('Okay')`;
     static book       = `//button[contains(text(),'BOOK')]`;
     static send       = `span:text('Send')`;

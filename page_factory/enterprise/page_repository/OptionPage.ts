@@ -29,8 +29,10 @@ export default class OptionPage {
         await this.page.type(Input.search_property, `${property}`, {delay:40});
         await WebActions.delay(1400);
         await this.page.waitForLoadState('networkidle');
-        await this.page.waitForLoadState('domcontentloaded');
-        await this.page.click(Link.property);
+        // await this.page.waitForLoadState('domcontentloaded');
+        // const property_element = await this.page.locator(Link.property_element(property));
+        // await property_element.waitFor({state:"attached"});
+        await this.page.click(Link.property_element(property));
         await this.page.waitForLoadState('domcontentloaded');
         await this.page.waitForLoadState('networkidle');
         await WebActions.delay(900);

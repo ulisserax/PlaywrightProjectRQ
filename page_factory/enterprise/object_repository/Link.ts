@@ -38,4 +38,8 @@ export default class Link{
     static edit_property           = `//table[contains(@id,'DataTables_Table')]//tbody//a[contains(@href,'/property/')]`;
     static create_account          = `//a[contains(@href,'reloquest.com/register?')]`;
     static exit_impersonation      = `//a[contains(@href,'exit')]`;
+
+    static property_element(text:string){
+        return `//ul[@id='select2-results-1']//*[contains(text(),'${text}')]`;
+    }
 }

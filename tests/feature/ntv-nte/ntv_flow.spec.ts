@@ -1,9 +1,10 @@
 import { expect} from "@playwright/test";
 import test from '@lib/BaseTest';
 import ENV from "@utils/env";
+import Element from "@enterprise_objects/Element";
 
 
-test.describe.parallel('ntv flow',()=>{
+test.describe.parallel('ntv flow -- ',()=>{
 
     let rqpro_guest_email = `juan_1314@nt3reqrqpro.com`;
 
@@ -36,7 +37,7 @@ test.describe.parallel('ntv flow',()=>{
         
     })
 
-    test.describe.serial('submitted by requestor',()=>{
+    test.describe.serial('NTV submitted by requestor -- ',()=>{
 
         test("Acknowledge the EB2E - RQPro Reservation", async ({webActions, requestShow}) => {
             console.info(`Acknowledging the Reservation.`);
@@ -50,7 +51,7 @@ test.describe.parallel('ntv flow',()=>{
             await reservation.verifyRqProReservationAcknowledge(ENV.API_RESERVATION_UID);
             await reservation.submitNoticeToVacate();
             console.info(`validate submission by requestor`);
-            await reservation.verifyNoticeToVacateSubmitted(`Notice given / Accepted`);
+            await reservation.verifyNoticeToVacateSubmitted(`Notice given / Accepted`, Element.ntv_status_default);
             
             //validate the activity log
         })
@@ -58,7 +59,7 @@ test.describe.parallel('ntv flow',()=>{
         test('Validate submission by supplier', async ({webActions, reservation})=>{
             console.info(`submitted by requestor. ${ENV.API_RESERVATION_UID}`);
             await webActions.login(`requestor`, `${ENV.RQPRO_BASE_URL}/reservation/${ENV.API_RESERVATION_UID}`, ENV.SUPPLIER_FOR_RQPRO_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);
-            await reservation.verifyNoticeToVacateSubmitted(`Notice given / Accepted`);
+            await reservation.verifyNoticeToVacateSubmitted(`Notice given / Accepted`, Element.ntv_status_default);
             
             //validate the activity log
         })
@@ -66,7 +67,7 @@ test.describe.parallel('ntv flow',()=>{
     })
     
 
-    test.describe.serial('submitted by guest',()=>{
+    test.describe.serial('NTV submitted by guest -- ',()=>{
 
         test("Acknowledge the EB2E - RQPro Reservation", async ({webActions, requestShow}) => {
             console.info(`Acknowledging the Reservation.`);
@@ -101,7 +102,7 @@ test.describe.parallel('ntv flow',()=>{
         test('Submit a Notice by requestor and validate submission', async ({webActions, reservation})=>{
             console.info(`validate submission by requestor`);            await webActions.login(`requestor`, `${ENV.RQPRO_BASE_URL}/reservation/${ENV.API_RESERVATION_UID}`, ENV.RQPRO_REQ_ADMIN, ENV.REQUESTOR_ADMIN_PASSWORD);
             await reservation.verifyRqProReservationAcknowledge(ENV.API_RESERVATION_UID);
-            await reservation.verifyNoticeToVacateSubmitted(`Notice given / Accepted`);
+            await reservation.verifyNoticeToVacateSubmitted(`Notice given / Accepted`, Element.ntv_status_default);
             
             //validate the activity log
         })
@@ -109,7 +110,7 @@ test.describe.parallel('ntv flow',()=>{
         test('Validate submission by supplier', async ({webActions, reservation})=>{
             console.info(`submitted by requestor. ${ENV.API_RESERVATION_UID}`);
             await webActions.login(`requestor`, `${ENV.RQPRO_BASE_URL}/reservation/${ENV.API_RESERVATION_UID}`, ENV.SUPPLIER_FOR_RQPRO_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);
-            await reservation.verifyNoticeToVacateSubmitted(`Notice given / Accepted`);
+            await reservation.verifyNoticeToVacateSubmitted(`Notice given / Accepted`, Element.ntv_status_default);
             
             //validate the activity log
         })
