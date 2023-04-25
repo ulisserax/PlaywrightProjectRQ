@@ -22,7 +22,7 @@ const config : PlaywrightTestConfig = {
     /* Reporter to use. See https://playwright.dev/docs/test-reporters */
     reporter:[['html', {open: "never"}]],
     use: {
-        headless: false,
+        headless: true,
         viewport:{width:1280, height:720},
         actionTimeout:100000,
         ignoreHTTPSErrors:true,
