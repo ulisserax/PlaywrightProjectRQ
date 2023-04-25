@@ -38,9 +38,10 @@ export default class B2eSearchPage {
         await this.page.waitForLoadState(`domcontentloaded`);
         await WebActions.delay(1000);
         await this.page.waitForSelector(Input.search_location);
-        await this.page.type(Input.search_location, `${destination}`, {delay:120});
+        await this.page.type(Input.search_location, `${destination}`, {delay:150});
         await this.page.waitForSelector(Element.destination_places);
         await this.page.locator(Element.destination_places).first().click();
+        await WebActions.delay(500);
         await this.page.click(Button.next);
     }
 
