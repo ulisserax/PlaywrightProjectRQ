@@ -51,7 +51,7 @@ test.describe.serial("Api B2E Main Flow", () => {
    })
 
    test("POST: Option create", async ({optionEndpoints}) => {
-      const res = await optionEndpoints.optionCreate(ENV.BASE_URL, ENV.SUPPLIER_API_KEY, ENV.REQUEST_ID, parseInt(ENV.API_PROPERTY_ID), ENV.START_DATE, ENV.END_DATE);
+      const res = await optionEndpoints.optionCreate(ENV.BASE_URL, ENV.SUPPLIER_API_KEY, ENV.SUPPLIER_COMPANY_EMAIL, ENV.REQUEST_ID, parseInt(ENV.API_PROPERTY_ID), ENV.START_DATE, ENV.END_DATE);
       const _response = JSON.parse(res);
       ENV.API_OPTION_ID = _response.option_id
       console.info(`Option id: ${ENV.API_OPTION_ID}`);

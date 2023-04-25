@@ -18,6 +18,7 @@ export default class ENV{
     static SUPPLIER_MANAGER          = process.env.SUPPLIER_MANAGER
     static SUPPLIER_MANAGER_PASSWORD = process.env.SUPPLIER_MANAGER_PASSWORD
     static SUPPLIER_COMPANY          = process.env.SUPPLIER_COMPANY
+    static SUPPLIER_COMPANY_FOR_RQPRO= process.env.SUPPLIER_COMPANY_FOR_RQPRO
     static REQUESTOR_COMPANY         = process.env.REQUESTOR_COMPANY
     static CLIENT_EB2E_RQPRO         = process.env.CLIENT_EB2E_RQPRO
     static CLIENT_EB2E               = process.env.CLIENT_EB2E
@@ -40,6 +41,7 @@ export default class ENV{
     static FEES_TYPE                 = [`DAY`, `FLAT`, `PERCENT`, `NIGHT`]
     static ACKNOWLEDGE_AWARD         = [`accept`, `decline`, `submit_new_option`]
     static SUPPLIER_COMPANY_EMAIL    = `${this.SUPPLIER_COMPANY}@notification.com`
+    static SUPPLIER_COMPANY_FOR_RQPRO_EMAIL = `${this.SUPPLIER_COMPANY_FOR_RQPRO}@notification.com`
     static SUPPLIER_EMAIL            = `${this.SUPPLIER_ADMIN}@${this.SUPPLIER_COMPANY}.com`
     static SUPPLIER_SERVICE_EMAIL    = `${this.SUPPLIER_ADMIN}@service.com`
     static SUPPLIER_ESCALATION_EMAIL = `${this.SUPPLIER_ADMIN}@escalation.com`
@@ -98,6 +100,7 @@ export default class ENV{
     static API_PROPERTY_ID             = process.env.PROPERTY_ID
     static API_OPTION_ID               = ''
     static API_RESERVATION_UID         = ''
+    static API_RESERVATION_ID          = ''
     static STRIPE_KEY                  = process.env.STRIPE_KEY
     static STRIPE_GUID                 = process.env.STRIPE_GUID
     static STRIPE_MUID                 = process.env.STRIPE_MUID

@@ -11,7 +11,7 @@ export default class OptionEndpoints {
         this.request = request;
     }
 
-    async optionCreate( base_url: string, api_key:string, request_id:string, property_id:number, start_date:string, end_date:string){
+    async optionCreate( base_url: string, api_key:string, supplier_email:string, request_id:string, property_id:number, start_date:string, end_date:string){
         const _response = await this.request.post(`${base_url}/api/v1/option/create/${request_id}?apikey=${api_key}`, {
             data: {
                     "property": property_id,
@@ -34,10 +34,10 @@ export default class OptionEndpoints {
                     "features": "Testing the FEATURES field",
                     "hold": 0,
                     "customer_service_phone_24h": 123,
-                    "service_issue_email": `${ENV.SUPPLIER_COMPANY_EMAIL}`,
+                    "service_issue_email": supplier_email,
                     "service_issue_phone": 7862563652,
                     "escalation_name": "Name",
-                    "escalation_email": `${ENV.SUPPLIER_COMPANY_EMAIL}`,
+                    "escalation_email": supplier_email,
                     "escalation_phone": 7862563652,
                     "internet": 1,
                     "maid_service": 1,

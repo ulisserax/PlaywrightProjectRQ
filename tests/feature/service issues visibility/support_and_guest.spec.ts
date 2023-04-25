@@ -15,7 +15,7 @@ test.describe.serial("EB2E - RQPro Service Issue between Support and Guest", () 
     test.slow();
     //const idServiceIssue = chance.string({length: 6, numeric: true});
     const descriptionServiceIssue1 = `${chance.string({length: 6, numeric: true})} - Support=>Guest`;
-    const descriptionServiceIssue2 = `${chance.string({length: 6, numeric: true})} - Guest=>Service`;
+    const descriptionServiceIssue2 = `${chance.string({length: 6, numeric: true})} - Guest=>Support`;
     ENV.GUEST_PHONE = `7869250000`;
 
 
@@ -30,7 +30,7 @@ test.describe.serial("EB2E - RQPro Service Issue between Support and Guest", () 
 
     test("POST: Submit an Option to the EB2E RQPRO Request", async ({optionEndpoints}) => {
         console.info(`Submitting an Option to an EB2E RQPro Request through the V1 API.`);
-        const _res = await optionEndpoints.optionCreate(ENV.BASE_URL, ENV.SUPPLIER_FOR_RQPRO_API_KEY, ENV.API_REQUEST_UID, Number(ENV.API_PROPERTY_ID), ENV.START_DATE, ENV.END_DATE);
+        const _res = await optionEndpoints.optionCreate(ENV.BASE_URL, ENV.SUPPLIER_FOR_RQPRO_API_KEY, ENV.SUPPLIER_COMPANY_FOR_RQPRO_EMAIL, ENV.API_REQUEST_UID, Number(ENV.API_PROPERTY_ID), ENV.START_DATE, ENV.END_DATE);
         const _response = JSON.parse(_res)
         ENV.API_OPTION_ID = `${_response.option_id}`;
         console.info(`Option id: ${ENV.API_OPTION_ID}`);
@@ -66,7 +66,7 @@ test.describe.serial("EB2E - RQPro Service Issue between Support and Guest", () 
         await serviceIssue.addServiceIssueComment(`Support`,descriptionServiceIssue1);
     })
 
-    test("Guest account creation, then review and create a new Service Issue, and also add a comment ", async ({webActions, configurationInstance, mailCatcher, b2eLoginPage, b2eHomePage, b2eQuestsPage, b2eQuestDetailsPage, b2eServices}) => {
+    test("Guest review and create a new Service Issue, and also add a comment ", async ({b2eHomePage, b2eQuestsPage, b2eQuestDetailsPage, b2eServices}) => {
         console.info(`Guest user creation to review and creates a Service Issue`);
         await b2eHomePage.login(`eb2e-rqpro user`, `${ENV.RQPRO_B2E_URL}/b2e/quests`, ENV.RQPRO_GUEST_FOR_SERVICE, ENV.B2E_USER_PASSWORD);
         await b2eQuestsPage.viewFutureQuest(ENV.API_REQUEST_UID);
@@ -117,9 +117,20 @@ test.describe.serial("EB2E - RQPro Service Issue between Support and Guest", () 
 
     })
 
-    test.skip("Validating Service Issue emails", async ({}) => {
+    test("Validating Service Issue emails", async ({webActions, configurationInstance, mailCatcher}) => {
         console.info(`Validating al the emails related to the Support-Guest RQPRO Service Issue flow`);
-        console.info(`THIS TEST SHOULD BE IMPLEMENTED AFTER SOLVING THE ISSUE WITH THE MS-NOTIFICATION EMAILS NOT AVAILABLE ON THE MAILCATCHER!`);
+        //await webActions.login(`superadmin`, `${ENV.SUPPLIER_DOMAIN}/configuration/instance`, ENV.SUPER_ADMIN, ENV.SUPER_ADMIN_PASSWORD);
+        //await configurationInstance.mailPush();
+        await webActions.navigateTo(ENV.MAILCATCHER_URL);
+
+        //63 SUPPORT CREATE A SERVICE ISSUE => SENDS 1 EMAIL TO THE GUEST
+        ENV.API_RESERVATION_UID = "RQR755712";
+        ENV.RQPRO_GUEST_FOR_SERVICE = "guest-support-serviceissue@nt3reqrqpro.com";
+        ENV.API_RESERVATION_ID = "19284";
+        await mailCatcher.verifyFeatureEmails(`Guest - ServiceIssue submitted`, ENV.RQPRO_GUEST_FOR_SERVICE, `Service Issue has been submitted for ReloQuest reservation ${ENV.API_RESERVATION_UID}`, 
+        2, `//div[@class='container-fluid'][//p[contains(text(),'Service Issue Submitted')]  and //p[contains(text(),'Support=>Guest')]]`, `//a[contains(@href,'/services')]`, `${ENV.RQPRO_B2E_URL}/b2e/quests/${ENV.API_RESERVATION_ID}/services`);
+
+        
     })
 
 })
