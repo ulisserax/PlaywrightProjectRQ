@@ -5,7 +5,7 @@ import ENV from '@utils/env';
 const Chance = require("chance");
 const chance = new Chance();
 
-test.describe.serial ("EB2E - RQPro Service Issue between Supplier and Support", () => {
+test.describe.serial("EB2E - RQPro Service Issue between Supplier and Support", () => {
     test.slow();
     const idServiceIssue1 = chance.string({length: 6, numeric: true});
     const descriptionServiceIssue1 = `${idServiceIssue1} - Supplier=>Support`;
@@ -48,7 +48,7 @@ test.describe.serial ("EB2E - RQPro Service Issue between Supplier and Support",
         await webActions.login(`supplier`, `${ENV.SUPPLIER_DOMAIN}/request/show/${ENV.API_REQUEST_UID}`, ENV.SUPPLIER_FOR_RQPRO_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);
         await requestShow.acknowledgeAward(ENV.ACKNOWLEDGE_AWARD[0]);
         await requestShow.validateServiceIssueTab();
-        ENV.ROLE_VISIBILITY = ['NO'];
+        ENV.ROLE_VISIBILITY = ['NON-RQPRO'];
         await requestShow.createServiceIssue(descriptionServiceIssue1 ,ENV.ROLE_VISIBILITY);
         await requestShow.validateServiceIssueWasCreated(descriptionServiceIssue1);
     })

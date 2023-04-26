@@ -29,7 +29,7 @@ export default class ServiceIssuePage {
     async setVisibility (role: string[]): Promise<void>{
         console.info(`Setting the visibility to the ${role} role(s).`);
         for (var val of role) {
-            if (val =='NO'){
+            if (val =='NON-RQPRO'){
                 console.info(`No visibility has been set.`);
                 break;
             } else {
