@@ -10,6 +10,7 @@ export default class Text{
     static payment_updated           = `h5:has-text('Payment Method updated!')`;
     static current_card              = `span.card-label`;
     static canceled_quest            = `//div[contains(@class,'cancelled')]//span[contains(text(),'canceled')]`;
+    static cancellation_in_progress  = `//div[contains(@class,'pending')]//span[contains(text(),'Cancellation in Progress')]`;
 
     static sortBy(by: string){
         return `//div[contains(text(),'${by}')]`;

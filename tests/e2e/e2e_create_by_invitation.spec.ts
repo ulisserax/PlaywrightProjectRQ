@@ -3,7 +3,7 @@ import ENV from '@utils/env';
 const Chance = require("chance");
 const chance = new Chance();
 
-test.describe.serial ("Create Supplier company and Supplier admin user by invitation", () => {
+test.describe.serial("Create Supplier company and Supplier admin user by invitation", () => {
     test.slow();
     let registerLink, subject;
     let supplierCompany = 'auto-supplier-company-' + chance.string({length: 6, numeric: true});

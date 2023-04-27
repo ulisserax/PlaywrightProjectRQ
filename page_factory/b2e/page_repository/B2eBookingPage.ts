@@ -85,6 +85,7 @@ export default class B2eBookingPage {
 
     async cancelHotelQuest(){
         await WebActions.delay(1500);
+        await this.page.context().pages()[1].waitForSelector(Text.booking_id);
         if (await this.page.context().pages()[1].locator(Text.pending_quest).count()==0){
             console.info(`Cancelling hotel quest`);
             await this.page.context().pages()[1].waitForSelector(Link.cancel_this_quest);
@@ -92,9 +93,18 @@ export default class B2eBookingPage {
             await WebActions.delay(400);
             await this.page.context().pages()[1].waitForSelector(Button.yes_cancel_quest);
             await this.page.context().pages()[1].click(Button.yes_cancel_quest);
-            await WebActions.delay(400);
-            await this.page.context().pages()[1].waitForSelector(Text.canceled_quest);
-            await expect(await this.page.context().pages()[1].locator(Text.canceled_quest).count()).toEqual(1);
+            await WebActions.delay(3400);
+            await this.page.context().pages()[1].waitForLoadState('domcontentloaded');
+            //await this.page.context().pages()[1].waitForLoadState('networkidle');
+            if(await this.page.context().pages()[1].locator(Text.canceled_quest).count()==1){
+                console.info(`Quest Cancelled.`);
+                await expect(await this.page.context().pages()[1].locator(Text.canceled_quest).count()).toEqual(1);
+            }else{
+                console.info(`Quest Pending Cancellation.`);
+                await expect(await this.page.context().pages()[1].locator(Text.cancellation_in_progress).count()).toEqual(1);
+            }
+            
+            
         }else{
             console.info(`Reservation in pending can't be cancelled`);
         }
