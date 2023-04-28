@@ -23,7 +23,7 @@ export default class ServiceIssuePage {
         await this.page.waitForLoadState('domcontentloaded');
         await this.page.selectOption(Dropdown.service_issue_type, {value: `${chance.integer({min:1, max:20})}`});
         await this.page.type(Textarea.describe_issue, `Service Issue for testing purpose - ${description}`, {delay:20});
-        WebActions.delay(300);
+        await WebActions.delay(300);
     }
 
     async setVisibility (role: string[]): Promise<void>{
@@ -35,7 +35,7 @@ export default class ServiceIssuePage {
             } else {
                 await this.page.click(Element.role_visibility(val));
                 console.info(`${val} checkbox has been clicked.`);
-                WebActions.delay(300);
+                await WebActions.delay(2000);
             }
         }
     }
@@ -43,23 +43,23 @@ export default class ServiceIssuePage {
     async validateCheckboxes(role: string[]): Promise<void>{
         console.info(`Verifying disabled checkboxes when set visibility for ${role}.`);
         for (var val of role) {
-            if (val =='NO'){
+            if (val =='NON-RQPRO'){
                 console.info(`No checkboxes present on this scenario.`);
                 break;
             } else if (val =='SUPPLIER'){
                 // check that Requestor and Guest checkboxes are read-only
+                //await WebActions.delay(1500);
                 await expect (await this.page.locator(Element.role_checkbox(`REQUESTOR`)).count()).toEqual(1);
                 await expect (await this.page.locator(Element.role_checkbox(`EMPLOYEE`)).count()).toEqual(1);
                 await expect (await this.page.locator(Element.role_checkbox(`SUPPLIER`)).count()).toEqual(0);
                 console.info(`Requestor and Guest chekboxes are disabled.`);
-                WebActions.delay(300);
             } else if (val.includes('REQUESTOR') || val.includes('EMPLOYEE')){
                 // check that Suppier checkbox is read-only
+                //await WebActions.delay(1500);
                 await expect (await this.page.locator(Element.role_checkbox(`REQUESTOR`)).count()).toEqual(0);
                 await expect (await this.page.locator(Element.role_checkbox(`EMPLOYEE`)).count()).toEqual(0);
                 await expect (await this.page.locator(Element.role_checkbox(`SUPPLIER`)).count()).toEqual(1);
                 console.info(`Supplier chekbox is disabled.`);
-                WebActions.delay(300);
             }
         }
     }

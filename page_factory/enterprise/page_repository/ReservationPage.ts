@@ -365,6 +365,8 @@ export default class ReservationPage {
 
     async acceptExtensionRateSegmentsTerms(){
         console.info(`Accepting the extension rate segments terms.`);
+        await WebActions.delay(1000);
+        await this.page.waitForSelector(Element.edit_segments_modal);
         await this.page.click(Checkbox.edit_segment_understand);
         await this.page.click(Checkbox.ntv_confirmation);
         await this.page.click(Checkbox.ntv_taxes_and_fees_acknowledge);
