@@ -38,13 +38,15 @@ export default class B2eServices {
     async click_submit_service_issue(): Promise<void> {
         console.info(`click on the submit service issue button.`);
         await this.webAction.clickElementJS(Button.submit_service_issue);
-        await this.page.waitForLoadState(`networkidle`);
+        //await this.page.waitForLoadState(`networkidle`);
+        await WebActions.delay(500);
         await this.page.waitForLoadState(`domcontentloaded`);
-        await WebActions.delay(2000);
+        await WebActions.delay(1500);
     }
 
     async verifyIssueSubmitted(description: string): Promise<void> {
         console.info(`Verifying that the Service Issue was submitted.`);
+        await WebActions.delay(1000);
         await this.page.waitForSelector(Element.issue_submitted_modal);
         await expect(await this.page.locator(Element.issue_submitted_modal).count()).toEqual(1);
         await this.page.click(Button.view_your_issues);
@@ -53,15 +55,16 @@ export default class B2eServices {
         await this.page.waitForLoadState(`domcontentloaded`);
         await this.page.waitForSelector(Element.issue_status);
         await WebActions.delay(500);
-        this.verifyServiceDescriptionOnList(description);
+        await this.verifyServiceDescriptionOnList(description);
     }
 
     async verifyServiceDescriptionOnList(description: string): Promise<void> {
         console.info(`Verifying that the service Issue description is present.`);
         await WebActions.delay(300);
-        await this.page.waitForLoadState(`networkidle`);
+        //await this.page.waitForLoadState(`networkidle`);
         await this.page.waitForLoadState(`domcontentloaded`);
-        await WebActions.delay(3000);
+        await WebActions.delay(2000);
+        await this.page.waitForSelector(Element.service_issue_item(description));
         await expect(await this.page.locator(Element.service_issue_item(description)).count()).toEqual(1);
         await WebActions.delay(2000);
     }
@@ -71,7 +74,7 @@ export default class B2eServices {
         await this.page.click(Element.service_issue_item(description));
         await WebActions.delay(300);
         await this.page.waitForLoadState(`domcontentloaded`);
-        await this.page.waitForLoadState(`networkidle`);
+        //await this.page.waitForLoadState(`networkidle`);
         await WebActions.delay(500);
     }
 
@@ -100,7 +103,7 @@ export default class B2eServices {
         await this.submitService();
         await WebActions.delay(300);
         await this.page.waitForLoadState(`domcontentloaded`);
-        await this.page.waitForLoadState(`networkidle`);
+        //await this.page.waitForLoadState(`networkidle`);
         await WebActions.delay(500);
         await this.validateCommentsubmitted();
         await this.closeServiceItem();
@@ -114,7 +117,7 @@ export default class B2eServices {
         await this.page.click(Button.resolved_confirmation);
         await WebActions.delay(1000);
         await this.page.waitForLoadState(`domcontentloaded`);
-        await this.page.waitForLoadState(`networkidle`);
+        //await this.page.waitForLoadState(`networkidle`);
         await WebActions.delay(2000);
     }
 
@@ -122,7 +125,7 @@ export default class B2eServices {
         console.info(`Verifying if the Servie Issue status is Resolved.`);
         await WebActions.delay(1000);
         await this.page.waitForLoadState(`domcontentloaded`);
-        await this.page.waitForLoadState(`networkidle`);
+        //await this.page.waitForLoadState(`networkidle`);
         await this.page.waitForSelector(Element.service_issue_item(description));
         await expect(await this.page.locator(Element.service_issue_resolved(description)).count()).toEqual(1);
     }
@@ -131,7 +134,7 @@ export default class B2eServices {
         console.info(`Verifying that the Service issue is not visible for the Guest.`);
         await WebActions.delay(1000);
         await this.page.waitForLoadState(`domcontentloaded`);
-        await this.page.waitForLoadState(`networkidle`);
+        //await this.page.waitForLoadState(`networkidle`);
         await expect(await this.page.locator(Element.service_issue_item(description)).count()).toEqual(0);
         await WebActions.delay(500);
     }

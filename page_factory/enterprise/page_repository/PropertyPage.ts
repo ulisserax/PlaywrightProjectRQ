@@ -102,5 +102,6 @@ export default class PropertyPage {
       await this.page.type(Input.property_amenities, `${ENV.PROPERTY_AMENITIES}`);
       await this.page.click(Button.update_property);
       await this.page.click(Button.close);
+      await WebActions.delay(2000);
    }
 }

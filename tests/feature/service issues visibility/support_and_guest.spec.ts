@@ -1,11 +1,4 @@
-import B2eHomePage from '@b2e_pages/B2eHomePage';
-import B2eQuestDetailsPage from '@b2e_pages/B2eQuestDetailsPage';
-import B2eQuestsPage from '@b2e_pages/B2eQuestsPage';
-import B2eServices from '@b2e_pages/B2eServices';
-import MailCatcher from '@enterprise_pages/MailCatcherPage';
-import ServiceIssuePage from '@enterprise_pages/ServiceIssuePage';
 import test from '@lib/BaseTest';
-import WebActions from '@lib/WebActions';
 import { expect } from '@playwright/test';
 import ENV from '@utils/env'
 const Chance = require("chance");
@@ -119,14 +112,14 @@ test.describe.serial("EB2E - RQPro Service Issue between Support and Guest", () 
 
     test("Validating Service Issue emails", async ({webActions, configurationInstance, mailCatcher}) => {
         console.info(`Validating al the emails related to the Support-Guest RQPRO Service Issue flow`);
-        //await webActions.login(`superadmin`, `${ENV.SUPPLIER_DOMAIN}/configuration/instance`, ENV.SUPER_ADMIN, ENV.SUPER_ADMIN_PASSWORD);
-        //await configurationInstance.mailPush();
+        await webActions.login(`superadmin`, `${ENV.SUPPLIER_DOMAIN}/configuration/instance`, ENV.SUPER_ADMIN, ENV.SUPER_ADMIN_PASSWORD);
+        await configurationInstance.mailPush();
         await webActions.navigateTo(ENV.MAILCATCHER_URL);
 
         //63 SUPPORT CREATE A SERVICE ISSUE => SENDS 1 EMAIL TO THE GUEST
-        ENV.API_RESERVATION_UID = "RQR755712";
-        ENV.RQPRO_GUEST_FOR_SERVICE = "guest-support-serviceissue@nt3reqrqpro.com";
-        ENV.API_RESERVATION_ID = "19284";
+        //ENV.API_RESERVATION_UID = "RQR755712";
+        //ENV.RQPRO_GUEST_FOR_SERVICE = "guest-support-serviceissue@nt3reqrqpro.com";
+        //ENV.API_RESERVATION_ID = "19284";
         await mailCatcher.verifyFeatureEmails(`Guest - ServiceIssue submitted`, ENV.RQPRO_GUEST_FOR_SERVICE, `Service Issue has been submitted for ReloQuest reservation ${ENV.API_RESERVATION_UID}`, 
         2, `//div[@class='container-fluid'][//p[contains(text(),'Service Issue Submitted')]  and //p[contains(text(),'Support=>Guest')]]`, `//a[contains(@href,'/services')]`, `${ENV.RQPRO_B2E_URL}/b2e/quests/${ENV.API_RESERVATION_ID}/services`);
 

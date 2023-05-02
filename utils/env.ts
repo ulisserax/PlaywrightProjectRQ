@@ -57,7 +57,7 @@ export default class ENV{
     static PROPERTY_DESCRIPTION      = ''
     static PROPERTY_FEATURES         = ''
     static PROPERTY_AMENITIES        = ''
-    static SERVICE_DESCRIPTION       = `${chance.string({length: 5, numeric: true})} - Service Issue created by: `
+    static SERVICE_DESCRIPTION       = `${chance.string({length: 5, numeric: true})} - Service Issue created by:`
     static ROLE_VISIBILITY           = ['REQUESTOR', 'EMPLOYEE', 'SUPPLIER'];
     
     static EXCEPTION_FEE_CLIENT_ID  = process.env.EXCEPTION_FEE_CLIENT_ID

@@ -68,6 +68,7 @@ export default class Element{
     static ntv_status_default              = `//label[contains(text(),'NTV Status:')]//following-sibling::div//div[contains(@class,'ntv-input')]`;
     //static ntv_modal                       = `//div[@id='ntv-submit-modal' and @class='modal fade ntv-modal in']`;
     static ntv_modal                       = `//div[@id='ntv-submit-modal']`;
+    static edit_segments_modal             = `//div[@id='panel_segments']//div[contains(@class,'rate-details')]`;
 
 
     static clickByClientName(client: string){

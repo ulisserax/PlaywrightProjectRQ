@@ -138,6 +138,7 @@ export default class RequestShowPage {
         await this.page.click(Button.awardAlternateOption);
         await this.page.click(Button.yes);
         await this.page.waitForLoadState('networkidle');
+        await this.page.waitForSelector(Element.awarded_options_table_row);
         await expect(await this.page.locator(Element.awarded_options_table_row).count()).toEqual(1);
     }
 
@@ -148,6 +149,7 @@ export default class RequestShowPage {
         await this.page.click(Button.awardAlternateOption);
         await this.page.click(Button.yes);
         await this.page.waitForLoadState('networkidle');
+        await this.page.waitForSelector(Element.awarded_options_table_row);
         await expect(await this.page.locator(Element.awarded_options_table_row).count()).toEqual(1);
     }
 
