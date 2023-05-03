@@ -4,6 +4,7 @@ import Element from '@enterprise_objects/Element';
 import { Page, expect } from '@playwright/test';
 import WebActions from '@lib/WebActions';
 import Checkbox from '@enterprise_objects/Checkbox';
+import Link from '@enterprise_objects/Link';
 const Chance = require("chance");
 const chance = new Chance();
 
@@ -76,6 +77,68 @@ export default class ClientPage {
         console.info(`Verifying that the Client was successfully Duplicated.`);
         await WebActions.delay(300);
         await (await this.page.waitForSelector(Button.update_client)).isVisible();
+    }
+
+    async editClientSupplierManagement() {
+        console.info(`Clicking on the client_supplier_management icon.`)
+        await this.page.click(Element.client_supplier_management);
+        await WebActions.delay(300);
+        await this.page.waitForLoadState('domcontentloaded');
+        await this.page.waitForLoadState('networkidle');
+
+    }
+
+    async waitForLoadAreaList() {
+        await WebActions.delay(1000);
+        await this.page.waitForLoadState('domcontentloaded');
+        await this.page.waitForLoadState('networkidle');
+        await WebActions.delay(2000);
+    }
+    async createClientByAreaDirected(location: string, supplier: string) {
+        console.info(`Creating a Client Direct by Area rule for ${location}.`);
+        let exist =  await this.page.locator(Element.client_directed_area_table(location, supplier)).isVisible();
+        if (exist==false) {
+            await this.page.click(Link.add_client_direct_area);
+            await this.page.type(Input.client_area_name, location);
+            await this.page.type(Input.client_area_location, location);
+            await WebActions.delay(500);
+            await this.page.waitForLoadState('domcontentloaded');
+            await this.page.waitForLoadState('networkidle');
+            await this.page.locator(Link.desired_location).first().click();
+            await WebActions.delay(500);
+            await this.page.keyboard.press('Enter');
+            await WebActions.delay(500);
+            await this.page.click(`//*[@id="parent_form_name"]/div/label/span[contains(.,'Directed')]/..//following-sibling::div`);
+            await this.page.locator('body').getByRole('document').getByText(supplier).click();
+            await this.page.click(`//*[@id="parent_form_name"]/div/label/span[contains(.,'Directed')]/..//following-sibling::div`);
+            await WebActions.delay(300);
+            await this.page.click(Button.save_client_directed_area);
+            await WebActions.delay(500);
+            await this.page.waitForLoadState('domcontentloaded');
+            await this.page.waitForLoadState('networkidle');
+            await WebActions.delay(1000);
+            await expect(await this.page.locator(Element.client_directed_area_table(location, supplier))).toBeVisible();
+            console.info(`${location} was created!`)
+        }
+    }
+
+    async removeExistingClientDirectedAreas() {
+        console.info(`clicking on Remove`);
+        await WebActions.delay(1000);
+        var num = await this.page.locator(Link.action_remove).count();
+        num=+num;
+        console.info(+num);
+        for (let i=num; i>0; i--) {
+            console.info(Link.remove(i));
+            await this.page.click(Link.remove(i));
+            await WebActions.delay(500);
+            await this.page.click(Button.remove);
+            await WebActions.delay(500);
+            await this.page.waitForLoadState(`networkidle`);
+            await this.page.waitForLoadState(`domcontentloaded`);
+            await expect (await this.page.locator(`.spinner`)).toBeHidden();
+            await WebActions.delay(500);
+        }
     }
 
 }

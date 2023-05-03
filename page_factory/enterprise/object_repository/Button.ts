@@ -96,6 +96,7 @@ export default class Button{
     static add_property                   = `#button_add_property`;
     static add_an_area                    = `#button_add_area`;
     static save_client                    = `.btn-group .btn-primary`;
+    static save_client_directed_area      = `.modal-footer .btn-primary`;
     static update_client                  = `//div[@aria-hidden='false']//button[contains(text(),'Update')]`;
     static duplicate_client               = `//div[@aria-hidden='false']//button[contains(text(),'Duplicate')]`;
     static modal_duplicate_client         = `.client-name-modal .btn-primary`;
@@ -120,4 +121,5 @@ export default class Button{
     static create_new_reservation_segment = `//div[@id='ntv-approve-deny-modal-supplier' and contains(@class, 'fade in')]//button[contains(text(),'Create New Reservation Segment')]`;
     static decline                        = `//table[@id='reservation_list']//button[contains(text(),'Decline')]`;
     static decline_changes                = `//div[@id='reject-modal']//button[contains(text(),'Decline Changes')]`;
+    static remove                         = `//button[contains(.,'Remove')]`;
 }
