@@ -126,8 +126,9 @@ export default class ENV{
     static DB_PASSWORD  = process.env.DB_PASSWORD
     static IMAGE_PATH   = 'images/property1.jpeg'
 
-    static ALLOCATION_CLIENT                = 4944 //4941
+    static ALLOCATION_CLIENT                = 4951  //4941 - 4944
     static ALLOCATION_CLIENT2               = 4944
+    static ALLOCATION_SUPPLIERS             = [`Synergy Global Housing`, `National Corporate Housing`, `CWS Corporate Housing`]
     static ALLOCATION_REQUESTOR_ADMIN       = "ppadmin"
     static ALLOCATION_REQUESTOR_PASS        = "Superadmin99"
     static ALLOCATION_URL1                  = "https://stagent1req.reloquest.com"

@@ -97,8 +97,4 @@ export default class Element{
         return `//div[@id='comments-container']//div[contains(.,'${description}')]`;
     }
 
-    static client_directed_area_table(client_area: string, supplier: string) {
-        return `//tr//td[text()='${client_area}']/../td[contains(.,'${supplier}')]`
-    }
-
 }

@@ -7,7 +7,7 @@ test.describe ("REMOVE all client directed areas", ()=>{
     test.slow();
 
     test (`Removing existing Client Directed By Area`, async ({webActions, client}) =>{
-        await webActions.login(`requestor`, `${ENV.SUPPLIER_DOMAIN}/client/edit/4944`, `ppadmin`, `Superadmin99`);
+        await webActions.login(`requestor`, `${ENV.SUPPLIER_DOMAIN}/client/edit/4941`, `ppadmin`, `Superadmin99`);
         await client.editClientSupplierManagement();
         await client.waitForLoadAreaList();
         await client.removeExistingClientDirectedAreas();
