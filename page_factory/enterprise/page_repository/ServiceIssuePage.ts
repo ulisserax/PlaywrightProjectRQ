@@ -34,7 +34,7 @@ export default class ServiceIssuePage {
         await this.page.click(Link.add_a_comment);
         await this.page.waitForLoadState('domcontentloaded');
         await this.page.type(Textarea.new_comment, 'service issue for testing purpose is now resolved.', {delay: 50});
-        await this.page.click(Button.save_comment);
+        //await this.page.click(Button.save_comment);
         await WebActions.delay(800);
         await this.page.waitForLoadState('networkidle');
         await this.page.waitForLoadState('domcontentloaded');
