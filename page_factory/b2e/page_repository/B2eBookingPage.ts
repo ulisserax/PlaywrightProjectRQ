@@ -31,7 +31,7 @@ export default class B2eBookingPage {
 
     async paymentInformation(credit_card:string, card_expiration:string, card_cvc:string, zip_code:string ){
         console.info(`Filling payment information`);
-        await WebActions.delay(2000);
+        await WebActions.delay(4000);
         //
         if (await this.page.context().pages()[1].locator(Element.are_you_sure_modal).count()>0){
             await WebActions.delay(400);
