@@ -112,7 +112,7 @@ export default class ClientPage {
             await this.page.locator(Link.desired_location).first().click();
             await WebActions.delay(500);
             await this.page.keyboard.press('Enter');
-            await WebActions.delay(500);
+            await WebActions.delay(1000);
             for (var i=0; i<new_suppliers.length; i++) {
                 await this.page.click(`//*[@id="parent_form_name"]/div/label/span[contains(.,'Directed')]/..//following-sibling::div`);
                 await this.page.locator('body').getByRole('document').getByText(new_suppliers[i]).click();

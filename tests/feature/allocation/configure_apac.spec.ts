@@ -13,10 +13,10 @@ test.describe ("APAC - Configurating Client data for the allocation testing", ()
     'Nauru', 'New Caledonia', 'New Zealand', 'Niue', 'Northern Mariana Islands', 'Palau', 'Papua New Guinea', 
     'Pitcairn Islands', 'Samoa', 'Solomon Islands', 'Tokelau', 'Tonga', 'Tuvalu', 'Vanuatu', 'Wallis and Futuna Islands'];
     
-    ENV.ALLOCATION_SUPPLIERS = [`Synergy Global Housing`];
+    ENV.ALLOCATION_SUPPLIERS = [`nt1sup`]; //[`Synergy Global Housing`];
 
     test (`Configure APAC Client Directed By Area`, async ({webActions, client}) =>{
-        await webActions.login(`requestor`, `${ENV.ALLOCATION_URL4}/client/edit/${ENV.ALLOCATION_CLIENT}`, ENV.ALLOCATION_REQUESTOR_ADMIN, ENV.ALLOCATION_REQUESTOR_PASS);
+        await webActions.login(`requestor`, `${ENV.RQPRO_BASE_URL}/client/edit/${ENV.ALLOCATION_CLIENT}`, ENV.ALLOCATION_REQUESTOR_ADMIN, ENV.ALLOCATION_REQUESTOR_PASS);
         await client.editClientSupplierManagement();
         await client.waitForLoadAreaList();
         for (let i=0; i<apac.length; i++){

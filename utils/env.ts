@@ -126,14 +126,12 @@ export default class ENV{
     static DB_PASSWORD  = process.env.DB_PASSWORD
     static IMAGE_PATH   = 'images/property1.jpeg'
 
-    static ALLOCATION_CLIENT                = 4951  //4941 - 4944
-    static ALLOCATION_CLIENT2               = 4944
-    static ALLOCATION_SUPPLIERS             = [`Synergy Global Housing`, `National Corporate Housing`, `CWS Corporate Housing`]
-    static ALLOCATION_REQUESTOR_ADMIN       = "ppadmin"
-    static ALLOCATION_REQUESTOR_PASS        = "Superadmin99"
-    static ALLOCATION_URL1                  = "https://stagent1req.reloquest.com"
-    static ALLOCATION_URL2                  = "https://stagent2req.reloquest.com"
-    static ALLOCATION_URL3                  = "https://stagent3req.reloquest.com"
-    static ALLOCATION_URL4                  = "https://stagent4req.reloquest.com"
+    static ALLOCATION_CLIENT                = process.env.ALLOCATION_CLIENT// 4952 - 4941 - 4944 - 4951
+    static ALLOCATION_CLIENT_NAME           = process.env.ALLOCATION_CLIENT_NAME
+    static ALLOCATION_SUPPLIERS             = [`nt1sup`, `nt2sup`,`nt3sup`] //[`Synergy Global Housing`, `National Corporate Housing`, `CWS Corporate Housing`]
+    static ALLOCATION_REQUESTOR_ADMIN       = `nt3reqrqpro_admin`
+    static ALLOCATION_REQUESTOR_PASS        = "Carpediem_21"
+    // not needed - I'll use RQPRO_BASE_URL //static ALLOCATION_URL1 = "https://stagent1req.reloquest.com"
+    
     static YUS_LOCAL                        = "http://yus.relochoice.com"
 }
