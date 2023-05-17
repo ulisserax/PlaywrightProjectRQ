@@ -109,5 +109,6 @@ export default class ENV{
     static RQPRO_REQ_API_KEY           = process.env.RQPRO_REQ_API_KEY
     static RQPRO_EB2E_CLIENT           = process.env.RQPRO_EB2E_CLIENT
     static SUPPLIER_FOR_RQPRO_API_KEY  = process.env.SUPPLIER_FOR_RQPRO_API_KEY
+    static IMAGE_PATH                  = 'images/property1.jpeg'
 
 }
