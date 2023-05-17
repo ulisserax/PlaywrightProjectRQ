@@ -38,6 +38,12 @@ export default class Link{
     static edit_property           = `//table[contains(@id,'DataTables_Table')]//tbody//a[contains(@href,'/property/')]`;
     static create_account          = `//a[contains(@href,'reloquest.com/register?')]`;
     static exit_impersonation      = `//a[contains(@href,'exit')]`;
+    static add_client_direct_area  = `//a[contains(text(),'here')]`;
+    static action_remove           = `(//tr//td//a[contains(text(),'Remove')])`;
+
+    static remove(num: number) {
+        return `(//tr//td//a[contains(text(),'Remove')])[${num}]`;
+    }
 
     static property_element(text:string){
         return `//ul[@id='select2-results-1']//*[contains(text(),'${text}')]`;

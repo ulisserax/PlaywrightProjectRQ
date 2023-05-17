@@ -41,6 +41,7 @@ export default class Element{
     static client_form_title               = `//h1/span[contains(text(),'Client:')]`;
     static client_settings                 = `.client-ico-settings`;
     static client_details                  = `.client-ico-client-details`;
+    static client_supplier_management      = `.client-ico-supplier-management`;
     static supplier_area_icon              = `//a[@href='#supplier-areas']`;
     static supplier_referral_icon          = `.icon-supplier-referral`;
     static area_confirmation_title         = `//h4[contains(text(),'The approved areas')]`;
@@ -96,4 +97,5 @@ export default class Element{
     static service_comment_content(description: string) {
         return `//div[@id='comments-container']//div[contains(.,'${description}')]`;
     }
+
 }
