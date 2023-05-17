@@ -15,7 +15,7 @@ test.describe.serial("Test Suite Book an alternate ratecard for B2E", () => {
       await b2eHomePage.signIn();
       await b2eSearchPage.newSearch();
       await WebActions.delay(1500);
-      await b2eSearchPage.searchDestination(`Miami, FL, USA`);
+      await b2eSearchPage.searchDestination(`Miami, FL`);
       await b2eSearchPage.selectDates();
       await b2eSearchPage.housingOptionsCorporate();
       await b2eSearchPage.filterByBrand('nt1sup');
