@@ -84,7 +84,7 @@ export default class OptionPage {
       ENV.PROPERTY_DESCRIPTION = chance.sentence();
       ENV.PROPERTY_FEATURES = chance.sentence();
       ENV.PROPERTY_AMENITIES = chance.sentence();
-      ENV.PROPERTY_NAME = `NT1supProperty-#${number}${chance.character({ alpha: true , casing: 'upper'})}`;
+      ENV.PROPERTY_NAME = `nt1sup_property_#${number}${chance.character({ alpha: true , casing: 'upper'})}`;
       await this.page.locator(Link.edit_property).first().click();
       await this.page.fill(Input.property_name,'');
       await this.page.type(Input.property_name, ENV.PROPERTY_NAME, {delay: 50});

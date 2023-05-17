@@ -5,7 +5,7 @@ const Chance = require("chance");
 const chance = new Chance();
 
 
-test.describe.serial('Create a RQ base flow, Supplier, Property, Area, Requestor, Client, Area and Link the companies', () => {
+test.describe.serial.only('Create a RQ base flow, Supplier, Property, Area, Requestor, Client, Area and Link the companies', () => {
 
     test.slow();
     let subject, passwordResetLink;
