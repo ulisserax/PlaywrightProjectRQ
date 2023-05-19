@@ -1,3 +1,4 @@
+import B2eServices from '@b2e_pages/B2eServices';
 import test  from '@lib/BaseTest';
 import WebActions from '@lib/WebActions';
 import ENV  from '@utils/env';
@@ -18,7 +19,11 @@ import ENV  from '@utils/env';
       await b2eSearchPage.searchDestination(`Miami, FL, USA`);
       await b2eSearchPage.selectDates();
       await b2eSearchPage.housingOptionsCorporate();
+<<<<<<< HEAD
+      await b2eSearchPage.searchPropertyName(ENV.PROPERTY); 
+=======
       await b2eSearchPage.searchPropertyName('nt1sup_property');
+>>>>>>> master
       await b2eSearchPage.selectRatecard();
       console.info(ENV.REQUEST_ID);
       await b2ePropertyDetailPage.checkAvailability();
@@ -49,6 +54,8 @@ import ENV  from '@utils/env';
       await b2eQuestsPage.confirmNewOption(); 
       await b2eSearchPage.optionReceived();
       await b2eBookingPage.bookRateCard();
+      await WebActions.delay(4500);
+      await b2eBookingPage.areYouSureModal();
       await b2eBookingPage.paymentInformation(ENV.CREDIT_CARD, ENV.CARD_EXPIRATION, ENV.CARD_CVC, ENV.ZIP_CODE);
       await b2eBookingPage.completeYourQuest();
       await b2eBookingPage.verifyPendingQuest();
@@ -64,13 +71,13 @@ import ENV  from '@utils/env';
       await requestShow.viewReservation();
    })
 
-   test("Modify payment and create a service issue", async ({webActions, b2eHomePage, b2eSearchPage, b2eQuestsPage, b2eQuestDetailsPage}) => {
+   test("Modify payment and create a service issue", async ({webActions, b2eHomePage, b2eSearchPage, b2eQuestsPage, b2eQuestDetailsPage, b2eServices}) => {
       await webActions.navigateTo(ENV.B2E_URL);
       await b2eHomePage.acceptCookies();
       await b2eHomePage.enterCredentials(ENV.B2E_USER, ENV.B2E_USER_PASSWORD);
       await b2eHomePage.signIn();
       await b2eSearchPage.viewAllQuests();
-      await b2eQuestsPage.viewFutureQuest();
+      await b2eQuestsPage.viewFutureQuest(ENV.REQUEST_ID);
       await b2eQuestDetailsPage.verifyFutureQuest();
       await b2eQuestDetailsPage.viewQuestDetails();
       await b2eQuestDetailsPage.verifyPaymentMethod(`1111`);
@@ -79,18 +86,18 @@ import ENV  from '@utils/env';
       await b2eQuestDetailsPage.verifyPaymentMethod(`4242`);
       await b2eQuestDetailsPage.cancelPaymentModal();
       await b2eQuestDetailsPage.closeQuestDetails();
-
-      //Create a service issue
+      await b2eQuestDetailsPage.requestServiceIssue();
+      await b2eServices.createNewServiceIssue(ENV.SERVICE_DESCRIPTION);
    })
 
-   test.skip("Resolve service issue for B2E", async ({webActions, homePage, dashboard, search, requestShow, serviceIssue}) => {
+   test("Resolve service issue for B2E", async ({webActions, homePage, dashboard, search, requestShow, serviceIssue}) => {
       await webActions.navigateTo(ENV.BASE_URL);
       await homePage.enterCredentials(ENV.SUPPLIER_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);
       await homePage.signIn();
       await dashboard.findCurrentRequest(ENV.REQUEST_ID);
       await search.clickRequestIdLink();
-      await requestShow.clickServiceIssue();
+      await requestShow.clickOnServiceIssueTab();
       await requestShow.viewServiceIssue();
-      await serviceIssue.resolveServiceIssue();
+      await serviceIssue.addCommentAndResolveServiceIssue();
   })
  })

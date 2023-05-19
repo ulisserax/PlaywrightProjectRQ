@@ -7,19 +7,22 @@ const chance = new Chance();
 
 test.describe.serial('Create a RQ base flow, Supplier, Property, Area, Requestor, Client, Area and Link the companies', () => {
 
+    // test.describe.configure({ retries:2 });
+
     test.slow();
     let subject, passwordResetLink;
     let number = chance.integer({min:1,max:9999});
-    const requestorCompanyName          = `${chance.word({length: 5})}${chance.string({length: 6, numeric: true})}-requestor`; //'nevol554230-requestor//
-    const supplierCompanyName           = `${chance.word({length: 5})}${chance.string({length: 6, numeric: true})}-supplier`; //'iceha419483-supplier' //
-    const supplierAdminUser             = `${chance.first()}${number}sup_admin`.toLowerCase(); //'charlies0125up_admin'//
-    const requestorAdminUser            = `${chance.first()}${number}req_admin`.toLowerCase();//'bruce018req_admin' //
-    const supplierAdminUserEmail        = `${supplierAdminUser}@${supplierCompanyName}.com`.toLowerCase(); //'charlies0125up_admin@iceha419483-supplier.com'//
-    const requestorAdminUserEmail       = `${requestorAdminUser}@${requestorCompanyName}.com`.toLowerCase();//'bruce018req_admin@nevol554230-requestor.com' //
-    const propertyName                  = `${supplierCompanyName}_property_`;
-    const areaName                      = `${supplierCompanyName}_area_${number}`;
-    const clientName                    = `${requestorCompanyName}_client_${number}`; 
-    const guestEmail                    = `${chance.first()}_guest@${requestorCompanyName}`.toLocaleLowerCase();   
+
+    let supplierAdmin          = `${chance.first()}${number}sup_admin`;
+    const requestorCompanyName = `${chance.word({length: 5})}${chance.string({length: 6, numeric: true})}-requestor`; //'nevol554230-requestor//
+    const supplierCompanyName  = `${chance.word({length: 5})}${chance.string({length: 6, numeric: true})}-supplier`; //'iceha419483-supplier' //
+    const supplierAdminUser    = `${supplierAdmin}@${supplierCompanyName}.com`.toLowerCase(); //'charliesupadmin@iceha419483-supplier.com'//
+    const requestorAdminUser   = `${chance.first()}${number}req_admin@${requestorCompanyName}.com`.toLowerCase();//'brucereqadmin@nevol554230-requestor.com' //
+    const property_name        = `${supplierCompanyName}_property_`;
+    const areaName             = `${supplierCompanyName}_area_${number}`;
+    const clientName           = `${requestorCompanyName}_client_${number}`; 
+    const guest_email          = `${chance.first()}_guest@${requestorCompanyName}`.toLocaleLowerCase();   
+
 
     test ("Create and configure a new Supplier company and a Supplier-admin user.", async ({webActions, user, configurationInstance, mailCatcher, passwordReset, homePage, dashboard, myAccount, company})=>{
         await webActions.navigateTo(ENV.BASE_URL);
@@ -34,13 +37,13 @@ test.describe.serial('Create a RQ base flow, Supplier, Property, Area, Requestor
         await company.setSupplierCompanySettings();
         await company.verifyCompanySettingsUpdated();
         await myAccount.addUser();
-        await user.fillNewUser(supplierCompanyName, supplierAdminUser, "Supplier", supplierAdminUserEmail);
+        await user.fillNewUser(supplierCompanyName, supplierAdminUser, "Supplier", supplierAdminUser);
         await user.verifyUserSaved();
         await webActions.navigateTo(`${ENV.BASE_URL}/configuration/instance`);
         await configurationInstance.mailPush();
         await mailCatcher.openMailCatcher(ENV.MAILCATCHER_URL);
         subject = 'Password Reset - New User Account';
-        await mailCatcher.searchEmail(supplierAdminUserEmail, subject);
+        await mailCatcher.searchEmail(supplierAdminUser, subject);
         passwordResetLink = await mailCatcher.getPasswordResetLink();
         await webActions.navigateTo(passwordResetLink);
         await passwordReset.resetUserPassword();
@@ -61,9 +64,9 @@ test.describe.serial('Create a RQ base flow, Supplier, Property, Area, Requestor
         await homePage.acceptDataProcessingAddendum();
         await dashboard.clickPropertyTab();
         await property.clickAddProperty();
-        await property.fillPropertyOverview(propertyName, 'Miami Beach','Yes','Central A/C','1 bedroom','No Pets');
+        await property.fillPropertyOverview(property_name, 'Miami Beach','Yes','Central A/C','1 bedroom','No Pets');
         await property.addImage(`images/property1.jpeg`);
-        await option.fillContactInformation(`${supplierAdminUser}@service.com`, `${supplierAdminUser}@escalation.com`);
+        await option.fillContactInformation(supplierAdmin);
         await property.createNewProperty();
         await dashboard.clickAreaTab();
         await area.clickAddAnArea();
@@ -82,7 +85,7 @@ test.describe.serial('Create a RQ base flow, Supplier, Property, Area, Requestor
         await company.verifyCompanyCreation(requestorCompanyName);
         await dashboard.clickMyAccountTab();
         await myAccount.addUser();
-        await user.fillNewUser(requestorCompanyName, requestorAdminUser, "Requestor", requestorAdminUserEmail);
+        await user.fillNewUser(requestorCompanyName, requestorAdminUser, "Requestor", requestorAdminUser);
         await user.verifyUserSaved();
         await myAccount.filterUser(requestorAdminUser);
         await myAccount.clickOnEditUser(requestorAdminUser);
@@ -124,13 +127,13 @@ test.describe.serial('Create a RQ base flow, Supplier, Property, Area, Requestor
         await homePage.enterCredentials(ENV.SUPER_ADMIN, ENV.SUPER_ADMIN_PASSWORD); 
         await homePage.signIn();
         await dashboard.impersonate(requestorAdminUser);
-        await newRequest.createNewRequest(clientName, requestorAdminUser, "Miami Beach, FL, USA", guestEmail);
+        await newRequest.createNewRequest(clientName, requestorAdminUser, "Miami Beach, FL, USA", guest_email);
         await requestShow.getRequestId();
         await requestShow.verifyNotifiedsupplier(supplierCompanyName, 'Current', 'Supplier Area');
-        await newRequest.createNewRequest(clientName, requestorAdminUser, "Miami, FL, USA", guestEmail);
+        await newRequest.createNewRequest(clientName, requestorAdminUser, "Miami, FL, USA", guest_email);
         await requestShow.getRequestId();
         await requestShow.verifyNotifiedsupplier(supplierCompanyName, 'Current', 'Custom Area');
-        await newRequest.createNewRequest(clientName, requestorAdminUser, "Weston, FL, USA", guestEmail);
+        await newRequest.createNewRequest(clientName, requestorAdminUser, "Weston, FL, USA", guest_email);
         await requestShow.getRequestId();
         await requestShow.verifyNotifiedsupplier(supplierCompanyName, 'No Area', 'No Area');
     })

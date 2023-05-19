@@ -1,4 +1,3 @@
-import WebActions from "@lib/WebActions";
 import { expect } from "@playwright/test";
 import ENV from "@utils/env";
 const Chance = require("chance");
@@ -12,7 +11,7 @@ export default class OptionEndpoints {
         this.request = request;
     }
 
-    async optionCreate( base_url: string, api_key:string, request_id:string, property_id:number, start_date:string, end_date:string){
+    async optionCreate( base_url: string, api_key:string, supplier_email:string, request_id:string, property_id:number, start_date:string, end_date:string){
         const _response = await this.request.post(`${base_url}/api/v1/option/create/${request_id}?apikey=${api_key}`, {
             data: {
                     "property": property_id,
@@ -35,10 +34,10 @@ export default class OptionEndpoints {
                     "features": "Testing the FEATURES field",
                     "hold": 0,
                     "customer_service_phone_24h": 123,
-                    "service_issue_email": `${ENV.SUPPLIER_COMPANY_EMAIL}`,
+                    "service_issue_email": supplier_email,
                     "service_issue_phone": 7862563652,
                     "escalation_name": "Name",
-                    "escalation_email": `${ENV.SUPPLIER_COMPANY_EMAIL}`,
+                    "escalation_email": supplier_email,
                     "escalation_phone": 7862563652,
                     "internet": 1,
                     "maid_service": 1,
@@ -48,7 +47,7 @@ export default class OptionEndpoints {
                         {
                             "type_of_parking": 5,
                             "start_date": start_date,
-                            "fee_basis_amount": chance.integer({min:1, max:25}),
+                            "fee_basis_amount": chance.integer({min:1, max:10}),
                             "end_date": end_date,
                             "calculation_method": "PERCENT"
                         }
@@ -121,11 +120,13 @@ export default class OptionEndpoints {
                             "end_date": end_date,
                             "calculation_method": "FLAT",
                             "fee_basis_amount": chance.integer({min:100, max:1000}),
+                            "fee_description":"tax for test",
                             "fee_type": 1
                         }
                     ]
                 }      
         });
+        console.log(await _response.text());
         await expect(_response.status()).toBe(200);
         const body = await _response.text();
         return body;
@@ -134,6 +135,7 @@ export default class OptionEndpoints {
     async optionAward( base_url: string, api_key:string, option_id:string){
         const _response = await this.request.post(`${base_url}/api/v1/option/${option_id}/award?apikey=${api_key}`, {
         });
+        console.log(await _response.text());
         await expect(_response.status()).toBe(200);
         const body = await _response.text();
         return body;

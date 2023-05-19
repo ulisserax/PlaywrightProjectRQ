@@ -62,7 +62,7 @@ export default class B2eQuestDetailsPage {
         console.info(`Verifying payment method`);
         await WebActions.delay(2000);
         await this.page.click(Link.edit_payment_method);
-        await WebActions.delay(2000);
+        await WebActions.delay(4000);
         await expect(await this.page.locator(Text.current_card).textContent()).toContain(cc_last_digit);
     }
 
@@ -78,10 +78,11 @@ export default class B2eQuestDetailsPage {
     async savePaymentMethod(){
         console.info(`Saving payment method`);
         await this.page.click(Button.save_card);
-        //await this.page.locator(Button.save_card).isHidden({timeout:5000});
         await WebActions.delay(6000);
         await this.page.waitForSelector(Text.payment_updated);
+        await WebActions.delay(1500);
         await this.page.click(Button.got_it);
+        await WebActions.delay(5000);
         await this.page.waitForLoadState(`domcontentloaded`);
     }
 
@@ -107,11 +108,56 @@ export default class B2eQuestDetailsPage {
 
     async verifyQuestDetails(reservation_id:string, property_name: string, property_address:string){
         console.info(`Verifying reservation, property name and property address`);
+        //await this.page.waitForLoadState(`networkidle`);
+        await this.page.waitForLoadState(`domcontentloaded`);
         await WebActions.delay(2700);
-        //await this.page.context().pages()[1].waitForLoadState(`networkidle`);
+        await this.page.context().pages()[1].waitForSelector(Text.questDetails(`Reservation #${reservation_id}`));
         await expect(await this.page.context().pages()[1].locator(Text.questDetails(`Reservation #${reservation_id}`)).count()).toBeGreaterThan(0);
         await expect(await this.page.context().pages()[1].locator(Text.questDetails(property_name)).count()).toBeGreaterThan(0);
         await expect(await this.page.context().pages()[1].locator(Text.questDetails(property_address)).count()).toBeGreaterThan(0);
+    }
+
+    async requestServiceIssue() {
+        console.info(`Clicking on Request Service`);  
+        await this.page.click(Element.request_service);
+        await WebActions.delay(500);
+        await this.page.waitForLoadState(`domcontentloaded`);
+        await WebActions.delay(2000);
+    }
+
+    async validateServiceRedBadge(): Promise<void> {
+        console.info(`Validate if the red-badge alert is present on the Request Service icon.`);
+        await this.page.waitForSelector(Element.request_service);
+        await WebActions.delay(1000);
+        await expect (await this.page.locator(Element.service_alert_icon).count()).toBeGreaterThan(0);
+    }
+
+    async requestNTV(){
+        console.info(`Clicking on Notice to Vacate`);
+
+        //await this.page.pause();
+        await this.page.click(Link.notice_to_vacate);
+        await this.page.waitForSelector(Button.ntv_confirm);
+        await this.page.click(Button.ntv_confirm);
+        await this.page.waitForSelector(Button.ntv_submitted_ok);
+        await this.page.click(Button.ntv_submitted_ok);
+        await WebActions.delay(3000);
+        await this.page.waitForSelector(Element.ntv_submitted_box);
+        await expect(await this.page.locator(Element.ntv_submitted_box).first().textContent()).toContain('Notice to Vacate Submitted');
+    }
+
+    async requestNTE(){
+        console.info(`Clicking on Notice to Vacate`);
+        await this.page.click(Link.notice_to_vacate);
+        await this.page.waitForSelector(Link.ntv_change_date);
+        await this.page.click(Link.ntv_change_date);
+        await this.page.waitForSelector(Element.nte_next_month);
+        await this.page.click(Element.nte_next_month);
+        await this.page.locator(Element.nte_end_date).nth(29).click();
+        await this.page.click(Button.nte_request_extension);
+        await this.page.waitForSelector(Element.ntv_submitted_box);
+        await expect(await this.page.locator(Element.ntv_submitted_box).first().textContent()).toContain('Extension Requested');
+        
     }
     
 }

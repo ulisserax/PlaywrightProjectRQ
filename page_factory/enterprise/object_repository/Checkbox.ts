@@ -14,4 +14,8 @@ export default class Checkbox{
     static new_company                          = `#form_new_company_0`;
     static show_company                         = `input[label*='Show Company']`;
     static guest_can_award                      = `input[label*='Guest Can Award']`;
+    static acknowledge_notice_given             = `//input[@id='acknowledge_notice_given']`;
+    static acknowledge_date_changes             = `//input[@id='acknowledge_date_changes']`;
+    static ntv_confirmation                     = `//input[@id='ntvConfirmation']`;
+    static ntv_taxes_and_fees_acknowledge       = `//input[@id='ntvTaxFeeConfirmation']`;
 }

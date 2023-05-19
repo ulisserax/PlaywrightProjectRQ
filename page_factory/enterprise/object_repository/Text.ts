@@ -8,11 +8,11 @@ export default class Text{
     static email_to                             = `#message dd.to`;
     static email_subject                        = `#message dd.subject`;
     static acknowledge_text                     = `#container-inner .acknowledgement-item__text`;
-    static reservation_info_header              = `h2.header-title`; 
+    static reservation_info_header              = `div.header-title p`; 
     static segment_pending_approval_section     = `div#segments-history-modal strong:text('Segments Pending Approval:')`;  
     static reservation_information              = `div.reservation`;
     static hotel_reservation_id                 = `div#hotelOptionDetailSection span:text('Reloquest Reservation ID:') span`;
-    static property_distance_modal_notification = `//div[@class='modal fade in']//div[contains(text(),'mi (of Driving) from the requested location.')]`;
+    static property_distance_modal_notification = `//div[@class='modal fade in']//div[contains(text(),'(of Driving) from the requested location.')]`;
     static service_issue_resolved               = `//table[@id='supplier_status_list']//tbody//td[4]`;
     static first_option_rate                    = `td.total_rate span`;
     static first_property_name                  = `td.property-name a`;
@@ -57,6 +57,7 @@ export default class Text{
     static modal_tax_segment_length             = `//div[@id='rate_segment_placement']//input[contains(@class,'segment-length-stay')]`;
     static request_status                       = `.request-link`;
     static updated_fields                       = `//div[@class='modal fade in']//p[contains(text(),'The following property fields on')]`;
+    static ntv_status                           = `//label[contains(text(),'NTV Status:')]//following-sibling::div//div[contains(@class,'ntv-input')]`;
 
     static specificEmail(email: string, email_subject: string){
         return `//td[contains(text(),'${email.toLocaleLowerCase()}')]/following-sibling::td[contains(text(),'${email_subject}')]`;
@@ -69,6 +70,8 @@ export default class Text{
     static supplier_notified(supplier: string){
         return `//table[@id='supplier_status_list'] //td[contains(text(),'${supplier}')]`;
     }
+
+    
 
     
 }

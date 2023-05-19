@@ -5,12 +5,14 @@ const chance = new Chance();
 
 
 test.describe.serial("Test Suite for Segments Validation", () => {
+    
     test.slow();
         
     test(`Create request via api, bid and `, async({requestEndpoints, webActions,homePage, dashboard, search, requestShow, option}) =>{
         
-        const _response = await requestEndpoints.createRequest(ENV.BASE_URL,'nt1req_admin_api_key', Number(ENV.CLIENT_ID), 'Miami, FL, USA', ENV.START_DATE, 
-        ENV.END_DATE);
+
+        const _response = await requestEndpoints.createRequest(ENV.BASE_URL,ENV.REQUESTOR_API_KEY, Number(ENV.EXCEPTION_FEE_CLIENT_ID), 'Miami, FL, USA', ENV.START_DATE, ENV.END_DATE, ENV.GUEST_FIRSTNAME,ENV.GUEST_LASTNAME,ENV.GUEST_EMAIL, '7863652563');
+
         ENV.REQUEST_ID = JSON.parse(_response).request_id;
         console.info(`Request Id: ${ENV.REQUEST_ID}`);
         await webActions.navigateTo(ENV.BASE_URL);
@@ -34,6 +36,7 @@ test.describe.serial("Test Suite for Segments Validation", () => {
         await option.selectRateType(`NIGHT`);
         await option.totalRateCalculation('Nights');
         await option.submitOption();
+        await requestShow.verifyOptionSubmitted();
     })
 
     test("Award option", async ({webActions, homePage, dashboard, search, requestShow, requestEndpoints}) => {

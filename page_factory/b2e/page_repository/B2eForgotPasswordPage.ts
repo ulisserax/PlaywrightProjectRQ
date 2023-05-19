@@ -19,8 +19,9 @@ export default class B2eForgotPasswordPage {
         await this.page.waitForSelector(Input.email);
         await this.page.type(Input.email, email, {delay:30});
         await this.page.click(Button.send_link);
-        await WebActions.delay(600);
+        await WebActions.delay(6000);
         await this.page.waitForLoadState(`domcontentloaded`);
+        await this.page.waitForSelector(Element.check_your_email_icon);
         await expect (await this.page.locator(Element.check_your_email_icon).count()).toBeGreaterThan(0);
     }
 
@@ -36,8 +37,9 @@ export default class B2eForgotPasswordPage {
 
     async LogIn(){
         console.info(`Clicking on login`);
-        await WebActions.delay(1000);
+        await WebActions.delay(2500);
         await this.page.waitForLoadState(`domcontentloaded`);
+        await this.page.waitForSelector(Element.reset_password_successfull);
         await expect (await this.page.locator(Element.reset_password_successfull).count()).toBeGreaterThan(0);
         await this.page.click(Button.log_in);
     }

@@ -10,12 +10,16 @@ import Dropdown from "@enterprise_objects/Dropdown";
 import Element from "@enterprise_objects/Element";
 import Link from "@enterprise_objects/Link";
 import Switch from "@enterprise_objects/Switch";
+import ServiceIssuePage from "./ServiceIssuePage";
+import Textarea from "@enterprise_objects/Textarea";
 
 export default class RequestShowPage {
     readonly page: Page;
+    readonly serviceIssue: ServiceIssuePage;
 
      constructor(page:Page){
           this.page = page;
+            this.serviceIssue = new ServiceIssuePage(page);
     }
 
     async getRequestId(): Promise<void>{
@@ -58,7 +62,6 @@ export default class RequestShowPage {
         if(await this.page.$(Button.rqpro_modal_continue) !== null){
             await this.page.click(Button.rqpro_modal_continue);
         }
-        
     }
 
     async shareWithClient(email: string): Promise<void>{
@@ -85,7 +88,6 @@ export default class RequestShowPage {
         await this.page.waitForLoadState('networkidle');
         await this.page.click(Button.close);
         await this.page.waitForLoadState('networkidle');
-        
     }
 
     async acknowledgeAward(response:string): Promise<void>{
@@ -96,6 +98,7 @@ export default class RequestShowPage {
         }
         await this.page.click(Button.submit_akcnowledge);
         await this.page.waitForLoadState('networkidle');
+        await WebActions.delay(2000);
         await expect(await this.page.locator(Text.acknowledge_text).first().textContent()).toContain(`Award acknowledged on:`);
     }
     async alternateOption(response:string): Promise<void>{
@@ -118,21 +121,14 @@ export default class RequestShowPage {
         await this.page.waitForLoadState('networkidle');
         await this.page.waitForLoadState('domcontentloaded');
         await expect(await this.page.locator(Element.table_option_declined).count()).toEqual(1);
-
     }
 
     async viewReservation(): Promise<void>{
         console.info(`View reservation`);
         await this.page.click(Button.reservation_info);
         await this.page.waitForLoadState('domcontentloaded');
-        await expect(await this.page.url()).toContain(`${ENV.BASE_URL}/reservation`);
+        await expect(await this.page.url()).toContain(`/reservation/RQR`);
         await WebActions.delay(1500);
-    }
-
-    async clickServiceIssue(): Promise<void>{
-        console.info(`Clicking service issue button`);
-        await this.page.click(Button.service_issues);
-        await this.page.waitForLoadState('domcontentloaded');
     }
 
     async awardAlternateOption(): Promise<void>{
@@ -142,6 +138,7 @@ export default class RequestShowPage {
         await this.page.click(Button.awardAlternateOption);
         await this.page.click(Button.yes);
         await this.page.waitForLoadState('networkidle');
+        await this.page.waitForSelector(Element.awarded_options_table_row);
         await expect(await this.page.locator(Element.awarded_options_table_row).count()).toEqual(1);
     }
 
@@ -152,25 +149,73 @@ export default class RequestShowPage {
         await this.page.click(Button.awardAlternateOption);
         await this.page.click(Button.yes);
         await this.page.waitForLoadState('networkidle');
+        await this.page.waitForSelector(Element.awarded_options_table_row);
         await expect(await this.page.locator(Element.awarded_options_table_row).count()).toEqual(1);
     }
 
-    async createServiceIssue(): Promise<void>{
-        console.info(`Creating Service issues`);
+    async validateServiceIssueTab(): Promise<void>{
+        console.info(`Validate if the Service Issue tab is present.`);
+        await expect(await this.page.locator(Button.service_issues).count()).toEqual(1);
+    }
+
+    async createServiceIssue(description: string, role_visibility: string[] ): Promise<void> {
+        console.info(`Creating a new Service issues`);
+        await this.clickOnServiceIssueTab();
+        await this.clickOnCreateServiceIssue();
+        await this.serviceIssue.fillServiceIssueInformation(description);
+        await this.serviceIssue.setVisibility(role_visibility);
+        await this.serviceIssue.validateCheckboxes(role_visibility);
+        await this.serviceIssue.submitServiceIssue();
+        await WebActions.delay(300);
+        await this.page.waitForLoadState('networkidle');
+        await this.page.waitForLoadState('domcontentloaded');
+    }
+
+    async clickOnServiceIssueTab(): Promise<void>{
+        await WebActions.delay(1000);
+        await this.page.waitForLoadState('networkidle');
+        await this.page.waitForLoadState('domcontentloaded');
+        console.info(`Clicking service issue button`);
+        await this.page.click(Button.service_issues);
+        await WebActions.delay(1000);
+        await this.page.waitForLoadState('networkidle');
+        await this.page.waitForLoadState('domcontentloaded');
+        await WebActions.delay(500);
+    }
+    
+    async clickOnCreateServiceIssue(): Promise<void>{
+        console.info(`Clicking on the Create Service issue button`);
         await this.page.click(Button.create_new_service_issue);
         await this.page.waitForLoadState('domcontentloaded');
     }
 
     async viewServiceIssue(): Promise<void>{
-        console.info(`view service issue button`);
+        console.info(`Click on the service issue button`);
         await this.page.click(Link.view_service_issue);
+        await WebActions.delay(300);
+        await this.page.waitForLoadState('networkidle');
         await this.page.waitForLoadState('domcontentloaded');
     }
 
-    async validateServiceIssueWasCreated(): Promise<void>{
+    async validateServiceIssueWasCreated(description: string): Promise<void>{
         console.info(`Validate that service issue was created`);
         await this.page.waitForLoadState('domcontentloaded');
-        await expect(await this.page.locator(Element.service_issue_row).count()).toBeGreaterThanOrEqual(1);
+        await expect(await this.page.locator(Element.service_issue_created(description)).count()).toBeGreaterThanOrEqual(1);
+    }
+
+    async validateServiceIssueIsNotVisible(description: string): Promise<void> {
+        console.info(`Validating if a Service Issue is not visible.`);
+        await this.page.waitForLoadState('domcontentloaded');
+        await expect(await this.page.locator(Element.service_issue_created(description)).count()).toBeGreaterThanOrEqual(0);
+        await WebActions.delay(500);
+    }
+
+    async editServiceIssue(description: string): Promise<void> {
+        console.info(`Clicking on view link to editing a especific Service Issue.`);
+        await this.page.click(Element.view_service_issue(description));
+        await WebActions.delay(500);
+        await this.page.waitForLoadState('networkidle');
+        await this.page.waitForLoadState('domcontentloaded');
     }
 
     async validateHotelSpecialInformation(): Promise<void>{
@@ -203,7 +248,6 @@ export default class RequestShowPage {
             await this.page.waitForLoadState('networkidle');
             await this.page.waitForLoadState('domcontentloaded');
         }
-        
     }
 
     async verifyOptionRate(): Promise<void>{
@@ -212,7 +256,7 @@ export default class RequestShowPage {
         let property_name =  await this.page.locator(Text.first_property_name).textContent();
         await this.page.locator(Checkbox.option_checkbox).first().click();
         await this.page.click(Button.map_view);
-        await this.page.click(Element.option_map_icon);
+        await this.page.locator(Element.option_map_icon).click();
         let card_property_rate = await this.page.locator(Text.card_property_rate).textContent();
         let card_property_name = await this.page.locator(Text.card_property_name).textContent();
         await expect(await card_property_rate).toContain(rate);
@@ -224,7 +268,6 @@ export default class RequestShowPage {
         await WebActions.delay(500);
         console.log(await this.page.locator(Input.rate).inputValue());
         await expect(await this.page.locator(Input.rate).inputValue()).toContain(rate);
-
     }
     
     async verifyOptionSubmitted(): Promise<void>{
@@ -250,9 +293,11 @@ export default class RequestShowPage {
         await this.page.click(Checkbox.option_checkbox);
         await this.page.click(Button.verify_option);
         await this.page.click(Button.send);
-        await WebActions.delay(1400);
+        await WebActions.delay(400);
         await this.page.waitForLoadState(`networkidle`);
         await this.page.waitForLoadState(`domcontentloaded`);
+        await this.page.waitForSelector(Element.modal_availability_not_visible);
+        await WebActions.delay(400);
         await expect(await this.page.locator(Element.option_availability_message).count()).toEqual(1);
     }
 
@@ -265,6 +310,9 @@ export default class RequestShowPage {
         await expect(await this.page.locator(Switch.avialable_yes).count()).toEqual(1);
         await this.page.click(Button.apply_confimation);
         await this.page.click(Button.yes);
+        await WebActions.delay(400);
+        await expect(await this.page.locator(Element.icon_confirm_availability).count()).toEqual(1);
+
         await WebActions.delay(1400);
 
         //THIS LINE WAS COMMENT PER ISSUE REPORTED ON TICKET SM-17686
@@ -291,7 +339,6 @@ export default class RequestShowPage {
         await this.page.waitForLoadState('domcontentloaded');
         await expect(await this.page.locator(Element.awarded_options_table_row).count()).toEqual(1);
     }
-
 
     async b2eNotificationModal(){
         await this.page.waitForSelector(Text.b2e_request_modal);
@@ -325,5 +372,7 @@ export default class RequestShowPage {
             console.info(`The ${areaValidated} has been validated.`);
         }  
     }
+
+    
 
 }

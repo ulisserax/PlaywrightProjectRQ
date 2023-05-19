@@ -32,7 +32,8 @@ export default class ShareOptionPage {
         await this.page.click(Button.get_link);
         await this.page.waitForLoadState('networkidle');
         await this.page.waitForLoadState('domcontentloaded');
-        await WebActions.delay(900);
+        await WebActions.delay(1000);
+        await this.page.waitForSelector(Input.link_to_options);
         const link_to_option = await this.page.locator(Input.link_to_options).inputValue();
         await this.page.click(Button.done);
         return await link_to_option;
@@ -48,6 +49,7 @@ export default class ShareOptionPage {
         await this.page.click(Button.close);
         await this.page.waitForLoadState('networkidle');
         await WebActions.delay(1500);
+        await this.page.waitForSelector(Element.awarded_options_table_row);
         await expect(await this.page.locator(Element.awarded_options_table_row).count()).toEqual(1);
     }
 

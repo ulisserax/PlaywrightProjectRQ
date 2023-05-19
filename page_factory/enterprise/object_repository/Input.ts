@@ -90,5 +90,7 @@ export default class Input{
     static referral_commision           = `#areaFeeForm_referral_fee`;
     static reloquest_fee                = `#areaFeeForm_service_fee`;
     static default_referral_fee         = `#defaultAreaFeeForm_referral_fee`;
+    static client_area_name             = `//*[@id="parent_form_name"]/div[2]/input`;
+    static client_area_location         = `//input[@name='form[location]']`;
     
 }

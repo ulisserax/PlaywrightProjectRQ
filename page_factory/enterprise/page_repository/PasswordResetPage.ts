@@ -3,7 +3,7 @@ import Input from "@enterprise_objects/Input";
 import ENV from "@utils/env";
 import Element from "@enterprise_objects/Element";
 
-export default class PasswordReset {
+export default class PasswordResetPage {
     readonly page: Page;
 
     constructor(page:Page){

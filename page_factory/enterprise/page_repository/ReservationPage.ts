@@ -9,11 +9,12 @@ import Calendar from "@enterprise_objects/Calendar";
 import Element from "@enterprise_objects/Element";
 import ENV from "@utils/env";
 import Dropdown from "@enterprise_objects/Dropdown";
+import Textarea from "@enterprise_objects/Textarea";
 const Chance = require ('chance');
 const chance = new Chance();
 
 
-export default class Reservation {
+export default class ReservationPage {
     readonly page: Page;
 
     constructor(page){
@@ -22,7 +23,8 @@ export default class Reservation {
 
     async getReservationId(): Promise<void>{
         console.log(`Getting the reservation id`);
-        let reservation_id = await this.page.locator(Text.reservation_info_header).textContent() ;
+        //let reservation_id = await this.page.locator(Text.reservation_info_header).textContent();
+        let reservation_id = await this.page.locator('h2.header-title').textContent();// TO UPDATE ON 3.55 => Text.reservation_info_header).textContent();
         ENV.RESERVATION_ID = reservation_id.split('-')[1].trim();
     }
 
@@ -85,7 +87,7 @@ export default class Reservation {
     }
 
     async verifyReservation(reservation_id): Promise<void>{
-        console.info("Verifying reservation was acknowledge");
+        console.info("Verifying reservation was acknowledged");
 		await this.page.waitForLoadState('domcontentloaded');
         await expect(await this.page.locator(Text.reservation_information).textContent()).toContain(`Award acknowledged on:`);
         await expect(await this.page.locator(Text.reservation_information).textContent()).toContain(`${ENV.SUPPLIER_COMPANY}`);
@@ -293,5 +295,101 @@ export default class Reservation {
         await expect(Number((rate_segment_total+tax_detail_total+fee_detail_total+deposit_detail_total).toFixed(2))).toEqual(totals);
         await expect(Number((rent_total+taxes_total+fees_total+deposit_total).toFixed(2))).toEqual(totals);
     }
+
+    async submitNoticeToVacate(){
+        await this.page.click(Button.submit_notice);
+        await this.page.waitForSelector(Button.keep_this_date);
+        await this.page.click(Button.keep_this_date);
+        await this.page.waitForSelector(Button.request_date);
+        await this.page.click(Button.request_date);
+        //await WebActions.delay(5000);
+        const hidden = await this.page.locator(Element.ntv_modal);
+        await hidden.waitFor({state:"hidden"})
+        //await this.page.waitForSelector(Element.ntv_modal_closed);
+    }
+
+    async verifyRqProReservationAcknowledge(reservation_id){
+        console.info("Verifying RQPRO reservation was acknowledged");
+		await this.page.waitForLoadState('domcontentloaded');
+        await this.page.waitForSelector(Text.reservation_information);
+        await expect(await this.page.locator(Text.reservation_information).textContent()).toContain(`Reservation Information - ${reservation_id}`);
+        await expect(await this.page.locator(Text.reservation_information).textContent()).toContain(`ReloQuest: on`);
+
+    }
+
+    async verifyNoticeToVacateSubmitted(message:string, ntv_status_style: string){
+        await WebActions.delay(3000);
+        //await this.page.waitForResponse(resp => resp.url().includes('v1/api/ntvs?reservationId=') && resp.status() === 200);
+
+        await this.page.waitForSelector(ntv_status_style);    
+        await expect(await this.page.locator(Text.ntv_status).textContent()).toContain(message);
+    }
     
+
+    async closeExtensionSubmitted(){
+        await WebActions.delay(1000);
+        console.info('Closing extension modal');
+        await this.page.waitForLoadState(`domcontentloaded`);
+        await expect(await this.page.locator(Element.modal_nte_extension).count()).toEqual(1);
+        await this.page.click(Element.modal_nte_extension_close);
+        
+    }
+    
+    async declineExtensionBySupplier(){
+        console.info('Declining extension and notify guest');
+        await this.page.click(Button.approve_deny);
+        await this.page.click(Button.decline_extension);
+        await this.page.type(Textarea.reason_for_decline, `testing purpose`,{delay:50});
+        await this.page.click(Checkbox.acknowledge_notice_given);
+        await this.page.click(Button.notify_guest);
+    }
+
+    async submitExtension(){
+        await this.page.click(Button.submit_notice);
+        await this.page.waitForSelector(Button.choose_a_date);
+        await this.page.click(Button.choose_a_date);
+        await this.page.waitForSelector(Calendar.ntv_next_month);
+        await this.page.click(Calendar.ntv_next_month);
+        await this.page.locator(Calendar.nte_new_end_date).nth(25).click();
+        await this.page.click(Checkbox.acknowledge_date_changes);
+        await this.page.click(Button.request_date);
+        await WebActions.delay(4000);
+    }
+
+    async approveExtension(){
+        console.info('Acepting extension');
+        await this.page.click(Button.approve_deny);
+        await this.page.click(Button.create_new_reservation_segment);
+        
+    }
+
+    async acceptExtensionRateSegmentsTerms(){
+        console.info(`Accepting the extension rate segments terms.`);
+        await WebActions.delay(1000);
+        await this.page.waitForSelector(Element.edit_segments_modal);
+        await this.page.click(Checkbox.edit_segment_understand);
+        await this.page.click(Checkbox.ntv_confirmation);
+        await this.page.click(Checkbox.ntv_taxes_and_fees_acknowledge);
+        // await this.page.pause()
+        await this.page.click(Button.submit_changes);
+    }
+
+    async declineExtensionByRequestor(){
+        console.info('Declining extension and notify guest');
+        await this.page.click(Button.approve_deny);
+        await this.page.click(Button.decline);
+        await this.page.click(Textarea.decline_reason);
+        await this.page.type(Textarea.decline_reason, `testing purpose`,{delay:50});
+        await this.page.click(Button.decline_changes);
+        await this.page.click(Button.okay);
+    }
+
+    async acceptExtensionByRequestor(){
+        console.info('Accepting the extension approved by the supplier');
+        await this.page.click(Button.approve_deny);
+        await this.page.waitForSelector(Button.approve);
+        await this.page.click(Button.approve);
+        await this.page.click(Button.approve_changes);
+        await this.page.click(Button.okay);
+    }
 }

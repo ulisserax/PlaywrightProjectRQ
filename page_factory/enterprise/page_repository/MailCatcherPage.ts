@@ -6,7 +6,7 @@ import Iframe from "@enterprise_objects/Iframe";
 import WebActions from "@lib/WebActions";
 
 
-export default class MailCatcher{
+export default class MailCatcherPage{
     readonly page:Page;
 
     constructor(page:Page){
@@ -42,6 +42,26 @@ export default class MailCatcher{
         return await this.page.frameLocator(Iframe.email_body).locator(Link.activate_account).first().getAttribute('href');
     }
 
+    async activateEb2eAccount(): Promise<void> {
+        console.info(`Activating an EB2E account.`);
+        await this.page.goto(await this.activateAccount());
+    }
+
+    async navigateToEb2eRegistration():Promise<void> {
+        console.info(`Creating an EB2E account.`);
+        await this.page.goto(await this.getCreateEb2eAccountLink());
+        await WebActions.delay(300);
+        await this.page.waitForLoadState(`networkidle`);
+        await this.page.waitForLoadState('domcontentloaded');
+        await WebActions.delay(500);
+    }
+
+    async getCreateEb2eAccountLink():Promise<string>{
+        console.info(`Get EB2E account link.`);
+        await expect(await this.page.frameLocator(Iframe.email_body).locator(Link.create_an_account).first().getAttribute('href')).toContain(`register`);
+        return await this.page.frameLocator(Iframe.email_body).locator(Link.create_an_account).first().getAttribute('href');
+    }
+
     async getRegisterLink():Promise<string>{
         console.info(`Get the registration link from the email body`);
         await expect(await this.page.frameLocator(Iframe.email_body).locator(Link.register).first().getAttribute('href')).toContain(`reloquest.com/registration/register`);
@@ -71,24 +91,38 @@ export default class MailCatcher{
     async verifyBasicEmails(log_text:string,  email:string, subject:string, element_to_assert: string ,body_link_element:string, domain:string): Promise<void>{
         console.info(`Verifying email sent ${log_text}`);
         await this.page.fill(Input.search_message,'');
-        await this.page.type(Input.search_message, `${subject}`, {delay:20});
-        await WebActions.delay(400);
-        await expect(await this.page.locator(`nav#messages tr:not([style='display: none']) td:text('<${email}>') + td:has-text('${subject}')`).count()).toBeGreaterThanOrEqual(1)
-        await this.page.locator(`nav#messages tr:not([style='display: none']) td:text('<${email}>') + td:has-text('${subject}')`).first().click();
+        await this.page.type(Input.search_message, `${subject}`, {delay:40});
+        await WebActions.delay(1400);
+        //nav[@id='messages']//tbody//tr[not(contains(@style,'display: none'))]//td[contains(text(),'<${email}')]//following-sibling::td[contains(text(),'${subject}')]
+        //nav#messages tr:not([style='display: none']) td:text('<${email}>') + td:has-text('${subject}')
+        await expect(await this.page.locator(`//nav[@id='messages']//tbody//tr[not(contains(@style,'display: none'))]//td[contains(text(),'<${email}')]//following-sibling::td[contains(text(),'${subject}')]`).count()).toBeGreaterThanOrEqual(1)
+        await this.page.locator(`//nav[@id='messages']//tbody//tr[not(contains(@style,'display: none'))]//td[contains(text(),'<${email}')]//following-sibling::td[contains(text(),'${subject}')]`).first().click();
         await this.page.waitForLoadState('domcontentloaded');
         await WebActions.delay(700);
         await expect(await this.page.frameLocator(Iframe.email_body).locator(`${element_to_assert}`).count()).toBeGreaterThanOrEqual(1);
         await expect(await this.page.frameLocator(Iframe.email_body).locator(`${body_link_element}`).first().getAttribute(`href`)).toContain(`${domain}`);
-       
+    }
+    
+    async verifyFeatureEmails(log_text:string,  email:string, subject:string, occurence: number, element_to_assert: string ,body_link_element:string, domain:string): Promise<void>{
+        console.info(`Verifying email sent ${log_text}`);
+        await this.page.fill(Input.search_message,'');
+        await this.page.type(Input.search_message, `${subject}`, {delay:40});
+        await WebActions.delay(1400);
+        await expect(await this.page.locator(`//nav[@id='messages']//tbody//tr[not(contains(@style,'display: none'))]//td[contains(text(),'<${email}')]//following-sibling::td[contains(text(),'${subject}')]`).count()).toBeGreaterThanOrEqual(1)
+        await this.page.locator(`(//nav[@id='messages']//tbody//tr[not(contains(@style,'display: none'))]//td[contains(text(),'<${email}')]//following-sibling::td[contains(text(),'${subject}')])[${occurence}]`).click();
+        await this.page.waitForLoadState('domcontentloaded');
+        await WebActions.delay(700);
+        await expect(await this.page.frameLocator(Iframe.email_body).locator(`${element_to_assert}`).count()).toBeGreaterThanOrEqual(1);
+        await expect(await this.page.frameLocator(Iframe.email_body).locator(`${body_link_element}`).first().getAttribute(`href`)).toContain(`${domain}`);
     }
 
     async verifyBasicEmails1(log_text:string, email:string, subject:string, element_to_assert: string ,body_link_element:string, domain:string): Promise<void>{
         console.info(`Verifying email sent ${log_text}`);
         await this.page.fill(Input.search_message,'');
-        await this.page.type(Input.search_message, `${subject}`, {delay:20});
-        await WebActions.delay(400);
-        await expect(await this.page.locator(`nav#messages tr:not([style='display: none']) td:text('<${email}>') + td:has-text('${subject}')`).count()).toBeGreaterThanOrEqual(1)
-        await this.page.locator(`nav#messages tr:not([style='display: none']) td:text('<${email}>') + td:has-text('${subject}')`).nth(1).click();
+        await this.page.type(Input.search_message, `${subject}`, {delay:40});
+        await WebActions.delay(1400);
+        await expect(await this.page.locator(`//nav[@id='messages']//tbody//tr[not(contains(@style,'display: none'))]//td[contains(text(),'<${email}')]//following-sibling::td[contains(text(),'${subject}')]`).count()).toBeGreaterThanOrEqual(1)
+        await this.page.locator(`//nav[@id='messages']//tbody//tr[not(contains(@style,'display: none'))]//td[contains(text(),'<${email}')]//following-sibling::td[contains(text(),'${subject}')]`).nth(1).click();
         await this.page.waitForLoadState('domcontentloaded');
         await WebActions.delay(700);
         await expect(await this.page.frameLocator(Iframe.email_body).locator(`${element_to_assert}`).count()).toBeGreaterThanOrEqual(1);
@@ -98,8 +132,8 @@ export default class MailCatcher{
     async verifyHotelsEmails(log_text:string, search_term:string, email:string, subject:string, element_to_assert: string ): Promise<void>{
         console.info(`Verifying email sent ${log_text}`);
         await this.page.fill(Input.search_message,'');
-        await this.page.type(Input.search_message, `${search_term}`, {delay:20});
-        await WebActions.delay(400);
+        await this.page.type(Input.search_message, `${search_term}`, {delay:40});
+        await WebActions.delay(1400);
         await expect(await this.page.locator(`nav#messages tr:not([style='display: none']) td:text('<${email}>') + td:has-text('${subject}')`).count()).toBeGreaterThanOrEqual(1)
         await this.page.locator(`nav#messages tr:not([style='display: none']) td:text('<${email}>') + td:has-text('${subject}')`).first().click();
         await this.page.waitForLoadState('domcontentloaded');
@@ -108,6 +142,10 @@ export default class MailCatcher{
        
     }
 
-    
+    async getCreateAccountLink(email:string): Promise<string>{
+        console.info(`Get the share option link from the email body.`);
+        await expect(await this.page.frameLocator(Iframe.email_body).locator(Link.create_account).getAttribute('href')).toContain(`.reloquest.com/register?email=${email}`);
+        return await this.page.frameLocator(Iframe.email_body).locator(Link.create_account).getAttribute('href');
+    }
 
 }

@@ -12,7 +12,6 @@ export default class Element{
     static client_eb2e_name                = `div[role=option] span:text('${ENV.CLIENT_EB2E}')`;
     static client_eb2e_rqpro_name          = `div[role=option] span:text('${ENV.CLIENT_EB2E_RQPRO}')`;
     static close_modal_icon                = `div.modal.fade.in button.close`;
-    static service_issue_row               = `table#supplier_status_list tbody tr`;
     static activity_log_modal_li           = `#activity_log_modal li.list-group-item`;
     static pending_approval_icon           = `.rate-segment-description.pointer + td span`;
     static property_info_image             = `#propertyInfoImage`;
@@ -21,7 +20,7 @@ export default class Element{
     static hotel_special_information       = `#request-profile-container div.request-details--item.request-notes`;
     static confirm_booking_h1              = `.hotel-option-details h1`;
     static booking_confirmation            = `#hotelOptionDetailSection h1`;
-    static option_map_icon                 = `//div[@id="request_map_view"]/div/div/div[2]/div[2]/div/div[3]/div[3]/img`
+    static option_map_icon                 = `//div[@id="request_map_view"]//div[@aria-label='Map']//div[@tabindex="0"]/img`
     static icon_option_confirmation        = `table#all_options tbody tr span.icon-option-confirmation`;
     static icon_confirm_availability       = `table#all_options tbody tr span.responded.available`;
     static option_availability_message     = `//div[contains(text(),'remaining to confirm option availability')]`;
@@ -42,6 +41,7 @@ export default class Element{
     static client_form_title               = `//h1/span[contains(text(),'Client:')]`;
     static client_settings                 = `.client-ico-settings`;
     static client_details                  = `.client-ico-client-details`;
+    static client_supplier_management      = `.client-ico-supplier-management`;
     static supplier_area_icon              = `//a[@href='#supplier-areas']`;
     static supplier_referral_icon          = `.icon-supplier-referral`;
     static area_confirmation_title         = `//h4[contains(text(),'The approved areas')]`;
@@ -56,9 +56,46 @@ export default class Element{
     static no_area_modal                   = `//div[contains(text(),'No suppliers for this area.')]`;
     static insert_image_modal              = `//h3[contains(text(),'Image')]`;
     static reloquest_fee_card              = `//div[@id='requestorSupplierDefaultFees']//div[contains(@class, 'default_fee_box')]`;
-    static property_image                  = `//div[@id='gallery_preview_form_gallery_gallery']//div[contains(@class,'gallery-image-container mainImageBox')]`;
-    
+    static property_image                  = `//div[@id='gallery_preview_form_gallery_gallery']//div[contains(@class,'gallery-image-container')]`;
+    static modal_availability_not_visible  = `//div[@id='confirm_modal' and @class='modal fade']`;
+    static modal_option_verification       = `//div[@data-show='true' and @class='modal fade in']`;
+    static modal_notice_to_vacate          = `//div[not(contains(@class,'modal fade ntv-modal in'))]`;
+    static modal_nte_extension             = `//div[@id='ntv-approve-deny-modal-supplier' and contains(@class, 'fade in')]`;
+    static modal_nte_extension_close       = `//div[@id='ntv-approve-deny-modal-supplier' and contains(@class, 'fade in')]//button[@class='close']`;
+    static ntv_status_accepted             = `//label[contains(text(),'NTV Status:')]//following-sibling::div//div[contains(@class,'ntv-input')]//span[3][contains(@class,'icon-icons_check_mark green pull-right')]`;
+    static ntv_status_action_required      = `//label[contains(text(),'NTV Status:')]//following-sibling::div//div[contains(@class,'ntv-input ntv-status-action-required')]`;
+    static ntv_status_waiting              = `//label[contains(text(),'NTV Status:')]//following-sibling::div//div[contains(@class,'ntv-input')]//span[1][@class='orange']`;
+    static ntv_status_declined             = `//label[contains(text(),'NTV Status:')]//following-sibling::div//div[contains(@class,'ntv-input')]//span[@class='ntv-red-text']`;
+    static ntv_status_default              = `//label[contains(text(),'NTV Status:')]//following-sibling::div//div[contains(@class,'ntv-input')]`;
+    //static ntv_modal                       = `//div[@id='ntv-submit-modal' and @class='modal fade ntv-modal in']`;
+    static ntv_modal                       = `//div[@id='ntv-submit-modal']`;
+    static edit_segments_modal             = `//div[@id='panel_segments']//div[contains(@class,'rate-details')]`;
+
+
     static clickByClientName(client: string){
         return `div[role=option] span:text('${client}')`;
     }
+    static role_visibility(role: string){
+        return `#form_visibilityRoles_ROLE_${role}`;
+    }
+
+    static role_checkbox(role: string){
+        return `//input[@id='form_visibilityRoles_ROLE_${role}' and @disabled='disabled']`;
+    }
+
+    static service_issue_created(description: string) {
+        return `//table[@id='supplier_status_list']//tbody//tr//td[contains(.,'${description}')]`;
+    }
+    
+    static view_service_issue(description: string) {
+        return `//td[contains(.,'${description}')]//following-sibling::td//a`;
+    }
+
+    static service_issue_status(description: string) {
+        return `//td[contains(text(),'${description}')]//following-sibling::td//span`;
+    }
+    static service_comment_content(description: string) {
+        return `//div[@id='comments-container']//div[contains(.,'${description}')]`;
+    }
+
 }

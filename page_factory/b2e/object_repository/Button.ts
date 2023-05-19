@@ -9,7 +9,6 @@ export default class Button{
     static next_month            = `button[title='Next month']`;
     static plus_bedrooms         = `app-counter[formcontrolname='bedrooms'] button.plus`;
     static ratecard_details      = `app-rate-card a:has-text('DETAILS')`;
-    static check_avialability    = `button:has-text('CHECK AVAILABILITY')`;
     static plus_adults           = `app-counter[formcontrolname='adults'] button.plus`;
     static send_request          = `button:has-text('SEND REQUEST')`;
     static plus_parking          = `app-counter[formcontrolname='parking_spaces'] button.plus`;
@@ -33,6 +32,18 @@ export default class Button{
     static save_password         = `//button[contains(text(),'Save')]`;
     static log_in                = `//a[contains(text(),'Log in')]`;
     static apply_filters         = `//button[contains(text(),'APPLY FILTERS')]`;
+    static new_issue             = `//a[contains(@href, 'add')]`;
+    static submit_service_issue  = `.submit-issue button`;
+    static view_your_issues      = `//button[contains(text(),'View your issues')]`;
+    static submit_comment        = `//button[contains(text(), 'Submit comment')]`; 
+    static modal_close           = `//button[contains(text(),'CLOSE')]`;
+    static ntv_confirm           = `//app-ntv-reminder//button[contains(text(),'CONFIRM')]`;
+    static ntv_submitted_ok      = `//app-ntv-submitted//button[contains(text(),'OK')]`;
+    static mark_as_resolved      = `//button[contains(text(), 'MARK AS RESOLVED')]`;
+    static resolved_confirmation = `//app-modal[@class='service-modal']//button[contains(text(), 'MARK AS RESOLVED')]`;
+    static nte_request_extension = `//app-ntv-quest//button[contains(text(),'REQUEST EXTENSION')]`;
+
+    static check_avialability_or_request_deal    = `//button[contains(text(),'CHECK AVAILABILITY')] | //button[contains(text(),'REQUEST DEAL')]`;
 
 
     static new_quest(request_id){

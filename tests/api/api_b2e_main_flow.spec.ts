@@ -8,7 +8,10 @@ test.describe.serial("Api B2E Main Flow", () => {
    test("POST: oauth token", async ({v2Endpoints}) => {
       const _res = await v2Endpoints.oauth(ENV.BASE_URL, ENV.API_GRANT_TYPE, ENV.API_CLIENT_ID, ENV.API_CLIENT_SECRET, "john_doe@nt1req.com", ENV.B2E_USER_PASSWORD);
       const _response = JSON.parse(_res);
-      ENV.API_TOKEN   = _response.access_token;
+      console.log(_response);
+      ENV.API_TOKEN = _response.access_token;
+
+
       console.info(`Access Token: ${ENV.API_TOKEN}`);
     
    })
@@ -51,8 +54,10 @@ test.describe.serial("Api B2E Main Flow", () => {
    })
 
    test("POST: Option create", async ({optionEndpoints}) => {
-      const _res = await optionEndpoints.optionCreate(ENV.BASE_URL, ENV.SUPPLIER_API_KEY, ENV.REQUEST_ID, parseInt(ENV.API_PROPERTY_ID), ENV.START_DATE, ENV.END_DATE);
-      const _response = JSON.parse(_res);
+
+      const res = await optionEndpoints.optionCreate(ENV.BASE_URL, ENV.SUPPLIER_API_KEY, ENV.SUPPLIER_COMPANY_EMAIL, ENV.REQUEST_ID, parseInt(ENV.API_PROPERTY_ID), ENV.START_DATE, ENV.END_DATE);
+      const _response = JSON.parse(res);
+
       ENV.API_OPTION_ID = _response.option_id
       console.info(`Option id: ${ENV.API_OPTION_ID}`);
       await expect(_response.submitted).toEqual(true);

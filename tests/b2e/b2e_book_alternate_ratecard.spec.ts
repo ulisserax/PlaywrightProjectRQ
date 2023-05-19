@@ -25,7 +25,7 @@ test.describe.serial("Test Suite Book an alternate ratecard for B2E", () => {
    })
 
    test("Bid option for B2E", async({webActions, homePage, dashboard, search, requestShow, option}) =>{
-      await webActions.navigateTo(ENV.BASE_URL);
+      await webActions.navigateTo(ENV.SUPPLIER_DOMAIN);
       await homePage.enterCredentials(ENV.SUPPLIER_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);
       await homePage.signIn();
       await dashboard.findCurrentRequest(ENV.REQUEST_ID);
@@ -48,6 +48,8 @@ test.describe.serial("Test Suite Book an alternate ratecard for B2E", () => {
       await b2eQuestsPage.confirmNewOption(); 
       await b2eSearchPage.optionReceived();
       await b2eBookingPage.bookRateCard();
+      await WebActions.delay(4500);
+      await b2eBookingPage.areYouSureModal();
       await b2eBookingPage.paymentInformation(ENV.CREDIT_CARD, ENV.CARD_EXPIRATION, ENV.CARD_CVC, ENV.ZIP_CODE);
       await b2eBookingPage.completeYourQuest();
       await b2eBookingPage.verifyPendingQuest();
@@ -79,6 +81,8 @@ test.describe.serial("Test Suite Book an alternate ratecard for B2E", () => {
       await b2eQuestsPage.confirmAlternateQuest();
       await b2eSearchPage.bookingAlternateOption();
       await b2eBookingPage.bookRateCard();
+      await WebActions.delay(4500);
+      await b2eBookingPage.areYouSureModal();
       await b2eBookingPage.paymentInformation(ENV.CREDIT_CARD, ENV.CARD_EXPIRATION, ENV.CARD_CVC, ENV.ZIP_CODE);
       await b2eBookingPage.completeYourQuest();
       await b2eBookingPage.verifyPendingQuest();

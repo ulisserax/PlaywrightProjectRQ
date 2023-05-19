@@ -29,15 +29,19 @@ export default class B2eBookingPage {
         await this.page.context().pages()[1].waitForLoadState('domcontentloaded');
     }
 
-    async paymentInformation(credit_card:string, card_expiration:string, card_cvc:string, zip_code:string ){
-        console.info(`Filling payment information`);
-        await WebActions.delay(4000);
-        //
+
+    async areYouSureModal(){
+        await WebActions.delay(3000);
+        await this.page.context().pages()[1].waitForSelector(Input.card_holder);
         if (await this.page.context().pages()[1].locator(Element.are_you_sure_modal).count()>0){
             await WebActions.delay(400);
             await this.page.context().pages()[1].click(Button.continue);
         }
-        await WebActions.delay(1000);
+    }
+
+    async paymentInformation(credit_card:string, card_expiration:string, card_cvc:string, zip_code:string ){
+        console.info(`Filling payment information`);
+        await WebActions.delay(4000);
         await this.page.context().pages()[1].waitForSelector(Input.card_holder);
         await this.page.context().pages()[1].locator(Input.card_holder).type(chance.name(), {delay:30});
         await this.page.context().pages()[1].frameLocator(Iframe.card_number).locator(Input.credit_card_number).type(`${credit_card}`, {delay:30});
@@ -57,14 +61,14 @@ export default class B2eBookingPage {
         await this.page.context().pages()[1].waitForSelector(Element.checkout_success);
         await expect(await this.page.context().pages()[1].locator(Element.checkout_success).count()).toEqual(1);
         await this.page.context().pages()[1].click(Button.view_your_quest);
-        await WebActions.delay(1200);
+        await WebActions.delay(5200);
     }
 
     async verifyPendingQuest(){
         console.info(`Verifying pending quest`);
-        await WebActions.delay(500);
+        await WebActions.delay(1000);
         await this.page.context().pages()[1].waitForSelector(Element.quest_detail_section);
-        await WebActions.delay(500);
+        await WebActions.delay(1000);
         await expect(await this.page.context().pages()[1].locator(Text.pending_quest).count()).toEqual(1);
         
     }

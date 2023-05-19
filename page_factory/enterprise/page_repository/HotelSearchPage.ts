@@ -6,10 +6,9 @@ import Checkbox from "@enterprise_objects/Checkbox";
 import Element from "@enterprise_objects/Element";
 import ENV from "@utils/env";
 import Link from "@enterprise_objects/Link";
-const Chance = require ('chance');
-const chance = new Chance();
 
-export default class RequestShowPage {
+
+export default class HotelSearchPage {
     readonly page: Page;
 
      constructor(page:Page){

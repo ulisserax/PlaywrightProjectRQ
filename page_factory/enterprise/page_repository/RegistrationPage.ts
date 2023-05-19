@@ -7,7 +7,7 @@ import Button from "@enterprise_objects/Button";
 const Chance = require("chance");
 const chance = new Chance();
 
-export default class Registration {
+export default class RegistrationPage {
     readonly page: Page;
 
     constructor(page: Page) {

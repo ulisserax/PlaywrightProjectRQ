@@ -20,6 +20,7 @@ export default class Link{
     static terms_of_use            = `//div[@class='login-container']//a[contains(text(),'Terms of Use')]`;
     static dpa                     = `//div[@class='login-container']//a[contains(text(),'Data Processing Addendum')]`;
     static activate_account        = `//a[contains(text(), 'Activate My Account')]`;
+    static create_an_account         = `//a[contains(text(), 'create an account')]`;
     static tab_settings            = `//a[text() = 'Settings']`;
     static passwordReset           = `//a[contains(@href,'reloquest.com/password_reset')]`;   
     static password_reset          = `//a[contains(@href,'reloquest.com/reset-password')]`; 
@@ -35,4 +36,16 @@ export default class Link{
     static default_referral_fee    = `#show_default_referral_fee~.editDefaultFee`;     
     static notified_supplier       = `#showNotifiedSuppliers`; 
     static edit_property           = `//table[contains(@id,'DataTables_Table')]//tbody//a[contains(@href,'/property/')]`;
+    static create_account          = `//a[contains(@href,'reloquest.com/register?')]`;
+    static exit_impersonation      = `//a[contains(@href,'exit')]`;
+    static add_client_direct_area  = `//a[contains(text(),'here')]`;
+    static action_remove           = `(//tr//td//a[contains(text(),'Remove')])`;
+
+    static remove(num: number) {
+        return `(//tr//td//a[contains(text(),'Remove')])[${num}]`;
+    }
+
+    static property_element(text:string){
+        return `//ul[@id='select2-results-1']//*[contains(text(),'${text}')]`;
+    }
 }

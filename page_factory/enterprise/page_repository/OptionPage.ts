@@ -26,11 +26,15 @@ export default class OptionPage {
         console.info("Selecting property");
         await this.page.waitForLoadState('networkidle');
         await this.page.click(Dropdown.select_property);
-        await this.page.type(Input.search_property, `${property}`, {delay:40});
+        await this.page.type(Input.search_property, `${property}`, {delay:120});
+        await this.page.waitForSelector(Link.property_element(property));
         await WebActions.delay(1400);
         await this.page.waitForLoadState('networkidle');
-        await this.page.waitForLoadState('domcontentloaded');
-        await this.page.click(Link.property);
+        // await this.page.waitForLoadState('domcontentloaded');
+        // const property_element = await this.page.locator(Link.property_element(property));
+        // await property_element.waitFor({state:"attached"});
+        
+        await this.page.click(Link.property_element(property));
         await this.page.waitForLoadState('domcontentloaded');
         await this.page.waitForLoadState('networkidle');
         await WebActions.delay(900);
@@ -94,7 +98,7 @@ export default class OptionPage {
 
     async fillRateDetails(): Promise<void>{
         console.info("Filling rate details.");
-        await this.page.type(Input.rate, `${chance.floating({ min: 70, max: 299, fixed: 2 })}`);
+        await this.page.type(Input.rate, `${chance.floating({ min: 90, max: 299, fixed: 2 })}`);
         await this.page.keyboard.press('Enter');
     }
 
@@ -102,7 +106,7 @@ export default class OptionPage {
         console.info("Filling second rate details.");
         await this.page.click(Link.add_rate);
         await this.page.locator(Input.rate).last().fill('');
-        await this.page.locator(Input.rate).last().type(`${chance.floating({ min: 70, max: 299, fixed: 2 })}`);
+        await this.page.locator(Input.rate).last().type(`${chance.floating({ min: 90, max: 299, fixed: 2 })}`);
         await this.page.keyboard.press('Enter');
     }
 
@@ -137,16 +141,23 @@ export default class OptionPage {
         
     }
 
-    async fillContactInformation(service_email:string, escalation_email:string): Promise<void>{
+    async fillContactInformation(user_name:string): Promise<void>{
+
         console.info("Filling contact information.");
         let phone = chance.phone();
         await WebActions.delay(1500);
         await this.page.locator(Element.image_modal).isHidden();
+        await this.page.fill(Input.customer_service_number, ``);
         await this.page.type(Input.customer_service_number, `${phone}`, {delay:35});
-        await this.page.type(Input.email_for_service_issues, `${service_email}`, {delay:35});
+        await this.page.fill(Input.email_for_service_issues, ``);
+        await this.page.type(Input.email_for_service_issues, `${user_name}@service.com`, {delay:35});
+        await this.page.fill(Input.phone_for_services_issues, ``);
         await this.page.type(Input.phone_for_services_issues, `${phone}`, {delay:35});
+        await this.page.fill(Input.escalation_contact_name, ``);
         await this.page.type(Input.escalation_contact_name, `CSN-${chance.integer({ min: 10000, max: 99999})}`, {delay:35});
-        await this.page.type(Input.escalation_contact_email, `${escalation_email}`, {delay:35});
+        await this.page.fill(Input.escalation_contact_email, ``);
+        await this.page.type(Input.escalation_contact_email, `${user_name}@escalation.com`, {delay:35});
+        await this.page.fill(Input.escalation_contact_phone, ``);
         await this.page.type(Input.escalation_contact_phone, `${phone}`, {delay:35});
     }
 
@@ -159,15 +170,15 @@ export default class OptionPage {
         await WebActions.delay(500);
         await this.page.waitForLoadState('networkidle');
         await this.page.waitForLoadState('domcontentloaded');
-        await WebActions.delay(600);
+        await WebActions.delay(2000);
         // console.info(await this.page.locator(Text.property_distance_modal_notification).count());
         // let count = await this.page.locator(Text.property_distance_modal_notification).count();
-        if(await this.webActions.isSelectorExists(Text.updated_fields)){
-            await this.page.click(Button.update_property_fields_modal);
-        }
-        await WebActions.delay(600);
         if(await this.webActions.isSelectorExists(Text.property_distance_modal_notification)){
             await this.page.click(Button.yes);
+        }
+        await WebActions.delay(1600);
+        if(await this.webActions.isSelectorExists(Text.updated_fields)){
+            await this.page.click(Button.update_property_fields_modal);
         }
         
     }
@@ -273,8 +284,11 @@ export default class OptionPage {
 
     }
     
-    async propertyEditvalidation(){
+    async propertyEditValidation(){
         console.info(`Validating the edited porperty fields`);
+        await WebActions.delay(500);
+        await this.page.waitForLoadState('networkidle');
+        await this.page.waitForLoadState('domcontentloaded');
         let property_description = await this.page.locator(Textarea.property_description).innerText();
         let property_features = await this.page.locator(Textarea.property_features).innerText();
         let property_amenities = await this.page.locator(Textarea.property_amenities).innerText();
@@ -284,6 +298,7 @@ export default class OptionPage {
     }
 
     async addPropertyImages(image_path){
+        await WebActions.delay(1500);
         if(await this.page.locator(Element.property_image).count() == 0){
             console.info(`Adding property images`); 
             await this.page.waitForLoadState('domcontentloaded');
