@@ -1,4 +1,3 @@
-import { expect } from '@playwright/test'
 import ENV from '@utils/env'
 import test from '@lib/BaseTest'
 
@@ -15,7 +14,7 @@ test.describe ("Generating data for allocation testing", ()=>{
       }
 
     for (let i=1; i<=req;i++ ){
-        test.only(`Creating request # ${i}`, async ({requestEndpoints}) =>{
+        test(`Creating request # ${i}`, async ({requestEndpoints}) =>{
         const _response = await requestEndpoints.createRequest(ENV.RQPRO_BASE_URL, ENV.RQPRO_REQ_API_KEY, +ENV.ALLOCATION_CLIENT, seattle[2], ENV.START_DATE, ENV.END_DATE, ENV.GUEST_FIRSTNAME,ENV.GUEST_LASTNAME,ENV.GUEST_EMAIL, '7863652563');
         //const _response = await requestEndpoints.createRequest(ENV.YUS_LOCAL,`reloadmin_apikey`, 366, `Austin TX, USA`, ENV.START_DATE, ENV.END_DATE, ENV.GUEST_FIRSTNAME,ENV.GUEST_LASTNAME,ENV.GUEST_EMAIL, '7863652563');
         ENV.REQUEST_ID = JSON.parse(_response).request_id;

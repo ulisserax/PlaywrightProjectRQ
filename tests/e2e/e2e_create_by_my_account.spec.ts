@@ -12,9 +12,10 @@ test.describe.serial('Create a RQ base flow, Supplier, Property, Area, Requestor
     test.slow();
     let subject, passwordResetLink;
     let number = chance.integer({min:1,max:9999});
+    let supplierAdmin          = `${chance.first()}${number}sup_admin`;
     const requestorCompanyName = `${chance.word({length: 5})}${chance.string({length: 6, numeric: true})}-requestor`; //'nevol554230-requestor//
     const supplierCompanyName  = `${chance.word({length: 5})}${chance.string({length: 6, numeric: true})}-supplier`; //'iceha419483-supplier' //
-    const supplierAdminUser    = `${chance.first()}${number}sup_admin@${supplierCompanyName}.com`.toLowerCase(); //'charliesupadmin@iceha419483-supplier.com'//
+    const supplierAdminUser    = `${supplierAdmin}@${supplierCompanyName}.com`.toLowerCase(); //'charliesupadmin@iceha419483-supplier.com'//
     const requestorAdminUser   = `${chance.first()}${number}req_admin@${requestorCompanyName}.com`.toLowerCase();//'brucereqadmin@nevol554230-requestor.com' //
     const property_name        = `${supplierCompanyName}_property_`;
     const areaName             = `${supplierCompanyName}_area_${number}`;
@@ -63,7 +64,7 @@ test.describe.serial('Create a RQ base flow, Supplier, Property, Area, Requestor
         await property.clickAddProperty();
         await property.fillPropertyOverview(property_name, 'Miami Beach','Yes','Central A/C','1 bedroom','No Pets');
         await property.addImage(`images/property1.jpeg`);
-        await option.fillContactInformation(supplierAdminUser);
+        await option.fillContactInformation(supplierAdmin);
         await property.createNewProperty();
         await dashboard.clickAreaTab();
         await area.clickAddAnArea();

@@ -2,7 +2,8 @@ import { PlaywrightTestConfig } from "@playwright/test";
 
 const config : PlaywrightTestConfig = {
     globalSetup: 'global-setup.ts',
-    testDir: "tests/feature",
+    testDir: "tests/feature/", 
+    testIgnore: "**/allocation/**",
     timeout: 90 * 1000,
     expect: {
         /**

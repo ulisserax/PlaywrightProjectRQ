@@ -100,7 +100,7 @@ export default class PropertyPage {
       await this.page.type(Input.property_description, `${ENV.PROPERTY_DESCRIPTION}`);
       await this.page.type(Input.property_features, `${ENV.PROPERTY_FEATURES}`);
       await this.page.type(Input.property_amenities, `${ENV.PROPERTY_AMENITIES}`);
-      await this.optionPage.fillContactInformation(ENV.SUPPLIER_ADMIN);
+      await this.optionPage.fillContactInformation(`${ENV.SUPPLIER_ADMIN}`);
       await this.page.click(Button.update_property);
       await this.page.click(Button.close);
       await WebActions.delay(2000);
