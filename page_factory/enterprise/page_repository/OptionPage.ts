@@ -141,16 +141,22 @@ export default class OptionPage {
         
     }
 
-    async fillContactInformation(email:string): Promise<void>{
+    async fillContactInformation(user_name:string): Promise<void>{
         console.info("Filling contact information.");
         let phone = chance.phone();
         await WebActions.delay(1500);
         await this.page.locator(Element.image_modal).isHidden();
+        await this.page.fill(Input.customer_service_number, ``);
         await this.page.type(Input.customer_service_number, `${phone}`, {delay:35});
-        await this.page.type(Input.email_for_service_issues, `${email}`, {delay:35});
+        await this.page.fill(Input.email_for_service_issues, ``);
+        await this.page.type(Input.email_for_service_issues, `${user_name}@service.com`, {delay:35});
+        await this.page.fill(Input.phone_for_services_issues, ``);
         await this.page.type(Input.phone_for_services_issues, `${phone}`, {delay:35});
+        await this.page.fill(Input.escalation_contact_name, ``);
         await this.page.type(Input.escalation_contact_name, `CSN-${chance.integer({ min: 10000, max: 99999})}`, {delay:35});
-        await this.page.type(Input.escalation_contact_email, `${email}`, {delay:35});
+        await this.page.fill(Input.escalation_contact_email, ``);
+        await this.page.type(Input.escalation_contact_email, `${user_name}@escalation.com`, {delay:35});
+        await this.page.fill(Input.escalation_contact_phone, ``);
         await this.page.type(Input.escalation_contact_phone, `${phone}`, {delay:35});
     }
 
@@ -277,7 +283,7 @@ export default class OptionPage {
 
     }
     
-    async propertyEditvalidation(){
+    async propertyEditValidation(){
         console.info(`Validating the edited porperty fields`);
         await WebActions.delay(500);
         await this.page.waitForLoadState('networkidle');
