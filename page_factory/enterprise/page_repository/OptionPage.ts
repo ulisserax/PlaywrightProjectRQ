@@ -142,6 +142,7 @@ export default class OptionPage {
     }
 
     async fillContactInformation(user_name:string): Promise<void>{
+
         console.info("Filling contact information.");
         let phone = chance.phone();
         await WebActions.delay(1500);
@@ -310,5 +311,11 @@ export default class OptionPage {
                 await this.page.waitForSelector(Element.insert_image_modal, {state: 'hidden'});
             }
         }
+    }
+
+    async enterRate(rate): Promise<void>{
+        console.info("Filling rate details.");
+        await this.page.type(Input.rate, `${rate}`);
+        await this.page.keyboard.press('Enter');
     }
 }

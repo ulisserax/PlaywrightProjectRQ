@@ -7,7 +7,7 @@ test.describe.serial("Test Suite Alternate Option", () => {
     // test.describe.configure({ retries:2 });
 
     test.slow();
-    let guest_email = ENV.GUEST_EMAIL.toLocaleLowerCase();
+    let guestEmail = ENV.GUEST_EMAIL;
 
     test("Create a new Request", async({webActions, homePage, dashboard, newRequest, requestShow}) =>{
         await webActions.navigateTo(ENV.BASE_URL);
@@ -16,7 +16,7 @@ test.describe.serial("Test Suite Alternate Option", () => {
         await dashboard.clickNewRequest();
         await newRequest.select_client(ENV.CLIENT);
         await newRequest.fillRequestDetails(ENV.REQUEST_TYPE[0], ENV.REQUESTOR_ADMIN,ENV.GUEST_TYPE[0],'Miami, FL, USA', `23`);
-        await newRequest.fillGuestInfo(ENV.GUEST_FIRSTNAME,ENV.GUEST_LASTNAME,guest_email,ENV.GUEST_PHONE);
+        await newRequest.fillGuestInfo(ENV.GUEST_FIRSTNAME,ENV.GUEST_LASTNAME,guestEmail,ENV.GUEST_PHONE);
         await newRequest.fillCorporateHousingDetails();
         await newRequest.submitRequest();
         await requestShow.getRequestId();

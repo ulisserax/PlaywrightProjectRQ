@@ -1,4 +1,4 @@
-import test from '@lib/Basetest';
+import test from '@lib/BaseTest';
 import ENV from '@utils/env';
 
 const Chance = require("chance");
@@ -12,6 +12,7 @@ test.describe.serial('Create a RQ base flow, Supplier, Property, Area, Requestor
     test.slow();
     let subject, passwordResetLink;
     let number = chance.integer({min:1,max:9999});
+
     let supplierAdmin          = `${chance.first()}${number}sup_admin`;
     const requestorCompanyName = `${chance.word({length: 5})}${chance.string({length: 6, numeric: true})}-requestor`; //'nevol554230-requestor//
     const supplierCompanyName  = `${chance.word({length: 5})}${chance.string({length: 6, numeric: true})}-supplier`; //'iceha419483-supplier' //
@@ -21,6 +22,7 @@ test.describe.serial('Create a RQ base flow, Supplier, Property, Area, Requestor
     const areaName             = `${supplierCompanyName}_area_${number}`;
     const clientName           = `${requestorCompanyName}_client_${number}`; 
     const guest_email          = `${chance.first()}_guest@${requestorCompanyName}`.toLocaleLowerCase();   
+
 
     test ("Create and configure a new Supplier company and a Supplier-admin user.", async ({webActions, user, configurationInstance, mailCatcher, passwordReset, homePage, dashboard, myAccount, company})=>{
         await webActions.navigateTo(ENV.BASE_URL);
@@ -35,7 +37,7 @@ test.describe.serial('Create a RQ base flow, Supplier, Property, Area, Requestor
         await company.setSupplierCompanySettings();
         await company.verifyCompanySettingsUpdated();
         await myAccount.addUser();
-        await user.fillNewUser(supplierCompanyName, supplierAdminUser, "Supplier");
+        await user.fillNewUser(supplierCompanyName, supplierAdminUser, "Supplier", supplierAdminUser);
         await user.verifyUserSaved();
         await webActions.navigateTo(`${ENV.BASE_URL}/configuration/instance`);
         await configurationInstance.mailPush();
@@ -83,7 +85,7 @@ test.describe.serial('Create a RQ base flow, Supplier, Property, Area, Requestor
         await company.verifyCompanyCreation(requestorCompanyName);
         await dashboard.clickMyAccountTab();
         await myAccount.addUser();
-        await user.fillNewUser(requestorCompanyName, requestorAdminUser, "Requestor");
+        await user.fillNewUser(requestorCompanyName, requestorAdminUser, "Requestor", requestorAdminUser);
         await user.verifyUserSaved();
         await myAccount.filterUser(requestorAdminUser);
         await myAccount.clickOnEditUser(requestorAdminUser);

@@ -7,8 +7,10 @@ import ENV  from '@utils/env';
     // test.describe.configure({ retries:2 });
     
     test.slow();
+
     let guest_email   = ENV.GUEST_EMAIL.toLocaleLowerCase();
     const property_name = ENV.SUPPLIER_COMPANY + "_property_#";
+
 
 
     test("Create a new Request", async({webActions, homePage, dashboard, newRequest, requestShow}) =>{
@@ -78,11 +80,11 @@ import ENV  from '@utils/env';
         await homePage.signIn();
         await dashboard.findCurrentRequest(ENV.REQUEST_ID);
         await search.clickRequestIdLink();
-        const current_page = await requestShow.getCurrentLink();
-        const share_link = await shareOption.shareWithGuest();
-        await webActions.navigateTo(share_link);
+        const currentPage = await requestShow.getCurrentLink();
+        const shareLink = await shareOption.shareWithGuest();
+        await webActions.navigateTo(shareLink);
         await shareOption.submitPreferences();
-        await webActions.navigateTo(current_page);
+        await webActions.navigateTo(currentPage);
         await requestShow.awardByPreference();
     })
 

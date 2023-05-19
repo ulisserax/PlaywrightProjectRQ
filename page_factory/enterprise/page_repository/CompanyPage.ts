@@ -20,7 +20,7 @@ export default class CompanyPage {
         await this.page.type(Input.new_company_name, companyName);
         await this.page.selectOption(Dropdown.new_company_type, { label: `${companyType}`});
         if (companyType==`Suppliers`){
-            await this.page.type(Input.new_company_notification, `notification@${companyName}`);
+            await this.page.type(Input.new_company_notification, `${companyName}@notification.com`);
         }
         await this.page.type(Input.new_company_phone, chance.phone({ formatted: false }));
         await this.page.type(Input.new_company_address, chance.address());

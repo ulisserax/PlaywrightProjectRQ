@@ -255,6 +255,7 @@ const schema = {
 test.describe("Api Reservation Shared", () => {
     
    test("Validate the reservation shared schema", async ({reservationEndpoints}) => {
+
         const res = await reservationEndpoints.getReservationsShared(ENV.REQUESTOR_API_KEY, '2017-01-01');
         const _response = JSON.parse(res);
         console.log(`Reservation endpoint array contains ${_response.length} item(s)`);
@@ -262,5 +263,6 @@ test.describe("Api Reservation Shared", () => {
         console.log('Reservation shared endpoint do not have any error - the array error have lenght '+(v.validate(_response, schema).errors).length);
         console.log(v.validate(_response, schema));
         await expect((v.validate(_response, schema).errors).length).toEqual(0);
+
    })
 })

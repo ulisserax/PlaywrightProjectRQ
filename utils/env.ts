@@ -28,7 +28,8 @@ export default class ENV{
     static GUEST_LASTNAME            = chance.last()
     static PROPERTY                  = process.env.PROPERTY
     static CLIENT_EMAIL              = `client_${chance.first()}_${chance.integer({min:0,max:9999})}@reloquest.com`
-    static GUEST_EMAIL               = `${this.GUEST_FIRSTNAME}_${chance.integer({min:0,max:9999})}@${this.REQUESTOR_COMPANY}.com`
+    static GUEST_EMAIL               = `${this.GUEST_FIRSTNAME}_guest${chance.integer({min:0,max:9999})}@${this.REQUESTOR_COMPANY}.com`
+
     static GUEST_PHONE               = chance.phone()
     static REQUEST_TYPE              = [`Corporate Housing Only`,`Hotels Only`,`Hotels and Corporate Housing`]
     static GUEST_TYPE                = [`Standard`,`VIP`,`High Visibility`, `Executive`, `Intern`, `Group Move`]
@@ -41,10 +42,12 @@ export default class ENV{
     static FEES_TYPE                 = [`DAY`, `FLAT`, `PERCENT`, `NIGHT`]
     static ACKNOWLEDGE_AWARD         = [`accept`, `decline`, `submit_new_option`]
     static SUPPLIER_COMPANY_EMAIL    = `${this.SUPPLIER_COMPANY}@notification.com`
+
     static SUPPLIER_COMPANY_FOR_RQPRO_EMAIL = `${this.SUPPLIER_COMPANY_FOR_RQPRO}@notification.com`
     static SUPPLIER_EMAIL            = `${this.SUPPLIER_ADMIN}@${this.SUPPLIER_COMPANY}.com`
     static SUPPLIER_SERVICE_EMAIL    = `${this.SUPPLIER_ADMIN}@service.com`
     static SUPPLIER_ESCALATION_EMAIL = `${this.SUPPLIER_ADMIN}@escalation.com`
+
     static SUPPLIER_FIRST_NAME       = chance.first();
     static SUPPLIER_LAST_NAME        = chance.last();
     static REQUESTOR_EMAIL           = `${this.REQUESTOR_USER}@${this.REQUESTOR_COMPANY}.com`
@@ -117,6 +120,7 @@ export default class ENV{
     static RQPRO_EB2E_CLIENT           = process.env.RQPRO_EB2E_CLIENT
     static SUPPLIER_FOR_RQPRO_ADMIN    = process.env.SUPPLIER_FOR_RQPRO_ADMIN
     static SUPPLIER_FOR_RQPRO_API_KEY  = process.env.SUPPLIER_FOR_RQPRO_API_KEY
+
     static RQPRO_GUEST_EMAIL           = `${this.GUEST_FIRSTNAME}_${chance.integer({min:0,max:9999})}@${this.RQPRO_COMPANY}.com`;
 
     static DB_URL       = process.env.DB_URL

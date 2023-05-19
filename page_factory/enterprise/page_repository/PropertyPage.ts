@@ -88,6 +88,7 @@ export default class PropertyPage {
       ENV.PROPERTY_FEATURES = chance.sentence();
       ENV.PROPERTY_AMENITIES = chance.sentence();
       ENV.PROPERTY_NAME = `nt1sup_property_#_${number}${chance.character({ alpha: true , casing: 'lower'})}`;
+
       await this.page.locator(Link.edit_property).first().click();
       await this.page.fill(Input.property_name,'');
       await this.optionPage.addPropertyImages(ENV.IMAGE_PATH);

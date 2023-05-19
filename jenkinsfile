@@ -1,0 +1,55 @@
+pipeline {
+    agent {
+        node { label 'playwright'  }
+    }
+    tools { nodejs "default" }
+    parameters {
+        string(defaultValue: 'stage', name: 'env', trim: true)
+
+    }
+    stages {
+        // stage( 'Setup parameters'){
+        //     steps {
+        //         script {
+        //             properties([parameters([string(defaultValue: 'stage', name: 'env', trim: true)])])
+        //         }
+        //     }
+        // }
+        stage('runing test') {
+                        
+            steps {
+                // Depends on your language / test framework
+                sh "npm install"
+                sh "npm run env:${params.env}"
+            }
+        }
+    }
+
+    post{
+        success{
+            slackSend( channel: "#playwright", token: "slack-token", color: "#00ff00", message: "${custom_msg()}")
+        }
+        failure{
+            slackSend( channel: "#playwright", token: "slack-token", color: "#ff0000", message: "${custom_msg()}")
+        }
+        unstable{
+            slackSend( channel: "#playwright", token: "slack-token", color: "#0000fe", message: "${custom_msg()}")
+        }
+        always{
+            sh "aws s3 cp --region us-east-1 --recursive playwright-report s3://rq-playwright-test-report"
+        }
+    }
+}
+
+def custom_msg()
+{
+
+  def JENKINS_URL = env.JENKINS_URL
+  def JOB_NAME = env.JOB_NAME
+  def BUILD_ID = env.BUILD_ID
+  def STATUS = currentBuild.currentResult
+  
+  def JENKINS_LOG= "Job: ${JOB_NAME} \n Test Suite: ${params.env} \n Status: ${STATUS} \n Logs path: ${JENKINS_URL}job/${JOB_NAME}/${BUILD_ID}/consoleText \n HTML-Report: https://playwright.reloquest.com/"
+  return JENKINS_LOG
+}
+

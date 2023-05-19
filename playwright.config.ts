@@ -42,12 +42,12 @@ const config: PlaywrightTestConfig = {
     //   "./node_modules/playwright-slack-report/dist/src/SlackReporter.js",
     //   {
         
-    //     channels: [`stage`], // provide one or more Slack channels
+    //     channels: [`playwright`], // provide one or more Slack channels
     //     sendResults: "always", // "always" , "on-failure", "off"
     //     slackOAuthToken: 'xoxb-19273017088-4757708162966-avveBI977nam0Z1T6Akensy8'
     //   },
       
-    // ],
+    // ]
   ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {

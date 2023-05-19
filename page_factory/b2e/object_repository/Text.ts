@@ -11,6 +11,8 @@ export default class Text{
     static current_card              = `span.card-label`;
     static canceled_quest            = `//*[contains(text(),'canceled')]`;
     static issue_description         = `//textarea[@formcontrolname='description']`;
+    static cancellation_in_progress  = `//div[contains(@class,'pending')]//span[contains(text(),'Cancellation in Progress')]`;
+
 
     static sortBy(by: string){
         return `//div[contains(text(),'${by}')]`;
