@@ -1,7 +1,5 @@
-import { expect } from '@playwright/test'
 import ENV from '@utils/env'
 import test from '@lib/BaseTest'
-import link from '@enterprise_objects/Link'
 
 test.describe ("REMOVE all client directed areas", ()=>{
     test.slow();

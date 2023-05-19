@@ -20,7 +20,7 @@ import ENV  from '@utils/env';
         await requestShow.acceptRequest();
         await requestShow.bidOption();
         await option.selectProperty(ENV.PROPERTY_NAME);
-        await option.propertyEditvalidation();
+        await option.propertyEditValidation();
     })
 
 

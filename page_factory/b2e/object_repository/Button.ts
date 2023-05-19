@@ -9,7 +9,6 @@ export default class Button{
     static next_month            = `button[title='Next month']`;
     static plus_bedrooms         = `app-counter[formcontrolname='bedrooms'] button.plus`;
     static ratecard_details      = `app-rate-card a:has-text('DETAILS')`;
-    static check_avialability    = `button:has-text('CHECK AVAILABILITY')`;
     static plus_adults           = `app-counter[formcontrolname='adults'] button.plus`;
     static send_request          = `button:has-text('SEND REQUEST')`;
     static plus_parking          = `app-counter[formcontrolname='parking_spaces'] button.plus`;
@@ -43,6 +42,9 @@ export default class Button{
     static mark_as_resolved      = `//button[contains(text(), 'MARK AS RESOLVED')]`;
     static resolved_confirmation = `//app-modal[@class='service-modal']//button[contains(text(), 'MARK AS RESOLVED')]`;
     static nte_request_extension = `//app-ntv-quest//button[contains(text(),'REQUEST EXTENSION')]`;
+
+    static check_avialability_or_request_deal    = `//button[contains(text(),'CHECK AVAILABILITY')] | //button[contains(text(),'REQUEST DEAL')]`;
+
 
     static new_quest(request_id){
         return `a[request-id=${request_id}] button.quest-status.search-status`;

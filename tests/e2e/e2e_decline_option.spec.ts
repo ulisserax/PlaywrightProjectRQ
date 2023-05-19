@@ -43,7 +43,7 @@ import ENV  from '@utils/env';
         await property.fillPropertyOverview(property_name, 'miami beach','Yes','Central A/C','1 bedroom','No Pets');
         await property.addImage(`images/property1.jpeg`);
         await property.cancellationAndTaxFeePolicy();
-        await option.fillContactInformation(ENV.SUPPLIER_EMAIL);
+        await option.fillContactInformation(ENV.SUPER_ADMIN);
         await property.createNewProperty();
         await option.fillUnitDetails(ENV.UNIT_TYPE[1], ENV.KITCHEN_TYPE[2],ENV.STYLE[0],ENV.BEDROOMS[1],ENV.BATHROOMS[1]);
         await option.fillRateDetails();

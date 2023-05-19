@@ -16,8 +16,8 @@ export default class B2ePropertyDetailPage {
     async checkAvailability(): Promise<void>{
         console.info(`Checking availability`);
         await WebActions.delay(400);
-        await this.page.context().pages()[1].waitForSelector(Button.check_avialability);
-        await this.page.context().pages()[1].click(Button.check_avialability);
+        await this.page.context().pages()[1].waitForSelector(Button.check_avialability_or_request_deal);
+        await this.page.context().pages()[1].click(Button.check_avialability_or_request_deal);
         await WebActions.delay(400);
         if(await this.page.context().pages()[1].locator(Element.are_you_sure_modal).isVisible()){
             await this.page.context().pages()[1].click(Button.continue);

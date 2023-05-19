@@ -1,4 +1,3 @@
-import { expect } from '@playwright/test'
 import ENV from '@utils/env'
 import test from '@lib/BaseTest'
 
