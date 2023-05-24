@@ -19,11 +19,7 @@ import ENV  from '@utils/env';
       await b2eSearchPage.searchDestination(`Miami, FL, USA`);
       await b2eSearchPage.selectDates();
       await b2eSearchPage.housingOptionsCorporate();
-<<<<<<< HEAD
       await b2eSearchPage.searchPropertyName(ENV.PROPERTY); 
-=======
-      await b2eSearchPage.searchPropertyName('nt1sup_property');
->>>>>>> master
       await b2eSearchPage.selectRatecard();
       console.info(ENV.REQUEST_ID);
       await b2ePropertyDetailPage.checkAvailability();

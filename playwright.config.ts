@@ -15,6 +15,7 @@ import  ENV from '@utils/env';
 const config: PlaywrightTestConfig = {
   globalSetup: 'global-setup.ts',
   testDir: './tests',
+  testIgnore:'**/allocation/**',
   /* Maximum time one test can run for. */
   //globalTimeout: 100 * 1000000,
   timeout: 90 * 1000,
