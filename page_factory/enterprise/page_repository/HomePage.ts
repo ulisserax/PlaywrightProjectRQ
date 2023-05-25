@@ -42,7 +42,7 @@ export default class HomePage {
      async acceptDataProcessingAddendum(): Promise<void>{
           console.info(`Accepting the Data Processing Addendum`);
           await this.page.waitForLoadState('domcontentloaded');
-          await expect(await this.page.locator(Link.dpa)).toBeVisible();
+          await expect(await this.page.locator(Link.dpa).first()).toBeVisible();
           await this.page.click(Button.accept_term);
      }
 }

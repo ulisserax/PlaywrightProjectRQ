@@ -29,6 +29,7 @@ export default class Element{
     static ntv_submitted_box          = `//app-ntv-approval//div[@class='ntv-approval']//div`;
     static nte_next_month             = `//app-ntv-quest//button[@title='Next month']`;
     static nte_end_date               = `//app-ntv-quest//ngb-datepicker-month//span`;
+    static quest_hero_head            = `//div[contains(@class,'hero-head')]//div[contains(@class,'cancelled') or contains(@class,'pending')]`;
 
     static quests_card(request_id){
         return `a[request-id=${request_id}]`;

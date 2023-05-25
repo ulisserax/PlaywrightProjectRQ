@@ -29,7 +29,7 @@ export default class CompanyPage {
         await this.page.type(Input.new_company_zip, chance.zip());
         await this.page.click(Dropdown.new_company_country);
         await this.page.click(Element.new_company_country);
-        await this.page.type(Input.new_accounting_name, `accounting ${chance.first_name} ${chance.last_name}`);
+        await this.page.type(Input.new_accounting_name, `accounting ${chance.first()} Doe`);
         await this.page.type(Input.new_accounting_email, `accounting@${companyName}.com`);
         await this.page.type(Input.new_accounting_phone,chance.phone ({formatted: false}));
     }

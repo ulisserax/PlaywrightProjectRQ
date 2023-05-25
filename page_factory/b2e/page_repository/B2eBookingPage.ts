@@ -98,6 +98,7 @@ export default class B2eBookingPage {
             await this.page.context().pages()[1].waitForSelector(Button.yes_cancel_quest);
             await this.page.context().pages()[1].click(Button.yes_cancel_quest);
             await WebActions.delay(3400);
+            await this.page.context().pages()[1].waitForSelector(Element.quest_hero_head);
             await this.page.context().pages()[1].waitForLoadState('domcontentloaded');
             //await this.page.context().pages()[1].waitForLoadState('networkidle');
             if(await this.page.context().pages()[1].locator(Text.canceled_quest).count()==1){
