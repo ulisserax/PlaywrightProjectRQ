@@ -42,7 +42,7 @@ import ENV  from '@utils/env';
         await requestShow.verifyOptionSubmitted();
         await requestShow.bidOption();
         await option.clickNewProperty();
-        await property.fillPropertyOverview(property_name, 'miami beach','Yes','Central A/C','1 bedroom','No Pets');
+        await property.fillPropertyOverview(property_name, 'Miami Beach','Yes','Central A/C','1 bedroom','No Pets');
         await property.addImage(`images/property1.jpeg`);
         await property.cancellationAndTaxFeePolicy();
         await option.fillContactInformation(ENV.SUPER_ADMIN);

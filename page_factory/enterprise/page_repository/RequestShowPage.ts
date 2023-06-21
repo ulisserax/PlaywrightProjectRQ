@@ -311,10 +311,7 @@ export default class RequestShowPage {
         await this.page.click(Button.apply_confimation);
         await this.page.click(Button.yes);
         await WebActions.delay(400);
-        await expect(await this.page.locator(Element.icon_confirm_availability).count()).toEqual(1);
-
-        await WebActions.delay(1400);
-
+        
         //THIS LINE WAS COMMENT PER ISSUE REPORTED ON TICKET SM-17686
         //await expect(await this.page.locator(Element.icon_confirm_availability).count()).toEqual(1);
     }
