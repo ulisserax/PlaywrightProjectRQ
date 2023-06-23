@@ -370,6 +370,4 @@ export default class RequestShowPage {
         }  
     }
 
-    
-
 }
