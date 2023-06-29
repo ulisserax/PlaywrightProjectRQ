@@ -35,9 +35,9 @@ pipeline {
         unstable{
             slackSend( channel: "#playwright", token: "slack-token", color: "#0000fe", message: "${custom_msg()}")
         }
-        always{
-            sh "aws s3 cp --region us-east-1 --recursive playwright-report s3://rq-playwright-test-report"
-        }
+        // always{
+        //     sh "aws s3 cp --region us-east-1 --recursive playwright-report s3://rq-playwright-test-report"
+        // }
     }
 }
 
@@ -49,7 +49,7 @@ def custom_msg()
   def BUILD_ID = env.BUILD_ID
   def STATUS = currentBuild.currentResult
   
-  def JENKINS_LOG= "Job: ${JOB_NAME} \n Test Suite: ${params.env} \n Status: ${STATUS} \n Logs path: ${JENKINS_URL}job/${JOB_NAME}/${BUILD_ID}/consoleText \n HTML-Report: https://playwright.reloquest.com/"
+  def JENKINS_LOG= "Job: ${JOB_NAME} \n Test Suite: ${params.env} \n Status: ${STATUS} \n Logs path: ${JENKINS_URL}job/${JOB_NAME}/${BUILD_ID}/consoleText \n HTML-Report: /Users/equinta/.jenkins/workspace/Playwright_pipeline/Playwright_pipeline/playwright-report/index.html"
   return JENKINS_LOG
 }
 
