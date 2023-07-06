@@ -73,4 +73,17 @@ export default class ShareOptionPage {
         await this.page.waitForLoadState('networkidle');
     }
     
+    async shareWithGuestAndValidateModal(){
+        console.info('Clicking on all options and share with guest');
+        await this.page.waitForLoadState('networkidle');
+        const items = await this.page.locator(Checkbox.option_checkbox);
+        for (let i=0; i<await items.count(); i++){
+            await items.nth(i).click();
+        }
+        await this.page.click(Button.submit_share_option);
+        await this.page.waitForLoadState('domcontentloaded');
+        await this.page.click(Button.share_with_guest);
+        
+        await this.page.pause();
+    }
 }

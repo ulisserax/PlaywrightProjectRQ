@@ -17,7 +17,7 @@ test.describe.serial("Test Suite Basic Flow ", () => {
         await dashboard.cardSummary();
         await dashboard.clickNewRequest();
         await newRequest.select_client(ENV.CLIENT_ACCEPT);
-        await newRequest.fillRequestDetails(ENV.REQUEST_TYPE[0], ENV.REQUESTOR_ADMIN,ENV.GUEST_TYPE[0],'Miami, FL, USA', `45`);
+        await newRequest.fillRequestDetails(ENV.REQUEST_TYPE['Corporate'], ENV.REQUESTOR_ADMIN,ENV.GUEST_TYPE['Intern'],'Miami, FL, USA', `45`);
         await newRequest.fillGuestInfo(ENV.GUEST_FIRSTNAME,ENV.GUEST_LASTNAME,guest_email,ENV.GUEST_PHONE);
         await newRequest.fillCorporateHousingDetails();
         await newRequest.submitRequest();
@@ -34,9 +34,9 @@ test.describe.serial("Test Suite Basic Flow ", () => {
         await requestShow.bidOption();
         await option.selectProperty(ENV.PROPERTY);
         await option.addPropertyImages(`images/property1.jpeg`);
-        await option.fillUnitDetails(ENV.UNIT_TYPE[1], ENV.KITCHEN_TYPE[2],ENV.STYLE[0],ENV.BEDROOMS[1],ENV.BATHROOMS[1]);
+        await option.fillUnitDetails(ENV.UNIT_TYPE['Apartment'], ENV.KITCHEN_TYPE['Full Kitchen'],ENV.STYLE['A'],ENV.BEDROOMS['One Bedroom'],ENV.BATHROOMS['One Bathroom']);
         await option.fillRateDetails();
-        await option.fillFees(ENV.FEES_TYPE[0]);
+        await option.fillFees(ENV.RATE_FEE_TYPE['Day']);
         await option.submitOption();
         await requestShow.verifyOptionSubmitted();
     })
@@ -68,7 +68,7 @@ test.describe.serial("Test Suite Basic Flow ", () => {
         await dashboard.cardSummary();
         await dashboard.findCurrentRequest(ENV.REQUEST_ID);
         await search.clickRequestIdLink();
-        await requestShow.acknowledgeAward(ENV.ACKNOWLEDGE_AWARD[0]);
+        await requestShow.acknowledgeAward(ENV.ACKNOWLEDGE_AWARD['Accept']);
         await requestShow.viewReservation();
         await reservation.getReservationId();
         console.log(ENV.RESERVATION_ID);

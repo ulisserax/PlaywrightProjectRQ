@@ -156,7 +156,7 @@ export default class NewRequestPage{
     async createNewRequest (client: string, requestor: string, location: string, guest_email: string ): Promise<void> {
         await this.dashboard.clickNewRequest();
         await this.select_client(client);
-        await this.fillRequestDetails(ENV.REQUEST_TYPE[0], requestor,ENV.GUEST_TYPE[0], location, `15`);
+        await this.fillRequestDetails(ENV.REQUEST_TYPE['Corporate'], requestor,ENV.GUEST_TYPE['Standard'], location, `15`);
         await this.fillBillTo('Guest');
         await this.fillGuestInfo(`${chance.first()}`,`${chance.last()}`,guest_email,`${chance.phone({formatted: false })}`);
         await this.fillCorporateHousingDetails();

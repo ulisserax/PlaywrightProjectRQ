@@ -11,7 +11,7 @@ export default class OptionEndpoints {
         this.request = request;
     }
 
-    async optionCreate( base_url: string, api_key:string, supplier_email:string, request_id:string, property_id:number, start_date:string, end_date:string){
+    async optionCreate( base_url: string, api_key:string, supplier_email:string, request_id:string, property_id:number, start_date:string, end_date:string, rate_type:string){
         const _response = await this.request.post(`${base_url}/api/v1/option/create/${request_id}?apikey=${api_key}`, {
             data: {
                     "property": property_id,
@@ -55,7 +55,7 @@ export default class OptionEndpoints {
                     "minimum_stay": 1,
                     "notice": 1,
                     "require_ntv":1,
-                    "rate_type": "NIGHT",
+                    "rate_type": `${rate_type}`,
                     "other_charges": null,
                     "smoking_unit": 0,
                     "square_foot": 1250,
