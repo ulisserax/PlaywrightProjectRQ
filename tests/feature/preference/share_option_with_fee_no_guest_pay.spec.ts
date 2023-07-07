@@ -8,7 +8,7 @@ const chance = new Chance();
 
 
 
-test.describe.only('Share option with fees - No Guest Pay',  ()=>{
+test.describe('Share option with fees - No Guest Pay',  ()=>{
     test.slow();
 
     test("SM-T1133: Requestor shares an option with fees, Client's default permissions are set to can set preferences only", async({requestEndpoints, optionEndpoints,webActions, homePage, dashboard, search, requestShow, shareOption})=>{
