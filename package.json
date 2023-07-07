@@ -17,7 +17,8 @@
     "env:qa:api": "cross-env test_env=qa npx playwright test --config=api.config.ts --project=Chromium",
     "env:stage:api": "cross-env test_env=stage npx playwright test --config=api.config.ts --project=Chromium",
     "env:rc:feature": "cross-env test_env=rc npx playwright test --config=feature.config.ts --project=Chromium",
-    "env:stage:feature": "cross-env test_env=stage npx playwright test --config=feature.config.ts --project=Chromium"
+    "env:stage:feature": "cross-env test_env=stage npx playwright test --config=feature.config.ts --project=Chromium",
+    "env:stage:preference": "cross-env test_env=stage npx playwright test --config=preference.config.ts --project=Chromium"
   },
   "keywords": [],
   "author": "",
