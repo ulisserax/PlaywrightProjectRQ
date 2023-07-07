@@ -15,8 +15,8 @@ export default class Database {
         
     static promisePool = this.pool.promise();
        
-    static async execute( query){
-        
+    static async execute(message:string, query){
+        console.info(`Executing query to ${message}`);
         const [rows, fields] = await this.promisePool.query(query);
         return rows;
     }

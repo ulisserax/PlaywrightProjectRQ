@@ -23,7 +23,7 @@ test.describe.serial("EB2E - RQPro Service Issue between Support and Guest", () 
 
     test("POST: Submit an Option to the EB2E RQPRO Request", async ({optionEndpoints}) => {
         console.info(`Submitting an Option to an EB2E RQPro Request through the V1 API.`);
-        const _res = await optionEndpoints.optionCreate(ENV.BASE_URL, ENV.SUPPLIER_FOR_RQPRO_API_KEY, ENV.SUPPLIER_COMPANY_FOR_RQPRO_EMAIL, ENV.API_REQUEST_UID, Number(ENV.API_PROPERTY_ID), ENV.START_DATE, ENV.END_DATE);
+        const _res = await optionEndpoints.optionCreate(ENV.BASE_URL, ENV.SUPPLIER_FOR_RQPRO_API_KEY, ENV.SUPPLIER_COMPANY_FOR_RQPRO_EMAIL, ENV.API_REQUEST_UID, Number(ENV.API_NT3_PROPERTY_ID), ENV.START_DATE, ENV.END_DATE, ENV.RATE_FEE_TYPE['Night']);
         const _response = JSON.parse(_res)
         ENV.API_OPTION_ID = `${_response.option_id}`;
         console.info(`Option id: ${ENV.API_OPTION_ID}`);
@@ -44,7 +44,7 @@ test.describe.serial("EB2E - RQPro Service Issue between Support and Guest", () 
     test("Acknowledge the EB2E - RQPro Reservation", async ({webActions, requestShow}) => {
         console.info(`Acknowledging the Reservation.`);
         await webActions.login(`supplier`, `${ENV.SUPPLIER_DOMAIN}/request/show/${ENV.API_REQUEST_UID}`, ENV.SUPPLIER_FOR_RQPRO_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);
-        await requestShow.acknowledgeAward(ENV.ACKNOWLEDGE_AWARD[0]);
+        await requestShow.acknowledgeAward(ENV.ACKNOWLEDGE_AWARD['Accept']);
         await requestShow.validateServiceIssueTab();
     })
 

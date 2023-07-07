@@ -18,4 +18,5 @@ export default class Checkbox{
     static acknowledge_date_changes             = `//input[@id='acknowledge_date_changes']`;
     static ntv_confirmation                     = `//input[@id='ntvConfirmation']`;
     static ntv_taxes_and_fees_acknowledge       = `//input[@id='ntvTaxFeeConfirmation']`;
+    static understand_guest_able_to_award       = `//div[@id='share_modal']//div[@id='isUnderstandGuestCanAwardCheckboxDiv']`;
 }

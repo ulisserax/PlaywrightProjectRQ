@@ -3,68 +3,71 @@ const chance = new Chance();
 
 export default class ENV{
 
+    static random_start_date = chance.integer({min:15,max:30});
+    static random_end_date   = chance.integer({min:45,max:75});
+
     // Enterprise Test Data
-    static BASE_URL                  = process.env.BASE_URL
-    static BASE_URL1                 = process.env.BASE_URL1
-    static MAILCATCHER_URL           = process.env.MAILCATCHER_URL
-    static SUPPLIER_DOMAIN           = process.env.SUPPLIER_DOMAIN
-    static SUPER_ADMIN               = process.env.SUPER_ADMIN
-    static SUPER_ADMIN_PASSWORD      = process.env.SUPER_ADMIN_PASSWORD
-    static REQUESTOR_ADMIN           = process.env.REQUESTOR_ADMIN
-    static REQUESTOR_USER            = process.env.REQUESTOR_USER
-    static REQUESTOR_ADMIN_PASSWORD  = process.env.REQUESTOR_ADMIN_PASSWORD
-    static SUPPLIER_ADMIN            = process.env.SUPPLIER_ADMIN
-    static SUPPLIER_ADMIN_PASSWORD   = process.env.SUPPLIER_ADMIN_PASSWORD
-    static SUPPLIER_MANAGER          = process.env.SUPPLIER_MANAGER
-    static SUPPLIER_MANAGER_PASSWORD = process.env.SUPPLIER_MANAGER_PASSWORD
-    static SUPPLIER_COMPANY          = process.env.SUPPLIER_COMPANY
-    static SUPPLIER_COMPANY_FOR_RQPRO= process.env.SUPPLIER_COMPANY_FOR_RQPRO
-    static REQUESTOR_COMPANY         = process.env.REQUESTOR_COMPANY
-    static CLIENT_EB2E_RQPRO         = process.env.CLIENT_EB2E_RQPRO
-    static CLIENT_EB2E               = process.env.CLIENT_EB2E
-    static CLIENT                    = process.env.CLIENT
-    static CLIENT_ACCEPT             = process.env.CLIENT_ACCEPT
-    static GUEST_FIRSTNAME           = chance.first()
-    static GUEST_LASTNAME            = chance.last()
-    static PROPERTY                  = process.env.PROPERTY
-    static CLIENT_EMAIL              = `client_${chance.first()}_${chance.integer({min:0,max:9999})}@reloquest.com`
-    static GUEST_EMAIL               = `${this.GUEST_FIRSTNAME}_guest${chance.integer({min:0,max:9999})}@${this.REQUESTOR_COMPANY}.com`
 
-    static GUEST_PHONE               = chance.phone()
-    static REQUEST_TYPE              = [`Corporate Housing Only`,`Hotels Only`,`Hotels and Corporate Housing`]
-    static GUEST_TYPE                = [`Standard`,`VIP`,`High Visibility`, `Executive`, `Intern`, `Group Move`]
-    static INTERNAL_ID               = `internal_id-${chance.integer({min:0, max:99999})}`
-    static UNIT_TYPE                 = [`Aparthotel`, `Apartment`, `Apartment - w/Kitchen`, `Flat`, `Condo`, `Hotel`, `House`, `Townhouse`]
-    static KITCHEN_TYPE              = [`none`, `Kitchenette`, `Full Kitchen`]
-    static STYLE                     = [`A+`, `A`, `B`, `C`, `D`]
-    static BEDROOMS                  = [`Studio/Efficiency`, `1`, `2`, `3`, `4`, `5`]
-    static BATHROOMS                 = [`0.5`, `1`, `1.5`, `2`, `2.5`]
-    static FEES_TYPE                 = [`DAY`, `FLAT`, `PERCENT`, `NIGHT`]
-    static ACKNOWLEDGE_AWARD         = [`accept`, `decline`, `submit_new_option`]
-    static SUPPLIER_COMPANY_EMAIL    = `${this.SUPPLIER_COMPANY}@notification.com`
-
+    static BASE_URL                         = process.env.BASE_URL
+    static BASE_URL1                        = process.env.BASE_URL1
+    static MAILCATCHER_URL                  = process.env.MAILCATCHER_URL
+    static SUPPLIER_DOMAIN                  = process.env.SUPPLIER_DOMAIN
+    static SUPER_ADMIN                      = process.env.SUPER_ADMIN
+    static SUPER_ADMIN_PASSWORD             = process.env.SUPER_ADMIN_PASSWORD
+    static REQUESTOR_ADMIN                  = process.env.REQUESTOR_ADMIN
+    static REQUESTOR_USER                   = process.env.REQUESTOR_USER
+    static REQUESTOR_ADMIN_PASSWORD         = process.env.REQUESTOR_ADMIN_PASSWORD
+    static SUPPLIER_ADMIN                   = process.env.SUPPLIER_ADMIN
+    static SUPPLIER_ADMIN_PASSWORD          = process.env.SUPPLIER_ADMIN_PASSWORD
+    static SUPPLIER_MANAGER                 = process.env.SUPPLIER_MANAGER
+    static SUPPLIER_MANAGER_PASSWORD        = process.env.SUPPLIER_MANAGER_PASSWORD
+    static SUPPLIER_COMPANY                 = process.env.SUPPLIER_COMPANY
+    static SUPPLIER_COMPANY_FOR_RQPRO       = process.env.SUPPLIER_COMPANY_FOR_RQPRO
+    static REQUESTOR_COMPANY                = process.env.REQUESTOR_COMPANY
+    static CLIENT_EB2E_RQPRO                = process.env.CLIENT_EB2E_RQPRO
+    static CLIENT_EB2E                      = process.env.CLIENT_EB2E
+    static CLIENT                           = process.env.CLIENT
+    static CLIENT_ACCEPT                    = process.env.CLIENT_ACCEPT
+    static CLIENT_ACCEPT_ID                 = process.env.NT1_ACCEPT_CLIENT_ID
+    static GUEST_FIRSTNAME                  = chance.first()
+    static GUEST_LASTNAME                   = chance.last()
+    static PROPERTY                         = process.env.PROPERTY
+    static CLIENT_EMAIL                     = `client_${chance.first()}_${chance.integer({min:0,max:9999})}@reloquest.com`
+    static GUEST_EMAIL                      = `${this.GUEST_FIRSTNAME}_${chance.integer({min:0,max:9999})}@${this.REQUESTOR_COMPANY}.com`
+    static GUEST_PHONE                      = chance.phone()
+    static REQUEST_TYPE                     = {'Corporate':'Corporate Housing Only','Hotels':'Hotels Only','Hotels and Corporate':'Hotels and Corporate Housing'}
+    static GUEST_TYPE                       = {'Standard':'Standard','Vip':'VIP','High Visibility':'High Visibility', 'Executive':'Executive', 'Intern':'Intern', 'Group Move':'Group Move'}
+    static INTERNAL_ID                      = `internal_id-${chance.integer({min:0, max:99999})}`
+    static UNIT_TYPE                        = {'Aparthotel':'Aparthotel', 'Apartment':'Apartment', 'Flat':'Flat', 'Condo':'Condo', 'Hotel':'Hotel', 'House':'House', 'Townhouse':'Townhouse'}
+    static KITCHEN_TYPE                     = {'None':'none', 'Kitchenette':'Kitchenette', 'Full Kitchen':'Full Kitchen'}
+    static STYLE                            = {'A+':'A+', 'A':'A', 'B':'B', 'C':'C', 'D':'D'}
+    static BEDROOMS                         = {'Studio/Efficiency':'Studio/Efficiency', 'One Bedroom':'1', 'Two Bedrooms':'2', 'Three Bedrooms':'3', 'Four Bedrooms':'4', 'Five Bedrooms':'5'}
+    static BATHROOMS                        = {'Half Bathroom':'0.5', 'One Bathroom':'1', 'One and Half Bathrooms':'1.5', 'Two Bathrooms':'2', 'Two and Half Bathrooms':'2.5'}
+    static RATE_FEE_TYPE                    = {'Day':'DAY', 'Flat':'FLAT', 'Night':'NIGHT'}
+    static AMOUNT_FEE_TYPE                  = {'Value':'Value', 'Percent':'Percent'}
+    static ACKNOWLEDGE_AWARD                = {'Accept':'accept', 'Decline':'decline', 'Submit New Option':'submit_new_option'}
+    static SUPPLIER_COMPANY_EMAIL           = `${this.SUPPLIER_COMPANY}@notification.com`
     static SUPPLIER_COMPANY_FOR_RQPRO_EMAIL = `${this.SUPPLIER_COMPANY_FOR_RQPRO}@notification.com`
-    static SUPPLIER_EMAIL            = `${this.SUPPLIER_ADMIN}@${this.SUPPLIER_COMPANY}.com`
-    static SUPPLIER_SERVICE_EMAIL    = `${this.SUPPLIER_ADMIN}@service.com`
-    static SUPPLIER_ESCALATION_EMAIL = `${this.SUPPLIER_ADMIN}@escalation.com`
-
-    static SUPPLIER_FIRST_NAME       = chance.first();
-    static SUPPLIER_LAST_NAME        = chance.last();
-    static REQUESTOR_EMAIL           = `${this.REQUESTOR_USER}@${this.REQUESTOR_COMPANY}.com`
-    static BILLING_EMAIL             = process.env.BILLING_EMAIL
-    static REQUESTOR_ADMIN_EMAIL     = `${this.REQUESTOR_ADMIN}@${this.REQUESTOR_COMPANY}.com`
-    static AWARD_IN_PROGRESS         = 0
-    static FULL_GUEST_NAME           = `${this.GUEST_FIRSTNAME} ${this.GUEST_LASTNAME}`
-    static REQUESTOR_API_KEY         = process.env.REQUESTOR_API_KEY
-    static SUPPLIER_API_KEY          = process.env.SUPPLIER_API_KEY
-    static PROPERTY_DESCRIPTION      = ''
-    static PROPERTY_FEATURES         = ''
-    static PROPERTY_AMENITIES        = ''
-    static SERVICE_DESCRIPTION       = `${chance.string({length: 5, numeric: true})} - Service Issue created by:`
-    static ROLE_VISIBILITY           = ['REQUESTOR', 'EMPLOYEE', 'SUPPLIER'];
-    
-    static EXCEPTION_FEE_CLIENT_ID  = process.env.EXCEPTION_FEE_CLIENT_ID
-    static  CLIENT_ID               = process.env.CLIENT_ID
+    static SUPPLIER_EMAIL                   = `${this.SUPPLIER_ADMIN}@${this.SUPPLIER_COMPANY}.com`
+    static SUPPLIER_SERVICE_EMAIL           = `${this.SUPPLIER_ADMIN}@service.com`
+    static SUPPLIER_ESCALATION_EMAIL        = `${this.SUPPLIER_ADMIN}@escalation.com`
+    static SUPPLIER_FIRST_NAME              = chance.first();
+    static SUPPLIER_LAST_NAME               = chance.last();
+    static REQUESTOR_EMAIL                  = `${this.REQUESTOR_USER}@${this.REQUESTOR_COMPANY}.com`
+    static BILLING_EMAIL                    = process.env.BILLING_EMAIL
+    static REQUESTOR_ADMIN_EMAIL            = `${this.REQUESTOR_ADMIN}@${this.REQUESTOR_COMPANY}.com`
+    static AWARD_IN_PROGRESS                = 0
+    static FULL_GUEST_NAME                  = `${this.GUEST_FIRSTNAME} ${this.GUEST_LASTNAME}`
+    static REQUESTOR_API_KEY                = process.env.REQUESTOR_API_KEY
+    static SUPPLIER_API_KEY                 = process.env.SUPPLIER_API_KEY
+    static PROPERTY_DESCRIPTION             = ''
+    static PROPERTY_FEATURES                = ''
+    static PROPERTY_AMENITIES               = ''
+    static SERVICE_DESCRIPTION              = `${chance.string({length: 5, numeric: true})} - Service Issue created by:`
+    static ROLE_VISIBILITY                  = ['REQUESTOR', 'EMPLOYEE', 'SUPPLIER'];
+   
+    static NT1_EXCEPTION_FEE_CLIENT_ID  = process.env.NT1_EXCEPTION_FEE_CLIENT_ID
+    static NT1_AUTO_CLIENT_ID           = process.env.NT1_AUTO_CLIENT_ID
 
     static PROPERTY_NAME            = ``
     static PROPERTY_ADDRESS         = ``
@@ -86,8 +89,8 @@ export default class ENV{
     static ZIP_CODE          = process.env.ZIP_CODE
 
     static SLACK_TOKEN       = process.env.SLACK_TOKEN;
-    static START_DATE        = new Date(new Date().setDate(new Date().getDate()+20)).toISOString().split('T')[0];
-    static END_DATE          = new Date(new Date().setDate(new Date().getDate()+45)).toISOString().split('T')[0];
+    static START_DATE        = new Date(new Date().setDate(new Date().getDate()+this.random_start_date)).toISOString().split('T')[0];
+    static END_DATE          = new Date(new Date().setDate(new Date().getDate()+this.random_end_date)).toISOString().split('T')[0];
 
     static API_GRANT_TYPE              = process.env.API_GRANT_TYPE
     static API_PAYMENT_TOKEN           = process.env.API_PAYMENT_TOKEN
@@ -100,7 +103,8 @@ export default class ENV{
     static API_CORPROPERTIES_REFERENCE = process.env.API_CORPROPERTIES_REFERENCE
     static API_RATECARD_ID             = ''
     static API_REQUEST_UID             = ''
-    static API_PROPERTY_ID             = process.env.PROPERTY_ID
+    static API_NT1_PROPERTY_ID         = process.env.NT1SUP_PROPERTY_ID
+    static API_NT3_PROPERTY_ID         = process.env.NT3SUP_PROPERTY_ID
     static API_OPTION_ID               = ''
     static API_RESERVATION_UID         = ''
     static API_RESERVATION_ID          = ''
@@ -130,6 +134,9 @@ export default class ENV{
     static DB_PASSWORD  = process.env.DB_PASSWORD
     static IMAGE_PATH   = 'images/property1.jpeg'
 
+
+    static TAXES                            = {'taxable':"taxable",'nontaxable':'nontaxable'};
+    static PARKING                          = {'No Parking':'0', 'One Parking':'1'}
     static ALLOCATION_CLIENT                = process.env.ALLOCATION_CLIENT// 4952 - 4941 - 4944 - 4951
     static ALLOCATION_CLIENT_NAME           = process.env.ALLOCATION_CLIENT_NAME
     static ALLOCATION_SUPPLIERS             = [`nt1sup`, `nt2sup`,`nt3sup`] //[`Synergy Global Housing`, `National Corporate Housing`, `CWS Corporate Housing`]
@@ -138,4 +145,13 @@ export default class ENV{
     // not needed - I'll use RQPRO_BASE_URL //static ALLOCATION_URL1 = "https://stagent1req.reloquest.com"
     
     static YUS_LOCAL                        = "http://yus.relochoice.com"
+
+    static MAID_SERVICE                     = {'None':'None', 'Daily - Included':'Daily - Included', 'Daily - Additional Fee':'Daily - Additional Fee', 'Weekly - Included':'Weekly - Included', 'Weekly - Additional Fee':'Weekly - Additional Fee', 'Every other week - Included':'Every other week - Included', 'Every other week - Additional Fee':'Every other week - Additional Fee', 'Monthly - Included':'Monthly - Included', 'Monthly - Additional Fee':'Monthly - Additional Fee'}
+    static FEE_TYPES_AND_IDS                = {'Property Fee':{'id':'6','name':'Property Fee'}, 'Pet Fee':{'id':'17','name':'Pet Fee'}, 'Resort Fee':{'id':'8','name':'Resort Fee'}, 'Pet Rent':{'id':'21','name':'Pet Rent'}, 'Redecoration Fee':{'id':'18','name':'Redecoration Fee'}, 'Application Fee':{'id':'19','name':'Application Fee'}, 'Maid Service Fee':{'id':'10','name':'Maid Service Fee'}, 'Parking Fee':{'id':'9','name':'Parking Fee'}, 'Cancellation Fee':{'id':'20','name':'Cancellation Fee'}, 'Other Fees':{'id':'13','name':'Other Fees'}}
+    static TAX_TYPES_AND_IDS                = {'State Tax':{'id':'2','name':'State Tax'}, 'Other Taxes':{'id':'12','name':'Other Taxes'}, 'Occupancy Tax':{'id':'7','name':'Occupancy Tax'}, 'Local Tax':{'id':'1','name':'Local Tax'}, 'City Tax':{'id':'3','name':'City Tax'}, 'VAT':{'id':'5','name':'VAT'}, 'County Tax':{'id':'4','name':'County Tax'}}
+    static DEPOSITS_TYPES_AND_IDS           = {'Other Deposit':{'id':'16','name':'Other Deposit'},'Security Deposit':{'id':'15','name':'Security Deposit'},'Pet Deposit':{'id':'14','name':'Pet Deposit'}};
+    static SEGMENT_NUMBER                   = {'first':0,'second':1, 'third':2, 'fourth':3, 'fifth':4, 'sixth':5}
+
+    static PREFERENCE_DATA_OBJECT           = process.env.PREFERENCE_DATA_OBJECT
+    
 }

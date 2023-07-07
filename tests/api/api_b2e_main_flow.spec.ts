@@ -4,6 +4,7 @@ import ENV from '@utils/env';
 
 
 test.describe.serial("Api B2E Main Flow", () => {
+   let property_id;
     
    test("POST: oauth token", async ({v2Endpoints}) => {
       const _res = await v2Endpoints.oauth(ENV.BASE_URL, ENV.API_GRANT_TYPE, ENV.API_CLIENT_ID, ENV.API_CLIENT_SECRET, "john_doe@nt1req.com", ENV.B2E_USER_PASSWORD);
@@ -17,7 +18,7 @@ test.describe.serial("Api B2E Main Flow", () => {
    })
 
    test("POST: Create a b2e request", async ({v2Endpoints}) => {
-      const _res = await v2Endpoints.createRequest(ENV.BASE_URL, ENV.API_TOKEN, ENV.START_DATE, ENV.END_DATE, 'Miami, FL, USA', '2','2','1');
+      const _res = await v2Endpoints.createRequest(ENV.BASE_URL, ENV.API_TOKEN, ENV.START_DATE, ENV.END_DATE, 'Miami, FL, USA', ENV.BATHROOMS['Two Bathrooms'],ENV.BEDROOMS['Two Bedrooms'],'1');
       const _response = JSON.parse(_res);
       ENV.API_REQUEST_UID = `${_response.request_uid}`;
       ENV.REQUEST_ID = `RQ${_response.request_uid}`;
@@ -29,6 +30,7 @@ test.describe.serial("Api B2E Main Flow", () => {
    test("POST: Properties rateCard", async ({v2Endpoints}) => {
       const _res = await v2Endpoints.propertiesRateCard(ENV.BASE_URL, ENV.API_TOKEN, ENV.REQUEST_ID, '1','1',ENV.START_DATE, ENV.END_DATE, 'Miami, FL, USA');
       const _response = JSON.parse(_res);
+      
       for(let i = 0; i<_response.properties.length; i++){
          if(_response.properties[i].provider_name == "nt1sup"){
              console.log(_response.properties[i].reference);
@@ -36,7 +38,7 @@ test.describe.serial("Api B2E Main Flow", () => {
              let ref_arr = reference.split('|');
              ENV.API_CORPROPERTIES_REFERENCE = reference;
              ENV.API_RATECARD_ID =  ref_arr[ref_arr.length - 4];
-             ENV.API_PROPERTY_ID =  ref_arr[ref_arr.length - 5];
+             property_id =  ref_arr[ref_arr.length - 5];
              break;
          }else{
              continue;
@@ -47,7 +49,7 @@ test.describe.serial("Api B2E Main Flow", () => {
    })
 
    test("PUT: Go2network request", async ({v2Endpoints}) => {
-      const _res = await v2Endpoints.go2Network(ENV.BASE_URL, ENV.API_TOKEN, ENV.API_REQUEST_UID , '1', '1', '8', false, 0, '1', 0, false, '0', parseInt(ENV.API_RATECARD_ID), 'USD');
+      const _res = await v2Endpoints.go2Network(ENV.BASE_URL, ENV.API_TOKEN, ENV.API_REQUEST_UID , '2', '2', '8', false, 0, '1', 0, false, '0', parseInt(ENV.API_RATECARD_ID), 'USD');
       const _response = JSON.parse(_res);
       console.info(`Success: ${_response.success}`);
       await expect(_response.success).toEqual(true);
@@ -55,7 +57,7 @@ test.describe.serial("Api B2E Main Flow", () => {
 
    test("POST: Option create", async ({optionEndpoints}) => {
 
-      const res = await optionEndpoints.optionCreate(ENV.BASE_URL, ENV.SUPPLIER_API_KEY, ENV.SUPPLIER_COMPANY_EMAIL, ENV.REQUEST_ID, parseInt(ENV.API_PROPERTY_ID), ENV.START_DATE, ENV.END_DATE);
+      const res = await optionEndpoints.optionCreate(ENV.BASE_URL, ENV.SUPPLIER_API_KEY, ENV.SUPPLIER_COMPANY_EMAIL, ENV.REQUEST_ID, parseInt(property_id), ENV.START_DATE, ENV.END_DATE, ENV.RATE_FEE_TYPE['Night']);
       const _response = JSON.parse(res);
 
       ENV.API_OPTION_ID = _response.option_id

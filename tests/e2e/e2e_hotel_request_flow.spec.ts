@@ -15,7 +15,7 @@ test.describe.serial("Create Hotel request, cancel reservation and validate emai
         await dashboard.validateDashboard();
         await dashboard.clickNewRequest();
         await newRequest.select_client(ENV.CLIENT);
-        await newRequest.fillRequestDetails(ENV.REQUEST_TYPE[1], ENV.REQUESTOR_ADMIN,ENV.GUEST_TYPE[0],'Miami, FL, USA', `15`);
+        await newRequest.fillRequestDetails(ENV.REQUEST_TYPE['Hotels'], ENV.REQUESTOR_ADMIN,ENV.GUEST_TYPE['Standard'],'Miami, FL, USA', `15`);
         await newRequest.fillGuestInfo(ENV.GUEST_FIRSTNAME,ENV.GUEST_LASTNAME,guestEmail,ENV.GUEST_PHONE);
         await newRequest.fillHotelDetails('1','2');
         await newRequest.submitHotelRequest();

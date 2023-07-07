@@ -32,9 +32,9 @@ test.describe.serial("Test Suite Decline ratecard booking for B2E", () => {
       await search.clickRequestIdLink();
       await requestShow.bidPropertiesRequestedForB2E();
       await requestShow.b2eNotificationModal();
-      await option.fillUnitDetails(ENV.UNIT_TYPE[1], ENV.KITCHEN_TYPE[2],ENV.STYLE[0],ENV.BEDROOMS[1],ENV.BATHROOMS[1]);
+      await option.fillUnitDetails(ENV.UNIT_TYPE['Apartment'], ENV.KITCHEN_TYPE['Full Kitchen'],ENV.STYLE['A'],ENV.BEDROOMS['One Bedroom'],ENV.BATHROOMS['One Bathroom']);
       await option.fillRateDetails();
-      await option.fillFees(ENV.FEES_TYPE[1]);
+      await option.fillFees(ENV.RATE_FEE_TYPE['Night']);
       await option.submitOption();
       await requestShow.verifyOptionSubmitted();
   })
@@ -61,7 +61,7 @@ test.describe.serial("Test Suite Decline ratecard booking for B2E", () => {
       await homePage.signIn();
       await dashboard.findCurrentRequest(ENV.REQUEST_ID);
       await search.clickRequestIdLink();
-      await requestShow.declineOption(ENV.ACKNOWLEDGE_AWARD[1]);
+      await requestShow.declineOption(ENV.ACKNOWLEDGE_AWARD['Decline']);
       
   })
 
