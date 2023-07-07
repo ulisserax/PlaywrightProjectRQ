@@ -63,6 +63,17 @@ export default class RequestEndpoints {
                 "kitchen_type": 1,
                 "maid_service": 0,
                 "wd": 0,
+                "request_fee_paid_by":{
+                    "6":"COMPANY",
+                    "8":"GUEST",
+                    "9":"GUEST",
+                    "10":"GUEST",
+                    "14":"GUEST",
+                    "15":"GUEST",
+                    "17":"GUEST",
+                    "18":"GUEST",
+                    "19":"GUEST"
+                },
                 "notice_vacate":5,
                 "internet": 1,
                 "currency": "USD",

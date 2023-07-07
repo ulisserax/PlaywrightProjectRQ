@@ -5,6 +5,7 @@ import Input from "@enterprise_objects/Input";
 import WebActions from "@lib/WebActions";
 import Dropdown from "@enterprise_objects/Dropdown";
 import Element from "@enterprise_objects/Element";
+import Link from "@enterprise_objects/Link";
 
 
 export default class ShareOptionPage {
@@ -73,7 +74,7 @@ export default class ShareOptionPage {
         await this.page.waitForLoadState('networkidle');
     }
     
-    async shareWithGuestAndValidateModal(){
+    async shareOptionWithGuest(){
         console.info('Clicking on all options and share with guest');
         await this.page.waitForLoadState('networkidle');
         const items = await this.page.locator(Checkbox.option_checkbox);
@@ -83,7 +84,34 @@ export default class ShareOptionPage {
         await this.page.click(Button.submit_share_option);
         await this.page.waitForLoadState('domcontentloaded');
         await this.page.click(Button.share_with_guest);
-        
-        await this.page.pause();
+        await WebActions.delay(2000);
+              
     }
+
+    async validateShareModal(advanced_setting_visibility:string, understand_guest_able_to_award_visibility:string){
+        console.info('Validating the advance setting and the understand guest able to award checkbox visibility');
+        if(advanced_setting_visibility=='visible'){
+            await expect(await this.page.locator(Link.show_advanced_settings)).toBeVisible();
+        }else{
+            await expect(await this.page.locator(Link.show_advanced_settings)).toBeHidden();
+        }
+
+        if(understand_guest_able_to_award_visibility=='visible'){
+            await expect(await this.page.locator(Checkbox.understand_guest_able_to_award)).toBeVisible();
+        }else{
+            await expect(await this.page.locator(Checkbox.understand_guest_able_to_award)).toBeHidden();
+        }
+    }
+
+    async completeGuestShare(guest_email: string){
+        console.info('Completing the share with the guest');
+       
+        await this.page.waitForSelector(Input.confirm_share_guest_email);
+        await this.page.locator(Input.confirm_share_guest_email).type(guest_email,{ delay:170 });
+        await WebActions.delay(2000);
+        await this.page.click(Button.send_email);
+        await this.page.click(Button.close);
+       
+    }
+
 }

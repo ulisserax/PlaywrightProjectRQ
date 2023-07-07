@@ -92,5 +92,7 @@ export default class Input{
     static default_referral_fee         = `#defaultAreaFeeForm_referral_fee`;
     static client_area_name             = `//*[@id="parent_form_name"]/div[2]/input`;
     static client_area_location         = `//input[@name='form[location]']`;
+    static share_guest_email            = `//div[@id='share_modal']//label[contains(text(),'Share these option')]/following-sibling::input[@id='email']`;
+    static confirm_share_guest_email    = `//div[@id='share_modal']//label[contains(text(),'Share these option')]/following-sibling::span/input[@id='email_conf']`
     
 }

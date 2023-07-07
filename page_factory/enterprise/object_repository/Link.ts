@@ -40,6 +40,7 @@ export default class Link{
     static exit_impersonation      = `//a[contains(@href,'exit')]`;
     static add_client_direct_area  = `//a[contains(text(),'here')]`;
     static action_remove           = `(//tr//td//a[contains(text(),'Remove')])`;
+    static show_advanced_settings  = `//div[@id='share_modal']//a[contains(@class,'toggle-advanced-permissions')][contains(normalize-space(),'Advanced Settings')]`;
 
     static remove(num: number) {
         return `(//tr//td//a[contains(text(),'Remove')])[${num}]`;
@@ -48,4 +49,6 @@ export default class Link{
     static property_element(text:string){
         return `//ul[@id='select2-results-1']//*[contains(text(),'${text}')]`;
     }
+
+
 }
