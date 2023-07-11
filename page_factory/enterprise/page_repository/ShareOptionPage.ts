@@ -89,7 +89,7 @@ export default class ShareOptionPage {
     }
 
     async validateShareModal(advanced_setting_visibility:string, understand_guest_able_to_award_visibility:string){
-        console.info('Validating the advance setting and the understand guest able to award checkbox visibility');
+        console.info('Validating the advanced settings and the understand guest able to award checkbox visibility');
         if(advanced_setting_visibility=='visible'){
             await expect(await this.page.locator(Link.show_advanced_settings)).toBeVisible();
         }else{
@@ -107,11 +107,18 @@ export default class ShareOptionPage {
         console.info('Completing the share with the guest');
        
         await this.page.waitForSelector(Input.confirm_share_guest_email);
-        await this.page.locator(Input.confirm_share_guest_email).type(guest_email,{ delay:170 });
+        await this.page.locator(Input.confirm_share_guest_email).type(guest_email,{ delay:70 });
         await WebActions.delay(2000);
         await this.page.click(Button.send_email);
         await this.page.click(Button.close);
        
+    }
+
+    async validateAdvancedSettings(is_guest_can_award:boolean, is_guest_can_select_preferences:boolean){
+        console.info('Validating the advanced settings contains the expected values');
+        await this.page.click(Link.show_advanced_settings);
+        await expect(await this.page.locator(Checkbox.guest_can_award_option).isChecked()).toEqual(is_guest_can_award);
+        await expect(await this.page.locator(Checkbox.guest_can_select_preferences).isChecked()).toEqual(is_guest_can_select_preferences);
     }
 
 }

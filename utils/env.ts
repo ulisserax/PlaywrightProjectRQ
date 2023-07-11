@@ -152,6 +152,8 @@ export default class ENV{
     static DEPOSITS_TYPES_AND_IDS           = {'Other Deposit':{'id':'16','name':'Other Deposit'},'Security Deposit':{'id':'15','name':'Security Deposit'},'Pet Deposit':{'id':'14','name':'Pet Deposit'}};
     static SEGMENT_NUMBER                   = {'first':0,'second':1, 'third':2, 'fourth':3, 'fifth':4, 'sixth':5}
 
-    static PREFERENCE_DATA_OBJECT           = process.env.PREFERENCE_DATA_OBJECT
+    static NT4_PREFERENCE_DATA_OBJECT           = process.env.NT4_PREFERENCE_DATA_OBJECT
+    static NT5_PREFERENCE_DATA_OBJECT           = process.env.NT5_PREFERENCE_DATA_OBJECT
+    static NT6_PREFERENCE_DATA_OBJECT           = process.env.NT6_PREFERENCE_DATA_OBJECT
     
 }
