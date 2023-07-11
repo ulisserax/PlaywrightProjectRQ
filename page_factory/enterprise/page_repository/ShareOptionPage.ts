@@ -98,6 +98,7 @@ export default class ShareOptionPage {
 
         if(understand_guest_able_to_award_visibility=='visible'){
             await expect(await this.page.locator(Checkbox.understand_guest_able_to_award)).toBeVisible();
+            await this.page.click(Checkbox.understand_guest_able_to_award);
         }else{
             await expect(await this.page.locator(Checkbox.understand_guest_able_to_award)).toBeHidden();
         }
@@ -119,6 +120,15 @@ export default class ShareOptionPage {
         await this.page.click(Link.show_advanced_settings);
         await expect(await this.page.locator(Checkbox.guest_can_award_option).isChecked()).toEqual(is_guest_can_award);
         await expect(await this.page.locator(Checkbox.guest_can_select_preferences).isChecked()).toEqual(is_guest_can_select_preferences);
+    }
+
+    async uncheckGuestCanAward(is_visible:boolean){
+        console.info('Uncheck guest can award option');
+        await this.page.click(Checkbox.guest_can_award_option);
+        await expect(await this.page.locator(Checkbox.understand_guest_able_to_award).isVisible()).toEqual(is_visible);
+        if (is_visible==true){
+            await this.page.click(Checkbox.understand_guest_able_to_award);
+        }
     }
 
 }
