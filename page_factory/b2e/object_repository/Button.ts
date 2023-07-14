@@ -1,6 +1,6 @@
 
 export default class Button{
-    static accept_cookies        = `button:has-text('Got it')`;
+    static accept_cookies        = `//button[contains(text(),'Got it')]`;
     static login                 = `button:has-text('Login')`;
     static next                  = `app-search button.btn-orange`;
     static ok                    = `//modal-container[@class='modal fade in']//button[contains(text(),'OK')]`;
@@ -42,7 +42,10 @@ export default class Button{
     static mark_as_resolved      = `//button[contains(text(), 'MARK AS RESOLVED')]`;
     static resolved_confirmation = `//app-modal[@class='service-modal']//button[contains(text(), 'MARK AS RESOLVED')]`;
     static nte_request_extension = `//app-ntv-quest//button[contains(text(),'REQUEST EXTENSION')]`;
-
+    static select_option         = `//button[contains(@class,'button-select-option')]`;
+    static accept_terms          = `//button[contains(text(), 'ACCEPT TERMS')]`;
+    static ok_got_it             = `//app-options-welcome//button[contains(text(),'GOT IT')]`;
+    static modal_ok              = `//app-modal//div[contains(@class,'modal-footer')]//button[contains(text(),'OK')]`;
     static check_avialability_or_request_deal    = `//button[contains(text(),'CHECK AVAILABILITY')] | //button[contains(text(),'REQUEST DEAL')]`;
 
 
@@ -57,5 +60,9 @@ export default class Button{
     }    
     static declined_option(request_id){
         return `a[request-id=${request_id}] button.quest-status.declined`;
+    }
+
+    static select_specific_shared_option(option_id: string){
+        return `//app-option-card/a[contains(@href,'/b2e/options/${option_id}')]//button[contains(@class,'button-select-option')]`;
     }
 }

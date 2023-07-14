@@ -70,4 +70,11 @@ export default class B2eHomePage {
         await WebActions.delay(3000);
     }
 
+    async eb2eLogin(paswword: string):Promise<void> {
+        console.info(`Complete the login process coming from an EB2E account activation.`);
+        await this.enterPassword(paswword);
+        await this.signIn();
+        await WebActions.delay(3000);
+    }
+
 }

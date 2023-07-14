@@ -5,6 +5,7 @@ export default class Checkkox{
     static rules_and_policies          = `//input[@formcontrolname='agreeTerms']//following-sibling::span`;
     static background_check            = `//input[@formcontrolname='background_check']//following-sibling::span`;
     static terms                       = `//input[@id='terms']//following-sibling::span`;
+    static accept_terms                = `//app-set-preference//div[contains(@class,'is-term-of-reservation')]/following-sibling::div//app-input-checkbox`;
 
     static brand_name(brand_name:string){
         return `//app-search-brands//div[contains(text(),'${brand_name}')]/parent::div//app-input-checkbox/div`;

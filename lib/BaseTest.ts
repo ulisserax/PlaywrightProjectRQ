@@ -36,6 +36,7 @@ import B2eForgotPasswordPage from "@b2e_pages/B2eForgotPasswordPage";
 import OptionEndpoints from "@api/v1/OptionEndpoints";
 import V2Endpoints from "@api/v2/V2Endpoints";
 import Stripe from "@api/v2/Stripe";
+import B2eOptionsPage from "@b2e_pages/B2eOptionsPage";
 
 
 
@@ -77,6 +78,7 @@ const test = baseTest.extend<{
     optionEndpoints: OptionEndpoints;
     v2Endpoints: V2Endpoints;
     stripe: Stripe;
+    b2eOptionsPage: B2eOptionsPage;
 }>({
     homePage: async ({ page }, use) => {
         await use(new HomePage(page));
@@ -188,6 +190,9 @@ const test = baseTest.extend<{
     },
     stripe: async ({ request }, use) => {
         await use(new Stripe(request));
+    },
+    b2eOptionsPage: async ({ page }, use) => {
+        await use(new B2eOptionsPage(page));
     }
 });
 
