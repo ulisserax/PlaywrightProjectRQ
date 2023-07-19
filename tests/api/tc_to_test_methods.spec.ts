@@ -1,30 +1,10 @@
 import Database from "@lib/Database";
-import test from "@playwright/test";
 import ENV from "@utils/env";
+import test from '@lib/BaseTest';
+const Chance = require("chance");
+const chance = new Chance();
 
-test.skip("Test case for test purpose", async ()=> {
-
-  // const results = await Database.execute('UPDATE smart_company SET name="nt1sup" where id = 500;');
-  // console.log(results);
-
-  // const results = await Database.execute('UPDATE smart_company SET name="nt1sup" where id = 500;');
-  // console.log(results);
-
-  //const result =  await Database.execute('Testing query test case','SELECT id,name,sub_domain,default_company_name FROM smart_company WHERE name = "nt3reqrqpro"');
-  //console.log(result);
-
-  // let data_object = JSON.parse(ENV.PREFERENCE_DATA_OBJECT);
-  // console.log(data_object.req_company_name);
-
-  // SELECT 
-	// 	c.id, c.name, perm.data, JSON_EXTRACT(perm.data, CONCAT('$.', 'EXTENDED_PERMISSIONS_ENABLE_CORE_INVENTORY', '.granted')) AS core_inventory	
-  //   FROM 
-  //   	smart_inline_permission_set perm 
-	// INNER JOIN smart_inline_permission_template permTmpl ON perm.id = permTmpl.permission_set_id 
-	// 	AND permTmpl.name = 'share_profile_guest'
-	// INNER JOIN smart_client_inline_permission_template clientPermTmplRel ON permTmpl.id = clientPermTmplRel.inline_permission_template_id
-	// INNER JOIN smart_client c ON c.id = clientPermTmplRel.client_id 
-	// 	AND c.id = 387
+test.skip("Test case for test purpose", async ({requestEndpoints, optionEndpoints})=> {
 
     // let query = `SELECT sta.option_permissions , sta.understand_guest_can_award_checkbox, sips.data FROM smart_token_auth sta inner join smart_inline_permission_set sips on sta.permission_set_id = sips.id and sta.email = 'lucas_5881@nt1req.com'`
     // const result =  await Database.execute('Testing query test case',query);
@@ -41,7 +21,17 @@ test.skip("Test case for test purpose", async ()=> {
     //     await Database.execute('Set rqpro=on, eb2e=on, guest_share_version_2=on,  guest_pay=off, guest_pay_collect_cc=off and advanced_sharing_settings = not visible on the company',company_query);
 
 
+    // let data_object     = JSON.parse(ENV.NT5_PREFERENCE_DATA_OBJECT);
+    // console.log(data_object.second_property_id);
+
     let data_object     = JSON.parse(ENV.NT5_PREFERENCE_DATA_OBJECT);
-    console.log(data_object.second_property_id);
+    const _createRequestResponse = await requestEndpoints.createRequest(ENV.BASE_URL, `${data_object.requestor_api_key}`, data_object.client_id, 'Miami, FL, USA', ENV.START_DATE, ENV.END_DATE, ENV.GUEST_FIRSTNAME, ENV.GUEST_LASTNAME, data_object.guest_email, `7863256523`);
+        ENV.REQUEST_ID = `${JSON.parse(_createRequestResponse).request_id}`;
+    
+        console.info(`Submitting an Option to the request ${ENV.REQUEST_ID} through the V1 API.`);
+        const _res = await optionEndpoints.optionCreateFull(ENV.BASE_URL, `${data_object.supplier_api_key}`, `${data_object.supplier_user}@${data_object.sup_company_name}.com`, ENV.REQUEST_ID, data_object.property_id, ENV.START_DATE, ENV.END_DATE, ENV.RATE_FEE_TYPE['Day'],1,1,2,chance.integer({min:100, max:350}),"FLAT",chance.integer({min:100, max:250}),chance.integer({min:50, max:300}),chance.integer({min:50, max:200}),chance.integer({min:10, max:300}),chance.integer({min:50, max:250}));
+        const _response = JSON.parse(_res);
+        console.log(_response);
+        //await expect(_response.submitted).toEqual(true);
 
 })

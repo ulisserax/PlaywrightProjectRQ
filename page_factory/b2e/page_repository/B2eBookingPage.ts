@@ -115,6 +115,16 @@ export default class B2eBookingPage {
         }
     }
 
+    async verifySpecificSharedPendingQuest(property_name:string){
+        console.info(`Verifying shared booked quest is pending`);
+        await WebActions.delay(1000);
+        await this.page.waitForSelector(Element.quest_detail_section);
+        await WebActions.delay(1000);
+        await expect(await this.page.locator(Text.pending_quest).count()).toEqual(1);
+        await expect(await this.page.locator(Text.questDetailsPropertyName(property_name)).count()).toEqual(1);
+        
+    }
+
     async verifySharedPendingQuest(){
         console.info(`Verifying shared booked quest is pending`);
         await WebActions.delay(1000);

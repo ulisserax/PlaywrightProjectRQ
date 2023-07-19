@@ -24,7 +24,7 @@ const config : PlaywrightTestConfig = {
     reporter:[['html', {open: "never"}]],
     use: {
         headless: true,
-        viewport:{width:1280, height:720},
+        viewport:{width:1240, height:720},
         actionTimeout:100000,
         ignoreHTTPSErrors:true,
         trace: 'on',
