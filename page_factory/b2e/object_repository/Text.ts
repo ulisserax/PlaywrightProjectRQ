@@ -19,7 +19,7 @@ export default class Text{
     static guest_responsability_text      = `//app-guest-responsible//p[contains(text(),'The selected options may contain fees and deposits that you will')]`;
     static guest_fee_and_deposit_total    = `//app-guest-responsible//div[contains(@class,' summary-underline')]//p`;
     static option_confirmation_title      = `//app-option-confirmation//h2[contains(text(),'Provide payment method')]`;
-    static guest_total                    = `//div[contains(text(),'Guest Total')]/following-sibling::div//div[contains(text(),'$')]`;
+    static guest_total                    = `//div[contains(text(),'Total')]/following-sibling::div//div[contains(text(),'$')]`;
         
     static appModalHeader(text: string){
         return `//div[contains(@class,'modal-header')]/h5[contains(text(),'${text}')]`;
@@ -93,5 +93,9 @@ export default class Text{
     static propertyNameConfirmation(property_name: string){
         return `//app-option-confirmation//div[contains(text(),'${property_name}')]`;
     }
+
+    static choicePreference(preference:string){
+        return `//app-select//span[contains(text(),'${preference}')]`
+    } 
 
 }

@@ -6,6 +6,7 @@ export default class Checkkox{
     static background_check            = `//input[@formcontrolname='background_check']//following-sibling::span`;
     static terms                       = `//input[@id='terms']//following-sibling::span`;
     static accept_terms                = `//app-set-preference//div[contains(@class,'is-term-of-reservation')]/following-sibling::div//app-input-checkbox`;
+    static acknowledge_fees_and_deposits = `//p[contains(text(),'I acknowledge that I will be responsible to pay the fees and deposits')]/parent::div/preceding-sibling::div/app-input-checkbox/div`;
 
     static brand_name(brand_name:string){
         return `//app-search-brands//div[contains(text(),'${brand_name}')]/parent::div//app-input-checkbox/div`;

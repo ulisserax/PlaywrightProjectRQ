@@ -139,7 +139,7 @@ test.describe('Share option with fees - Guest Pay On and No Collect Credit Card'
         await b2eOptionsPage.validateSelectedPropertyName(data_object.property_name);
         //==> SM-T1161
         await b2eOptionsPage.selectOptionPreferences(second_option_id,ENV.OPTIONS_PREFERENCES.first);
-        await b2eOptionsPage.verifyOptionPreference();
+        await b2eOptionsPage.verifyOptionPreference(ENV.OPTIONS_PREFERENCES.first);
         await b2eOptionsPage.acceptTerms();
         //==> SM-T1169
         await b2eOptionsPage.validateModalHeader('Preference(s) selected!');
@@ -346,7 +346,7 @@ test.describe('Share option with fees - Guest Pay On and No Collect Credit Card'
         //==> SM-T1157
         await b2eOptionsPage.validateSelectedPropertyName(data_object.property_name);
         await b2eOptionsPage.validateOptionPreferenceSelected(first_option_id,ENV.OPTIONS_PREFERENCES.first);
-        await b2eOptionsPage.verifyOptionPreference();
+        await b2eOptionsPage.verifyOptionPreference(ENV.OPTIONS_PREFERENCES.first);
         //==> SM-T1161
         await b2eOptionsPage.acceptTerms();
         //==> SM-T1163

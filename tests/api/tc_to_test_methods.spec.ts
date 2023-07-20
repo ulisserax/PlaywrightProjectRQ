@@ -24,14 +24,17 @@ test.skip("Test case for test purpose", async ({requestEndpoints, optionEndpoint
     // let data_object     = JSON.parse(ENV.NT5_PREFERENCE_DATA_OBJECT);
     // console.log(data_object.second_property_id);
 
-    let data_object     = JSON.parse(ENV.NT5_PREFERENCE_DATA_OBJECT);
-    const _createRequestResponse = await requestEndpoints.createRequest(ENV.BASE_URL, `${data_object.requestor_api_key}`, data_object.client_id, 'Miami, FL, USA', ENV.START_DATE, ENV.END_DATE, ENV.GUEST_FIRSTNAME, ENV.GUEST_LASTNAME, data_object.guest_email, `7863256523`);
-        ENV.REQUEST_ID = `${JSON.parse(_createRequestResponse).request_id}`;
+    // let data_object     = JSON.parse(ENV.NT5_PREFERENCE_DATA_OBJECT);
+    // const _createRequestResponse = await requestEndpoints.createRequest(ENV.BASE_URL, `${data_object.requestor_api_key}`, data_object.client_id, 'Miami, FL, USA', ENV.START_DATE, ENV.END_DATE, ENV.GUEST_FIRSTNAME, ENV.GUEST_LASTNAME, data_object.guest_email, `7863256523`);
+    //     ENV.REQUEST_ID = `${JSON.parse(_createRequestResponse).request_id}`;
     
-        console.info(`Submitting an Option to the request ${ENV.REQUEST_ID} through the V1 API.`);
-        const _res = await optionEndpoints.optionCreateFull(ENV.BASE_URL, `${data_object.supplier_api_key}`, `${data_object.supplier_user}@${data_object.sup_company_name}.com`, ENV.REQUEST_ID, data_object.property_id, ENV.START_DATE, ENV.END_DATE, ENV.RATE_FEE_TYPE['Day'],1,1,2,chance.integer({min:100, max:350}),"FLAT",chance.integer({min:100, max:250}),chance.integer({min:50, max:300}),chance.integer({min:50, max:200}),chance.integer({min:10, max:300}),chance.integer({min:50, max:250}));
-        const _response = JSON.parse(_res);
-        console.log(_response);
+    //     console.info(`Submitting an Option to the request ${ENV.REQUEST_ID} through the V1 API.`);
+    //     const _res = await optionEndpoints.optionCreateFull(ENV.BASE_URL, `${data_object.supplier_api_key}`, `${data_object.supplier_user}@${data_object.sup_company_name}.com`, ENV.REQUEST_ID, data_object.property_id, ENV.START_DATE, ENV.END_DATE, ENV.RATE_FEE_TYPE['Day'],1,1,2,chance.integer({min:100, max:350}),"FLAT",chance.integer({min:100, max:250}),chance.integer({min:50, max:300}),chance.integer({min:50, max:200}),chance.integer({min:10, max:300}),chance.integer({min:50, max:250}));
+    //     const _response = JSON.parse(_res);
+    //     console.log(_response);
         //await expect(_response.submitted).toEqual(true);
 
+        let client_query_2 = `UPDATE smart_inline_permission_set perm INNER JOIN smart_inline_permission_template permTmpl ON perm.id = permTmpl.permission_set_id AND permTmpl.name = 'share_profile_guest' INNER JOIN smart_client_inline_permission_template clientPermTmplRel ON permTmpl.id = clientPermTmplRel.inline_permission_template_id INNER JOIN smart_client c ON c.id = clientPermTmplRel.client_id AND c.id = 4005 SET perm.data = JSON_SET(perm.data, '$.EXTENDED_PERMISSIONS_AWARD_OPTION.granted',true, '$.EXTENDED_PERMISSIONS_SELECT_OPTION_PREFERENCES.granted',true, '$.EXTENDED_PERMISSIONS_SELECT_ADVANCED_OPTION_PREFERENCES.granted',true)`;
+
+        await Database.execute('Set guest_can_award=on and guest_can_select_preferences=on on the client',client_query_2);
 })

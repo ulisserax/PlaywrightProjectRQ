@@ -37,6 +37,7 @@ import OptionEndpoints from "@api/v1/OptionEndpoints";
 import V2Endpoints from "@api/v2/V2Endpoints";
 import Stripe from "@api/v2/Stripe";
 import B2eOptionsPage from "@b2e_pages/B2eOptionsPage";
+import B2eCheckoutPage from "@b2e_pages/B2eCheckoutPage";
 
 
 
@@ -79,6 +80,7 @@ const test = baseTest.extend<{
     v2Endpoints: V2Endpoints;
     stripe: Stripe;
     b2eOptionsPage: B2eOptionsPage;
+    b2eCheckoutPage: B2eCheckoutPage;
 }>({
     homePage: async ({ page }, use) => {
         await use(new HomePage(page));
@@ -193,6 +195,9 @@ const test = baseTest.extend<{
     },
     b2eOptionsPage: async ({ page }, use) => {
         await use(new B2eOptionsPage(page));
+    },
+    b2eCheckoutPage: async ({ page }, use) => {
+        await use(new B2eCheckoutPage(page));
     }
 });
 

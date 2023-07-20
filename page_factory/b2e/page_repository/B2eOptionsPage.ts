@@ -24,9 +24,9 @@ export default class B2eOptionsPage {
         await this.page.click(Button.ok_got_it);
     }
 
-    async verifyOptionPreference(){
+    async verifyOptionPreference(preference: string){
         console.info(`Verifying option is selected and continue.`);
-        await expect(this.page.locator(Text.first_choice_preference).isVisible()).toBeTruthy();
+        await expect(this.page.locator(Text.choicePreference(preference)).isVisible()).toBeTruthy();
         await this.page.click(Button.continue);
     }
 
@@ -156,6 +156,27 @@ export default class B2eOptionsPage {
         // console.log(pet_fee, redecoration_fee,pet_deposit,parking_fee, total);
         await expect(await (await this.page.locator(Text.guest_total).textContent()).replace(',','').trim()).toEqual(`$${total}`);
 
+    }
+
+    async validateBookButton(){
+        console.info(`Validating book button status`);
+        if(! await (await this.page.locator(Checkkox.acknowledge_fees_and_deposits).getAttribute('class')).includes('check-mark')){
+            await expect(await this.page.locator(Button.book).isDisabled()).toBeTruthy();
+        }
+        if(await (await this.page.locator(Checkkox.acknowledge_fees_and_deposits).getAttribute('class')).includes('check-mark')){
+            await expect(await this.page.locator(Button.book).isEnabled()).toBeTruthy();
+            await this.page.click(Button.book);
+        }
+    }
+
+    async acknowledgeFeesAndDeposits(){
+        console.info(`Checking the 'Acknowledge fees and deposits' checkbox.`);
+        await this.page.click(Checkkox.acknowledge_fees_and_deposits);
+    }
+
+    async validateFees(option_id: number, value:string, exist:boolean){
+        console.info(`Validating option id: ${option_id}, with fees value '${value}', exits: ${exist}`);
+        await expect(await this.page.locator(Element.optionFees(option_id, value)).isVisible()).toEqual(exist);
     }
       
 }
