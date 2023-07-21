@@ -92,6 +92,7 @@ export default class ENV{
     static START_DATE        = new Date(new Date().setDate(new Date().getDate()+this.random_start_date)).toISOString().split('T')[0];
     static END_DATE          = new Date(new Date().setDate(new Date().getDate()+this.random_end_date)).toISOString().split('T')[0];
 
+    static API_REQUEST_TYPE            = {'Corporate':'CORPORATE_HOUSING','Hotels':'HOTELS','Hotels and Corporate':'HOTELS_AND_CORPORATE_HOUSING'}
     static API_GRANT_TYPE              = process.env.API_GRANT_TYPE
     static API_PAYMENT_TOKEN           = process.env.API_PAYMENT_TOKEN
     static API_CLIENT_ID               = process.env.API_CLIENT_ID

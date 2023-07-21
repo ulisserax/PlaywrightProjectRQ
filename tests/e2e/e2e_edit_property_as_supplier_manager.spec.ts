@@ -11,7 +11,7 @@ import ENV  from '@utils/env';
         await homePage.signIn();
         await dashboard.clickPropertyTab();
         await property.editProperty();
-        const res = await requestEndpoints.createRequest(ENV.BASE_URL,ENV.REQUESTOR_API_KEY, Number(ENV.NT1_EXCEPTION_FEE_CLIENT_ID), 'Miami, FL, USA', ENV.START_DATE, ENV.END_DATE, ENV.GUEST_FIRSTNAME,ENV.GUEST_LASTNAME,ENV.GUEST_EMAIL, '7863652563');
+        const res = await requestEndpoints.createRequest(ENV.BASE_URL,ENV.REQUESTOR_API_KEY, Number(ENV.NT1_EXCEPTION_FEE_CLIENT_ID), 'Miami, FL, USA', ENV.START_DATE, ENV.END_DATE, ENV.GUEST_FIRSTNAME,ENV.GUEST_LASTNAME,ENV.GUEST_EMAIL, '7863652563', ENV.API_REQUEST_TYPE['Corporate']);
         const _response = JSON.parse(res);
         ENV.REQUEST_ID = _response.request_id;
         console.info(`Request Id: ${ENV.REQUEST_ID}`);

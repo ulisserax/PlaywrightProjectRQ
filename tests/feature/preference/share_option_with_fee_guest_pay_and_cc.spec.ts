@@ -24,7 +24,7 @@ test.describe('Share option with fees - Guest Pay On and Collect Credit Card On'
         await Database.execute('Set guest_can_award=on and guest_can_select_preferences=off in the client',client_query_2);
 
         console.info(`Creating a Request through the V1 API.`);
-        const _createRequestResponse = await requestEndpoints.createRequest(ENV.BASE_URL, `${data_object.requestor_api_key}`, data_object.client_id, 'Miami, FL, USA', ENV.START_DATE, ENV.END_DATE, ENV.GUEST_FIRSTNAME, ENV.GUEST_LASTNAME, guest_email, `7863256523`);
+        const _createRequestResponse = await requestEndpoints.createRequest(ENV.BASE_URL, `${data_object.requestor_api_key}`, data_object.client_id, 'Miami, FL, USA', ENV.START_DATE, ENV.END_DATE, ENV.GUEST_FIRSTNAME, ENV.GUEST_LASTNAME, guest_email, `7863256523`, ENV.API_REQUEST_TYPE['Corporate']);
         ENV.REQUEST_ID = `${JSON.parse(_createRequestResponse).request_id}`;
     
         console.info(`Submitting an Option to the request ${ENV.REQUEST_ID} through the V1 API.`);
@@ -74,7 +74,7 @@ test.describe('Share option with fees - Guest Pay On and Collect Credit Card On'
         await Database.execute('Set guest_can_award=off and guest_can_select_preferences=on on the client',client_query_2);
 
         console.info(`Creating a Request through the V1 API.`);
-        const _createRequestResponse = await requestEndpoints.createRequest(ENV.BASE_URL, data_object.requestor_api_key, data_object.client_id, 'Miami, FL, USA', ENV.START_DATE, ENV.END_DATE, ENV.GUEST_FIRSTNAME, ENV.GUEST_LASTNAME, guest_email, `7863256523`);
+        const _createRequestResponse = await requestEndpoints.createRequest(ENV.BASE_URL, data_object.requestor_api_key, data_object.client_id, 'Miami, FL, USA', ENV.START_DATE, ENV.END_DATE, ENV.GUEST_FIRSTNAME, ENV.GUEST_LASTNAME, guest_email, `7863256523`, ENV.API_REQUEST_TYPE['Corporate']);
         ENV.REQUEST_ID = `${JSON.parse(_createRequestResponse).request_id}`;
     
         console.info(`Submitting an Option to the request ${ENV.REQUEST_ID} through the V1 API.`);
@@ -125,7 +125,7 @@ test.describe('Share option with fees - Guest Pay On and Collect Credit Card On'
         await Database.execute('Set guest_can_award=on and guest_can_select_preferences=on on the client',client_query_2);
 
         console.info(`Creating a Request through the V1 API.`);
-        const _createRequestResponse = await requestEndpoints.createRequest(ENV.BASE_URL, data_object.requestor_api_key, data_object.client_id, 'Miami, FL, USA', ENV.START_DATE, ENV.END_DATE, ENV.GUEST_FIRSTNAME, ENV.GUEST_LASTNAME, guest_email, `7863256523`);
+        const _createRequestResponse = await requestEndpoints.createRequest(ENV.BASE_URL, data_object.requestor_api_key, data_object.client_id, 'Miami, FL, USA', ENV.START_DATE, ENV.END_DATE, ENV.GUEST_FIRSTNAME, ENV.GUEST_LASTNAME, guest_email, `7863256523`, ENV.API_REQUEST_TYPE['Corporate']);
         ENV.REQUEST_ID = `${JSON.parse(_createRequestResponse).request_id}`;
         console.info(`Submitting an Option to the request ${ENV.REQUEST_ID} through the V1 API.`);
         const _res = await optionEndpoints.optionCreate(ENV.BASE_URL, data_object.supplier_api_key, `${data_object.supplier_user}@${data_object.sup_company_name}.com`, ENV.REQUEST_ID, data_object.property_id, ENV.START_DATE, ENV.END_DATE, ENV.RATE_FEE_TYPE['Day']);
@@ -174,7 +174,7 @@ test.describe('Share option with fees - Guest Pay On and Collect Credit Card On'
         await Database.execute('Set guest_can_award=on and guest_can_select_preferences=off on the client',client_query_2);
 
         console.info(`Creating a Request through the V1 API.`);
-        const _createRequestResponse = await requestEndpoints.createRequest(ENV.BASE_URL, data_object.requestor_api_key, data_object.client_id, 'Miami, FL, USA', ENV.START_DATE, ENV.END_DATE, ENV.GUEST_FIRSTNAME, ENV.GUEST_LASTNAME, guest_email, `7863256523`);
+        const _createRequestResponse = await requestEndpoints.createRequest(ENV.BASE_URL, data_object.requestor_api_key, data_object.client_id, 'Miami, FL, USA', ENV.START_DATE, ENV.END_DATE, ENV.GUEST_FIRSTNAME, ENV.GUEST_LASTNAME, guest_email, `7863256523`, ENV.API_REQUEST_TYPE['Corporate']);
         ENV.REQUEST_ID = `${JSON.parse(_createRequestResponse).request_id}`;
         console.info(`Submitting an Option to the request ${ENV.REQUEST_ID} through the V1 API.`);
         const _res = await optionEndpoints.optionCreate(ENV.BASE_URL, data_object.supplier_api_key, `${data_object.supplier_user}@${data_object.sup_company_name}.com`, ENV.REQUEST_ID, data_object.property_id, ENV.START_DATE, ENV.END_DATE, ENV.RATE_FEE_TYPE['Day']);
@@ -226,7 +226,7 @@ test.describe('Share option with fees - Guest Pay On and Collect Credit Card On'
         await Database.execute('Set guest_can_award=off and guest_can_select_preferences=on on the client',client_query_2);
 
         console.info(`Creating a Request through the V1 API.`);
-        const _createRequestResponse = await requestEndpoints.createRequest(ENV.BASE_URL, data_object.requestor_api_key, data_object.client_id, 'Miami, FL, USA', ENV.START_DATE, ENV.END_DATE, ENV.GUEST_FIRSTNAME, ENV.GUEST_LASTNAME, guest_email, `7863256523`);
+        const _createRequestResponse = await requestEndpoints.createRequest(ENV.BASE_URL, data_object.requestor_api_key, data_object.client_id, 'Miami, FL, USA', ENV.START_DATE, ENV.END_DATE, ENV.GUEST_FIRSTNAME, ENV.GUEST_LASTNAME, guest_email, `7863256523`, ENV.API_REQUEST_TYPE['Corporate']);
         ENV.REQUEST_ID = `${JSON.parse(_createRequestResponse).request_id}`;
         console.info(`Submitting an Option to the request ${ENV.REQUEST_ID} through the V1 API.`);
         const _res = await optionEndpoints.optionCreate(ENV.BASE_URL, data_object.supplier_api_key, `${data_object.supplier_user}@${data_object.sup_company_name}.com`, ENV.REQUEST_ID, data_object.property_id, ENV.START_DATE, ENV.END_DATE, ENV.RATE_FEE_TYPE['Day']);
@@ -276,7 +276,7 @@ test.describe('Share option with fees - Guest Pay On and Collect Credit Card On'
         await Database.execute('Set guest_can_award=on and guest_can_select_preferences=on on the client',client_query_2);
 
         console.info(`Creating a Request through the V1 API.`);
-        const _createRequestResponse = await requestEndpoints.createRequest(ENV.BASE_URL, data_object.requestor_api_key, data_object.client_id, 'Miami, FL, USA', ENV.START_DATE, ENV.END_DATE, ENV.GUEST_FIRSTNAME, ENV.GUEST_LASTNAME, guest_email, `7863256523`);
+        const _createRequestResponse = await requestEndpoints.createRequest(ENV.BASE_URL, data_object.requestor_api_key, data_object.client_id, 'Miami, FL, USA', ENV.START_DATE, ENV.END_DATE, ENV.GUEST_FIRSTNAME, ENV.GUEST_LASTNAME, guest_email, `7863256523`, ENV.API_REQUEST_TYPE['Corporate']);
         ENV.REQUEST_ID = `${JSON.parse(_createRequestResponse).request_id}`;
         console.info(`Submitting an Option to the request ${ENV.REQUEST_ID} through the V1 API.`);
         const _res = await optionEndpoints.optionCreate(ENV.BASE_URL, data_object.supplier_api_key, `${data_object.supplier_user}@${data_object.sup_company_name}.com`, ENV.REQUEST_ID, data_object.property_id, ENV.START_DATE, ENV.END_DATE, ENV.RATE_FEE_TYPE['Day']);
