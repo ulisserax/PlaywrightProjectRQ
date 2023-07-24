@@ -156,5 +156,7 @@ export default class ENV{
     static NT4_PREFERENCE_DATA_OBJECT           = process.env.NT4_PREFERENCE_DATA_OBJECT
     static NT5_PREFERENCE_DATA_OBJECT           = process.env.NT5_PREFERENCE_DATA_OBJECT
     static NT6_PREFERENCE_DATA_OBJECT           = process.env.NT6_PREFERENCE_DATA_OBJECT
+
+    static OPTIONS_PREFERENCES                  = {'set':'Set Preference','first':'1st choice','second':'2nd choice','third':'3rd choice','fourth':'4th choice','too_far':'Too far away','not_my_style':'Not my style'}
     
 }

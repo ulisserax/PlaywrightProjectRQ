@@ -6,6 +6,7 @@ import WebActions from "@lib/WebActions";
 import Dropdown from "@enterprise_objects/Dropdown";
 import Element from "@enterprise_objects/Element";
 import Link from "@enterprise_objects/Link";
+import Text from "@enterprise_objects/Text";
 
 
 export default class ShareOptionPage {
@@ -155,6 +156,23 @@ export default class ShareOptionPage {
         if (is_visible==true){
             await this.page.click(Checkbox.understand_guest_able_to_award);
         }
+    }
+
+    async validateShareLogHistory(is_can_award_visible: boolean, is_can_select_preference_visible:boolean){
+        console.info('Validating share log history');
+        await this.page.click(Link.share_log_history_link);
+        await this.page.click(Link.share_log_table_option_toggle);
+        await expect(await this.page.locator(Text.share_log_can_award).isVisible()).toEqual(is_can_award_visible);
+        await expect(await this.page.locator(Text.share_log_can_select_preference).isVisible()).toEqual(is_can_select_preference_visible);
+    }
+
+    async getSharedLink(){
+        console.info(`Getting the guest shared link`);
+        await this.page.click(Link.get_shared_link_options);
+        await this.page.waitForSelector(Input.link_to_options);
+        const link_to_option = await this.page.locator(Input.link_to_options).inputValue();
+        await this.page.click(Button.done);
+        return await link_to_option;
     }
 
 }

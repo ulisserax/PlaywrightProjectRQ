@@ -41,6 +41,10 @@ export default class Link{
     static add_client_direct_area  = `//a[contains(text(),'here')]`;
     static action_remove           = `(//tr//td//a[contains(text(),'Remove')])`;
     static show_advanced_settings  = `//div[@id='share_modal']//a[contains(@class,'toggle-advanced-permissions')][contains(normalize-space(),'Advanced Settings')]`;
+    static share_log_history_link  = `//div[@id='share_log']//a[contains(@class,'share-log-toggler')]`;
+    
+    static share_log_table_option_toggle = `//div[@id='share_log']//table[contains(@class,'share-log')]/tbody//a[contains(@class,'toggle-shared-options')]`;
+    static get_shared_link_options       = `//div[@id='share_log']//table[contains(@class,'share-log')]/tbody//a[contains(@class,'get-link-shared-options')]`;
 
     static remove(num: number) {
         return `(//tr//td//a[contains(text(),'Remove')])[${num}]`;

@@ -30,6 +30,9 @@ export default class Element{
     static nte_next_month             = `//app-ntv-quest//button[@title='Next month']`;
     static nte_end_date               = `//app-ntv-quest//ngb-datepicker-month//span`;
     static quest_hero_head            = `//div[contains(@class,'hero-head')]//div[contains(@class,'cancelled') or contains(@class,'pending')]`;
+    static here_your_options_modal    = `//app-modal[@header='Here are your Options!']`;
+    static guest_responsability_modal = `//app-modal[@header='Guest Responsibility']`;
+    static thank_you_for_booking      = `//app-modal//h5[contains(text(),'Thank you for Booking!')]`;
 
     static quests_card(request_id){
         return `a[request-id=${request_id}]`;
@@ -41,6 +44,10 @@ export default class Element{
 
     static service_issue_resolved(description){
         return `//div[@class='issue-description'] //span[contains(text(),'${description}')]/..//following-sibling::div[@class='issue-status is-resolved']`;
+    }
+
+    static optionFees(option_id:number, value:string){
+        return `//a[@href='/b2e/options/${option_id}']//ancestor::td/following-sibling::td[4][contains(text(),'${value}')]/span[@class='asterisk']`;
     }
     
 }

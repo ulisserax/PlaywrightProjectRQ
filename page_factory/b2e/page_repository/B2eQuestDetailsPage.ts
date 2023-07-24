@@ -159,5 +159,20 @@ export default class B2eQuestDetailsPage {
         await expect(await this.page.locator(Element.ntv_submitted_box).first().textContent()).toContain('Extension Requested');
         
     }
+
+    async verifySharedQuestDetails(property_name:string, pet_fee_amount:number, redecoration_fee_amount:number, pet_deposit_amount:number, parking_fee_amount:number ){
+        console.info(`Verifying shared quest details`);
+        await this.page.click(Button.quest_details);
+        console.info(`Verifying reservation, property name and charges`);
+        await this.page.waitForSelector(Text.questDetails(property_name));
+        await expect(await this.page.locator(Text.questDetails(property_name)).isVisible()).toBeTruthy();
+        await expect(await (await this.page.locator(Text.guestChargesFeesAndDeposit("Pet Fee")).textContent()).trim()).toContain(`$${pet_fee_amount}`);
+        await expect(await (await this.page.locator(Text.guestChargesFeesAndDeposit("Redecoration Fee")).textContent()).trim()).toContain(`$${redecoration_fee_amount}`);
+        await expect(await (await this.page.locator(Text.guestChargesFeesAndDeposit("Pet Deposit")).textContent()).trim()).toContain(`$${pet_deposit_amount}`);
+        await expect(await (await this.page.locator(Text.guestChargesFeesAndDeposit("Parking")).textContent()).trim()).toContain(`$${parking_fee_amount}`);
+        let total = (pet_fee_amount+redecoration_fee_amount+pet_deposit_amount+parking_fee_amount).toFixed(2);
+        // console.log(pet_fee, redecoration_fee,pet_deposit,parking_fee, total);
+        await expect(await (await this.page.locator(Text.guest_total).textContent()).replace(',','').trim()).toEqual(`$${total}`);
+    }
     
 }
