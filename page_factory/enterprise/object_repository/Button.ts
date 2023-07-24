@@ -24,6 +24,7 @@ export default class Button{
     static copy_link  = `#modal_btn_share_link_copy`;
     static done       = `#modal_btn_share_link_done`;
     static award      = `table#all_options a:text("Award")`;
+    static bookOption = `table#all_options a:text("Book")`;
     static bid        = `#button_option_new`;
     static accept     = `#button_accept`;
     static yes        = `.modal.fade.in span:text('Yes')`;
@@ -33,6 +34,7 @@ export default class Button{
     static approve    = `//button[contains(text(),'Approve')]`;
     static okay       = `:text('Okay')`;
     static book       = `//button[contains(text(),'BOOK')]`;
+    static add        = `//button[contains(text(),'ADD TO OPTIONS')]`;
     static send       = `span:text('Send')`;
 
 

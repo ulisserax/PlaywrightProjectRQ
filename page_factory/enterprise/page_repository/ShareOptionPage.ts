@@ -54,6 +54,32 @@ export default class ShareOptionPage {
         await expect(await this.page.locator(Element.awarded_options_table_row).count()).toEqual(1);
     }
 
+    async awardOption(): Promise<void>{
+        console.info('Awarding an Option');
+        await this.page.click(Button.award);
+        await WebActions.delay(400);
+        await this.page.waitForLoadState('domcontentloaded');
+        await this.page.click(Checkbox.terms_of_reservation_checkbox);
+        await WebActions.delay(400);
+        await this.page.waitForLoadState('domcontentloaded');
+        await this.page.click(Button.yes);
+        await this.page.waitForLoadState('domcontentloaded');
+        await this.page.click(Button.close);
+        await this.page.waitForLoadState('networkidle');
+        await this.page.waitForSelector(Element.awarded_options_table_row);
+        await expect(await this.page.locator(Element.awarded_options_table_row).count()).toEqual(1);
+    }
+
+    async bookOption(): Promise<void>{
+        console.info('Booking an Option');
+        await this.page.click(Button.bookOption);
+        await this.page.waitForLoadState('networkidle');
+        await WebActions.delay(400);
+        await this.page.click(Button.submit_room_configuration);
+        await this.page.waitForLoadState('networkidle');
+        await expect(await this.page.locator(Element.confirm_booking_h1).textContent()).toEqual(`Please Confirm Your Booking...`);
+    }
+    
     async submitPreferences(): Promise<void>{
         console.info('Submiting preferences');
         await this.page.waitForLoadState('domcontentloaded');

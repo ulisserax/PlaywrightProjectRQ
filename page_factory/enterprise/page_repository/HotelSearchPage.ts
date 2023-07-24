@@ -45,6 +45,14 @@ export default class HotelSearchPage {
         await expect(await this.page.locator(Element.confirm_booking_h1).textContent()).toEqual(`Please Confirm Your Booking...`);
     }
 
+    async addHotelRoom() : Promise<void>{
+        console.info(`Add the hotel room`);
+        await this.page.click(Button.add);
+        await this.page.waitForLoadState('networkidle');
+        await this.page.waitForSelector(Element.added);
+        await expect(await this.page.locator(Element.added).count()).toEqual(1);
+    }
+
     async verifyHotelRoomBooking(): Promise<void>{
         console.info(`Verifying booking`);
         await this.page.click(Checkbox.confirm_fee);
@@ -64,6 +72,15 @@ export default class HotelSearchPage {
         await this.page.waitForLoadState('domcontentloaded');
         await this.page.waitForSelector(Element.hotels_options_table_row);
         await expect(await this.page.locator(Element.hotels_options_table_row).count()).toBeGreaterThanOrEqual(1);
+    }
+
+    async hotelBackToRequest(): Promise<void>{
+        console.info(`Hotel Added - Back to the request`);
+        await this.page.click(Button.back_to_request);
+        await WebActions.delay(1200);
+        await this.page.waitForLoadState('domcontentloaded');
+        await this.page.waitForSelector(Element.hotel_option_non_awarded);
+        await expect(await this.page.locator(Element.hotel_option_non_awarded).count()).toBeGreaterThanOrEqual(1);
     }
 
     async verifyReservationWasCancelled(reservation_id:string): Promise<void>{
