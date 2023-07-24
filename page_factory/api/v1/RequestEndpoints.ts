@@ -65,14 +65,14 @@ export default class RequestEndpoints {
                 "wd": 0,
                 "request_fee_paid_by":{
                     "6":"COMPANY",
-                    "8":"GUEST",
+                    "8":"COMPANY",
                     "9":"GUEST",
-                    "10":"GUEST",
+                    "10":"COMPANY",
                     "14":"GUEST",
-                    "15":"GUEST",
+                    "15":"COMPANY",
                     "17":"GUEST",
                     "18":"GUEST",
-                    "19":"GUEST"
+                    "19":"COMPANY"
                 },
                 "notice_vacate":5,
                 "internet": 1,

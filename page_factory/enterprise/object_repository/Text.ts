@@ -58,6 +58,9 @@ export default class Text{
     static request_status                       = `.request-link`;
     static updated_fields                       = `//div[@class='modal fade in']//p[contains(text(),'The following property fields on')]`;
     static ntv_status                           = `//label[contains(text(),'NTV Status:')]//following-sibling::div//div[contains(@class,'ntv-input')]`;
+    static share_log_can_select_preference      = `//div[@id='share_log']//table[contains(@class,'share-log')]/tbody//tr[contains(@class,'permissions-text')]/td[contains(text(),'Can Select Preferences')]`;
+    static share_log_can_award                  = `//div[@id='share_log']//table[contains(@class,'share-log')]/tbody//tr[contains(@class,'permissions-text')]/td[contains(text(),'Can Award')]`;
+
 
     static specificEmail(email: string, email_subject: string){
         return `//td[contains(text(),'${email.toLocaleLowerCase()}')]/following-sibling::td[contains(text(),'${email_subject}')]`;
