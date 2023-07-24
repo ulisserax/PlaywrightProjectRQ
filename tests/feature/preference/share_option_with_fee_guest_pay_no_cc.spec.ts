@@ -8,7 +8,7 @@ const chance = new Chance();
 
 
 
-test.describe.only('Share option with fees - Guest Pay On and No Collect Credit Card',  ()=>{
+test.describe('Share option with fees - Guest Pay On and No Collect Credit Card',  ()=>{
     test.slow();
 
     test("SM-T1131, SM-T1130, SM-T1159, SM-T1162, SM-T1164: Requestor shares an option with a Fees, Client's default permissions are set to can award only", async({requestEndpoints, optionEndpoints,webActions, homePage, dashboard, search, shareOption, b2eHomePage, b2eBookingPage, b2eOptionsPage})=>{
@@ -223,11 +223,8 @@ test.describe.only('Share option with fees - Guest Pay On and No Collect Credit 
 
     })
 
-<<<<<<< HEAD
-    test.only("SM-T1147: Requestor shares an option with a Fees, Requestor sets sharing permissions to can award only", async({requestEndpoints, optionEndpoints,webActions, homePage, dashboard, search, shareOption})=>{
-=======
+
     test("SM-T1147, SM-T1130, SM-T1159, SM-T1162, SM-T1168: Requestor shares an option with a Fees, Requestor sets sharing permissions to can award only", async({requestEndpoints, optionEndpoints,webActions, homePage, dashboard, search, shareOption, b2eOptionsPage, b2eHomePage,})=>{
->>>>>>> master
 
         let fees_amount     = {"parking_amount":chance.floating({min:100, max:350, fixed:2}),"pet_fee_amount":chance.floating({min:100, max:250, fixed:2}),"application_fee_amount":chance.floating({min:70, max:250, fixed:2}),"redecoration_fee_amount":chance.floating({min:60, max:350, fixed:2}),"pet_deposit_amount":chance.floating({min:10, max:450, fixed:2}),"security_deposit_amount":chance.floating({min:10, max:650, fixed:2})};
         let data_object     = JSON.parse(ENV.NT5_PREFERENCE_DATA_OBJECT); 

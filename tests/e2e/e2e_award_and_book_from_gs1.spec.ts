@@ -4,7 +4,7 @@ import ENV from '@utils/env';
 const Chance = require("chance");
 const chance = new Chance();
 
-test.describe.serial.only("Award a Corporate option from the GS1.0", () => {
+test.describe.serial("Award a Corporate option from the GS1.0", () => {
     test.slow();
 
     test("POST: Create an Enterprise - Corporate Housing - Request", async ({requestEndpoints}) => {
@@ -45,7 +45,7 @@ test.describe.serial.only("Award a Corporate option from the GS1.0", () => {
 
 })
 
-test.describe.only("Book a Hotel room from the GS1.0", () => {
+test.describe("Book a Hotel room from the GS1.0", () => {
     test.slow();
     let guestEmail = ENV.GUEST_EMAIL.toLocaleLowerCase();
     let count = 0;
