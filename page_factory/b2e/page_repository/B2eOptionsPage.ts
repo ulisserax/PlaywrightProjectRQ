@@ -26,7 +26,7 @@ export default class B2eOptionsPage {
 
     async verifyOptionPreference(preference: string){
         console.info(`Verifying option is selected and continue.`);
-        await expect(this.page.locator(Text.choicePreference(preference)).isVisible()).toBeTruthy();
+        await expect(await this.page.locator(Text.choicePreference(preference)).first().isVisible()).toBeTruthy();
         await this.page.click(Button.continue);
     }
 
