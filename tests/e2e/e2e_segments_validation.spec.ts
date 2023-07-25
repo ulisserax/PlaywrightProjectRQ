@@ -11,7 +11,7 @@ test.describe.serial("Test Suite for Segments Validation", () => {
     test(`Create request via api, bid and `, async({requestEndpoints, webActions,homePage, dashboard, search, requestShow, option}) =>{
         
 
-        const _response = await requestEndpoints.createRequest(ENV.BASE_URL,ENV.REQUESTOR_API_KEY, Number(ENV.NT1_EXCEPTION_FEE_CLIENT_ID), 'Miami, FL, USA', ENV.START_DATE, ENV.END_DATE, ENV.GUEST_FIRSTNAME,ENV.GUEST_LASTNAME,ENV.GUEST_EMAIL, '7863652563');
+        const _response = await requestEndpoints.createRequest(ENV.BASE_URL,ENV.REQUESTOR_API_KEY, Number(ENV.NT1_EXCEPTION_FEE_CLIENT_ID), 'Miami, FL, USA', ENV.START_DATE, ENV.END_DATE, ENV.GUEST_FIRSTNAME,ENV.GUEST_LASTNAME,ENV.GUEST_EMAIL, '7863652563', ENV.API_REQUEST_TYPE['Corporate']);
 
         ENV.REQUEST_ID = JSON.parse(_response).request_id;
         console.info(`Request Id: ${ENV.REQUEST_ID}`);

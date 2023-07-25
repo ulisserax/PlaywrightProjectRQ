@@ -18,7 +18,7 @@ test.describe.serial("EB2E - RQPro Service Issue between Supplier and Support", 
         console.info(`Creating an EB2E - RQPro Request through the V1 API.`);
         const _response = await requestEndpoints.createRequest(ENV.RQPRO_BASE_URL, ENV.RQPRO_REQ_API_KEY, 
             Number(ENV.RQPRO_EB2E_CLIENT), 'Miami, FL, USA', ENV.START_DATE, ENV.END_DATE, ENV.GUEST_FIRSTNAME, 
-            ENV.GUEST_LASTNAME, ENV.RQPRO_GUEST_FOR_SERVICE, ENV.GUEST_PHONE);
+            ENV.GUEST_LASTNAME, ENV.RQPRO_GUEST_FOR_SERVICE, ENV.GUEST_PHONE, ENV.API_REQUEST_TYPE['Corporate']);
         ENV.API_REQUEST_UID = `${JSON.parse(_response).request_id}`;
         console.info(`REQUEST_UID: ${ENV.API_REQUEST_UID}`);
     })

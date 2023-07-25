@@ -24,7 +24,7 @@ test.describe('Share option with fees - Guest Pay On and No Collect Credit Card'
         await Database.execute('Set guest_can_award=on and guest_can_select_preferences=off in the client',client_query_2);
 
         console.info(`Creating a Request through the V1 API.`);
-        const _createRequestResponse = await requestEndpoints.createRequest(ENV.BASE_URL, `${data_object.requestor_api_key}`, data_object.client_id, 'Miami, FL, USA', ENV.START_DATE, ENV.END_DATE, ENV.GUEST_FIRSTNAME, ENV.GUEST_LASTNAME, data_object.guest_email, `7863256523`);
+        const _createRequestResponse = await requestEndpoints.createRequest(ENV.BASE_URL, `${data_object.requestor_api_key}`, data_object.client_id, 'Miami, FL, USA', ENV.START_DATE, ENV.END_DATE, ENV.GUEST_FIRSTNAME, ENV.GUEST_LASTNAME, data_object.guest_email, `7863256523`, ENV.API_REQUEST_TYPE['Corporate']);
         ENV.REQUEST_ID = `${JSON.parse(_createRequestResponse).request_id}`;
             
         console.info(`Submitting an Option to the request ${ENV.REQUEST_ID} through the V1 API.`);
@@ -97,7 +97,7 @@ test.describe('Share option with fees - Guest Pay On and No Collect Credit Card'
         await Database.execute('Set guest_can_award=off and guest_can_select_preferences=on on the client',client_query_2);
 
         console.info(`Creating a Request through the V1 API.`);
-        const _createRequestResponse = await requestEndpoints.createRequest(ENV.BASE_URL, data_object.requestor_api_key, data_object.client_id, 'Miami, FL, USA', ENV.START_DATE, ENV.END_DATE, ENV.GUEST_FIRSTNAME, ENV.GUEST_LASTNAME, data_object.guest_email, `7863256523`);
+        const _createRequestResponse = await requestEndpoints.createRequest(ENV.BASE_URL, data_object.requestor_api_key, data_object.client_id, 'Miami, FL, USA', ENV.START_DATE, ENV.END_DATE, ENV.GUEST_FIRSTNAME, ENV.GUEST_LASTNAME, data_object.guest_email, `7863256523`, ENV.API_REQUEST_TYPE['Corporate']);
         ENV.REQUEST_ID = `${JSON.parse(_createRequestResponse).request_id}`;
     
         console.info(`Submitting an Option to the request ${ENV.REQUEST_ID} through the V1 API.`);
@@ -179,7 +179,7 @@ test.describe('Share option with fees - Guest Pay On and No Collect Credit Card'
         await Database.execute('Set guest_can_award=on and guest_can_select_preferences=on on the client',client_query_2);
 
         console.info(`Creating a Request through the V1 API.`);
-        const _createRequestResponse = await requestEndpoints.createRequest(ENV.BASE_URL, data_object.requestor_api_key, data_object.client_id, 'Miami, FL, USA', ENV.START_DATE, ENV.END_DATE, ENV.GUEST_FIRSTNAME, ENV.GUEST_LASTNAME, data_object.guest_email, `7863256523`);
+        const _createRequestResponse = await requestEndpoints.createRequest(ENV.BASE_URL, data_object.requestor_api_key, data_object.client_id, 'Miami, FL, USA', ENV.START_DATE, ENV.END_DATE, ENV.GUEST_FIRSTNAME, ENV.GUEST_LASTNAME, data_object.guest_email, `7863256523`, ENV.API_REQUEST_TYPE['Corporate']);
         ENV.REQUEST_ID = `${JSON.parse(_createRequestResponse).request_id}`;
         console.info(`Submitting an Option to the request ${ENV.REQUEST_ID} through the V1 API.`);
         const _res  = await optionEndpoints.optionCreateFull(ENV.BASE_URL, `${data_object.supplier_api_key}`, `${data_object.supplier_user}@${data_object.sup_company_name}.com`, ENV.REQUEST_ID, data_object.property_id, ENV.START_DATE, ENV.END_DATE, ENV.RATE_FEE_TYPE['Day'],1,1,2,fees_amount.parking_amount,"FLAT",fees_amount.pet_fee_amount,fees_amount.pet_fee_amount,fees_amount.redecoration_fee_amount,fees_amount.pet_deposit_amount,fees_amount.security_deposit_amount);
@@ -223,6 +223,7 @@ test.describe('Share option with fees - Guest Pay On and No Collect Credit Card'
 
     })
 
+
     test("SM-T1147, SM-T1130, SM-T1159, SM-T1162, SM-T1168: Requestor shares an option with a Fees, Requestor sets sharing permissions to can award only", async({requestEndpoints, optionEndpoints,webActions, homePage, dashboard, search, shareOption, b2eOptionsPage, b2eHomePage,})=>{
 
         let fees_amount     = {"parking_amount":chance.floating({min:100, max:350, fixed:2}),"pet_fee_amount":chance.floating({min:100, max:250, fixed:2}),"application_fee_amount":chance.floating({min:70, max:250, fixed:2}),"redecoration_fee_amount":chance.floating({min:60, max:350, fixed:2}),"pet_deposit_amount":chance.floating({min:10, max:450, fixed:2}),"security_deposit_amount":chance.floating({min:10, max:650, fixed:2})};
@@ -236,7 +237,7 @@ test.describe('Share option with fees - Guest Pay On and No Collect Credit Card'
         await Database.execute('Set guest_can_award=on and guest_can_select_preferences=off on the client',client_query_2);
 
         console.info(`Creating a Request through the V1 API.`);
-        const _createRequestResponse = await requestEndpoints.createRequest(ENV.BASE_URL, data_object.requestor_api_key, data_object.client_id, 'Miami, FL, USA', ENV.START_DATE, ENV.END_DATE, ENV.GUEST_FIRSTNAME, ENV.GUEST_LASTNAME, data_object.guest_email, `7863256523`);
+        const _createRequestResponse = await requestEndpoints.createRequest(ENV.BASE_URL, data_object.requestor_api_key, data_object.client_id, 'Miami, FL, USA', ENV.START_DATE, ENV.END_DATE, ENV.GUEST_FIRSTNAME, ENV.GUEST_LASTNAME, data_object.guest_email, `7863256523`, ENV.API_REQUEST_TYPE['Corporate']);
         ENV.REQUEST_ID = `${JSON.parse(_createRequestResponse).request_id}`;
         console.info(`Submitting an Option to the request ${ENV.REQUEST_ID} through the V1 API.`);
         const _res = await optionEndpoints.optionCreateFull(ENV.BASE_URL, `${data_object.supplier_api_key}`, `${data_object.supplier_user}@${data_object.sup_company_name}.com`, ENV.REQUEST_ID, data_object.property_id, ENV.START_DATE, ENV.END_DATE, ENV.RATE_FEE_TYPE['Day'],1,1,2,fees_amount.parking_amount,"FLAT",fees_amount.pet_fee_amount,fees_amount.pet_fee_amount,fees_amount.redecoration_fee_amount,fees_amount.pet_deposit_amount,fees_amount.security_deposit_amount);
@@ -308,7 +309,7 @@ test.describe('Share option with fees - Guest Pay On and No Collect Credit Card'
         await Database.execute('Set guest_can_award=off and guest_can_select_preferences=on on the client',client_query_2);
 
         console.info(`Creating a Request through the V1 API.`);
-        const _createRequestResponse = await requestEndpoints.createRequest(ENV.BASE_URL, data_object.requestor_api_key, data_object.client_id, 'Miami, FL, USA', ENV.START_DATE, ENV.END_DATE, ENV.GUEST_FIRSTNAME, ENV.GUEST_LASTNAME, data_object.guest_email, `7863256523`);
+        const _createRequestResponse = await requestEndpoints.createRequest(ENV.BASE_URL, data_object.requestor_api_key, data_object.client_id, 'Miami, FL, USA', ENV.START_DATE, ENV.END_DATE, ENV.GUEST_FIRSTNAME, ENV.GUEST_LASTNAME, data_object.guest_email, `7863256523`, ENV.API_REQUEST_TYPE['Corporate']);
         ENV.REQUEST_ID = `${JSON.parse(_createRequestResponse).request_id}`;
         console.info(`Submitting an Option to the request ${ENV.REQUEST_ID} through the V1 API.`);
         const _res  = await optionEndpoints.optionCreateFull(ENV.BASE_URL, `${data_object.supplier_api_key}`, `${data_object.supplier_user}@${data_object.sup_company_name}.com`, ENV.REQUEST_ID, data_object.property_id, ENV.START_DATE, ENV.END_DATE, ENV.RATE_FEE_TYPE['Day'],1,1,2,fees_amount.parking_amount,"FLAT",fees_amount.pet_fee_amount,fees_amount.pet_fee_amount,fees_amount.redecoration_fee_amount,fees_amount.pet_deposit_amount,fees_amount.security_deposit_amount);
@@ -390,7 +391,7 @@ test.describe('Share option with fees - Guest Pay On and No Collect Credit Card'
         await Database.execute('Set guest_can_award=on and guest_can_select_preferences=on on the client',client_query_2);
 
         console.info(`Creating a Request through the V1 API.`);
-        const _createRequestResponse = await requestEndpoints.createRequest(ENV.BASE_URL, data_object.requestor_api_key, data_object.client_id, 'Miami, FL, USA', ENV.START_DATE, ENV.END_DATE, ENV.GUEST_FIRSTNAME, ENV.GUEST_LASTNAME, data_object.guest_email, `7863256523`);
+        const _createRequestResponse = await requestEndpoints.createRequest(ENV.BASE_URL, data_object.requestor_api_key, data_object.client_id, 'Miami, FL, USA', ENV.START_DATE, ENV.END_DATE, ENV.GUEST_FIRSTNAME, ENV.GUEST_LASTNAME, data_object.guest_email, `7863256523`, ENV.API_REQUEST_TYPE['Corporate']);
         ENV.REQUEST_ID = `${JSON.parse(_createRequestResponse).request_id}`;
         console.info(`Submitting an Option to the request ${ENV.REQUEST_ID} through the V1 API.`);
         const _res  = await optionEndpoints.optionCreateFull(ENV.BASE_URL, `${data_object.supplier_api_key}`, `${data_object.supplier_user}@${data_object.sup_company_name}.com`, ENV.REQUEST_ID, data_object.property_id, ENV.START_DATE, ENV.END_DATE, ENV.RATE_FEE_TYPE['Day'],1,1,2,fees_amount.parking_amount,"FLAT",fees_amount.pet_fee_amount,fees_amount.pet_fee_amount,fees_amount.redecoration_fee_amount,fees_amount.pet_deposit_amount,fees_amount.security_deposit_amount);

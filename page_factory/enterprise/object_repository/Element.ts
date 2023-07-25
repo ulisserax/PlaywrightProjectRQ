@@ -4,6 +4,7 @@ export default class Element{
     static approved_options_table_row      = `table#all_options tbody tr.approved.corporate-option`; 
     static awarded_options_table_row       = `table#all_options tbody tr.awarded.corporate-option`;
     static hotels_options_table_row        = `table#all_options tbody tr.approved.awarded.hotel-option`;
+    static hotel_option_non_awarded        = `table#all_options tbody tr.hotel-option`;
     static hotel_options_award_in_progress = `table#all_options tbody tr.award_in_progress.hotel-option`;
     static hotel_property_name             = `table#all_options tbody tr.award_in_progress.hotel-option td.property-name`
     static alternate_options_table_row     = `table#all_options tbody tr.approved.corporate-option span.alt-option-link`;
@@ -70,7 +71,7 @@ export default class Element{
     //static ntv_modal                       = `//div[@id='ntv-submit-modal' and @class='modal fade ntv-modal in']`;
     static ntv_modal                       = `//div[@id='ntv-submit-modal']`;
     static edit_segments_modal             = `//div[@id='panel_segments']//div[contains(@class,'rate-details')]`;
-
+    static added                           = `//button[@style='display: none;']/following-sibling::button[@disabled='disabled'][contains(normalize-space(),'Added')]`;
 
     static clickByClientName(client: string){
         return `div[role=option] span:text('${client}')`;
