@@ -7,6 +7,7 @@ test.describe("Test Suite Hotel booking for B2E", () => {
   test.slow();
 
    ENV.B2E_USER =`jess_doe@nt1req.com`;
+   let location = "Miami, FL, USA"//"New York"//'Miami, FL, USA'
 
    test("Hotel Booking", async ({webActions, b2eHomePage, b2eSearchPage, b2ePropertyDetailPage, b2eQuestDetailsPage, b2eBookingPage}) => {
       await webActions.navigateTo(ENV.B2E_URL);
@@ -15,7 +16,7 @@ test.describe("Test Suite Hotel booking for B2E", () => {
       await b2eHomePage.signIn();
       await b2eSearchPage.newSearch();
       await WebActions.delay(2800);
-      await b2eSearchPage.searchDestination(`Miami, FL, USA`);
+      await b2eSearchPage.searchDestination(location);
       await b2eSearchPage.selectDates();
       await b2eSearchPage.hotelOptions();
       await b2eSearchPage.sort(`Price high to low`);

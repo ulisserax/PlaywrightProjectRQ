@@ -6,11 +6,12 @@ const chance = new Chance();
 
 test.describe.serial("Award a Corporate option from the GS1.0", () => {
     test.slow();
+    let location = "Miami, FL, USA"//"New York"//'Miami, FL, USA'
 
     test("POST: Create an Enterprise - Corporate Housing - Request", async ({requestEndpoints}) => {
         console.info(`Creating an Enterprise Request through the V1 API.`);
         const _response = await requestEndpoints.createRequest(ENV.BASE_URL, ENV.REQUESTOR_API_KEY, 
-            Number(ENV.CLIENT), 'Miami, FL, USA', ENV.START_DATE, ENV.END_DATE, ENV.GUEST_FIRSTNAME, 
+            Number(ENV.CLIENT), location, ENV.START_DATE, ENV.END_DATE, ENV.GUEST_FIRSTNAME, 
             ENV.GUEST_LASTNAME, ENV.RQPRO_GUEST_FOR_SERVICE, ENV.GUEST_PHONE, ENV.API_REQUEST_TYPE['Corporate']);
         ENV.API_REQUEST_UID = `${JSON.parse(_response).request_id}`;
         console.info(`REQUEST_UID: ${ENV.API_REQUEST_UID}`);
@@ -49,6 +50,7 @@ test.describe("Book a Hotel room from the GS1.0", () => {
     test.slow();
     let guestEmail = ENV.GUEST_EMAIL.toLocaleLowerCase();
     let count = 0;
+    let location = "Miami, FL, USA"//"New York"//'Miami, FL, USA'
 
     test("Book an Enterprise - Hotel Only - Request", async ({webActions, homePage, hotelSearchPage, shareOption, dashboard, newRequest, requestShow }) => {
         console.info(`Creating an Enterprise Request through the Enterprise UI.`);
@@ -57,7 +59,7 @@ test.describe("Book a Hotel room from the GS1.0", () => {
         await homePage.signIn();
         await dashboard.clickNewRequest();
         await newRequest.select_client(ENV.CLIENT);
-        await newRequest.fillRequestDetails(ENV.REQUEST_TYPE['Hotels'], ENV.REQUESTOR_ADMIN,ENV.GUEST_TYPE['Standard'],'Miami, FL, USA', `15`);
+        await newRequest.fillRequestDetails(ENV.REQUEST_TYPE['Hotels'], ENV.REQUESTOR_ADMIN,ENV.GUEST_TYPE['Standard'],location, `15`);
         await newRequest.fillGuestInfo(ENV.GUEST_FIRSTNAME,ENV.GUEST_LASTNAME,guestEmail,ENV.GUEST_PHONE);
         await newRequest.fillHotelDetails('1','2');
         await newRequest.submitHotelRequest();

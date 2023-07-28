@@ -7,6 +7,7 @@ test.describe.serial("Create Hotel request, cancel reservation and validate emai
     test.slow();
     let guestEmail = ENV.GUEST_EMAIL.toLocaleLowerCase();
     let count = 0;
+    let location = "Miami, FL, USA"//'New York'//'Miami, FL, USA'
 
     test("Create a hotel request and cancel reservation", async ({webActions, homePage, dashboard, newRequest, requestShow, hotelSearchPage, search}, testInfo) => {
         await webActions.navigateTo(ENV.BASE_URL);
@@ -15,7 +16,7 @@ test.describe.serial("Create Hotel request, cancel reservation and validate emai
         await dashboard.validateDashboard();
         await dashboard.clickNewRequest();
         await newRequest.select_client(ENV.CLIENT);
-        await newRequest.fillRequestDetails(ENV.REQUEST_TYPE['Hotels'], ENV.REQUESTOR_ADMIN,ENV.GUEST_TYPE['Standard'],'Miami, FL, USA', `15`);
+        await newRequest.fillRequestDetails(ENV.REQUEST_TYPE['Hotels'], ENV.REQUESTOR_ADMIN,ENV.GUEST_TYPE['Standard'],location, `15`);
         await newRequest.fillGuestInfo(ENV.GUEST_FIRSTNAME,ENV.GUEST_LASTNAME,guestEmail,ENV.GUEST_PHONE);
         await newRequest.fillHotelDetails('1','2');
         await newRequest.submitHotelRequest();
@@ -42,7 +43,7 @@ test.describe.serial("Create Hotel request, cancel reservation and validate emai
         await hotelSearchPage.backToRequest();
         await requestShow.unawardOption();
         await dashboard.findCurrentRequest(ENV.HOTEL_RESERVATION_ID);
-        //await search.clickReservationIdLink();
+        //============= await search.clickReservationIdLink();
         await hotelSearchPage.verifyReservationWasCancelled(ENV.HOTEL_RESERVATION_ID);
 
     })
