@@ -1,8 +1,12 @@
 pipeline {
     agent {
-        node { label 'playwright'  }
+        node { 
+            label 'playwright'  
+        }
     }
-    tools { nodejs "default" }
+    tools { 
+        nodejs "default" 
+    }
     parameters {
         string(defaultValue: 'stage', name: 'env', trim: true)
 
@@ -10,28 +14,22 @@ pipeline {
     stages {
         stage( 'install project'){
             steps {
-                sh '''
-                    npm install
-                '''
+                sh "npm install"
             }
         }
         stage('help') {
                         
             steps {
                 // Depends on your language / test framework
-                sh ''' 
-                    npx playwright test --help
-                '''
+                sh "npx playwright test --help" 
             }
         }
         stage('runing test') {
                         
             steps {
                 // Depends on your language / test framework
-                sh ''' 
-                    npx playwright test --list
-                    npm run env:${params.env}
-                '''
+                sh "npx playwright test --list"
+                sh "npm run env:${params.env}"
             }
         }
     }
