@@ -8,19 +8,30 @@ pipeline {
 
     }
     stages {
-        // stage( 'Setup parameters'){
-        //     steps {
-        //         script {
-        //             properties([parameters([string(defaultValue: 'stage', name: 'env', trim: true)])])
-        //         }
-        //     }
-        // }
+        stage( 'install project'){
+            steps {
+                sh '''
+                    npm install
+                '''
+            }
+        }
+        stage('help') {
+                        
+            steps {
+                // Depends on your language / test framework
+                sh ''' 
+                    npx playwright test --help
+                '''
+            }
+        }
         stage('runing test') {
                         
             steps {
                 // Depends on your language / test framework
-                sh "npm install"
-                sh "npm run env:${params.env}"
+                sh ''' 
+                    npx playwright test --list
+                    npm run env:${params.env}
+                '''
             }
         }
     }
