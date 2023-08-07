@@ -69,6 +69,8 @@ test.describe('Share option with fees - Guest Pay On and No Collect Credit Card'
         await b2eOptionsPage.validateFeesAndDepositPaidByCompany();
         await b2eOptionsPage.clickContinueButton();
         await b2eOptionsPage.validateCardOptionBooked(data_object.property_name);
+        await b2eOptionsPage.validateModalHeader('Thank you for Booking!');
+        await b2eBookingPage.verifySpecificSharedPendingQuest(data_object.property_name);
         
         let guest_permission_query  = `SELECT sta.option_permissions , sta.understand_guest_can_award_checkbox, sips.data FROM smart_token_auth sta inner join smart_inline_permission_set sips on sta.permission_set_id = sips.id and sta.email = '${data_object.guest_email}' and sta.token = '${token}'`;
         let result                  = await Database.execute('select the option_permissions value',guest_permission_query);
@@ -224,7 +226,7 @@ test.describe('Share option with fees - Guest Pay On and No Collect Credit Card'
     })
 
 
-    test("SM-T1147, SM-T1130, SM-T1159, SM-T1162, SM-T1168: Requestor shares an option with a Fees, Requestor sets sharing permissions to can award only", async({requestEndpoints, optionEndpoints,webActions, homePage, dashboard, search, shareOption, b2eOptionsPage, b2eHomePage,})=>{
+    test("SM-T1147, SM-T1130, SM-T1159, SM-T1162, SM-T1168: Requestor shares an option with a Fees, Requestor sets sharing permissions to can award only", async({requestEndpoints, optionEndpoints,webActions, homePage, dashboard, search, shareOption, b2eOptionsPage, b2eHomePage,b2eBookingPage})=>{
 
         let fees_amount     = {"parking_amount":chance.floating({min:100, max:350, fixed:2}),"pet_fee_amount":chance.floating({min:100, max:250, fixed:2}),"application_fee_amount":chance.floating({min:70, max:250, fixed:2}),"redecoration_fee_amount":chance.floating({min:60, max:350, fixed:2}),"pet_deposit_amount":chance.floating({min:10, max:450, fixed:2}),"security_deposit_amount":chance.floating({min:10, max:650, fixed:2})};
         let data_object     = JSON.parse(ENV.NT5_PREFERENCE_DATA_OBJECT); 
@@ -278,6 +280,9 @@ test.describe('Share option with fees - Guest Pay On and No Collect Credit Card'
         await b2eOptionsPage.acceptTerms();
         //== SM-1168
         await b2eOptionsPage.validateCardOptionBooked(data_object.second_property_name);
+        await b2eOptionsPage.validateModalHeader('Thank you for Booking!');
+        await b2eBookingPage.verifySpecificSharedPendingQuest(data_object.second_property_name);
+        
         
         let guest_permission_query  = `SELECT sta.option_permissions , sta.understand_guest_can_award_checkbox, sips.data FROM smart_token_auth sta inner join smart_inline_permission_set sips on sta.permission_set_id = sips.id and sta.email = '${data_object.guest_email}' and sta.token='${token}'`;
         let result                  = await Database.execute('select the option_permissions value',guest_permission_query);
