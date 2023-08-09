@@ -3,6 +3,7 @@ import Text from "@enterprise_objects/Text";
 import Input from "@enterprise_objects/Input";
 import ENV from "@utils/env";
 import Button from "@enterprise_objects/Button";
+import WebActions from "@lib/WebActions";
 
 const Chance = require("chance");
 const chance = new Chance();
@@ -31,6 +32,7 @@ export default class RegistrationPage {
 
     async verifyRegistrationCompleted(): Promise<void> {
         console.info(`Verifying that the account registration was completed`);
+        await WebActions.delay(2500);
         await expect(await this.page.locator(Text.registration_complete)).toBeVisible();
     }
 
