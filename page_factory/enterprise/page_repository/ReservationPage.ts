@@ -213,6 +213,7 @@ export default class ReservationPage {
 
     async deleteSegment(){
         console.info(`Deleting the second rate segment.`);
+        await WebActions.delay(1500);
         await this.page.locator(Element.delete_rate_segment).first().click();
         await expect(await this.page.locator(Element.rate_segment_rows).count()).toEqual(1);
         //await this.page.pause()
@@ -228,18 +229,23 @@ export default class ReservationPage {
 
     async expandTaxesSection(){
         console.info("Expanding taxes section");
-        await this.page.click(Dropdown.expand_taxes);
+        if(await this.page.locator(Dropdown.taxes_expanded).count()==1){
+            await this.page.click(Dropdown.expand_taxes);
+        }
     }
 
     async expandFeesSection(){
         console.info("Expanding fees section");
-        await this.page.click(Dropdown.expand_fees);
-        
+        if(await this.page.locator(Dropdown.fees_expanded).count()==1){
+            await this.page.click(Dropdown.expand_fees);
+        }
     }
 
     async expandDepositsSection(){
         console.info("Expanding deposits section");
-        await this.page.click(Dropdown.expand_deposits);
+        if(await this.page.locator(Dropdown.deposits_expanded).count()==0){
+            await this.page.click(Dropdown.expand_deposits);
+        }
         
     }
 

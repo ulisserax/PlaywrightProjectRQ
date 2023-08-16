@@ -29,8 +29,8 @@ export default class ENV{
     static CLIENT                           = process.env.CLIENT
     static CLIENT_ACCEPT                    = process.env.CLIENT_ACCEPT
     static CLIENT_ACCEPT_ID                 = process.env.NT1_ACCEPT_CLIENT_ID
-    static GUEST_FIRSTNAME                  = chance.first()
-    static GUEST_LASTNAME                   = chance.last()
+    static GUEST_FIRSTNAME                  = chance.first({nationality:'en'})
+    static GUEST_LASTNAME                   = chance.last({nationality:'en'})
     static PROPERTY                         = process.env.PROPERTY
     static CLIENT_EMAIL                     = `client_${chance.first()}_${chance.integer({min:0,max:9999})}@reloquest.com`
     static GUEST_EMAIL                      = `${this.GUEST_FIRSTNAME}_${chance.integer({min:0,max:9999})}@${this.REQUESTOR_COMPANY}.com`

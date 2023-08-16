@@ -49,4 +49,7 @@ export default class Dropdown{
     static readonly_assigned_to         = `form_request_type-readonly`;
     static readonly_request_type        = `//*[@id='form_request_type' and @disabled]`;
     static bill_to                      = `#form_bill_to`;
+    static taxes_expanded               = `//div[contains(@class,'taxes-dropdown')]//div[@aria-expanded='false']`;
+    static fees_expanded                = `//div[@id='fee_details_container'][@aria-expanded='false']`;
+    static deposits_expanded            = `//div[@id='deposits_details_container'][@aria-expanded='false']`;
 }
