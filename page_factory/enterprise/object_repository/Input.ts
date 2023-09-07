@@ -93,6 +93,7 @@ export default class Input{
     static client_area_name             = `//*[@id="parent_form_name"]/div[2]/input`;
     static client_area_location         = `//input[@name='form[location]']`;
     static share_guest_email            = `//div[@id='share_modal']//label[contains(text(),'Share these option')]/following-sibling::input[@id='email']`;
-    static confirm_share_guest_email    = `//div[@id='share_modal']//label[contains(text(),'Share these option')]/following-sibling::span/input[@id='email_conf']`
+    static confirm_share_guest_email    = `//div[@id='share_modal']//label[contains(text(),'Share these option')]/following-sibling::span/input[@id='email_conf']`;
+    static filter_client                = `//div[@id='client_list_filter']//input[@aria-controls='client_list']`;
     
 }

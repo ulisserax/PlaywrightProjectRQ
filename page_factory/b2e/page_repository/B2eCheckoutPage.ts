@@ -2,13 +2,10 @@ import Checkkox from "@b2e_objects/Checkbox";
 import Element from "@b2e_objects/Element";
 import Iframe from "@b2e_objects/Iframe";
 import Input from "@b2e_objects/Input";
-import Text from "@b2e_objects/Text";
-import Link from "@b2e_objects/Link";
 import WebActions from "@lib/WebActions";
 import { expect, Page } from "@playwright/test";
 import Button from "../object_repository/Button";
-const Chance = require ('chance');
-const chance = new Chance();
+
 
 export default class B2eCheckoutPage {
 

@@ -5,6 +5,7 @@ import { Page, expect } from '@playwright/test';
 import WebActions from '@lib/WebActions';
 import Checkbox from '@enterprise_objects/Checkbox';
 import Link from '@enterprise_objects/Link';
+import Dropdown from '@enterprise_objects/Dropdown';
 const Chance = require("chance");
 const chance = new Chance();
 
@@ -94,6 +95,7 @@ export default class ClientPage {
         await this.page.waitForLoadState('networkidle');
         await WebActions.delay(2000);
     }
+
     async createClientByAreaDirected(location: string, suppliers: string[]) {
         console.info(`Creating a Client Direct by Area rule for ${location}.`);
         let added = 0;
@@ -122,6 +124,7 @@ export default class ClientPage {
             await WebActions.delay(300);
             await this.page.click(Button.save_client_directed_area);
             await WebActions.delay(1000);
+            await expect(await this.page.locator(Element.notificationModal('Created')).count()).toBeGreaterThan(0);
             await this.page.waitForLoadState('networkidle');
             await this.page.waitForLoadState('domcontentloaded');
             await this.page.waitForSelector(`//tr//td[text()='${location}']/../td`);
@@ -153,4 +156,37 @@ export default class ClientPage {
         }
     }
 
+    async createClientDirectedAllAreaInclude(supplier: string) {
+        console.info(`Creating a Client Directed - All Area include`);
+        await WebActions.delay(1000);
+        if (await this.page.locator(Element.clientDirectedRemoveIncludeAllArea(supplier)).count()>0){
+            await WebActions.delay(1000);
+            await this.page.click(Element.clientDirectedRemoveIncludeAllArea(supplier));
+        }   
+        
+        await this.page.click(Dropdown.select_include_supplier);
+        await this.page.click(Dropdown.includeSupplier(supplier));
+        await this.page.keyboard.press('Escape');
+        await this.page.keyboard.press('Tab');
+        await WebActions.delay(1000);
+        await expect(await this.page.locator(Element.notificationModal('Saved')).count()).toBeGreaterThan(0);
+    }
+
+    async createClientDirectedAllAreaExclude(supplier: string) {
+        console.info(`Creating a Client Directed - All Area exclude`);
+        await WebActions.delay(1000);
+        if (await this.page.locator(Element.clientDirectedRemoveExcludeAllArea(supplier)).count()>0){
+            await WebActions.delay(1000);
+            await this.page.click(Element.clientDirectedRemoveExcludeAllArea(supplier));
+        }   
+        
+        await this.page.click(Dropdown.select_exclude_supplier);
+        await this.page.click(Dropdown.excludeSupplier(supplier));
+        await this.page.keyboard.press('Escape');
+        await this.page.keyboard.press('Tab');
+        await WebActions.delay(1000);
+        await expect(await this.page.locator(Element.notificationModal('Saved')).count()).toBeGreaterThan(0);
+    }
+
 }
+

@@ -52,10 +52,10 @@ export default class B2eLoginPage {
         await expect (await this.page.locator(Element.check_your_email_icon).count()).toBeGreaterThan(0);
     }
 
-    async completeEb2eRegistration(firstName: string, lastName: string, password: string) {
+    async completeEb2eRegistration(firstName: string, lastName: string, password: string, domain: string) {
         console.info (`Completing the EB2E Registration on the - Reservation Confirmation - email.`);
         await this.b2eHome.acceptCookies();
-        console.info(ENV.GUEST_PHONE);
+        //console.info(ENV.GUEST_PHONE);
         await this.page.type(Input.firstname,`${firstName}`, {delay:30});
         await this.page.type(Input.lastname,`${lastName}`, {delay:30});
         await this.page.type(Input.user_password,`${password}`, {delay:30});
@@ -66,7 +66,7 @@ export default class B2eLoginPage {
         await WebActions.delay(1000);
         await this.page.waitForLoadState(`networkidle`);
         await this.verifyEmailActivationSent();
-        await this.page.goto(`${ENV.SUPPLIER_DOMAIN}/configuration/instance`);
+        await this.page.goto(`${domain}/configuration/instance`);
     }
 
     async verifyEmailActivationSent(){

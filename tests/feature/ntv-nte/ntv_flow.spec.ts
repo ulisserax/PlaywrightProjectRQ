@@ -6,6 +6,7 @@ import Element from "@enterprise_objects/Element";
 
 test.describe.parallel('ntv flow -- ',()=>{
 
+    test.slow();
     let rqpro_guest_email = `tom_smith_01@nt3reqrqpro.com`;
 
     test.beforeAll(async ({requestEndpoints, optionEndpoints})=>{
@@ -89,18 +90,20 @@ test.describe.parallel('ntv flow -- ',()=>{
         //     await b2eLoginPage.verifyRegisterSuccess();
         // })
 
-        test("As Guest submit the NTV", async ({webActions, b2eHomePage, b2eQuestDetailsPage, b2eQuestsPage}) =>{
+        test("As Guest submit the NTV", async ({webActions, b2eHomePage, b2eQuestDetailsPage, b2eQuestsPage, b2eSearchPage}) =>{
             await webActions.navigateTo(ENV.B2E_URL);
             await b2eHomePage.acceptCookies();
             await b2eHomePage.enterCredentials(rqpro_guest_email, ENV.B2E_USER_PASSWORD);
             await b2eHomePage.signIn();
+            await b2eSearchPage.viewAllQuests();
             await b2eQuestsPage.viewFutureQuest(ENV.API_REQUEST_UID);
             await b2eQuestDetailsPage.verifyFutureQuest();
             await b2eQuestDetailsPage.requestNTV();
         })
 
         test('Submit a Notice by requestor and validate submission', async ({webActions, reservation})=>{
-            console.info(`validate submission by requestor`);            await webActions.login(`requestor`, `${ENV.RQPRO_BASE_URL}/reservation/${ENV.API_RESERVATION_UID}`, ENV.RQPRO_REQ_ADMIN, ENV.REQUESTOR_ADMIN_PASSWORD);
+            console.info(`validate submission by requestor`);            
+            await webActions.login(`requestor`, `${ENV.RQPRO_BASE_URL}/reservation/${ENV.API_RESERVATION_UID}`, ENV.RQPRO_REQ_ADMIN, ENV.REQUESTOR_ADMIN_PASSWORD);
             await reservation.verifyRqProReservationAcknowledge(ENV.API_RESERVATION_UID);
             await reservation.verifyNoticeToVacateSubmitted(`Notice given / Accepted`, Element.ntv_status_default);
             

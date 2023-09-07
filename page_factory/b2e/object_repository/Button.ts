@@ -65,4 +65,8 @@ export default class Button{
     static select_specific_shared_option(option_id: string){
         return `//app-option-card/a[contains(@href,'/b2e/options/${option_id}')]//button[contains(@class,'button-select-option')]`;
     }
+
+    static quest_option(request_id){
+        return `a[request-id=${request_id}] button.quest-status`;
+    }
 }

@@ -6,7 +6,7 @@ import ENV  from '@utils/env';
 test.describe.serial("Test Suite Book an alternate ratecard for B2E", () => {
     test.slow();
 
-   ENV.B2E_USER =`jane_doe@nt1req.com`;
+   ENV.B2E_USER =`jane_doue@nt1req.com`;
 
    test("Request a ratecard", async ({webActions, b2eHomePage, b2eSearchPage, b2ePropertyDetailPage}) => {
       await webActions.navigateTo(ENV.B2E_URL);
@@ -25,7 +25,7 @@ test.describe.serial("Test Suite Book an alternate ratecard for B2E", () => {
    })
 
    test("Bid option for B2E", async({webActions, homePage, dashboard, search, requestShow, option}) =>{
-      await webActions.navigateTo(ENV.SUPPLIER_DOMAIN);
+      await webActions.navigateTo(ENV.BASE_URL);
       await homePage.enterCredentials(ENV.SUPPLIER_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);
       await homePage.signIn();
       await dashboard.findCurrentRequest(ENV.REQUEST_ID);
@@ -45,7 +45,7 @@ test.describe.serial("Test Suite Book an alternate ratecard for B2E", () => {
       await b2eHomePage.enterCredentials(ENV.B2E_USER, ENV.B2E_USER_PASSWORD);
       await b2eHomePage.signIn();
       await b2eSearchPage.viewAllQuests();
-      await b2eQuestsPage.confirmNewOption(); 
+      await b2eQuestsPage.confirmNewOption(ENV.REQUEST_ID); 
       await b2eSearchPage.optionReceived();
       await b2eBookingPage.bookRateCard();
       await WebActions.delay(4500);
@@ -77,8 +77,9 @@ test.describe.serial("Test Suite Book an alternate ratecard for B2E", () => {
       await b2eHomePage.acceptCookies();
       await b2eHomePage.enterCredentials(ENV.B2E_USER, ENV.B2E_USER_PASSWORD);
       await b2eHomePage.signIn();
+      // await b2eQuestsPage.openQuests(ENV.REQUEST_ID);
       await b2eSearchPage.viewAllQuests();
-      await b2eQuestsPage.confirmAlternateQuest();
+      await b2eQuestsPage.confirmAlternateQuest(ENV.REQUEST_ID);
       await b2eSearchPage.bookingAlternateOption();
       await b2eBookingPage.bookRateCard();
       await WebActions.delay(4500);

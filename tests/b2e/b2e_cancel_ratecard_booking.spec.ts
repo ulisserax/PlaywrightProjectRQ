@@ -6,7 +6,7 @@ import ENV  from '@utils/env';
  test.describe.serial("Test Suite Cancel ratecard booking for B2E", () => {
    test.slow();
    
-   ENV.B2E_USER =`bill_doe@nt1req.com`;
+   ENV.B2E_USER =`bill_doue@nt1req.com`;
    
    test("Request a ratecard", async ({webActions, b2eHomePage, b2eSearchPage, b2ePropertyDetailPage, requestEndpoints}) => {
       await webActions.navigateTo(ENV.B2E_URL);
@@ -52,7 +52,7 @@ import ENV  from '@utils/env';
       await b2eHomePage.enterCredentials(ENV.B2E_USER, ENV.B2E_USER_PASSWORD);
       await b2eHomePage.signIn();
       await b2eSearchPage.viewAllQuests();
-      await b2eQuestsPage.confirmNewOption(); 
+      await b2eQuestsPage.confirmNewOption(ENV.REQUEST_ID); 
       await b2eSearchPage.optionReceived();
       await b2eBookingPage.bookRateCard();
       await WebActions.delay(3000);

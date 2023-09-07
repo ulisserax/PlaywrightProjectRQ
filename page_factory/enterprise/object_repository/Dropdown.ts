@@ -52,4 +52,21 @@ export default class Dropdown{
     static taxes_expanded               = `//div[contains(@class,'taxes-dropdown')]//div[@aria-expanded='false']`;
     static fees_expanded                = `//div[@id='fee_details_container'][@aria-expanded='false']`;
     static deposits_expanded            = `//div[@id='deposits_details_container'][@aria-expanded='false']`;
+    static select_include_supplier      = `//label[contains(normalize-space(),'Include')]/following-sibling::div//span[@class='Select-arrow-zone']`;
+    static select_exclude_supplier      = `//label[contains(normalize-space(),'Exclude')]/following-sibling::div//span[@class='Select-arrow-zone']`;
+
+    static includeSupplier(supplier: string){
+        return `//label[contains(normalize-space(),'Include')]/following-sibling::div//div[contains(@class,'Select-option')][contains(text(),'${supplier}')]`;
+    }
+
+    static excludeSupplier(supplier: string){
+        return `//label[contains(normalize-space(),'Exclude')]/following-sibling::div//div[contains(@class,'Select-option')][contains(text(),'${supplier}')]`;
+    }
+
+    // <div class="Select-menu-outer" data-reactid=".1.1.1.$2/=12.$2.7.$wrapper.$input.2">
+    //   <div class="Select-menu" data-reactid=".1.1.1.$2/=12.$2.7.$wrapper.$input.2.0">
+    //   <div class="Select-option is-disabled" data-reactid=".1.1.1.$2/=12.$2.7.$wrapper.$input.2.0.$option-0-500">nt1sup</div>
+    //   <div class="Select-option is-focused" data-reactid=".1.1.1.$2/=12.$2.7.$wrapper.$input.2.0.$option-1-504">nt3sup</div>
+    //   </div>
+    //   </div>
 }

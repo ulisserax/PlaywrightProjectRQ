@@ -95,8 +95,20 @@ export default class Element{
     static service_issue_status(description: string) {
         return `//td[contains(text(),'${description}')]//following-sibling::td//span`;
     }
+
     static service_comment_content(description: string) {
         return `//div[@id='comments-container']//div[contains(.,'${description}')]`;
     }
+    
+    static clientDirectedRemoveIncludeAllArea(supplier: string) {
+        return `//label[contains(normalize-space(),'Include')]/following-sibling::div//span[contains(text(),'${supplier}')]/preceding-sibling::span`;
+    }
 
+    static clientDirectedRemoveExcludeAllArea(supplier: string) {
+        return `//label[contains(normalize-space(),'Exclude')]/following-sibling::div//span[contains(text(),'${supplier}')]/preceding-sibling::span`;
+    }
+
+    static notificationModal(text: string){
+        return `//div[contains(@class,'notification-info notification-visible')]/h4[@class='notification-title'][contains(text(),'ReloQuest')]/following-sibling::div[@class='notification-message'][contains(text(),'${text}')]`
+    }
 }

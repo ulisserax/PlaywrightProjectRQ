@@ -5,6 +5,7 @@ import Element from "@enterprise_objects/Element";
 
 
 test.describe.parallel('nte flow -- ',()=>{
+    test.slow();
 
     let rqpro_guest_email = `tom_smith_02@nt3reqrqpro.com`;
 
@@ -45,11 +46,12 @@ test.describe.parallel('nte flow -- ',()=>{
             await requestShow.acknowledgeAward(ENV.ACKNOWLEDGE_AWARD['Accept']);
         })
 
-        test("As guest submit the NTE", async ({webActions, b2eHomePage, b2eQuestDetailsPage, b2eQuestsPage}) =>{
+        test("As guest submit the NTE", async ({webActions, b2eHomePage, b2eQuestDetailsPage, b2eQuestsPage, b2eSearchPage}) =>{
             await webActions.navigateTo(ENV.B2E_URL);
             await b2eHomePage.acceptCookies();
             await b2eHomePage.enterCredentials(rqpro_guest_email, ENV.B2E_USER_PASSWORD);
             await b2eHomePage.signIn();
+            await b2eSearchPage.viewAllQuests();
             await b2eQuestsPage.viewFutureQuest(ENV.API_REQUEST_UID);
             await b2eQuestDetailsPage.verifyFutureQuest();
             await b2eQuestDetailsPage.requestNTE();
