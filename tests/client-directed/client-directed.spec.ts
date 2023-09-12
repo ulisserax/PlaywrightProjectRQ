@@ -21,16 +21,11 @@ test.describe.only("Client Directed - All Areas", () => {
         // SM-T1379 ==> Client Directed - All Areas - Add and Remove a supplier from the excluded list
         await client.createClientDirectedAllAreaExclude('nt3sup');
         await client.removeClientDirectedAllAreasExcludedSupplier('nt3sup');
-        // SM-T1380
+        // SM-T1380 ==> Edit and Remove a client directed by area configuration
         await client.EditExistingClientDirectedAreas('San Francisco - Updated','nt1sup', 'nt3sup');
-        await client.validatingClientDirectedArea('San Francisco', 'Yes', 'nt3sup','nt1sup' );
+        await client.validatingClientDirectedArea('San Francisco - Updated', 'Yes', 'nt3sup','nt1sup' );
         await client.removeExistingClientDirectedAreas();
         
     })
  
-    // test("SM-T1378 ==> Add and Remove a Supplier form the included list", async({webActions, homePage, dashboard, newRequest, requestShow}) =>{})
-
-    // test("SM-T1379 ==> Add and Remove a Supplier form the excluded list", async({webActions, homePage, dashboard, newRequest, requestShow}) =>{})
-
-    // test("SM-T1380 ==> Edit and remove a client directed by area configuration", async({webActions, homePage, dashboard, newRequest, requestShow}) =>{})
 })

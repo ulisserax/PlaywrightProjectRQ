@@ -193,10 +193,11 @@ export default class ClientPage {
 
     async createClientByAreaDirectedIncludedAndExcludedSupplier(location: string, included_supplier: string, excluded_supplier: string) {
         console.info(`Creating a Client Direct by Area rule for ${location}.`);
-        await WebActions.delay(1600);
-        let count = await this.page.locator(Element.clientDirectedByArea(location, included_supplier, excluded_supplier)).count();
+        await WebActions.delay(2500);
+        let count = await this.page.locator(Link.remove_directed_area).count();
+        console.info(count);
         if (count>0){
-            for (let i=count-1; i=0; i--){
+            for (let i=count-1; i>=0; i--){
                 console.info(`Removing area ${i}`);
                 await this.page.locator(Link.remove_directed_area).nth(i).click();;
                 await WebActions.delay(500);
@@ -266,7 +267,7 @@ export default class ClientPage {
         await this.page.fill(Input.client_area_name,'');
         await this.page.type(Input.client_area_name, area_name);
         await this.page.click(Element.removingDirectedSupplier(directed_supplier));
-        await this.page.click(Element.removingDirectedSupplier(excluded_supplier));
+        await this.page.click(Element.removingExcludedSupplier(excluded_supplier));
         await WebActions.delay(1000);
         await this.page.click(Dropdown.modal_include_supplier);
         await this.page.click(Dropdown.includeSupplierModal(excluded_supplier));
@@ -287,6 +288,8 @@ export default class ClientPage {
 
     async validatingClientDirectedArea(area_name:string, send_to_network:string, directed_supplier:string, excluded_supplier:string){
         console.info(`Validating client directed area with name '${area_name}', send to network '${send_to_network}', directed supplier '${directed_supplier}' and exluded supplier '${excluded_supplier}'`);
+        await WebActions.delay(2000);
+        await this.page.waitForSelector(Element.clientDirectedArea(area_name, send_to_network, directed_supplier, excluded_supplier));
         await expect(await this.page.locator(Element.clientDirectedArea(area_name, send_to_network, directed_supplier, excluded_supplier)).isVisible()).toBeTruthy();
     }
 
