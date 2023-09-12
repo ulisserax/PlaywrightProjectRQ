@@ -20,5 +20,6 @@ export default class Checkbox{
     static ntv_taxes_and_fees_acknowledge       = `//input[@id='ntvTaxFeeConfirmation']`;
     static understand_guest_able_to_award       = `//div[@id='share_modal']//div[@id='isUnderstandGuestCanAwardCheckboxDiv']`;
     static guest_can_award_option               = `//input[@id='EXTENDED_PERMISSIONS_AWARD_OPTION']`;
-    static guest_can_select_preferences         = `//input[@id='EXTENDED_PERMISSIONS_SELECT_OPTION_PREFERENCES']`
+    static guest_can_select_preferences         = `//input[@id='EXTENDED_PERMISSIONS_SELECT_OPTION_PREFERENCES']`;
+    static send_to_supplier_network             = `//div[contains(@class,'client-area-modal')]//input[contains(@label,'Send to Supplier Network')]`;
 }

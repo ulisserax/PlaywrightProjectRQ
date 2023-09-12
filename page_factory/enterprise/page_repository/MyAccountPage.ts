@@ -6,6 +6,7 @@ import Element from "@enterprise_objects/Element";
 import WebActions from "@lib/WebActions";
 import Checkbox from "@enterprise_objects/Checkbox";
 import ENV from "@utils/env";
+import Link from "@enterprise_objects/Link";
 
 export default class MyAccountPage {
     readonly page: Page;
@@ -90,6 +91,17 @@ export default class MyAccountPage {
         console.info(`Clicking on edit user.`); 
         await WebActions.delay(800);
         await this.page.click(`//td[contains(text(),'${user}')]/following-sibling::td/div/a[contains(text(),'Edit')]`);
+        await this.page.waitForLoadState("domcontentloaded");
+        await this.page.waitForLoadState("networkidle");
+        await expect(await this.page).toHaveURL(/\/edit/);
+    }
+
+    async searchAndEditClient(client: string){
+        console.info(`Searching and edit client '${client}'`); 
+        await WebActions.delay(1000);
+        await this.page.type(Input.filter_client, `${client}`, {delay:60});
+        await WebActions.delay(1500);
+        await this.page.click(Link.edit_client(client));
         await this.page.waitForLoadState("domcontentloaded");
         await this.page.waitForLoadState("networkidle");
         await expect(await this.page).toHaveURL(/\/edit/);

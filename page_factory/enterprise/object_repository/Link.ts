@@ -42,10 +42,11 @@ export default class Link{
     static action_remove           = `(//tr//td//a[contains(text(),'Remove')])`;
     static show_advanced_settings  = `//div[@id='share_modal']//a[contains(@class,'toggle-advanced-permissions')][contains(normalize-space(),'Advanced Settings')]`;
     static share_log_history_link  = `//div[@id='share_log']//a[contains(@class,'share-log-toggler')]`;
-    
     static share_log_table_option_toggle = `//div[@id='share_log']//table[contains(@class,'share-log')]/tbody//a[contains(@class,'toggle-shared-options')]`;
     static get_shared_link_options       = `//div[@id='share_log']//table[contains(@class,'share-log')]/tbody//a[contains(@class,'get-link-shared-options')]`;
-
+    static remove_directed_area     = `//table/tbody//a[text()='Remove']`;
+    static edit_directed_area       = `//table/tbody//a[text()='Edit']`;
+   
     static remove(num: number) {
         return `(//tr//td//a[contains(text(),'Remove')])[${num}]`;
     }
@@ -54,5 +55,9 @@ export default class Link{
         return `//ul[@id='select2-results-1']//*[contains(text(),'${text}')]`;
     }
 
+    static edit_client(client:string){
+        return `//table[@id='client_list']//a[contains(normalize-space(),'${client}')]`;
+    }
 
 }
+

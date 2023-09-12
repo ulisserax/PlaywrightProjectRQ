@@ -56,16 +56,16 @@ export default class B2eHomePage {
 
     async login(usertype: string, url: string, email: string, password: string): Promise<void> {
         console.info(`Loggin in as a ${usertype}`);
-        await this.webActions.navigateTo(ENV.RQPRO_B2E_URL);
+        await this.webActions.navigateTo(url);
         await this.acceptCookies();
         await this.enterCredentials(email, password);
         await this.signIn();
     }
 
-    async eb2eCompleteActivationAndLogin():Promise<void> {
+    async eb2eCompleteActivationAndLogin(user_password):Promise<void> {
         console.info(`Complete the login process coming from an EB2E account activation.`);
         await this.validateAccountActivatedURL();
-        await this.enterPassword(ENV.B2E_USER_PASSWORD);
+        await this.enterPassword(user_password);
         await this.signIn();
         await WebActions.delay(3000);
     }

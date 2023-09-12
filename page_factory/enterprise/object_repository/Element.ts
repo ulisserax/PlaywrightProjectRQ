@@ -95,8 +95,39 @@ export default class Element{
     static service_issue_status(description: string) {
         return `//td[contains(text(),'${description}')]//following-sibling::td//span`;
     }
+
     static service_comment_content(description: string) {
         return `//div[@id='comments-container']//div[contains(.,'${description}')]`;
     }
+    
+    static clientDirectedRemoveIncludeAllArea(supplier: string) {
+        return `//label[contains(normalize-space(),'Include')]/following-sibling::div//span[contains(text(),'${supplier}')]/preceding-sibling::span`;
+    }
 
+    static clientDirectedRemoveExcludeAllArea(supplier: string) {
+        return `//label[contains(normalize-space(),'Exclude')]/following-sibling::div//span[contains(text(),'${supplier}')]/preceding-sibling::span`;
+    }
+
+    static notificationModal(text: string){
+        return `//div[contains(@class,'notification-visible')]/h4[@class='notification-title'][contains(normalize-space(),'ReloQuest')]/following-sibling::div[@class='notification-message'][contains(text(),'${text}')]`
+    }
+
+    static clientDirectedByArea(location:string, included_supplier:string, excluded_supplier:string){
+        return `//tr//td[text()='${location}']//following-sibling::td[normalize-space()='${included_supplier}']//following-sibling::td[normalize-space()='${excluded_supplier}']`;
+    }
+
+    static removingDirectedSupplier(supplier: string){
+        return `//div[contains(@class,'client-area-modal')]//label[normalize-space()='Directed Suppliers']/following-sibling::div//span[text()='${supplier}']/preceding-sibling::span`
+    }
+
+    static removingExcludedSupplier(supplier: string){
+        return `//div[contains(@class,'client-area-modal')]//label[normalize-space()='Excluded Suppliers']/following-sibling::div//span[text()='${supplier}']/preceding-sibling::span`
+    }
+    //table[contains(@class,'table-stripe')]//tbody//td[text()='San Francisco - Updated']/following-sibling::td[normalize-space()='Yes']/following-sibling::td[normalize-space()='nt3sup']/following-sibling::td[normalize-space()='nt1sup']
+    static clientDirectedArea(client_area:string, send_to_network: string,directed_supplier: string, excluded_supplier:string){
+        return `//table[contains(@class,'table-stripe')]//tbody//td[text()='${client_area}']/following-sibling::td[normalize-space()='${send_to_network}']/following-sibling::td[normalize-space()='${directed_supplier}']/following-sibling::td[normalize-space()='${excluded_supplier}']`;
+    }
 }
+
+
+		
