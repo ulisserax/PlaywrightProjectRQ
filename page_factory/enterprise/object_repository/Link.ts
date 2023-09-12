@@ -44,6 +44,8 @@ export default class Link{
     static share_log_history_link  = `//div[@id='share_log']//a[contains(@class,'share-log-toggler')]`;
     static share_log_table_option_toggle = `//div[@id='share_log']//table[contains(@class,'share-log')]/tbody//a[contains(@class,'toggle-shared-options')]`;
     static get_shared_link_options       = `//div[@id='share_log']//table[contains(@class,'share-log')]/tbody//a[contains(@class,'get-link-shared-options')]`;
+    static remove_directed_area     = `//table/tbody//a[text()='Remove']`;
+    static edit_directed_area       = `//table/tbody//a[text()='Edit']`;
    
     static remove(num: number) {
         return `(//tr//td//a[contains(text(),'Remove')])[${num}]`;
@@ -58,3 +60,4 @@ export default class Link{
     }
 
 }
+

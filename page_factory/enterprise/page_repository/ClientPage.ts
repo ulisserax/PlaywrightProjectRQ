@@ -101,7 +101,8 @@ export default class ClientPage {
         let added = 0;
         let new_suppliers = [];
         for (let i = 0 ; i < suppliers.length ; i++){
-                if (await (await this.page.$$(`//tr//td[text()='${location}']/../td[contains(.,'${suppliers[i]}')]`)).length == 0) new_suppliers.push(suppliers[i]);
+                if (await (await this.page.$$(`//tr//td[text()='${location}']/../td[contains(.,'${suppliers[i]}')]`)).length == 0) 
+                new_suppliers.push(suppliers[i]);
                 console.info(new_suppliers);
         }
         if (new_suppliers.length > 0) {
@@ -141,11 +142,9 @@ export default class ClientPage {
         console.info(`clicking on Remove`);
         await WebActions.delay(1000);
         var num = await this.page.locator(Link.action_remove).count();
-        num=+num;
-        console.info(+num);
-        for (let i=num; i>0; i--) {
-            console.info(Link.remove(i));
-            await this.page.click(Link.remove(i));
+        for (let i=0; i<num; i++) {
+            console.info(`Removing area ${i}`);
+            await this.page.locator(Link.remove_directed_area).nth(i).click();;
             await WebActions.delay(500);
             await this.page.click(Button.remove);
             await WebActions.delay(500);
@@ -169,6 +168,8 @@ export default class ClientPage {
         await this.page.keyboard.press('Escape');
         await this.page.keyboard.press('Tab');
         await WebActions.delay(1000);
+        console.info(`Validating the saved confirmation modal was displayed.`);
+        await this.page.waitForSelector(Element.notificationModal('Saved'));
         await expect(await this.page.locator(Element.notificationModal('Saved')).count()).toBeGreaterThan(0);
     }
 
@@ -185,7 +186,108 @@ export default class ClientPage {
         await this.page.keyboard.press('Escape');
         await this.page.keyboard.press('Tab');
         await WebActions.delay(1000);
+        console.info(`Validating the saved confimration modal was displayed.`);
+        await this.page.waitForSelector(Element.notificationModal('Saved'));
         await expect(await this.page.locator(Element.notificationModal('Saved')).count()).toBeGreaterThan(0);
+    }
+
+    async createClientByAreaDirectedIncludedAndExcludedSupplier(location: string, included_supplier: string, excluded_supplier: string) {
+        console.info(`Creating a Client Direct by Area rule for ${location}.`);
+        await WebActions.delay(1600);
+        let count = await this.page.locator(Element.clientDirectedByArea(location, included_supplier, excluded_supplier)).count();
+        if (count>0){
+            for (let i=count-1; i=0; i--){
+                console.info(`Removing area ${i}`);
+                await this.page.locator(Link.remove_directed_area).nth(i).click();;
+                await WebActions.delay(500);
+                await this.page.click(Button.remove);
+                await WebActions.delay(500);
+                await this.page.waitForLoadState(`networkidle`);
+                await this.page.waitForLoadState(`domcontentloaded`);
+            }
+        } 
+            await this.page.click(Link.add_client_direct_area);
+            await this.page.type(Input.client_area_name, location);
+            await this.page.type(Input.client_area_location, location);
+            await WebActions.delay(500);
+            await this.page.waitForLoadState('domcontentloaded');
+            await this.page.waitForLoadState('networkidle');
+            await this.page.locator(Link.desired_location).first().click();
+            await WebActions.delay(500);
+            //await this.page.keyboard.press('Enter');
+            await WebActions.delay(1000);
+            await this.page.click(Dropdown.modal_include_supplier);
+            await this.page.click(Dropdown.includeSupplierModal(included_supplier));
+            //await this.page.keyboard.press('Escape');
+            //await this.page.keyboard.press('Tab');
+            await this.page.click(Dropdown.modal_exclude_supplier);
+            await this.page.click(Dropdown.excludeSupplierModal(excluded_supplier));
+            //await this.page.keyboard.press('Escape');
+            //await this.page.keyboard.press('Tab');
+            await WebActions.delay(1000);
+            await this.page.click(Button.save_client_directed_area);
+            await WebActions.delay(1500);
+            await this.page.waitForSelector(Element.notificationModal('Created'));
+            await expect(await this.page.locator(Element.notificationModal('Created')).count()).toBeGreaterThan(0);
+            await this.page.waitForLoadState('networkidle');
+            await this.page.waitForLoadState('domcontentloaded');
+            //await this.page.waitForSelector(`//tr//td[text()='${location}']/../td`);
+            await WebActions.delay(1000);
+            console.info(`${location} was created!`)        
+        
+    }
+
+    async removeClientDirectedAllAreasIncludedSupplier(included_supplier:string) {
+        console.info(`clicking on Remove existed client directed all areas for included supplier`);
+        await WebActions.delay(1000);
+        await this.page.click(Element.clientDirectedRemoveIncludeAllArea(included_supplier));
+        await this.page.keyboard.press('Tab');
+        console.info(`Validating the saved confirmation modal was displayed.`);
+        await WebActions.delay(1000);
+        await this.page.waitForSelector(Element.notificationModal('Saved'));
+        await expect(await this.page.locator(Element.notificationModal('Saved')).count()).toBeGreaterThan(0);
+    }
+
+    async removeClientDirectedAllAreasExcludedSupplier(excluded_supplier:string) {
+        console.info(`clicking on Remove existed client directed all areas for excluded supplier`);
+        await WebActions.delay(1000);
+        await this.page.click(Element.clientDirectedRemoveExcludeAllArea(excluded_supplier));
+        await this.page.keyboard.press('Tab');
+        console.info(`Validating the saved confirmation modal was displayed.`);
+        await WebActions.delay(1000);
+        await this.page.waitForSelector(Element.notificationModal('Saved'));
+        await expect(await this.page.locator(Element.notificationModal('Saved')).count()).toBeGreaterThan(0);
+    }
+
+    async EditExistingClientDirectedAreas(area_name: string, directed_supplier: string, excluded_supplier:string) {
+        console.info(`Editing the existed direct area.`);
+        await WebActions.delay(1000);
+        await this.page.locator(Link.edit_directed_area).nth(0).click();
+        await this.page.fill(Input.client_area_name,'');
+        await this.page.type(Input.client_area_name, area_name);
+        await this.page.click(Element.removingDirectedSupplier(directed_supplier));
+        await this.page.click(Element.removingDirectedSupplier(excluded_supplier));
+        await WebActions.delay(1000);
+        await this.page.click(Dropdown.modal_include_supplier);
+        await this.page.click(Dropdown.includeSupplierModal(excluded_supplier));
+        await this.page.click(Dropdown.modal_exclude_supplier);
+        await this.page.click(Dropdown.excludeSupplierModal(directed_supplier));
+        await WebActions.delay(1000);
+        await this.page.click(Checkbox.send_to_supplier_network);
+        await this.page.click(Button.save_client_directed_area);
+        await WebActions.delay(1500);
+        await this.page.waitForSelector(Element.notificationModal('Saved'));
+        await expect(await this.page.locator(Element.notificationModal('Saved')).count()).toBeGreaterThan(0);
+        await this.page.waitForLoadState('networkidle');
+        await this.page.waitForLoadState('domcontentloaded');
+        //await this.page.waitForSelector(`//tr//td[text()='${location}']/../td`);
+        await WebActions.delay(1000);
+        console.info(`${area_name} was Updated!`)
+    }
+
+    async validatingClientDirectedArea(area_name:string, send_to_network:string, directed_supplier:string, excluded_supplier:string){
+        console.info(`Validating client directed area with name '${area_name}', send to network '${send_to_network}', directed supplier '${directed_supplier}' and exluded supplier '${excluded_supplier}'`);
+        await expect(await this.page.locator(Element.clientDirectedArea(area_name, send_to_network, directed_supplier, excluded_supplier)).isVisible()).toBeTruthy();
     }
 
 }

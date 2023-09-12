@@ -54,6 +54,8 @@ export default class Dropdown{
     static deposits_expanded            = `//div[@id='deposits_details_container'][@aria-expanded='false']`;
     static select_include_supplier      = `//label[contains(normalize-space(),'Include')]/following-sibling::div//span[@class='Select-arrow-zone']`;
     static select_exclude_supplier      = `//label[contains(normalize-space(),'Exclude')]/following-sibling::div//span[@class='Select-arrow-zone']`;
+    static modal_include_supplier      = `//label[contains(normalize-space(),'Directed Suppliers')]/following-sibling::div//span[@class='Select-arrow-zone']`;
+    static modal_exclude_supplier      = `//label[contains(normalize-space(),'Excluded Suppliers')]/following-sibling::div//span[@class='Select-arrow-zone']`;
 
     static includeSupplier(supplier: string){
         return `//label[contains(normalize-space(),'Include')]/following-sibling::div//div[contains(@class,'Select-option')][contains(text(),'${supplier}')]`;
@@ -61,6 +63,14 @@ export default class Dropdown{
 
     static excludeSupplier(supplier: string){
         return `//label[contains(normalize-space(),'Exclude')]/following-sibling::div//div[contains(@class,'Select-option')][contains(text(),'${supplier}')]`;
+    }
+
+    static includeSupplierModal(supplier: string){
+        return `//label[contains(normalize-space(),'Directed Suppliers')]/following-sibling::div//div[contains(@class,'Select-option')][contains(text(),'${supplier}')]`;
+    }
+
+    static excludeSupplierModal(supplier: string){
+        return `//label[contains(normalize-space(),'Excluded Suppliers')]/following-sibling::div//div[contains(@class,'Select-option')][contains(text(),'${supplier}')]`;
     }
 
     // <div class="Select-menu-outer" data-reactid=".1.1.1.$2/=12.$2.7.$wrapper.$input.2">
