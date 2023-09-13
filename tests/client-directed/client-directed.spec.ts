@@ -2,7 +2,7 @@ import test  from '@lib/BaseTest';
 import ENV  from '@utils/env';
 
 
-test.describe.only("Client Directed - All Areas", () => {
+test.describe("Client Directed - All Areas", () => {
     // test.describe.configure({ retries:2 });
     test.slow();
 
