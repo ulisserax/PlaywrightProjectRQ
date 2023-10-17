@@ -1,9 +1,11 @@
 import { expect } from "@playwright/test";
 import test from "@lib/BaseTest";
 import ENV from "@utils/env";
-import Element from "@enterprise_objects/Element";
+import Database from "@lib/Database";
+const Moment = require('moment');
+const moment = new Moment();
 
-test.describe.parallel.only('NO RQ Pro scenarios -- ',()=>{
+test.describe.parallel.only('RQ Pro scenarios -- ',()=>{
     test.slow();
     let rqpro_guest_email = `edit-lock2@nt3reqrqpro.com`;
 
@@ -35,14 +37,42 @@ test.describe.parallel.only('NO RQ Pro scenarios -- ',()=>{
     })
 
     test.describe.serial('Edit a non-locked RQ Pro Reservation -- ',()=>{
-
-        test('Acknowledge the NO RQPro Reservation', async ({webActions, requestShow}) => {
+        
+        test("SM-T1632 ==> Implementing RQ Pro NOT Locked UI", async ({webActions, requestShow, reservation}) =>{
             console.info(`Acknowledging the Reservation.`);
             await webActions.login(`supplier`, `${ENV.SUPPLIER_DOMAIN}/request/show/${ENV.API_REQUEST_UID}`, ENV.SUPPLIER_FOR_RQPRO_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);
             await requestShow.acknowledgeAward(ENV.ACKNOWLEDGE_AWARD['Accept']);
-        })
-        
-        // Test Cases
 
+            // SELECT * FROM smart_reservation sr WHERE uid = 'ACACD3'
+            await requestShow.viewReservation();
+            await reservation.clickEditSegmentLink();
+            
+
+        })
+
+       test("SM-T1623 ==> Implementing RQ Pro NOT Locked API", ()=>{
+
+        })
+    })
+
+    test.describe.serial('Edit a locked RQ Pro Reservation -- ',()=>{
+
+        test("SM-T1595 ==> Implementing RQ Pro Locked UI", async ({webActions, requestShow, reservation})=>{
+            console.info(`Acknowledging the Reservation.`);
+            await webActions.login(`supplier`, `${ENV.SUPPLIER_DOMAIN}/request/show/${ENV.API_REQUEST_UID}`, ENV.SUPPLIER_FOR_RQPRO_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);
+            await requestShow.acknowledgeAward(ENV.ACKNOWLEDGE_AWARD['Accept']);
+
+            // SELECT * FROM smart_reservation sr WHERE uid = 'ACACD3'
+
+            let reservation_query = `UPDATE smart_reservation set actual_arrival_date = "2023-10-12" WHERE uid = 'ACACD3';`;
+            await Database.execute('Set reservation 5 days in the past',reservation_query);
+            await requestShow.viewReservation();
+            await reservation.clickEditSegmentLink();
+
+       })
+
+        test("SM-T1620 ==> Implementing RQ Pro Locked API", ()=>{
+
+        })
     })
 })
