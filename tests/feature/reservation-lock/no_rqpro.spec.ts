@@ -2,7 +2,7 @@ import { expect } from "@playwright/test";
 import test from "@lib/BaseTest";
 import ENV from "@utils/env";
 
-test.describe.parallel.only('Reservation-Edit-Lock for RQ Pro -- ', ()=>{
+test.describe.parallel('Reservation-Edit-Lock for RQ Pro -- ', ()=>{
     test.slow();
     let rqpro_guest_email = `edit-lock1@nt3reqrqpro.com`;
 

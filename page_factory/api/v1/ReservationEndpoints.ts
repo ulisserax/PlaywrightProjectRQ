@@ -1,12 +1,15 @@
 import { expect } from "@playwright/test";
+import { APIRequestContext } from '@playwright/test';
 import ENV from "@utils/env";
 
 export default class ReservationEndpoints {
 
     readonly request;
+    //readonly apiRequestContext ;
 
     constructor(request){
         this.request = request;
+        
     }
 
 
@@ -17,15 +20,13 @@ export default class ReservationEndpoints {
         return body;
     }
 
-    async updateReservation(api_key:string, uid:string){
-        const _response = await this.request.patch(`${ENV.BASE_URL}/api/v1/reservation/update/${uid}?apikey=${api_key}`, {
-            data: {
-              body: 'Bug description',
-            }
+    async updateReservation(url:string, api_key:string, uid:string, body:string){
+        const _response = await this.request.patch(`${url}/api/v1/reservation/update/${uid}?apikey=${api_key}`, {
+            data: body
           });
         await expect(_response.status()).toBe(200);
-        const body = await _response.text();
-        return body;
+        const response = await _response.text();
+        return response;
     }
 
     async getReservationsShared(api_key:string, date:string){
