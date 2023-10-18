@@ -1,9 +1,12 @@
 import { expect } from "@playwright/test";
 import test from "@lib/BaseTest";
 import ENV from "@utils/env";
-import Element from "@enterprise_objects/Element";
+import Database from "@lib/Database";
+const moment = require('moment');
+const Chance = require('chance');
+const chance = new Chance();
 
-test.describe.parallel.only('NO RQ Pro scenarios -- ',()=>{
+test.describe.parallel.only('RQ Pro scenarios -- ',()=>{
     test.slow();
     let rqpro_guest_email = `edit-lock2@nt3reqrqpro.com`;
 
@@ -34,15 +37,54 @@ test.describe.parallel.only('NO RQ Pro scenarios -- ',()=>{
     
     })
 
-    test.describe.serial('Edit a non-locked RQ Pro Reservation -- ',()=>{
-
-        test('Acknowledge the NO RQPro Reservation', async ({webActions, requestShow}) => {
+    test.describe.serial.only('Edit a non-locked RQ Pro Reservation -- ',()=>{
+        
+        test("SM-T1632 ==> Implementing RQ Pro NOT Locked UI", async ({webActions, requestShow, reservation, reservationEndpoints}) =>{
             console.info(`Acknowledging the Reservation.`);
             await webActions.login(`supplier`, `${ENV.SUPPLIER_DOMAIN}/request/show/${ENV.API_REQUEST_UID}`, ENV.SUPPLIER_FOR_RQPRO_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);
             await requestShow.acknowledgeAward(ENV.ACKNOWLEDGE_AWARD['Accept']);
-        })
-        
-        // Test Cases
 
+            // SELECT * FROM smart_reservation sr WHERE uid = 'ACACD3'
+            let date = moment().add(-5,"day").format("YYYY-MM-DD")
+            let body = `{
+                "rate_segments": [
+                     {
+                         "start_date": "${date}",
+                         "end_date": "${ENV.END_DATE}",
+                         "rate": "264.0000000000",
+                         "property": ${Number(ENV.API_NT3_PROPERTY_ID)},
+                         "apartment_no":"APTO-3321"
+                         
+                     }
+                ]
+             }`
+            // let reservation_query = `UPDATE smart_reservation set actual_arrival_date = "${date}" WHERE uid = '${uid}';`;
+            //await Database.execute('Set reservation 5 days in the past',reservation_query);
+            await reservationEndpoints.updateReservation(`${ENV.SUPPLIER_DOMAIN}`,ENV.SUPPLIER_FOR_RQPRO_API_KEY, ENV.API_RESERVATION_UID, body);
+            await requestShow.viewReservation();
+            await reservation.clickEditSegmentLink();
+            
+
+        })
+
+       test("SM-T1623 ==> Implementing RQ Pro NOT Locked API", ()=>{
+
+        })
+    })
+
+    test.describe.serial('Edit a locked RQ Pro Reservation -- ',()=>{
+
+        test("SM-T1595 ==> Implementing RQ Pro Locked UI", async ({webActions, requestShow, reservation})=>{
+            console.info(`Acknowledging the Reservation.`);
+            await webActions.login(`supplier`, `${ENV.SUPPLIER_DOMAIN}/request/show/${ENV.API_REQUEST_UID}`, ENV.SUPPLIER_FOR_RQPRO_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);
+            await requestShow.acknowledgeAward(ENV.ACKNOWLEDGE_AWARD['Accept']);
+
+            
+
+       })
+
+        test("SM-T1620 ==> Implementing RQ Pro Locked API", ()=>{
+
+        })
     })
 })
