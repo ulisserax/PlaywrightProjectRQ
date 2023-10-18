@@ -39,7 +39,7 @@ test.describe.parallel.only('RQ Pro scenarios -- ',()=>{
 
     test.describe.serial.only('Edit a non-locked RQ Pro Reservation -- ',()=>{
         
-        test("SM-T1632, SM-T1623 ==> Implementing RQ Pro NOT Locked UI and API", async ({webActions, requestShow, reservation, reservationEndpoints}) =>{
+        test("SM-T1632, SM-T1623, SM-T1595, SM-T1620 ==> Validating RQ Pro NOT Locked UI - API, and RQ Pro Locked UI - API", async ({webActions, requestShow, reservation, reservationEndpoints}) =>{
             console.info(`Acknowledging the Reservation.`);
             await webActions.login(`supplier`, `${ENV.SUPPLIER_DOMAIN}/request/show/${ENV.API_REQUEST_UID}`, ENV.SUPPLIER_FOR_RQPRO_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);
             await requestShow.acknowledgeAward(ENV.ACKNOWLEDGE_AWARD['Accept']);
@@ -134,32 +134,4 @@ test.describe.parallel.only('RQ Pro scenarios -- ',()=>{
 
     })
 
-    test.describe.serial('Edit a locked RQ Pro Reservation -- ',()=>{
-
-        test("SM-T1595, SM-T1620 ==> Implementing RQ Pro Locked UI and API", async ({webActions, requestShow, reservationEndpoints})=>{
-            console.info(`Acknowledging the Reservation.`);
-            await webActions.login(`supplier`, `${ENV.SUPPLIER_DOMAIN}/request/show/${ENV.API_REQUEST_UID}`, ENV.SUPPLIER_FOR_RQPRO_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);
-            await requestShow.acknowledgeAward(ENV.ACKNOWLEDGE_AWARD['Accept']);
-            let date = moment().add(-5,"day").format("YYYY-MM-DD")
-            let body = `{
-                "rate_segments": [
-                     {
-                         "start_date": "${date}",v
-                         "end_date": "${ENV.END_DATE}",
-                         "rate": "264.0000000000",
-                         "property": ${Number(ENV.API_NT3_PROPERTY_ID)},
-                         "apartment_no":"APTO-3321"
-                         
-                     }
-                ]
-             }`
-            
-            let updateReservation_response = await reservationEndpoints.updateReservation(`${ENV.SUPPLIER_DOMAIN}`,ENV.SUPPLIER_FOR_RQPRO_API_KEY, ENV.API_RESERVATION_UID, body);
-            console.log(updateReservation_response);
-            await webActions.refresh();
-            
-            
-
-       })
-    })
 })
