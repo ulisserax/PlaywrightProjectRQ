@@ -7,17 +7,51 @@ const moment = require("moment");
 
 test.skip("Test case for test purpose", async ({requestEndpoints, optionEndpoints,reservationEndpoints})=> {
 
-    ENV.API_RESERVATION_UID = 'RQR30834E';
-    ENV.SUPPLIER_FOR_RQPRO_API_KEY = "nt1sup_admin_api_key";
-    ENV.SUPPLIER_DOMAIN = "https://supstage.reloquest.com";
+    let test = [
+        {
+          start_date: '2023-11-04T00:00:00+0000',
+          end_date: '2023-12-20T00:00:00+0000',
+          calculation_method: 'FLAT',
+          fee_basis_amount: '236.000000',
+          fee_description: 'maid service',
+          fee_type: 10,
+          fee_type_name: 'FEE',
+          fee_type_pretty: 'Maid Service Fee'
+        },
+        {
+          start_date: '2023-11-04T00:00:00+0000',
+          end_date: '2023-12-20T00:00:00+0000',
+          calculation_method: 'FLAT',
+          fee_basis_amount: '848.000000',
+          fee_description: 'property fee',
+          fee_type: 6,
+          fee_type_name: 'FEE',
+          fee_type_pretty: 'Property Fee'
+        },
+        {
+          start_date: '2023-11-04T00:00:00+0000',
+          end_date: '2023-12-20T00:00:00+0000',
+          calculation_method: 'FLAT',
+          fee_basis_amount: '283.580000',
+          fee_description: 'Pet Deposit',
+          fee_type: 14,
+          fee_type_name: 'DEPOSIT',
+          fee_type_pretty: 'Pet Deposit'
+        }
+      ]
+      console.log(JSON.stringify(test));
 
-    let date = moment().add(-5,"day").format("YYYY-MM-DD")
-            let body = `{
-                "actual_arrival_date": "2023-10-10T00:00:00+0000",
-             }`
-            // let reservation_query = `UPDATE smart_reservation set actual_arrival_date = "${date}" WHERE uid = '${uid}';`;
-            //await Database.execute('Set reservation 5 days in the past',reservation_query);
-            await reservationEndpoints.updateReservation(`${ENV.SUPPLIER_DOMAIN}`,ENV.SUPPLIER_FOR_RQPRO_API_KEY, ENV.API_RESERVATION_UID, body);
+    // ENV.API_RESERVATION_UID = 'RQR30834E';
+    // ENV.SUPPLIER_FOR_RQPRO_API_KEY = "nt1sup_admin_api_key";
+    // ENV.SUPPLIER_DOMAIN = "https://supstage.reloquest.com";
+
+    // let date = moment().add(-5,"day").format("YYYY-MM-DD")
+    //         let body = `{
+    //             "actual_arrival_date": "2023-10-10T00:00:00+0000",
+    //          }`
+    //         // let reservation_query = `UPDATE smart_reservation set actual_arrival_date = "${date}" WHERE uid = '${uid}';`;
+    //         //await Database.execute('Set reservation 5 days in the past',reservation_query);
+    //         await reservationEndpoints.updateReservation(`${ENV.SUPPLIER_DOMAIN}`,ENV.SUPPLIER_FOR_RQPRO_API_KEY, ENV.API_RESERVATION_UID, body);
 
     // let query = `SELECT sta.option_permissions , sta.understand_guest_can_award_checkbox, sips.data FROM smart_token_auth sta inner join smart_inline_permission_set sips on sta.permission_set_id = sips.id and sta.email = 'lucas_5881@nt1req.com'`
     // const result =  await Database.execute('Testing query test case',query);
