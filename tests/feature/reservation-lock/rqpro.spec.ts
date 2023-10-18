@@ -3,7 +3,7 @@ import test from "@lib/BaseTest";
 import ENV from "@utils/env";
 import Element from "@enterprise_objects/Element";
 
-test.describe.parallel.only('NO RQ Pro scenarios -- ',()=>{
+test.describe.parallel('NO RQ Pro scenarios -- ',()=>{
     test.slow();
     let rqpro_guest_email = `edit-lock2@nt3reqrqpro.com`;
 
