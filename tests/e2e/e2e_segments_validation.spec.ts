@@ -74,7 +74,7 @@ test.describe.serial("Test Suite for Segments Validation", () => {
         await reservation.expandFeesSection();
         await reservation.addNewFees(`Other Fees`,`${chance.integer({ min: 100, max: 600})}`,ENV.RATE_FEE_TYPE['Flat']);
         await reservation.expandDepositsSection();
-        await reservation.addNewDeposit(2);
+        await reservation.addNewDeposit(1,2);
         await reservation.submitSegmentChanges();
         await reservation.validateReservationTotal();
     })
