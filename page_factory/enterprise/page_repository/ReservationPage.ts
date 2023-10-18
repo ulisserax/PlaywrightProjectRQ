@@ -31,6 +31,7 @@ export default class ReservationPage {
     async clickEditSegmentLink(){
         console.info(`Clicking edit rate segment link`);
         await this.page.locator(Link.edit_segment_details).first().click();
+        await WebActions.delay(2500);
         await this.page.waitForLoadState('domcontentloaded');
 
     }
@@ -55,8 +56,9 @@ export default class ReservationPage {
         console.info(`Submiting the segments changes`);
         await this.page.click(Checkbox.edit_segment_understand);
         await this.page.click(Button.submit_changes);
-        await this.page.waitForLoadState('domcontentloaded');
         await WebActions.delay(2500);
+        await this.page.waitForLoadState('domcontentloaded');
+        await WebActions.delay(1500);
     }
 
     async checkReservationFeeSegments(){
@@ -203,12 +205,17 @@ export default class ReservationPage {
     }
 
     async validateDepositSegmentTotals(){
-        let total_rate_segment1 = Number(await (await this.page.locator(Text.modal_rate_segment_total).first().inputValue()).replace('$','').trim());
-        let total_rate_segment2 = Number(await (await this.page.locator(Text.modal_rate_segment_total).nth(1).inputValue()).replace('$','').trim());
-        let rate_total          = Number(await (await this.page.locator(Text.modal_rate_total).textContent()).replace('$','').trim());
-
-        console.log(`rate segment 1 total (${total_rate_segment1}) + rate segment 2 (${total_rate_segment2}) == rate_total (${rate_total})`);
-        await expect((total_rate_segment1 + total_rate_segment2)).toEqual(rate_total);
+        // let total_rate_segment1 = Number(await (await this.page.locator(Text.modal_rate_segment_total).first().inputValue()).replace('$','').trim());
+        // let total_rate_segment2 = Number(await (await this.page.locator(Text.modal_rate_segment_total).nth(1).inputValue()).replace('$','').trim());
+        let deposit_total          = Number(await (await this.page.locator(Text.total_deposits).textContent()).replace('$','').trim());
+        const deposit_segments = await this.page.locator(`//h2[contains(text(),'Deposits Details:')]/parent::div/following-sibling::div//tbody//tr`).count();
+        let sum = 0, value;
+        for(let i = 0; i < deposit_segments-1; i++ ){
+            value = Number (await(await this.page.locator(Input.reservation_deposit_segment).nth(i).inputValue()).replace('$','').trim());
+            sum = sum + value;
+        }
+        console.log(`the sum of all deposits (${sum}) should be equal to the total deposit amount (${deposit_total})`);
+        await expect((sum)).toEqual(deposit_total);
     }
 
     async deleteSegment(){
@@ -272,13 +279,13 @@ export default class ReservationPage {
         
     }
 
-    async addNewDeposit(deposits_type_index:number): Promise<void>{
+    async addNewDeposit(deposit_number: number, deposits_type_index:number): Promise<void>{
         console.info("Adding a new deposit.");
         await this.page.click(Link.add_reservation_deposit);
         await WebActions.delay(500);
-        await this.page.locator(Dropdown.reservation_deposit_segment).nth(1).selectOption({index: deposits_type_index});
-        await this.page.locator(Input.reservation_deposit_segment).nth(1).fill('');
-        await this.page.locator(Input.reservation_deposit_segment).nth(1).type(`${chance.floating({ min: 70, max: 500, fixed: 2 })}`);
+        await this.page.locator(Dropdown.reservation_deposit_segment).nth(deposit_number).selectOption({index: deposits_type_index});
+        await this.page.locator(Input.reservation_deposit_segment).nth(deposit_number).fill('');
+        await this.page.locator(Input.reservation_deposit_segment).nth(deposit_number).type(`${chance.floating({ min: 70, max: 500, fixed: 2 })}`);
         await this.page.keyboard.press('Enter');
        
     }
@@ -330,8 +337,7 @@ export default class ReservationPage {
         await this.page.waitForSelector(ntv_status_style);    
         await expect(await this.page.locator(Text.ntv_status).textContent()).toContain(message);
     }
-    
-
+ 
     async closeExtensionSubmitted(){
         await WebActions.delay(1000);
         console.info('Closing extension modal');
@@ -404,6 +410,19 @@ export default class ReservationPage {
         await this.changeSegmentStarDateToPast();
         await this.checkReservationFeeSegments();
         await this.submitSegmentChanges();
+    }
 
+    async validateNumberOfDepositsSegments(expected_deposit_rows){
+        
+        const deposit_segments = Number(await this.page.locator(`//h2[contains(text(),'Deposits Details:')]/parent::div/following-sibling::div//tbody//tr`).count());
+        console.info(`Validating the deposits rows ${deposit_segments} should be equal to the expected deposits added ${expected_deposit_rows}`);
+        await expect((deposit_segments-1)).toEqual(expected_deposit_rows);
+        //return (deposit_segments-1);
+    }
+
+    async validateLockModal(){
+        console.log(`Validating the reservation is locked and can't be edited.`);
+        await expect(await this.page.locator(Element.edit_lock_modal).isVisible()).toBeTruthy();
+        await expect(await (await this.page.locator(Element.edit_locak_modal_title).textContent()).trim()).toEqual("This is an RQ Pro Reservation");
     }
 }

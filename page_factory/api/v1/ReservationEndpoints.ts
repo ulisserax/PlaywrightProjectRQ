@@ -13,8 +13,8 @@ export default class ReservationEndpoints {
     }
 
 
-    async getReservationByUid(api_key:string, uid:string){
-        const _response = await this.request.get(`${ENV.BASE_URL}/api/v1/reservations/${uid}?apikey=${api_key}`);
+    async getReservationByUid(url:string, api_key:string, uid:string){
+        const _response = await this.request.get(`${url}/api/v1/reservations/${uid}?apikey=${api_key}`);
         await expect(_response.status()).toBe(200);
         const body = await _response.text();
         return body;
