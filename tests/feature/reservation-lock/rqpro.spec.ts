@@ -13,7 +13,7 @@ test.describe.parallel.only('RQ Pro scenarios -- ',()=>{
     test.beforeAll(async ({requestEndpoints, optionEndpoints})=>{
         //Create a request for a rqpro company and a eb2e client
         console.info(`Creating an EB2E Request through the V1 API.`);
-        const _createRequestResponse = await requestEndpoints.createRequest(ENV.RQPRO_BASE_URL, ENV.RQPRO_REQ_API_KEY, Number(ENV.RQPRO_EB2E_CLIENT), 'Miami, FL, USA', ENV.START_DATE, ENV.END_DATE, ENV.GUEST_FIRSTNAME, ENV.GUEST_LASTNAME, rqpro_guest_email, `7863256523`, ENV.API_REQUEST_TYPE['Corporate']);
+        const _createRequestResponse = await requestEndpoints.createRequest(ENV.RQPRO_BASE_URL, ENV.RQPRO_REQ_API_KEY, Number(ENV.NT3REQ_RQPRO_EDIT_LOCK), 'Miami, FL, USA', ENV.START_DATE, ENV.END_DATE, ENV.GUEST_FIRSTNAME, ENV.GUEST_LASTNAME, rqpro_guest_email, `7863256523`, ENV.API_REQUEST_TYPE['Corporate']);
         ENV.API_REQUEST_UID = `${JSON.parse(_createRequestResponse).request_id}`;
         console.info(`REQUEST_UID: ${ENV.API_REQUEST_UID}`);
     
@@ -44,6 +44,8 @@ test.describe.parallel.only('RQ Pro scenarios -- ',()=>{
             await webActions.login(`supplier`, `${ENV.SUPPLIER_DOMAIN}/request/show/${ENV.API_REQUEST_UID}`, ENV.SUPPLIER_FOR_RQPRO_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);
             await requestShow.acknowledgeAward(ENV.ACKNOWLEDGE_AWARD['Accept']);
 
+            // let getReservation = await reservationEndpoints.getReservationByUid(ENV.SUPPLIER_FOR_RQPRO_API_KEY, ENV.API_RESERVATION_UID);
+            // console.log(getReservation);
             // SELECT * FROM smart_reservation sr WHERE uid = 'ACACD3'
             let date = moment().add(-5,"day").format("YYYY-MM-DD")
             let body = `{
@@ -60,7 +62,8 @@ test.describe.parallel.only('RQ Pro scenarios -- ',()=>{
              }`
             // let reservation_query = `UPDATE smart_reservation set actual_arrival_date = "${date}" WHERE uid = '${uid}';`;
             //await Database.execute('Set reservation 5 days in the past',reservation_query);
-            await reservationEndpoints.updateReservation(`${ENV.SUPPLIER_DOMAIN}`,ENV.SUPPLIER_FOR_RQPRO_API_KEY, ENV.API_RESERVATION_UID, body);
+            let updateReservation_response = await reservationEndpoints.updateReservation(`${ENV.SUPPLIER_DOMAIN}`,ENV.SUPPLIER_FOR_RQPRO_API_KEY, ENV.API_RESERVATION_UID, body);
+            console.log(updateReservation_response)
             await requestShow.viewReservation();
             await reservation.clickEditSegmentLink();
             

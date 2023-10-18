@@ -5,7 +5,7 @@ const Chance = require("chance");
 const chance = new Chance();
 const moment = require("moment");
 
-test.only("Test case for test purpose", async ({requestEndpoints, optionEndpoints,reservationEndpoints})=> {
+test.skip("Test case for test purpose", async ({requestEndpoints, optionEndpoints,reservationEndpoints})=> {
 
     ENV.API_RESERVATION_UID = 'RQR30834E';
     ENV.SUPPLIER_FOR_RQPRO_API_KEY = "nt1sup_admin_api_key";

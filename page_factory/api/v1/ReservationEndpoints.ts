@@ -22,7 +22,7 @@ export default class ReservationEndpoints {
 
     async updateReservation(url:string, api_key:string, uid:string, body:string){
         const _response = await this.request.patch(`${url}/api/v1/reservation/update/${uid}?apikey=${api_key}`, {
-            data: body
+            data: JSON.parse(body)
           });
         await expect(_response.status()).toBe(200);
         const response = await _response.text();
