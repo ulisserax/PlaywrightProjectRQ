@@ -9,7 +9,7 @@ test.describe.parallel('Reservation-Edit-Lock for RQ Pro -- ', ()=>{
     test.beforeAll(async ({requestEndpoints, optionEndpoints})=>{
         //Create a request for a rqpro company and a eb2e client
         console.info(`Creating an EB2E Request through the V1 API.`);
-        const _createRequestResponse = await requestEndpoints.createRequest(ENV.RQPRO_BASE_URL, ENV.RQPRO_REQ_API_KEY, Number(ENV.RQPRO_EB2E_CLIENT), 'Miami, FL, USA', ENV.START_DATE, ENV.END_DATE, ENV.GUEST_FIRSTNAME, ENV.GUEST_LASTNAME, rqpro_guest_email, `7863256523`, ENV.API_REQUEST_TYPE['Corporate']);
+        const _createRequestResponse = await requestEndpoints.createRequest(ENV.RQPRO_BASE_URL, ENV.RQPRO_REQ_API_KEY, Number(ENV.NT3REQ_RQPRO_EDIT_LOCK), 'Miami, FL, USA', ENV.START_DATE, ENV.END_DATE, ENV.GUEST_FIRSTNAME, ENV.GUEST_LASTNAME, rqpro_guest_email, `7863256523`, ENV.API_REQUEST_TYPE['Corporate']);
         ENV.API_REQUEST_UID = `${JSON.parse(_createRequestResponse).request_id}`;
         console.info(`REQUEST_UID: ${ENV.API_REQUEST_UID}`);
     
@@ -35,10 +35,12 @@ test.describe.parallel('Reservation-Edit-Lock for RQ Pro -- ', ()=>{
 
     test.describe.serial('Edit a non-locked RQ Pro Reservation -- ',()=>{
 
-        test('Acknowledge the RQPro Reservation', async ({webActions, requestShow}) => {
+        test('T1590 - Edit through the UI a non-locked non-RQ Pro Reservation', async ({webActions, requestShow, reservation}) => {
             console.info(`Acknowledging the Reservation.`);
             await webActions.login(`supplier`, `${ENV.SUPPLIER_DOMAIN}/request/show/${ENV.API_REQUEST_UID}`, ENV.SUPPLIER_FOR_RQPRO_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);
             await requestShow.acknowledgeAward(ENV.ACKNOWLEDGE_AWARD['Accept']);
+            await requestShow.viewReservation();
+            await reservation.clickEditSegmentLink();
         })
         
         // Test Cases
