@@ -398,4 +398,12 @@ export default class ReservationPage {
         await this.page.click(Button.approve_changes);
         await this.page.click(Button.okay);
     }
+
+    async editReservationSegmentsToMoveBackStartDate(){
+        console.info('Testing this');
+        await this.changeSegmentStarDateToPast();
+        await this.checkReservationFeeSegments();
+        await this.submitSegmentChanges();
+
+    }
 }

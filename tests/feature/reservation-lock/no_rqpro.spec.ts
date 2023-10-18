@@ -2,7 +2,7 @@ import { expect } from "@playwright/test";
 import test from "@lib/BaseTest";
 import ENV from "@utils/env";
 
-test.describe.parallel('Reservation-Edit-Lock for RQ Pro -- ', ()=>{
+test.describe.parallel.only('Reservation-Edit-Lock for RQ Pro -- ', ()=>{
     test.slow();
     let rqpro_guest_email = `edit-lock1@nt3reqrqpro.com`;
 
@@ -38,9 +38,11 @@ test.describe.parallel('Reservation-Edit-Lock for RQ Pro -- ', ()=>{
         test('T1590 - Edit through the UI a non-locked non-RQ Pro Reservation', async ({webActions, requestShow, reservation}) => {
             console.info(`Acknowledging the Reservation.`);
             await webActions.login(`supplier`, `${ENV.SUPPLIER_DOMAIN}/request/show/${ENV.API_REQUEST_UID}`, ENV.SUPPLIER_FOR_RQPRO_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);
+            //await webActions.login(`supplier`, `https://supstage.reloquest.com/reservation/RQRA028AC`, ENV.SUPPLIER_FOR_RQPRO_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);
             await requestShow.acknowledgeAward(ENV.ACKNOWLEDGE_AWARD['Accept']);
             await requestShow.viewReservation();
-            await reservation.clickEditSegmentLink();
+            await reservation.editReservationSegmentsToMoveBackStartDate(); 
+            await reservation.editReservationSegmentsToMoveBackStartDate(); 
         })
         
         // Test Cases
