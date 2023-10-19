@@ -123,7 +123,8 @@ export default class ENV{
     static RQPRO_REQ_API_KEY           = process.env.RQPRO_REQ_API_KEY
     static RQPRO_GUEST_FOR_SERVICE     = process.env.RQPRO_GUEST_FOR_SERVICE
     static RQPRO_EB2E_CLIENT           = process.env.RQPRO_EB2E_CLIENT
-    static NT3REQ_RQPRO_EDIT_LOCK      = process.env.NT3REQ_RQPRO_EDIT_LOCK 
+    static NT3REQ_RQPRO_EDIT_LOCK      = process.env.NT3REQ_RQPRO_EDIT_LOCK
+    static NT3REQ_NO_RQPRO             = process.env.NT3REQ_NO_RQPRO
     static SUPPLIER_FOR_RQPRO_ADMIN    = process.env.SUPPLIER_FOR_RQPRO_ADMIN
     static SUPPLIER_FOR_RQPRO_API_KEY  = process.env.SUPPLIER_FOR_RQPRO_API_KEY
 

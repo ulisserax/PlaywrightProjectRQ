@@ -10,14 +10,15 @@ import Element from "@enterprise_objects/Element";
 import ENV from "@utils/env";
 import Dropdown from "@enterprise_objects/Dropdown";
 import Textarea from "@enterprise_objects/Textarea";
+
 const Chance = require ('chance');
 const chance = new Chance();
-
+const moment = require('moment');
 
 export default class ReservationPage {
     readonly page: Page;
 
-    constructor(page){
+    constructor (page: Page){
         this.page = page;
     }
 
@@ -418,4 +419,5 @@ export default class ReservationPage {
         await expect(await this.page.locator(Element.edit_lock_modal).isVisible()).toBeTruthy();
         await expect(await (await this.page.locator(Element.edit_locak_modal_title).textContent()).trim()).toEqual("This is an RQ Pro Reservation");
     }
+
 }

@@ -6,7 +6,7 @@ const moment = require('moment');
 const Chance = require('chance');
 const chance = new Chance();
 
-test.describe.parallel.only('RQ Pro scenarios -- ',()=>{
+test.describe.parallel('RQ Pro scenarios -- ',()=>{
     test.slow();
     let rqpro_guest_email = `edit-lock2@nt3reqrqpro.com`;
 
@@ -37,7 +37,7 @@ test.describe.parallel.only('RQ Pro scenarios -- ',()=>{
     
     })
 
-    test.describe.serial.only('Edit a non-locked RQ Pro Reservation -- ',()=>{
+    test.describe.serial('Edit a non-locked RQ Pro Reservation -- ',()=>{
         
         test("SM-T1632, SM-T1623, SM-T1595, SM-T1620 ==> Validating RQ Pro NOT Locked UI - API, and RQ Pro Locked UI - API", async ({webActions, requestShow, reservation, reservationEndpoints}) =>{
             console.info(`Acknowledging the Reservation.`);
