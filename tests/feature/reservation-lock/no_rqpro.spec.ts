@@ -1,15 +1,16 @@
 import { expect } from "@playwright/test";
 import test from "@lib/BaseTest";
 import ENV from "@utils/env";
+const moment = require('moment');
 
-test.describe.parallel.only('Reservation-Edit-Lock for RQ Pro -- ', ()=>{
+test.describe('Reservation-Edit-Lock for RQ Pro -- ', ()=>{
     test.slow();
     let rqpro_guest_email = `edit-lock1@nt3reqrqpro.com`;
 
     test.beforeAll(async ({requestEndpoints, optionEndpoints})=>{
         //Create a request for a rqpro company and a eb2e client
         console.info(`Creating an EB2E Request through the V1 API.`);
-        const _createRequestResponse = await requestEndpoints.createRequest(ENV.RQPRO_BASE_URL, ENV.RQPRO_REQ_API_KEY, Number(ENV.NT3REQ_RQPRO_EDIT_LOCK), 'Miami, FL, USA', ENV.START_DATE, ENV.END_DATE, ENV.GUEST_FIRSTNAME, ENV.GUEST_LASTNAME, rqpro_guest_email, `7863256523`, ENV.API_REQUEST_TYPE['Corporate']);
+        const _createRequestResponse = await requestEndpoints.createRequest(ENV.RQPRO_BASE_URL, ENV.RQPRO_REQ_API_KEY, Number(ENV.NT3REQ_NO_RQPRO), 'Miami, FL, USA', ENV.START_DATE, ENV.END_DATE, ENV.GUEST_FIRSTNAME, ENV.GUEST_LASTNAME, rqpro_guest_email, `7863256523`, ENV.API_REQUEST_TYPE['Corporate']);
         ENV.API_REQUEST_UID = `${JSON.parse(_createRequestResponse).request_id}`;
         console.info(`REQUEST_UID: ${ENV.API_REQUEST_UID}`);
     
@@ -35,14 +36,85 @@ test.describe.parallel.only('Reservation-Edit-Lock for RQ Pro -- ', ()=>{
 
     test.describe.serial('Edit a non-locked RQ Pro Reservation -- ',()=>{
 
-        test('T1590 - Edit through the UI a non-locked non-RQ Pro Reservation', async ({webActions, requestShow, reservation}) => {
-            console.info(`Acknowledging the Reservation.`);
+        test('T1590, T1591 - Edit through the UI and API a non-RQ Pro Reservation on both locked and unlocked scenarios', async ({webActions, requestShow,reservationEndpoints, reservation}) => {
             await webActions.login(`supplier`, `${ENV.SUPPLIER_DOMAIN}/request/show/${ENV.API_REQUEST_UID}`, ENV.SUPPLIER_FOR_RQPRO_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);
-            //await webActions.login(`supplier`, `https://supstage.reloquest.com/reservation/RQRA028AC`, ENV.SUPPLIER_FOR_RQPRO_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);
             await requestShow.acknowledgeAward(ENV.ACKNOWLEDGE_AWARD['Accept']);
+
+            // Validate that the NO RQ PRo Reservation can be edited through the API
+            console.info('Editing start date to  ')
+            let beforeExpire = moment().add(-4,"day").format("YYYY-MM-DD")
+            let rate_segment = `{
+                "rate_segments": [
+                    {
+                        "start_date": "${beforeExpire}",
+                        "end_date": "${ENV.END_DATE}",
+                        "rate": "264.0000000000",
+                        "property": ${Number(ENV.API_NT3_PROPERTY_ID)},
+                        "apartment_no":"APTO-3321" 
+                    }
+                ]
+            }`
+            let rate_segment_update = await reservationEndpoints.updateReservation(`${ENV.SUPPLIER_DOMAIN}`,ENV.SUPPLIER_FOR_RQPRO_API_KEY, ENV.API_RESERVATION_UID, rate_segment);
+             console.log(rate_segment_update)
+
+            // Validate that the NO RQ PRo Reservation can be edited through the UI
             await requestShow.viewReservation();
-            await reservation.editReservationSegmentsToMoveBackStartDate(); 
-            await reservation.editReservationSegmentsToMoveBackStartDate(); 
+            await reservation.validateNumberOfDepositsSegments(0);
+            await reservation.clickEditSegmentLink();
+            await reservation.expandDepositsSection();
+            await reservation.addNewDeposit(0,1);
+            await reservation.submitSegmentChanges();
+            await reservation.validateNumberOfDepositsSegments(1);
+
+            // Move the Reservation start date to LOCKED condition
+            let afterExpire = moment().add(-5,"day").format("YYYY-MM-DD")
+            let expire = `{
+                "rate_segments": [
+                    {
+                        "start_date": "${afterExpire}",
+                        "end_date": "${ENV.END_DATE}",
+                        "rate": "264.0000000000",
+                        "property": ${Number(ENV.API_NT3_PROPERTY_ID)},
+                        "apartment_no":"APTO-3321" 
+                    }
+                ]
+            }`
+            let reservationUpdate = await reservationEndpoints.updateReservation(ENV.RQPRO_BASE_URL,ENV.SUPPLIER_FOR_RQPRO_API_KEY, ENV.API_RESERVATION_UID, expire);
+             console.log(reservationUpdate)
+
+            // Validate that the NO RQ PRo Reservation can still be edited through the UI
+            await reservation.validateNumberOfDepositsSegments(1);
+            await reservation.clickEditSegmentLink();
+            await reservation.expandDepositsSection();
+            await reservation.addNewDeposit(1,2);
+            await reservation.submitSegmentChanges();
+            await reservation.validateNumberOfDepositsSegments(2);
+
+            // Validate that the NO RQ PRo Reservation can still be edited through the API
+            let get_reservation_response = await reservationEndpoints.getReservationByUid(`${ENV.SUPPLIER_DOMAIN}`,ENV.SUPPLIER_FOR_RQPRO_API_KEY, ENV.API_RESERVATION_UID);
+            let fee_seg = JSON.parse(get_reservation_response).fee_segments;
+            let segments = JSON.stringify(fee_seg).replace('[','').replace(']','');         
+            let fee_segments = `{
+                "fee_segments": [
+                    ${segments},
+                    {
+                      "start_date": "${ENV.START_DATE}",
+                      "end_date": "${ENV.END_DATE}",
+                      "calculation_method": "FLAT",
+                      "fee_description":"Security Deposit",
+                      "fee_basis_amount": "300.000000",
+                      "fee_type": 15,
+                      "fee_type_name": "DEPOSIT"
+                    }
+                ]
+                
+             }`
+            reservationUpdate = await reservationEndpoints.updateReservation(`${ENV.SUPPLIER_DOMAIN}`,ENV.SUPPLIER_FOR_RQPRO_API_KEY, ENV.API_RESERVATION_UID, fee_segments);
+            console.log(reservationUpdate);
+            await expect(JSON.parse(reservationUpdate).submitted).toBeTruthy();
+            await webActions.refresh();
+            await reservation.validateNumberOfDepositsSegments(3);
+
         })
         
         // Test Cases

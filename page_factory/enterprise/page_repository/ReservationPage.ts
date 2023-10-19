@@ -10,14 +10,15 @@ import Element from "@enterprise_objects/Element";
 import ENV from "@utils/env";
 import Dropdown from "@enterprise_objects/Dropdown";
 import Textarea from "@enterprise_objects/Textarea";
+
 const Chance = require ('chance');
 const chance = new Chance();
-
+const moment = require('moment');
 
 export default class ReservationPage {
     readonly page: Page;
 
-    constructor(page){
+    constructor (page: Page){
         this.page = page;
     }
 
@@ -405,13 +406,6 @@ export default class ReservationPage {
         await this.page.click(Button.okay);
     }
 
-    async editReservationSegmentsToMoveBackStartDate(){
-        console.info('Testing this');
-        await this.changeSegmentStarDateToPast();
-        await this.checkReservationFeeSegments();
-        await this.submitSegmentChanges();
-    }
-
     async validateNumberOfDepositsSegments(expected_deposit_rows){
         
         const deposit_segments = Number(await this.page.locator(`//h2[contains(text(),'Deposits Details:')]/parent::div/following-sibling::div//tbody//tr`).count());
@@ -425,4 +419,5 @@ export default class ReservationPage {
         await expect(await this.page.locator(Element.edit_lock_modal).isVisible()).toBeTruthy();
         await expect(await (await this.page.locator(Element.edit_locak_modal_title).textContent()).trim()).toEqual("This is an RQ Pro Reservation");
     }
+
 }
