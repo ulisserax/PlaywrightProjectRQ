@@ -1,10 +1,9 @@
 import { expect } from "@playwright/test";
 import test from "@lib/BaseTest";
 import ENV from "@utils/env";
-import Database from "@lib/Database";
+import Element from "@enterprise_objects/Element";
 const moment = require('moment');
-const Chance = require('chance');
-const chance = new Chance();
+
 
 test.describe.parallel('RQ Pro scenarios -- ',()=>{
     test.slow();
@@ -130,6 +129,30 @@ test.describe.parallel('RQ Pro scenarios -- ',()=>{
             console.log(updateReservation_response);
             await expect(JSON.parse(updateReservation_response).submitted).toBeFalsy();
             await expect(JSON.parse(updateReservation_response).errorMessage).toEqual("We are implementing a new process - please contact: Reservations@ReloQuest.comif you need to make any changes to this Reservation.");
+        })
+
+        test("Submit an NTE as Requestor", async ({webActions, reservation}) => {
+            console.info(`Submit NTE by the requestor.`);            
+            await webActions.login(`requestor`, `${ENV.RQPRO_BASE_URL}/reservation/${ENV.API_RESERVATION_UID}`, ENV.RQPRO_REQ_ADMIN, ENV.REQUESTOR_ADMIN_PASSWORD);
+            await reservation.verifyRqProReservationAcknowledge(ENV.API_RESERVATION_UID);
+            await reservation.submitExtension();
+            await reservation.verifyNoticeToVacateSubmitted(`Guest requested an Extension / checking availability with Supplier`, Element.ntv_status_waiting);
+                
+        })
+
+        test('As supplier verify the submitted NTE by requestor and approve the NTE', async ({webActions, reservation})=>{
+            test.slow();
+            console.info(`Verifying the submitted NTE by the requestor. ${ENV.API_RESERVATION_UID}`);
+            await webActions.login(`requestor`, `${ENV.RQPRO_BASE_URL}/reservation/${ENV.API_RESERVATION_UID}`, ENV.SUPPLIER_FOR_RQPRO_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);
+            await reservation.closeExtensionSubmitted();
+            await reservation.verifyNoticeToVacateSubmitted(`Guest requested an Extension / waiting for supplier approval`, Element.ntv_status_action_required);
+            console.info(`Approving the NTE.`);
+            await reservation.approveExtension();
+            await reservation.discardChanges();
+            await reservation.clickEditSegmentLink();
+            await reservation.acceptExtensionRateSegmentsTerms();
+            await reservation.verifyNoticeToVacateSubmitted(`Waiting for Requestor Approval / Supplier approved guest extension`, Element.ntv_status_waiting);    
+                //validate the activity log
         })
 
     })

@@ -22,4 +22,5 @@ export default class Checkbox{
     static guest_can_award_option               = `//input[@id='EXTENDED_PERMISSIONS_AWARD_OPTION']`;
     static guest_can_select_preferences         = `//input[@id='EXTENDED_PERMISSIONS_SELECT_OPTION_PREFERENCES']`;
     static send_to_supplier_network             = `//div[contains(@class,'client-area-modal')]//input[contains(@label,'Send to Supplier Network')]`;
+    static new_notice_to_vacate                 = `//input[@id='new-ntv-needed']`;
 }
