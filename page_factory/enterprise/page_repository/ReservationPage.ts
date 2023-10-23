@@ -31,9 +31,13 @@ export default class ReservationPage {
 
     async clickEditSegmentLink(){
         console.info(`Clicking edit rate segment link`);
+        await WebActions.delay(2500);
+        await this.page.waitForLoadState('domcontentloaded');
+        await this.page.waitForLoadState('networkidle');
         await this.page.locator(Link.edit_segment_details).first().click();
         await WebActions.delay(2500);
         await this.page.waitForLoadState('domcontentloaded');
+        await this.page.waitForLoadState('networkidle');
 
     }
 
@@ -342,6 +346,7 @@ export default class ReservationPage {
     async closeExtensionSubmitted(){
         await WebActions.delay(1000);
         console.info('Closing extension modal');
+        await this.page.pause();
         await this.page.waitForLoadState(`domcontentloaded`);
         await expect(await this.page.locator(Element.modal_nte_extension).count()).toEqual(1);
         await this.page.click(Element.modal_nte_extension_close);
@@ -384,6 +389,9 @@ export default class ReservationPage {
         await this.page.click(Checkbox.ntv_confirmation);
         await this.page.click(Checkbox.ntv_taxes_and_fees_acknowledge);
         // await this.page.pause()
+        if (await this.page.locator(Checkbox.new_notice_to_vacate).isVisible()){
+            await this.page.locator(Checkbox.new_notice_to_vacate).click();
+        }
         await this.page.click(Button.submit_changes);
     }
 
@@ -420,6 +428,7 @@ export default class ReservationPage {
         await expect(await (await this.page.locator(Element.edit_locak_modal_title).textContent()).trim()).toEqual("This is an RQ Pro Reservation");
     }
 
+<<<<<<< HEAD
     async allowSupplierEditIsVisible(){
         console.log(`Validating that Support role impersonated can see the unlock link.`);
         await this.page.waitForLoadState('domcontentloaded');
@@ -476,6 +485,17 @@ export default class ReservationPage {
         await WebActions.delay(600);
         await expect(await this.page.locator(`//li//li[contains(.,"${text}")]`).count()).toEqual(0)
         await this.page.click(Button.close);
+    }
+
+    async discardChanges(){
+        console.log(`Click 'Discard changes'`);
+        await WebActions.delay(2500);
+        await this.page.waitForLoadState('domcontentloaded');
+        await this.page.waitForLoadState('networkidle');
+        await this.page.locator(Button.discard_changes).click();
+        await WebActions.delay(2500);
+        await this.page.waitForLoadState('domcontentloaded');
+        await this.page.waitForLoadState('networkidle');
     }
 
 }
