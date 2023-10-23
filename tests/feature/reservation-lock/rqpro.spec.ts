@@ -162,12 +162,12 @@ test.describe.only('RQ Pro scenarios -- ',()=>{
             await reservation.acceptExtensionByRequestor();
             await dashboard.findReservation(ENV.API_RESERVATION_UID);
             await search.clickReservationIdLink();
-            await reservation.verifyNoticeToVacateSubmitted(`Notice given / Accepted`, Element.ntv_status_accepted);
+            await reservation.verifyNoticeToVacateSubmitted(`Notice is due in`, Element.ntv_status_message);
       
         })
 
         // JOSE
-        test.skip("T1601, T1602, T1603, T1614, T1620 Support Unlock validations -- ", async ({webActions, reservation, dashboard })=> {
+        test("T1601, T1602, T1603, T1614, T1620 Support Unlock validations -- ", async ({webActions, reservation, dashboard })=> {
             
             // T1602 => AS Support with NO privileges to unlock Reservations, navigate to the Reservation and validate that there is no Lcik to unlock
             console.info(`Login a as a Support and navigate to the Locked Reservation`);
@@ -192,8 +192,8 @@ test.describe.only('RQ Pro scenarios -- ',()=>{
         test("SM-T1612, SM-T1621, SM-T1623, SM-T1633 -- Supplier editing an Unlocked Reservation", async ({webActions, reservation, reservationEndpoints})=>{
 
             // T1612 => As a Supplier when viewing a unlocked I should see the message but not the activity log
-            console.info(`Logina as a Supplier and navigate to the Unlocked Reservation`);
-            await webActions.login(`supplier`, `${ENV.SUPPLIER_DOMAIN}/reservation/${ENV.API_RESERVATION_UID}`, ENV.SUPPLIER_FOR_RQPRO_ADMIN, ENV.SUPER_ADMIN_PASSWORD);
+            console.info(`Login as a Supplier and navigate to the Unlocked Reservation`);
+            await webActions.login(`supplier`, `${ENV.SUPPLIER_DOMAIN}/reservation/${ENV.API_RESERVATION_UID}`, ENV.SUPPLIER_FOR_RQPRO_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);
             // await webActions.login(`supplier`, `https://supstage.reloquest.com/reservation/RQR48D4E8`, ENV.SUPPLIER_FOR_RQPRO_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);   
             
             await reservation.validateUnlockedLabel();
@@ -219,7 +219,7 @@ test.describe.only('RQ Pro scenarios -- ',()=>{
                     }
                 ]
             }`
-            ENV.API_RESERVATION_UID = 'RQR48D4E8';
+            //ENV.API_RESERVATION_UID = 'RQR48D4E8';
             let reservationUpdate = await reservationEndpoints.updateReservation(ENV.RQPRO_BASE_URL,ENV.SUPPLIER_FOR_RQPRO_API_KEY, ENV.API_RESERVATION_UID, newRate);
              console.log(reservationUpdate)
     
@@ -230,12 +230,30 @@ test.describe.only('RQ Pro scenarios -- ',()=>{
 
             // T1633 => As a Supplier I should not be able to edit a locked Reservation (unlocked expired)
 
+            await webActions.refresh();
+            await reservation.clickEditSegmentLink();
+            await reservation.validateLockModal();
+
             
             // T1621 => API Supplier should not be able to edit a locked Reservation (unlocked expired)
-
-
-
-        })
+            let last_rate_segment = `{
+                "rate_segments": [
+                     {
+                         "start_date": "${ENV.START_DATE}",
+                         "end_date": "${ENV.END_DATE}",
+                         "rate": "264.0000000000",
+                         "property": ${Number(ENV.API_NT3_PROPERTY_ID)},
+                         "apartment_no":"APTO-3321"
+                         
+                     }
+                ]
+             }`
+            
+           let updateReservation_response = await reservationEndpoints.updateReservation(`${ENV.SUPPLIER_DOMAIN}`,ENV.SUPPLIER_FOR_RQPRO_API_KEY, ENV.API_RESERVATION_UID, last_rate_segment);
+            console.log(updateReservation_response);
+            await expect(JSON.parse(updateReservation_response).submitted).toBeFalsy();
+            await expect(JSON.parse(updateReservation_response).errorMessage).toEqual("We are implementing a new process - please contact: Reservations@ReloQuest.comif you need to make any changes to this Reservation.");
+         })
 
        
 
