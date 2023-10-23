@@ -60,7 +60,7 @@ const config: PlaywrightTestConfig = {
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on',
     browserName:'chromium',
-    headless:false,
+    headless:true,
     screenshot:'only-on-failure',
     video:'off'
     

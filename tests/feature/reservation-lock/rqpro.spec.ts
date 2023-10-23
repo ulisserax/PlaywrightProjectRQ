@@ -5,7 +5,7 @@ import Element from "@enterprise_objects/Element";
 const moment = require('moment');
 import Database from "@lib/Database";
 
-test.describe.only('RQ Pro scenarios -- ',()=>{
+test.describe('RQ Pro scenarios -- ',()=>{
 
     test.slow();
     let rqpro_guest_email = `edit-lock2@nt3reqrqpro.com`;
@@ -194,11 +194,8 @@ test.describe.only('RQ Pro scenarios -- ',()=>{
             // T1612 => As a Supplier when viewing a unlocked I should see the message but not the activity log
             console.info(`Login as a Supplier and navigate to the Unlocked Reservation`);
             await webActions.login(`supplier`, `${ENV.SUPPLIER_DOMAIN}/reservation/${ENV.API_RESERVATION_UID}`, ENV.SUPPLIER_FOR_RQPRO_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);
-            // await webActions.login(`supplier`, `https://supstage.reloquest.com/reservation/RQR48D4E8`, ENV.SUPPLIER_FOR_RQPRO_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);   
-            
             await reservation.validateUnlockedLabel();
             await reservation.notVisibleActivityLog(ENV.SUPPLIER_FOR_RQPRO_ADMIN,'Allow Supplier edits until:');
-    
             //       => As a Supplier I should be able to edit a Reservation (UI)
             await reservation.validateNumberOfDepositsSegments(2);
             await reservation.clickEditSegmentLink();
@@ -224,16 +221,13 @@ test.describe.only('RQ Pro scenarios -- ',()=>{
              console.log(reservationUpdate)
     
             // Expire the reservation_unlocked time
-            //ENV.API_RESERVATION_UID = 'RQR48D4E8';
             let expire_unlocked_time = `UPDATE smart_reservation SET reservation_edit_unlock_until = NOW() WHERE reservation_number = '${ENV.API_RESERVATION_UID}'`;
             await Database.execute('expire reservation_unlock time to lock it back',expire_unlocked_time);
 
             // T1633 => As a Supplier I should not be able to edit a locked Reservation (unlocked expired)
-
             await webActions.refresh();
             await reservation.clickEditSegmentLink();
             await reservation.validateLockModal();
-
             
             // T1621 => API Supplier should not be able to edit a locked Reservation (unlocked expired)
             let last_rate_segment = `{
@@ -254,12 +248,5 @@ test.describe.only('RQ Pro scenarios -- ',()=>{
             await expect(JSON.parse(updateReservation_response).submitted).toBeFalsy();
             await expect(JSON.parse(updateReservation_response).errorMessage).toEqual("We are implementing a new process - please contact: Reservations@ReloQuest.comif you need to make any changes to this Reservation.");
          })
-
-       
-
-        
-
     })
-
-
 })
