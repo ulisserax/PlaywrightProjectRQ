@@ -3,11 +3,6 @@ import test from "@lib/BaseTest";
 import ENV from "@utils/env";
 import Element from "@enterprise_objects/Element";
 const moment = require('moment');
-const Chance = require('chance');
-const chance = new Chance();
-import link from "@enterprise_objects/Link";
-import ReservationEndpoints from "@api/v1/ReservationEndpoints";
-import ReservationPage from "@enterprise_pages/ReservationPage";
 import Database from "@lib/Database";
 
 test.describe.only('RQ Pro scenarios -- ',()=>{
@@ -137,11 +132,45 @@ test.describe.only('RQ Pro scenarios -- ',()=>{
             await expect(JSON.parse(updateReservation_response).errorMessage).toEqual("We are implementing a new process - please contact: Reservations@ReloQuest.comif you need to make any changes to this Reservation.");
         })
 
+        test("Submit an NTE as Requestor", async ({webActions, reservation}) => {
+            console.info(`Submit NTE by the requestor.`);            
+            await webActions.login(`requestor`, `${ENV.RQPRO_BASE_URL}/reservation/${ENV.API_RESERVATION_UID}`, ENV.RQPRO_REQ_ADMIN, ENV.REQUESTOR_ADMIN_PASSWORD);
+            await reservation.verifyRqProReservationAcknowledge(ENV.API_RESERVATION_UID);
+            await reservation.submitExtension();
+            await reservation.verifyNoticeToVacateSubmitted(`Guest requested an Extension / checking availability with Supplier`, Element.ntv_status_waiting);
+                
+        })
+        //
+        test('SM-T1592, SM-T1593 ==> As supplier verify the submitted NTE by requestor and approve the NTE', async ({webActions, reservation})=>{
+            console.info(`Verifying the submitted NTE by the requestor.`);
+            await webActions.login(`supplier`, `${ENV.RQPRO_BASE_URL}/reservation/${ENV.API_RESERVATION_UID}`, ENV.SUPPLIER_FOR_RQPRO_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);
+            await reservation.closeExtensionSubmitted();
+            await reservation.verifyNoticeToVacateSubmitted(`Guest requested an Extension / waiting for supplier approval`, Element.ntv_status_action_required);
+            console.info(`Approving the NTE.`);
+            await reservation.approveExtension();
+            await reservation.discardChanges();
+            await reservation.clickEditSegmentLink();
+            await reservation.acceptExtensionRateSegmentsTerms();
+            await reservation.verifyNoticeToVacateSubmitted(`Waiting for Requestor Approval / Supplier approved guest extension`, Element.ntv_status_waiting);    
+        })
+
+        //add the requestor approved changes 
+        test('As requestor accept the NTE', async ({webActions, reservation,dashboard,search})=>{
+            console.info(`Accepting NTE by the requestor.`);            
+            await webActions.login(`requestor`, `${ENV.RQPRO_BASE_URL}/reservation/${ENV.API_RESERVATION_UID}`, ENV.RQPRO_REQ_ADMIN, ENV.REQUESTOR_ADMIN_PASSWORD);
+            await reservation.verifyNoticeToVacateSubmitted(`Supplier approved guest extension / waiting for Requestor approval`, Element.ntv_status_action_required);
+            await reservation.acceptExtensionByRequestor();
+            await dashboard.findReservation(ENV.API_RESERVATION_UID);
+            await search.clickReservationIdLink();
+            await reservation.verifyNoticeToVacateSubmitted(`Notice given / Accepted`, Element.ntv_status_accepted);
+      
+        })
+
         // JOSE
         test.skip("T1601, T1602, T1603, T1614, T1620 Support Unlock validations -- ", async ({webActions, reservation, dashboard })=> {
             
             // T1602 => AS Support with NO privileges to unlock Reservations, navigate to the Reservation and validate that there is no Lcik to unlock
-            console.info(`Logina as a Support and navigate to the Locked Reservation`);
+            console.info(`Login a as a Support and navigate to the Locked Reservation`);
             await webActions.login(`superadmin`, `${ENV.SUPPLIER_DOMAIN}/reservation/${ENV.API_RESERVATION_UID}`, ENV.SUPER_ADMIN, ENV.SUPER_ADMIN_PASSWORD);
             await dashboard.impersonate(ENV.SUPPORT_NO_UNLOCK);
             await reservation.allowSupplierEditIsNotVisible();
@@ -160,12 +189,12 @@ test.describe.only('RQ Pro scenarios -- ',()=>{
             
         })
 
-        test.skip ("T612, T1621, T623, T1633 -- Suplier editing an Unlocked Reservation", async ({webActions, reservation, reservationEndpoints})=>{
+        test("SM-T1612, SM-T1621, SM-T1623, SM-T1633 -- Supplier editing an Unlocked Reservation", async ({webActions, reservation, reservationEndpoints})=>{
 
             // T1612 => As a Supplier when viewing a unlocked I should see the message but not the activity log
             console.info(`Logina as a Supplier and navigate to the Unlocked Reservation`);
-            //await webActions.login(`supplier`, `${ENV.SUPPLIER_DOMAIN}/reservation/${ENV.API_RESERVATION_UID}`, ENV.SUPPLIER_FOR_RQPRO_ADMIN, ENV.SUPER_ADMIN_PASSWORD);
-            await webActions.login(`supplier`, `https://supstage.reloquest.com/reservation/RQR48D4E8`, ENV.SUPPLIER_FOR_RQPRO_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);   
+            await webActions.login(`supplier`, `${ENV.SUPPLIER_DOMAIN}/reservation/${ENV.API_RESERVATION_UID}`, ENV.SUPPLIER_FOR_RQPRO_ADMIN, ENV.SUPER_ADMIN_PASSWORD);
+            // await webActions.login(`supplier`, `https://supstage.reloquest.com/reservation/RQR48D4E8`, ENV.SUPPLIER_FOR_RQPRO_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);   
             
             await reservation.validateUnlockedLabel();
             await reservation.notVisibleActivityLog(ENV.SUPPLIER_FOR_RQPRO_ADMIN,'Allow Supplier edits until:');
@@ -195,7 +224,7 @@ test.describe.only('RQ Pro scenarios -- ',()=>{
              console.log(reservationUpdate)
     
             // Expire the reservation_unlocked time
-            ENV.API_RESERVATION_UID = 'RQR48D4E8';
+            //ENV.API_RESERVATION_UID = 'RQR48D4E8';
             let expire_unlocked_time = `UPDATE smart_reservation SET reservation_edit_unlock_until = NOW() WHERE reservation_number = '${ENV.API_RESERVATION_UID}'`;
             await Database.execute('expire reservation_unlock time to lock it back',expire_unlocked_time);
 
@@ -208,44 +237,9 @@ test.describe.only('RQ Pro scenarios -- ',()=>{
 
         })
 
-        // JOSE
+       
 
-        test("Submit an NTE as Requestor", async ({webActions, reservation}) => {
-            console.info(`Submit NTE by the requestor.`);            
-            await webActions.login(`requestor`, `${ENV.RQPRO_BASE_URL}/reservation/${ENV.API_RESERVATION_UID}`, ENV.RQPRO_REQ_ADMIN, ENV.REQUESTOR_ADMIN_PASSWORD);
-            await reservation.verifyRqProReservationAcknowledge(ENV.API_RESERVATION_UID);
-            await reservation.submitExtension();
-            await reservation.verifyNoticeToVacateSubmitted(`Guest requested an Extension / checking availability with Supplier`, Element.ntv_status_waiting);
-                
-        })
-        //
-        test('SM-T1592, SM-T1593 ==> As supplier verify the submitted NTE by requestor and approve the NTE', async ({webActions, reservation})=>{
-            console.info(`Verifying the submitted NTE by the requestor.`);
-            await webActions.login(`requestor`, `${ENV.RQPRO_BASE_URL}/reservation/${ENV.API_RESERVATION_UID}`, ENV.SUPPLIER_FOR_RQPRO_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);
-            await reservation.closeExtensionSubmitted();
-            await reservation.verifyNoticeToVacateSubmitted(`Guest requested an Extension / waiting for supplier approval`, Element.ntv_status_action_required);
-            console.info(`Approving the NTE.`);
-            await reservation.approveExtension();
-            await reservation.discardChanges();
-            await reservation.clickEditSegmentLink();
-            await reservation.acceptExtensionRateSegmentsTerms();
-            await reservation.verifyNoticeToVacateSubmitted(`Waiting for Requestor Approval / Supplier approved guest extension`, Element.ntv_status_waiting);    
-                //validate the activity log
-        })
-
-        test('Validating RQ Pro reservation is Locked for support user without permission', async ({webActions, reservation})=>{
-            console.info(`Validating RQ Pro reservation is Locked for support user without permission.`);
-            await webActions.login(`support wihtout permission`, `${ENV.RQPRO_BASE_URL}/reservation/${ENV.API_RESERVATION_UID}`, ENV.SUPPLIER_FOR_RQPRO_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);
-            await reservation.closeExtensionSubmitted();
-            await reservation.verifyNoticeToVacateSubmitted(`Guest requested an Extension / waiting for supplier approval`, Element.ntv_status_action_required);
-            console.info(`Approving the NTE.`);
-            await reservation.approveExtension();
-            await reservation.discardChanges();
-            await reservation.clickEditSegmentLink();
-            await reservation.acceptExtensionRateSegmentsTerms();
-            await reservation.verifyNoticeToVacateSubmitted(`Waiting for Requestor Approval / Supplier approved guest extension`, Element.ntv_status_waiting);    
-                //validate the activity log
-        })
+        
 
     })
 
