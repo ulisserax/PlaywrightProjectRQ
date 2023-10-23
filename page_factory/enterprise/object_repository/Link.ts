@@ -46,7 +46,8 @@ export default class Link{
     static get_shared_link_options       = `//div[@id='share_log']//table[contains(@class,'share-log')]/tbody//a[contains(@class,'get-link-shared-options')]`;
     static remove_directed_area     = `//table/tbody//a[text()='Remove']`;
     static edit_directed_area       = `//table/tbody//a[text()='Edit']`;
-   
+    static allow_supplier_edit      = `//a[@data-target='#unlock-reservation-modal']`
+
     static remove(num: number) {
         return `(//tr//td//a[contains(text(),'Remove')])[${num}]`;
     }

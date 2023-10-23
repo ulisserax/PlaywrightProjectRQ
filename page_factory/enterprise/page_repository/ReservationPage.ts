@@ -420,4 +420,62 @@ export default class ReservationPage {
         await expect(await (await this.page.locator(Element.edit_locak_modal_title).textContent()).trim()).toEqual("This is an RQ Pro Reservation");
     }
 
+    async allowSupplierEditIsVisible(){
+        console.log(`Validating that Support role impersonated can see the unlock link.`);
+        await this.page.waitForLoadState('domcontentloaded');
+        await this.page.waitForLoadState('networkidle');
+        await WebActions.delay(1000);
+        //await expect(this.page.locator(Link.allow_supplier_edit).first()).toBeVisible();
+        await expect(await this.page.locator(Link.allow_supplier_edit).count()).toEqual(1);
+    }
+
+    async allowSupplierEditIsNotVisible(){
+        console.log(`Validating that Support role impersonated can NOT see the unlock link.`);
+        await this.page.waitForLoadState('domcontentloaded');
+        await this.page.waitForLoadState('networkidle');
+        await WebActions.delay(1000);
+        await expect(await this.page.locator(Link.allow_supplier_edit).count()).toEqual(0);
+    }
+
+    async unlockResevation(){
+        console.log(`Unlocking a Reservation to allow Supplier to edit.`);
+        await this.page.click(Link.allow_supplier_edit);
+        await this.page.waitForSelector(Text.confirm_unlock);
+        await this.page.click(Button.unlock);
+        await this.page.waitForSelector(Text.unlocked_confirmation);
+        await this.page.click(Button.close_confirmation);
+        await WebActions.delay(300);
+    }
+
+    async validateUnlockedLabel(){
+        console.info('Validating that the label for the unlocked Reservation is present.');
+        await WebActions.delay(300);
+        await this.page.waitForLoadState('networkidle');
+        await this.page.waitForLoadState('domcontentloaded');
+        await expect(await this.page.locator(Text.reservation_is_editable).count()).toEqual(1);
+    }
+
+    async validateActivityLog(user:string , text:string){
+        console.info('Validating if the Activity Log shows the reservation_unlocked record.');
+        await this.page.click(Button.activity_log);
+        await WebActions.delay(600);
+        await this.page.waitForLoadState('networkidle');
+        await this.page.waitForLoadState('domcontentloaded');
+        await WebActions.delay(600);
+        await expect(await this.page.locator(Element.activity_log_modal_li).first().textContent()).toContain(user);
+        await expect(await this.page.locator(Element.activity_log_modal_li).first().textContent()).toContain(text);
+        await this.page.click(Button.close);
+    }
+
+    async notVisibleActivityLog(user:string, text:string){
+        console.info(`Validating that the Activity Log does NOT shows the reservation_unlocked record to ${user}.`);
+        await this.page.click(Button.activity_log);
+        await WebActions.delay(600);
+        await this.page.waitForLoadState('networkidle');
+        await this.page.waitForLoadState('domcontentloaded');
+        await WebActions.delay(600);
+        await expect(await this.page.locator(`//li//li[contains(.,"${text}")]`).count()).toEqual(0)
+        await this.page.click(Button.close);
+    }
+
 }

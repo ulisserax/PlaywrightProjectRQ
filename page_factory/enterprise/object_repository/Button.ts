@@ -124,4 +124,6 @@ export default class Button{
     static decline                        = `//table[@id='reservation_list']//button[contains(text(),'Decline')]`;
     static decline_changes                = `//div[@id='reject-modal']//button[contains(text(),'Decline Changes')]`;
     static remove                         = `//button[contains(.,'Remove')]`;
+    static unlock                         = `//button[@type='submit' and contains(., 'Unlock')]`;
+    static close_confirmation             = `//button[@data-handler='Close']`;
 }
