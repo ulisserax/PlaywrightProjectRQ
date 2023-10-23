@@ -127,6 +127,8 @@ export default class ENV{
     static NT3REQ_NO_RQPRO             = process.env.NT3REQ_NO_RQPRO
     static SUPPLIER_FOR_RQPRO_ADMIN    = process.env.SUPPLIER_FOR_RQPRO_ADMIN
     static SUPPLIER_FOR_RQPRO_API_KEY  = process.env.SUPPLIER_FOR_RQPRO_API_KEY
+    static SUPPORT_NO_UNLOCK           = process.env.SUPPORT_NO_UNLOCK
+    static SUPPORT_UNLOCK              = process.env.SUPPORT_UNLOCK
 
     static RQPRO_GUEST_EMAIL           = `${this.GUEST_FIRSTNAME}_${chance.integer({min:0,max:9999})}@${this.RQPRO_COMPANY}.com`;
 
