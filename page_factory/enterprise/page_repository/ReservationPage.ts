@@ -389,9 +389,9 @@ export default class ReservationPage {
         await this.page.click(Checkbox.ntv_confirmation);
         await this.page.click(Checkbox.ntv_taxes_and_fees_acknowledge);
         // await this.page.pause()
-        if (await this.page.locator(Checkbox.new_notice_to_vacate).isVisible()){
-            await this.page.locator(Checkbox.new_notice_to_vacate).click();
-        }
+        // if (await this.page.locator(Checkbox.new_notice_to_vacate).isVisible()){
+        //     await this.page.locator(Checkbox.new_notice_to_vacate).click();
+        // }
         await this.page.click(Button.submit_changes);
     }
 

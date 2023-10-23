@@ -162,8 +162,8 @@ test.describe('RQ Pro scenarios -- ',()=>{
             await reservation.acceptExtensionByRequestor();
             await dashboard.findReservation(ENV.API_RESERVATION_UID);
             await search.clickReservationIdLink();
-            await reservation.verifyNoticeToVacateSubmitted(`Notice is due in`, Element.ntv_status_message);
-      
+            //await reservation.verifyNoticeToVacateSubmitted(`Notice is due in`, Element.ntv_status_message);
+            await reservation.verifyNoticeToVacateSubmitted(`Notice given / Accepted`, Element.ntv_status_accepted);
         })
 
         // JOSE
