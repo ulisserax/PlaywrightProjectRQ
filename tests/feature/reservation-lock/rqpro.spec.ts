@@ -167,7 +167,7 @@ test.describe('RQ Pro scenarios -- ',()=>{
         })
 
         // JOSE
-        test("T1601, T1602, T1603, T1614, T1620 Support Unlock validations -- ", async ({webActions, reservation, dashboard })=> {
+        test("SM-T1601, SM-T1602, SM-T1603, SM-T1614, SM-T1620 Support Unlock validations -- ", async ({webActions, reservation, dashboard })=> {
             
             // T1602 => AS Support with NO privileges to unlock Reservations, navigate to the Reservation and validate that there is no Lcik to unlock
             console.info(`Login a as a Support and navigate to the Locked Reservation`);
