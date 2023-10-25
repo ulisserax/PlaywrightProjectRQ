@@ -36,7 +36,7 @@ test.describe('Reservation-Edit-Lock for RQ Pro -- ', ()=>{
 
     test.describe.serial('Edit a non-locked RQ Pro Reservation -- ',()=>{
 
-        test('T1590, T1591 - Edit through the UI and API a non-RQ Pro Reservation on both locked and unlocked scenarios', async ({webActions, requestShow,reservationEndpoints, reservation}) => {
+        test('SM-T1590, SM-T1591 - Edit through the UI and API a non-RQ Pro Reservation on both locked and unlocked scenarios', async ({webActions, requestShow,reservationEndpoints, reservation}) => {
             await webActions.login(`supplier`, `${ENV.SUPPLIER_DOMAIN}/request/show/${ENV.API_REQUEST_UID}`, ENV.SUPPLIER_FOR_RQPRO_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);
             await requestShow.acknowledgeAward(ENV.ACKNOWLEDGE_AWARD['Accept']);
 

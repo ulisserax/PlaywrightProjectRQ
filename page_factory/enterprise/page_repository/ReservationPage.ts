@@ -340,13 +340,13 @@ export default class ReservationPage {
         //await this.page.waitForResponse(resp => resp.url().includes('v1/api/ntvs?reservationId=') && resp.status() === 200);
 
         await this.page.waitForSelector(ntv_status_style);    
-        await expect(await this.page.locator(Text.ntv_status).textContent()).toContain(message);
+        await expect(await this.page.locator(Text.ntv_status).first().textContent()).toContain(message);
     }
  
     async closeExtensionSubmitted(){
         await WebActions.delay(1000);
         console.info('Closing extension modal');
-        await this.page.pause();
+        // await this.page.pause();
         await this.page.waitForLoadState(`domcontentloaded`);
         await expect(await this.page.locator(Element.modal_nte_extension).count()).toEqual(1);
         await this.page.click(Element.modal_nte_extension_close);
@@ -389,9 +389,9 @@ export default class ReservationPage {
         await this.page.click(Checkbox.ntv_confirmation);
         await this.page.click(Checkbox.ntv_taxes_and_fees_acknowledge);
         // await this.page.pause()
-        if (await this.page.locator(Checkbox.new_notice_to_vacate).isVisible()){
-            await this.page.locator(Checkbox.new_notice_to_vacate).click();
-        }
+        // if (await this.page.locator(Checkbox.new_notice_to_vacate).isVisible()){
+        //     await this.page.locator(Checkbox.new_notice_to_vacate).click();
+        // }
         await this.page.click(Button.submit_changes);
     }
 
@@ -428,7 +428,7 @@ export default class ReservationPage {
         await expect(await (await this.page.locator(Element.edit_locak_modal_title).textContent()).trim()).toEqual("This is an RQ Pro Reservation");
     }
 
-<<<<<<< HEAD
+
     async allowSupplierEditIsVisible(){
         console.log(`Validating that Support role impersonated can see the unlock link.`);
         await this.page.waitForLoadState('domcontentloaded');
