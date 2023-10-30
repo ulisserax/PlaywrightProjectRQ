@@ -129,6 +129,7 @@ export default class ENV{
     static SUPPLIER_FOR_RQPRO_API_KEY  = process.env.SUPPLIER_FOR_RQPRO_API_KEY
     static SUPPORT_NO_UNLOCK           = process.env.SUPPORT_NO_UNLOCK
     static SUPPORT_UNLOCK              = process.env.SUPPORT_UNLOCK
+    static RESERVATION_LOCK_DAYS       = process.env.RESERVATION_LOCK_DAYS
 
     static RQPRO_GUEST_EMAIL           = `${this.GUEST_FIRSTNAME}_${chance.integer({min:0,max:9999})}@${this.RQPRO_COMPANY}.com`;
 

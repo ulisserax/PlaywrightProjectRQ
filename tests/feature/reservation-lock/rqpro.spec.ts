@@ -16,7 +16,14 @@ test.describe('RQ Pro scenarios -- ',()=>{
         const _createRequestResponse = await requestEndpoints.createRequest(ENV.RQPRO_BASE_URL, ENV.RQPRO_REQ_API_KEY, Number(ENV.NT3REQ_RQPRO_EDIT_LOCK), 'Miami, FL, USA', ENV.START_DATE, ENV.END_DATE, ENV.GUEST_FIRSTNAME, ENV.GUEST_LASTNAME, rqpro_guest_email, `7863256523`, ENV.API_REQUEST_TYPE['Corporate']);
         ENV.API_REQUEST_UID = `${JSON.parse(_createRequestResponse).request_id}`;
         console.info(`REQUEST_UID: ${ENV.API_REQUEST_UID}`);
-    
+        
+        // Get the Request's RESERVATION_LOCK_DAYS field value
+        const request_uid = ENV.API_REQUEST_UID.split('RQ')[1].trim();
+        const get_reservation_lock_days = `SELECT reservation_lock_days FROM smart_request WHERE uid = '${request_uid}';`;
+        let result  =  await Database.execute(`Get the request's reservation_lock_days value`, get_reservation_lock_days);
+        ENV.RESERVATION_LOCK_DAYS = result[0].reservation_lock_days;
+        console.info(`lock_days: ${ENV.RESERVATION_LOCK_DAYS}`);
+
         //Bid a option for the request
         console.info(`Submitting an Option to an EB2E RQPro Request through the V1 API.`);
         const _optionCreateResponse = await optionEndpoints.optionCreate(ENV.RQPRO_BASE_URL, ENV.SUPPLIER_FOR_RQPRO_API_KEY, ENV.SUPPLIER_COMPANY_FOR_RQPRO_EMAIL, ENV.API_REQUEST_UID, Number(ENV.API_NT3_PROPERTY_ID), ENV.START_DATE, ENV.END_DATE, ENV.RATE_FEE_TYPE['Night']);
@@ -68,7 +75,6 @@ test.describe('RQ Pro scenarios -- ',()=>{
             await reservation.submitSegmentChanges();
             await reservation.validateNumberOfDepositsSegments(1);
 
-            //let date = moment().add(-5,"day").format("YYYY-MM-DD")
             let get_reservation_response = await reservationEndpoints.getReservationByUid(`${ENV.SUPPLIER_DOMAIN}`,ENV.SUPPLIER_FOR_RQPRO_API_KEY, ENV.API_RESERVATION_UID);
             let fee_seg = JSON.parse(get_reservation_response).fee_segments;
             let segments = JSON.stringify(fee_seg).replace('[','').replace(']','');         
@@ -129,7 +135,7 @@ test.describe('RQ Pro scenarios -- ',()=>{
            updateReservation_response = await reservationEndpoints.updateReservation(`${ENV.SUPPLIER_DOMAIN}`,ENV.SUPPLIER_FOR_RQPRO_API_KEY, ENV.API_RESERVATION_UID, last_rate_segment);
             console.log(updateReservation_response);
             await expect(JSON.parse(updateReservation_response).submitted).toBeFalsy();
-            await expect(JSON.parse(updateReservation_response).errorMessage).toEqual("We are implementing a new process - please contact: Reservations@ReloQuest.comif you need to make any changes to this Reservation.");
+            await expect(JSON.parse(updateReservation_response).errorMessage).toContain(`You cannot make changes to a Reservation that is more than ${ENV.RESERVATION_LOCK_DAYS} days past the Lease Start Date. If you have any questions`);
         })
 
         test("Submit an NTE as Requestor", async ({webActions, reservation}) => {
@@ -162,21 +168,19 @@ test.describe('RQ Pro scenarios -- ',()=>{
             await reservation.acceptExtensionByRequestor();
             await dashboard.findReservation(ENV.API_RESERVATION_UID);
             await search.clickReservationIdLink();
-            //await reservation.verifyNoticeToVacateSubmitted(`Notice is due in`, Element.ntv_status_message);
             await reservation.verifyNoticeToVacateSubmitted(`Notice given / Accepted`, Element.ntv_status_accepted);
         })
 
-        // JOSE
-        test("SM-T1601, SM-T1602, SM-T1603, SM-T1614, SM-T1620 Support Unlock validations -- ", async ({webActions, reservation, dashboard })=> {
+        test("SM-T1601, SM-T1602, SM-T1603, SM-T1614, SM-T1620 Support Unlock validations ", async ({webActions, reservation, dashboard })=> {
             
-            // T1602 => AS Support with NO privileges to unlock Reservations, navigate to the Reservation and validate that there is no Lcik to unlock
+            // T1602 => AS Support with NO privileges to unlock Reservations, navigate to the Reservation and validate that there is no Link to unlock
             console.info(`Login a as a Support and navigate to the Locked Reservation`);
             await webActions.login(`superadmin`, `${ENV.SUPPLIER_DOMAIN}/reservation/${ENV.API_RESERVATION_UID}`, ENV.SUPER_ADMIN, ENV.SUPER_ADMIN_PASSWORD);
             await dashboard.impersonate(ENV.SUPPORT_NO_UNLOCK);
             await reservation.allowSupplierEditIsNotVisible();
             await dashboard.exit_impersonation();
 
-            // T1601 => As a support user with the permission to unlock a reservation i should be able to unlock the reservation
+            // T1601 => As a Support user with the permission to unlock a Reservation I should be able to unlock the Reservation
             await dashboard.impersonate(ENV.SUPPORT_UNLOCK);
             await webActions.navigateTo(`${ENV.SUPPLIER_DOMAIN}/reservation/${ENV.API_RESERVATION_UID}`);
             await reservation.allowSupplierEditIsVisible();
@@ -216,7 +220,7 @@ test.describe('RQ Pro scenarios -- ',()=>{
                     }
                 ]
             }`
-            //ENV.API_RESERVATION_UID = 'RQR48D4E8';
+        
             let reservationUpdate = await reservationEndpoints.updateReservation(ENV.RQPRO_BASE_URL,ENV.SUPPLIER_FOR_RQPRO_API_KEY, ENV.API_RESERVATION_UID, newRate);
              console.log(reservationUpdate)
     
@@ -224,12 +228,12 @@ test.describe('RQ Pro scenarios -- ',()=>{
             let expire_unlocked_time = `UPDATE smart_reservation SET reservation_edit_unlock_until = NOW() WHERE reservation_number = '${ENV.API_RESERVATION_UID}'`;
             await Database.execute('expire reservation_unlock time to lock it back',expire_unlocked_time);
 
-            // T1633 => As a Supplier I should not be able to edit a locked Reservation (unlocked expired)
+            // T1633 => As a Supplier I should not be able to edit a locked Reservation (unlocked expired) --> UI
             await webActions.refresh();
             await reservation.clickEditSegmentLink();
             await reservation.validateLockModal();
             
-            // T1621 => API Supplier should not be able to edit a locked Reservation (unlocked expired)
+            // T1621 => API Supplier should not be able to edit a locked Reservation (unlocked expired) --> API
             let last_rate_segment = `{
                 "rate_segments": [
                      {
@@ -246,7 +250,7 @@ test.describe('RQ Pro scenarios -- ',()=>{
            let updateReservation_response = await reservationEndpoints.updateReservation(`${ENV.SUPPLIER_DOMAIN}`,ENV.SUPPLIER_FOR_RQPRO_API_KEY, ENV.API_RESERVATION_UID, last_rate_segment);
             console.log(updateReservation_response);
             await expect(JSON.parse(updateReservation_response).submitted).toBeFalsy();
-            await expect(JSON.parse(updateReservation_response).errorMessage).toEqual("We are implementing a new process - please contact: Reservations@ReloQuest.comif you need to make any changes to this Reservation.");
+            await expect(JSON.parse(updateReservation_response).errorMessage).toContain(`You cannot make changes to a Reservation that is more than ${ENV.RESERVATION_LOCK_DAYS} days past the Lease Start Date. If you have any questions`);
          })
     })
 })
