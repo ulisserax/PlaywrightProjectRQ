@@ -116,7 +116,5 @@ test.describe('Reservation-Edit-Lock for RQ Pro -- ', ()=>{
             await reservation.validateNumberOfDepositsSegments(3);
 
         })
-        
-        // Test Cases
     })
 })
