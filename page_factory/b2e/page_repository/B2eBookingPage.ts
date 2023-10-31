@@ -44,10 +44,10 @@ export default class B2eBookingPage {
         await WebActions.delay(4000);
         await this.page.context().pages()[1].waitForSelector(Input.card_holder);
         await this.page.context().pages()[1].locator(Input.card_holder).type(chance.name(), {delay:30});
-        await this.page.context().pages()[1].frameLocator(Iframe.card_number).locator(Input.credit_card_number).type(`${credit_card}`, {delay:30});
-        await this.page.context().pages()[1].frameLocator(Iframe.card_expiry).locator(Input.card_expiration).type(`${card_expiration}`, {delay:30});
-        await this.page.context().pages()[1].frameLocator(Iframe.card_cvc).locator(Input.card_cvc).type(`${card_cvc}`, {delay:30});
-        await this.page.context().pages()[1].frameLocator(Iframe.zip_code).locator(Input.card_postal).type(`${zip_code}`, {delay:30});
+        await this.page.context().pages()[1].frameLocator(Iframe.card_number).first().locator(Input.credit_card_number).type(`${credit_card}`, {delay:30});
+        await this.page.context().pages()[1].frameLocator(Iframe.card_expiry).first().locator(Input.card_expiration).type(`${card_expiration}`, {delay:30});
+        await this.page.context().pages()[1].frameLocator(Iframe.card_cvc).first().locator(Input.card_cvc).type(`${card_cvc}`, {delay:30});
+        await this.page.context().pages()[1].frameLocator(Iframe.zip_code).first().locator(Input.card_postal).type(`${zip_code}`, {delay:30});
     }
 
     async completeYourQuest(){

@@ -69,10 +69,10 @@ export default class B2eQuestDetailsPage {
     async fillPayment(credit_card:string, card_expiration:string, card_cvc:string, zip_code:string ){
         console.info(`Editing payment information`);
         await this.page.locator(Input.card_holder).type(chance.name(), {delay:30});
-        await this.page.frameLocator(Iframe.card_number).locator(Input.credit_card_number).type(`${credit_card}`, {delay:30});
-        await this.page.frameLocator(Iframe.card_expiry).locator(Input.card_expiration).type(`${card_expiration}`, {delay:30});
-        await this.page.frameLocator(Iframe.card_cvc).locator(Input.card_cvc).type(`${card_cvc}`, {delay:30});
-        await this.page.frameLocator(Iframe.zip_code).locator(Input.card_postal).type(`${zip_code}`, {delay:30});
+        await this.page.frameLocator(Iframe.card_number).first().locator(Input.credit_card_number).type(`${credit_card}`, {delay:30});
+        await this.page.frameLocator(Iframe.card_expiry).first().locator(Input.card_expiration).type(`${card_expiration}`, {delay:30});
+        await this.page.frameLocator(Iframe.card_cvc).first().locator(Input.card_cvc).type(`${card_cvc}`, {delay:30});
+        await this.page.frameLocator(Iframe.zip_code).first().locator(Input.card_postal).type(`${zip_code}`, {delay:30});
     }
 
     async savePaymentMethod(){
