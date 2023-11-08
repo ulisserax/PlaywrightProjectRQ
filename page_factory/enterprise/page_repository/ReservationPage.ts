@@ -426,8 +426,22 @@ export default class ReservationPage {
         console.log(`Validating the reservation is locked and can't be edited.`);
         await expect(await this.page.locator(Element.edit_lock_modal).isVisible()).toBeTruthy();
         await expect(await (await this.page.locator(Element.edit_locak_modal_title).textContent()).trim()).toEqual("This is an RQ Pro Reservation");
+        await expect(await this.page.locator(Button.create_service_issue).isVisible()).toBeTruthy();
     }
 
+    async clickOnCreateServiceIssue(){
+        console.log(`Clicking on the Create Service Issue button`);
+        await this.page.click(Button.create_service_issue);
+        await WebActions.delay(300);
+        await this.page.waitForLoadState('domcontentloaded');
+        await this.page.waitForLoadState('networkidle');
+    }
+
+    async validateRedirectionToServiceIssueEditLock(){
+        console.log(`Validating that the Supplier was redirected to the Service Issue form from the edit-lock modal`);
+        await WebActions.delay(300);
+        await expect(await this.page.url()).toContain(`?issue_type=edit_lock`);
+    }
 
     async allowSupplierEditIsVisible(){
         console.log(`Validating that Support role impersonated can see the unlock link.`);
