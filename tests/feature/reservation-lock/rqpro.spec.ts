@@ -119,7 +119,7 @@ test.describe('RQ Pro scenarios -- ',()=>{
             await webActions.refresh();
             await reservation.clickEditSegmentLink();
             await reservation.validateLockModal();
-            await reservation.ClickOnCreateServiceIssue();
+            await reservation.clickOnCreateServiceIssue();
             await reservation.validateRedirectionToServiceIssueEditLock();
             await serviceIssue.createServiceIssueEditLock(ENV.API_RESERVATION_UID);
             await requestShow.validateServiceIssueWasCreated(ENV.API_RESERVATION_UID);
@@ -237,7 +237,7 @@ test.describe('RQ Pro scenarios -- ',()=>{
             await webActions.refresh();
             await reservation.clickEditSegmentLink();
             await reservation.validateLockModal();
-            await reservation.ClickOnCreateServiceIssue();
+            await reservation.clickOnCreateServiceIssue();
             //We don't need to validate the service issue creation here again
             
             // T1621 => API Supplier should not be able to edit a locked Reservation (unlocked expired) --> API
