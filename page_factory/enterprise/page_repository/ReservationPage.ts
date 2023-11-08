@@ -429,7 +429,7 @@ export default class ReservationPage {
         await expect(await this.page.locator(Button.create_service_issue).isVisible()).toBeTruthy();
     }
 
-    async ClickOnCreateServiceIssue(){
+    async clickOnCreateServiceIssue(){
         console.log(`Clicking on the Create Service Issue button`);
         await this.page.click(Button.create_service_issue);
         await WebActions.delay(300);
