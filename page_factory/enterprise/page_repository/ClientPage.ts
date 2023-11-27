@@ -219,6 +219,7 @@ export default class ClientPage {
             await WebActions.delay(1000);
             await this.page.click(Dropdown.modal_include_supplier);
             await this.page.click(Dropdown.includeSupplierModal(included_supplier));
+            await this.page.click(Dropdown.modal_include_supplier);
             //await this.page.keyboard.press('Escape');
             //await this.page.keyboard.press('Tab');
             await this.page.click(Dropdown.modal_exclude_supplier);
@@ -271,6 +272,7 @@ export default class ClientPage {
         await WebActions.delay(1000);
         await this.page.click(Dropdown.modal_include_supplier);
         await this.page.click(Dropdown.includeSupplierModal(excluded_supplier));
+        await this.page.click(Dropdown.modal_include_supplier);
         await this.page.click(Dropdown.modal_exclude_supplier);
         await this.page.click(Dropdown.excludeSupplierModal(directed_supplier));
         await WebActions.delay(1000);
