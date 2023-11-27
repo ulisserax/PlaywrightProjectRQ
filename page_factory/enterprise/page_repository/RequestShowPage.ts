@@ -199,6 +199,8 @@ export default class RequestShowPage {
 
     async validateServiceIssueWasCreated(description: string): Promise<void>{
         console.info(`Validate that service issue was created`);
+        await WebActions.delay(300);
+        await this.page.waitForLoadState('networkidle');
         await this.page.waitForLoadState('domcontentloaded');
         await expect(await this.page.locator(Element.service_issue_created(description)).count()).toBeGreaterThanOrEqual(1);
     }

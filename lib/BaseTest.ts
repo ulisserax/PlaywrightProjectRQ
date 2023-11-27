@@ -1,4 +1,5 @@
 import { test as baseTest } from "@playwright/test";
+import { request, APIRequestContext } from '@playwright/test';
 import Dashboard from "@enterprise_pages/DashboardPage";
 import HomePage from "@enterprise_pages/HomePage";
 import NewRequest from "@enterprise_pages/NewRequestPage";
@@ -175,7 +176,7 @@ const test = baseTest.extend<{
     b2eServices: async ({ page }, use) => {
         await use(new B2eServices(page));
     },
-    reservationEndpoints: async ({ request }, use) => {
+    reservationEndpoints: async ({ request}, use) => {
         await use(new ReservationEndpoints(request));
     },
     requestEndpoints: async ({ request }, use) => {

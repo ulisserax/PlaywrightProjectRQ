@@ -119,4 +119,21 @@ export default class ServiceIssuePage {
         await expect(await this.page.locator(Text.service_issue_resolved).textContent()).toEqual('RESOLVED');
     }
 
+    async createServiceIssueEditLock(reservation: string){
+        console.info(`Create a - Reservation edit request - through the Service Issue flow`);
+        await this.validateEditLockDefaults();
+        await this.page.type(Textarea.describe_issue, `Service Issue for Requesting Edit Reservation ${reservation} `, {delay:20});
+        await this.submitServiceIssue();
+        await WebActions.delay(300);
+        await this.page.waitForLoadState('networkidle');
+        await this.page.waitForLoadState('domcontentloaded');
+    }
+
+    async validateEditLockDefaults(){
+        console.info(`Validating that the Type and Urgency are preloaded with the expected values for editLock Service Issue`);
+        await expect (await this.page.locator(Dropdown.service_issue_type).nth(0).textContent()).toContain('*** Edit Reservation Request ***');
+        await expect (await this.page.locator(Dropdown.service_issue_urgency).nth(0).textContent()).toContain('HIGH');
+
+    }
+
 }

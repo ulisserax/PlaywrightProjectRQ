@@ -10,14 +10,15 @@ import Element from "@enterprise_objects/Element";
 import ENV from "@utils/env";
 import Dropdown from "@enterprise_objects/Dropdown";
 import Textarea from "@enterprise_objects/Textarea";
+
 const Chance = require ('chance');
 const chance = new Chance();
-
+const moment = require('moment');
 
 export default class ReservationPage {
     readonly page: Page;
 
-    constructor(page){
+    constructor (page: Page){
         this.page = page;
     }
 
@@ -30,8 +31,13 @@ export default class ReservationPage {
 
     async clickEditSegmentLink(){
         console.info(`Clicking edit rate segment link`);
-        await this.page.locator(Link.edit_segment_details).first().click();
+        await WebActions.delay(2500);
         await this.page.waitForLoadState('domcontentloaded');
+        await this.page.waitForLoadState('networkidle');
+        await this.page.locator(Link.edit_segment_details).first().click();
+        await WebActions.delay(2500);
+        await this.page.waitForLoadState('domcontentloaded');
+        await this.page.waitForLoadState('networkidle');
 
     }
 
@@ -55,8 +61,9 @@ export default class ReservationPage {
         console.info(`Submiting the segments changes`);
         await this.page.click(Checkbox.edit_segment_understand);
         await this.page.click(Button.submit_changes);
-        await this.page.waitForLoadState('domcontentloaded');
         await WebActions.delay(2500);
+        await this.page.waitForLoadState('domcontentloaded');
+        await WebActions.delay(1500);
     }
 
     async checkReservationFeeSegments(){
@@ -203,12 +210,17 @@ export default class ReservationPage {
     }
 
     async validateDepositSegmentTotals(){
-        let total_rate_segment1 = Number(await (await this.page.locator(Text.modal_rate_segment_total).first().inputValue()).replace('$','').trim());
-        let total_rate_segment2 = Number(await (await this.page.locator(Text.modal_rate_segment_total).nth(1).inputValue()).replace('$','').trim());
-        let rate_total          = Number(await (await this.page.locator(Text.modal_rate_total).textContent()).replace('$','').trim());
-
-        console.log(`rate segment 1 total (${total_rate_segment1}) + rate segment 2 (${total_rate_segment2}) == rate_total (${rate_total})`);
-        await expect((total_rate_segment1 + total_rate_segment2)).toEqual(rate_total);
+        // let total_rate_segment1 = Number(await (await this.page.locator(Text.modal_rate_segment_total).first().inputValue()).replace('$','').trim());
+        // let total_rate_segment2 = Number(await (await this.page.locator(Text.modal_rate_segment_total).nth(1).inputValue()).replace('$','').trim());
+        let deposit_total          = Number(await (await this.page.locator(Text.total_deposits).textContent()).replace('$','').trim());
+        const deposit_segments = await this.page.locator(`//h2[contains(text(),'Deposits Details:')]/parent::div/following-sibling::div//tbody//tr`).count();
+        let sum = 0, value;
+        for(let i = 0; i < deposit_segments-1; i++ ){
+            value = Number (await(await this.page.locator(Input.reservation_deposit_segment).nth(i).inputValue()).replace('$','').trim());
+            sum = sum + value;
+        }
+        console.log(`the sum of all deposits (${sum}) should be equal to the total deposit amount (${deposit_total})`);
+        await expect((sum)).toEqual(deposit_total);
     }
 
     async deleteSegment(){
@@ -272,13 +284,13 @@ export default class ReservationPage {
         
     }
 
-    async addNewDeposit(deposits_type_index:number): Promise<void>{
+    async addNewDeposit(deposit_number: number, deposits_type_index:number): Promise<void>{
         console.info("Adding a new deposit.");
         await this.page.click(Link.add_reservation_deposit);
         await WebActions.delay(500);
-        await this.page.locator(Dropdown.reservation_deposit_segment).nth(1).selectOption({index: deposits_type_index});
-        await this.page.locator(Input.reservation_deposit_segment).nth(1).fill('');
-        await this.page.locator(Input.reservation_deposit_segment).nth(1).type(`${chance.floating({ min: 70, max: 500, fixed: 2 })}`);
+        await this.page.locator(Dropdown.reservation_deposit_segment).nth(deposit_number).selectOption({index: deposits_type_index});
+        await this.page.locator(Input.reservation_deposit_segment).nth(deposit_number).fill('');
+        await this.page.locator(Input.reservation_deposit_segment).nth(deposit_number).type(`${chance.floating({ min: 70, max: 500, fixed: 2 })}`);
         await this.page.keyboard.press('Enter');
        
     }
@@ -328,13 +340,13 @@ export default class ReservationPage {
         //await this.page.waitForResponse(resp => resp.url().includes('v1/api/ntvs?reservationId=') && resp.status() === 200);
 
         await this.page.waitForSelector(ntv_status_style);    
-        await expect(await this.page.locator(Text.ntv_status).textContent()).toContain(message);
+        await expect(await this.page.locator(Text.ntv_status).first().textContent()).toContain(message);
     }
-    
-
+ 
     async closeExtensionSubmitted(){
         await WebActions.delay(1000);
         console.info('Closing extension modal');
+        // await this.page.pause();
         await this.page.waitForLoadState(`domcontentloaded`);
         await expect(await this.page.locator(Element.modal_nte_extension).count()).toEqual(1);
         await this.page.click(Element.modal_nte_extension_close);
@@ -377,6 +389,9 @@ export default class ReservationPage {
         await this.page.click(Checkbox.ntv_confirmation);
         await this.page.click(Checkbox.ntv_taxes_and_fees_acknowledge);
         // await this.page.pause()
+        // if (await this.page.locator(Checkbox.new_notice_to_vacate).isVisible()){
+        //     await this.page.locator(Checkbox.new_notice_to_vacate).click();
+        // }
         await this.page.click(Button.submit_changes);
     }
 
@@ -398,4 +413,103 @@ export default class ReservationPage {
         await this.page.click(Button.approve_changes);
         await this.page.click(Button.okay);
     }
+
+    async validateNumberOfDepositsSegments(expected_deposit_rows){
+        
+        const deposit_segments = Number(await this.page.locator(`//h2[contains(text(),'Deposits Details:')]/parent::div/following-sibling::div//tbody//tr`).count());
+        console.info(`Validating the deposits rows ${deposit_segments} should be equal to the expected deposits added ${expected_deposit_rows}`);
+        await expect((deposit_segments-1)).toEqual(expected_deposit_rows);
+        //return (deposit_segments-1);
+    }
+
+    async validateLockModal(){
+        console.log(`Validating the reservation is locked and can't be edited.`);
+        await expect(await this.page.locator(Element.edit_lock_modal).isVisible()).toBeTruthy();
+        await expect(await (await this.page.locator(Element.edit_locak_modal_title).textContent()).trim()).toEqual("This is an RQ Pro Reservation");
+        await expect(await this.page.locator(Button.create_service_issue).isVisible()).toBeTruthy();
+    }
+
+    async clickOnCreateServiceIssue(){
+        console.log(`Clicking on the Create Service Issue button`);
+        await this.page.click(Button.create_service_issue);
+        await WebActions.delay(300);
+        await this.page.waitForLoadState('domcontentloaded');
+        await this.page.waitForLoadState('networkidle');
+    }
+
+    async validateRedirectionToServiceIssueEditLock(){
+        console.log(`Validating that the Supplier was redirected to the Service Issue form from the edit-lock modal`);
+        await WebActions.delay(300);
+        await expect(await this.page.url()).toContain(`?issue_type=edit_lock`);
+    }
+
+    async allowSupplierEditIsVisible(){
+        console.log(`Validating that Support role impersonated can see the unlock link.`);
+        await this.page.waitForLoadState('domcontentloaded');
+        await this.page.waitForLoadState('networkidle');
+        await WebActions.delay(1000);
+        //await expect(this.page.locator(Link.allow_supplier_edit).first()).toBeVisible();
+        await expect(await this.page.locator(Link.allow_supplier_edit).count()).toEqual(1);
+    }
+
+    async allowSupplierEditIsNotVisible(){
+        console.log(`Validating that Support role impersonated can NOT see the unlock link.`);
+        await this.page.waitForLoadState('domcontentloaded');
+        await this.page.waitForLoadState('networkidle');
+        await WebActions.delay(1000);
+        await expect(await this.page.locator(Link.allow_supplier_edit).count()).toEqual(0);
+    }
+
+    async unlockResevation(){
+        console.log(`Unlocking a Reservation to allow Supplier to edit.`);
+        await this.page.click(Link.allow_supplier_edit);
+        await this.page.waitForSelector(Text.confirm_unlock);
+        await this.page.click(Button.unlock);
+        await this.page.waitForSelector(Text.unlocked_confirmation);
+        await this.page.click(Button.close_confirmation);
+        await WebActions.delay(300);
+    }
+
+    async validateUnlockedLabel(){
+        console.info('Validating that the label for the unlocked Reservation is present.');
+        await WebActions.delay(300);
+        await this.page.waitForLoadState('networkidle');
+        await this.page.waitForLoadState('domcontentloaded');
+        await expect(await this.page.locator(Text.reservation_is_editable).count()).toEqual(1);
+    }
+
+    async validateActivityLog(user:string , text:string){
+        console.info('Validating if the Activity Log shows the reservation_unlocked record.');
+        await this.page.click(Button.activity_log);
+        await WebActions.delay(600);
+        await this.page.waitForLoadState('networkidle');
+        await this.page.waitForLoadState('domcontentloaded');
+        await WebActions.delay(600);
+        await expect(await this.page.locator(Element.activity_log_modal_li).first().textContent()).toContain(user);
+        await expect(await this.page.locator(Element.activity_log_modal_li).first().textContent()).toContain(text);
+        await this.page.click(Button.close);
+    }
+
+    async notVisibleActivityLog(user:string, text:string){
+        console.info(`Validating that the Activity Log does NOT shows the reservation_unlocked record to ${user}.`);
+        await this.page.click(Button.activity_log);
+        await WebActions.delay(600);
+        await this.page.waitForLoadState('networkidle');
+        await this.page.waitForLoadState('domcontentloaded');
+        await WebActions.delay(600);
+        await expect(await this.page.locator(`//li//li[contains(.,"${text}")]`).count()).toEqual(0)
+        await this.page.click(Button.close);
+    }
+
+    async discardChanges(){
+        console.log(`Click 'Discard changes'`);
+        await WebActions.delay(2500);
+        await this.page.waitForLoadState('domcontentloaded');
+        await this.page.waitForLoadState('networkidle');
+        await this.page.locator(Button.discard_changes).click();
+        await WebActions.delay(2500);
+        await this.page.waitForLoadState('domcontentloaded');
+        await this.page.waitForLoadState('networkidle');
+    }
+
 }

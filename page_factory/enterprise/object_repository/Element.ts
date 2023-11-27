@@ -72,6 +72,9 @@ export default class Element{
     static ntv_modal                       = `//div[@id='ntv-submit-modal']`;
     static edit_segments_modal             = `//div[@id='panel_segments']//div[contains(@class,'rate-details')]`;
     static added                           = `//button[@style='display: none;']/following-sibling::button[@disabled='disabled'][contains(normalize-space(),'Added')]`;
+    static edit_lock_modal                 = `//div[@id='reservation_is_locked_modal'][@class='modal fade in']`;
+    static edit_locak_modal_title          = `//div[@id='reservation_is_locked_modal'][@class='modal fade in']//h3`;
+    static ntv_status_message              = `//label[contains(text(),'NTV Status:')]//following-sibling::div//div[contains(@class,'ntv-input')]//span`;
 
     static clickByClientName(client: string){
         return `div[role=option] span:text('${client}')`;

@@ -87,8 +87,7 @@ test.describe.parallel('nte flow -- ',()=>{
         })
 
     })
-    
-
+  
     test.describe.serial('NTE submitted by requestor, accepted by supplier and declined by the requestor -- ',()=>{
 
         test("Acknowledge the EB2E - RQPro Reservation", async ({webActions, requestShow}) => {
