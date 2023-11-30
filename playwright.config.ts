@@ -37,7 +37,7 @@ const config: PlaywrightTestConfig = {
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
     [
-      'html', {open: "always"}
+      'html', {open: "never"}
     ],
     // [
     //   "./node_modules/playwright-slack-report/dist/src/SlackReporter.js",
