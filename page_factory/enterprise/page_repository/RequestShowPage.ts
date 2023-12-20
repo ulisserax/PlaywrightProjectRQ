@@ -117,9 +117,10 @@ export default class RequestShowPage {
         await this.page.selectOption(Dropdown.acknowledge_award, {value: response});
         await this.page.click(Button.submit_akcnowledge);
         await this.page.click(Button.yes);
-        await WebActions.delay(1300);
+        await WebActions.delay(2500);
         await this.page.waitForLoadState('networkidle');
         await this.page.waitForLoadState('domcontentloaded');
+        await WebActions.delay(1500);
         await expect(await this.page.locator(Element.table_option_declined).count()).toEqual(1);
     }
 

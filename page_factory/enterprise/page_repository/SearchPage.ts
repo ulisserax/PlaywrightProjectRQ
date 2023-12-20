@@ -15,9 +15,10 @@ export default class SearchPage {
     async clickRequestIdLink(): Promise<void>{
         console.info('Clicking on the request id link');
         await this.page.click(Link.request_id);
-        await WebActions.delay(500);
+        await WebActions.delay(1500);
         await this.page.waitForLoadState('networkidle');
         await this.page.waitForLoadState('domcontentloaded');
+        await WebActions.delay(1500);
     }
 
     async clickReservationIdLink(): Promise<void>{
