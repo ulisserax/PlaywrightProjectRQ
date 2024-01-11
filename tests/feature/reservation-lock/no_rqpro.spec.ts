@@ -3,7 +3,7 @@ import test from "@lib/BaseTest";
 import ENV from "@utils/env";
 const moment = require('moment');
 
-test.describe('Reservation-Edit-Lock for RQ Pro -- ', ()=>{
+test.describe('NO RQ Pro Scenario -- ', ()=>{
     test.slow();
     let rqpro_guest_email = `edit-lock1@nt3reqrqpro.com`;
 
@@ -15,7 +15,7 @@ test.describe('Reservation-Edit-Lock for RQ Pro -- ', ()=>{
         console.info(`REQUEST_UID: ${ENV.API_REQUEST_UID}`);
     
         //Bid a option for the request
-        console.info(`Submitting an Option to an EB2E RQPro Request through the V1 API.`);
+        console.info(`Submitting an Option to an EB2E Request through the V1 API.`);
         const _optionCreateResponse = await optionEndpoints.optionCreate(ENV.RQPRO_BASE_URL, ENV.SUPPLIER_FOR_RQPRO_API_KEY, ENV.SUPPLIER_COMPANY_FOR_RQPRO_EMAIL, ENV.API_REQUEST_UID, Number(ENV.API_NT3_PROPERTY_ID), ENV.START_DATE, ENV.END_DATE, ENV.RATE_FEE_TYPE['Night']);
         const _optionCreateRes = JSON.parse(_optionCreateResponse)
         ENV.API_OPTION_ID = `${_optionCreateRes.option_id}`;
@@ -23,7 +23,7 @@ test.describe('Reservation-Edit-Lock for RQ Pro -- ', ()=>{
         await expect(_optionCreateRes.submitted).toEqual(true);
     
         //Award the request
-        console.info(`Awarding an Option to create an EB2E - RQPRO Reservation.`);
+        console.info(`Awarding an Option to create an EB2E Reservation.`);
         const _current_date = new Date().toISOString();
         await requestEndpoints.updateDeadlineRequest(ENV.RQPRO_BASE_URL, ENV.RQPRO_REQ_API_KEY, ENV.API_REQUEST_UID, _current_date);
         const _optionAwardResponse = await optionEndpoints.optionAward(ENV.RQPRO_BASE_URL, ENV.RQPRO_REQ_API_KEY, ENV.API_OPTION_ID);
@@ -34,7 +34,7 @@ test.describe('Reservation-Edit-Lock for RQ Pro -- ', ()=>{
     
     })
 
-    test.describe.serial('Edit a non-locked RQ Pro Reservation -- ',()=>{
+    test.describe.serial('Edit a non-locked Reservation -- ',()=>{
 
         test('SM-T1590, SM-T1591 - Edit through the UI and API a non-RQ Pro Reservation on both locked and unlocked scenarios', async ({webActions, requestShow,reservationEndpoints, reservation}) => {
             await webActions.login(`supplier`, `${ENV.SUPPLIER_DOMAIN}/request/show/${ENV.API_REQUEST_UID}`, ENV.SUPPLIER_FOR_RQPRO_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);
