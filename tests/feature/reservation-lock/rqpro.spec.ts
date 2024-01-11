@@ -12,7 +12,7 @@ test.describe('RQ Pro scenarios -- ',()=>{
 
     test.beforeAll(async ({requestEndpoints, optionEndpoints})=>{
         //Create a request for a rqpro company and a eb2e client
-        console.info(`Creating an EB2E Request through the V1 API.`);
+        console.info(`Creating an EB2E RQ Pro Request through the V1 API.`);
         const _createRequestResponse = await requestEndpoints.createRequest(ENV.RQPRO_BASE_URL, ENV.RQPRO_REQ_API_KEY, Number(ENV.NT3REQ_RQPRO_EDIT_LOCK), 'Miami, FL, USA', ENV.START_DATE, ENV.END_DATE, ENV.GUEST_FIRSTNAME, ENV.GUEST_LASTNAME, rqpro_guest_email, `7863256523`, ENV.API_REQUEST_TYPE['Corporate']);
         ENV.API_REQUEST_UID = `${JSON.parse(_createRequestResponse).request_id}`;
         console.info(`REQUEST_UID: ${ENV.API_REQUEST_UID}`);
