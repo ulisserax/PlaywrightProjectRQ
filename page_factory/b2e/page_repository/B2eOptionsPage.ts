@@ -143,6 +143,8 @@ export default class B2eOptionsPage {
         console.info(`Validating option confirmation title.`);
         await WebActions.delay(3000);
         let current_url = await this.page.url();
+        await WebActions.delay(3000);
+        await this.page.waitForLoadState('domcontentloaded');
         await expect(current_url).toContain(`/b2e/options/${option_id}/confirmation`);
         await expect(await this.page.locator(Text.option_confirmation_title)).toBeVisible();
     }
