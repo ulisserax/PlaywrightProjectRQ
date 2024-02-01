@@ -63,6 +63,7 @@ export default class Text{
     static confirm_unlock                       = `//p[contains(text(),'This will allow the Supplier')]`;
     static unlocked_confirmation                = `//div[contains(text(),'successfully unlocked!')]`;
     static reservation_is_editable              = `//span[contains(.,'** Reservation is editable')]`;
+    static password_reset_instructions_text     = `//div[@id='noticeModal'][@style='display: block;']//div[@class='modal-body']`;
 
     static specificEmail(email: string, email_subject: string){
         return `//td[contains(text(),'${email.toLocaleLowerCase()}')]/following-sibling::td[contains(text(),'${email_subject}')]`;

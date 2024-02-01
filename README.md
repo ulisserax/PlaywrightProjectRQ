@@ -6,12 +6,10 @@ Playwright ReloQuest Automation, steps necessary to setup the project
 ### How do I get set up? ###
 
 * Download or clone the repository to a local workspace
-* Open the project with Visual studio Code
+* Open the project with Visual studio Code or any other Code editor
 * On the VS code terminal execute 'npm install'
-* Inside the 'utils' folder create a new folder with name 'env_files'
-* Inside the 'env_files' you can create all the env file needed following the naming convection 'env.<environment_name>'. Ex: env.qa
-* The env files should contain all the private test data, in the env.ts file you could identified some of the test data that will need 
-* 
+* The 'utils' folder contains all the test data for each environment 
+
 
 ### How execute the test ###
 
@@ -23,4 +21,4 @@ Playwright ReloQuest Automation, steps necessary to setup the project
 
 ### Who do I talk to? ###
 
-* Repo owner or admin (Ernesto Quinta or Jose Melendez)
+* Repo owner or admin (Jose Melendez or Ernesto Quinta)

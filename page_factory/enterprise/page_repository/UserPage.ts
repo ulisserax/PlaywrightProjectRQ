@@ -3,6 +3,7 @@ import Input from "@enterprise_objects/Input";
 import Element from "@enterprise_objects/Element";
 import Button from "@enterprise_objects/Button";
 import WebActions from "@lib/WebActions";
+import Text from "@enterprise_objects/Text";
 
 const Chance = require("chance");
 const chance = new Chance();
@@ -35,6 +36,18 @@ export default class UserPage {
         }
         await this.page.click(Button.create_account);
     }
+    
+    //AUTO-373 --> Password reset instructions sent successfully modal validation
+    async verifyPasswordResetModal(){
+        console.info(`Verifying that 'Password reset instructions sent successfully' modal is displayed`);
+        await WebActions.delay(700);
+        await this.page.waitForLoadState("domcontentloaded");
+        await this.page.waitForLoadState("networkidle");
+        await this.page.waitForSelector(Element.password_reset_instructions_modal);
+        await expect(await this.page.locator(Text.password_reset_instructions_text).innerText()).toContain('Password reset instructions sent successfully.');
+        await this.page.locator(Button.close).click();
+    } 
+
 
     async verifyUserSaved(): Promise<void>{
         console.info(`Verifying that the User was created/updated`);

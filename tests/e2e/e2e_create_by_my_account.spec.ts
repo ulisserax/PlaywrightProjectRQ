@@ -38,6 +38,7 @@ test.describe.serial('Create a RQ base flow, Supplier, Property, Area, Requestor
         await company.verifyCompanySettingsUpdated();
         await myAccount.addUser();
         await user.fillNewUser(supplierCompanyName, supplierAdminUser, "Supplier", supplierAdminUser);
+        await user.verifyPasswordResetModal();
         await user.verifyUserSaved();
         await webActions.navigateTo(`${ENV.BASE_URL}/configuration/instance`);
         await configurationInstance.mailPush();
@@ -74,7 +75,7 @@ test.describe.serial('Create a RQ base flow, Supplier, Property, Area, Requestor
         await area.validateAreaCreated(areaName);
     })
 
-    test ("Create a Requestor company and a Requestor-admin user.", async ( {webActions, homePage, dashboard, myAccount, company, user, configurationInstance, mailCatcher, passwordReset}) =>{
+    test ("Create a Requestor company and a Requestor-admin user.", async ( {webActions, homePage, dashboard, myAccount, company, user}) =>{
         await webActions.navigateTo(ENV.BASE_URL);
         await homePage.enterCredentials(ENV.SUPER_ADMIN, ENV.SUPER_ADMIN_PASSWORD);
         await homePage.signIn();
@@ -86,6 +87,8 @@ test.describe.serial('Create a RQ base flow, Supplier, Property, Area, Requestor
         await dashboard.clickMyAccountTab();
         await myAccount.addUser();
         await user.fillNewUser(requestorCompanyName, requestorAdminUser, "Requestor", requestorAdminUser);
+        //await passwordReset.verifyPasswordReset();
+        await user.verifyPasswordResetModal();
         await user.verifyUserSaved();
         await myAccount.filterUser(requestorAdminUser);
         await myAccount.clickOnEditUser(requestorAdminUser);
