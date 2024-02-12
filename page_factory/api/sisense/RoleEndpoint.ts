@@ -10,7 +10,7 @@ export default class RoleEndpoint {
     }
 
     async getRole( base_url: string, token:string, role:string,){
-        const _response = await this.request.get(`${base_url}/api/v1/roles/${role}`, {
+        const _response = await this.request.get(`${base_url}/api/roles/${role}`, {
             headers:{
                 'Authorization':`Bearer ${token}`
             }  
