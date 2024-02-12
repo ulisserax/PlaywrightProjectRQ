@@ -1,45 +1,45 @@
 import Database from "@lib/Database";
 import ENV from "@utils/env";
 import test from '@lib/BaseTest';
+import csvToJson from "convert-csv-to-json";
 const Chance = require("chance");
 const chance = new Chance();
 const moment = require("moment");
 
-test.skip("Test case for test purpose", async ({requestEndpoints, optionEndpoints,reservationEndpoints})=> {
+test.skip("Test case for test purpose", async ({authEndpoint, groupEndpoint,roleEndpoint, userEndpoint})=> {
 
-    let test = [
-        {
-          start_date: '2023-11-04T00:00:00+0000',
-          end_date: '2023-12-20T00:00:00+0000',
-          calculation_method: 'FLAT',
-          fee_basis_amount: '236.000000',
-          fee_description: 'maid service',
-          fee_type: 10,
-          fee_type_name: 'FEE',
-          fee_type_pretty: 'Maid Service Fee'
-        },
-        {
-          start_date: '2023-11-04T00:00:00+0000',
-          end_date: '2023-12-20T00:00:00+0000',
-          calculation_method: 'FLAT',
-          fee_basis_amount: '848.000000',
-          fee_description: 'property fee',
-          fee_type: 6,
-          fee_type_name: 'FEE',
-          fee_type_pretty: 'Property Fee'
-        },
-        {
-          start_date: '2023-11-04T00:00:00+0000',
-          end_date: '2023-12-20T00:00:00+0000',
-          calculation_method: 'FLAT',
-          fee_basis_amount: '283.580000',
-          fee_description: 'Pet Deposit',
-          fee_type: 14,
-          fee_type_name: 'DEPOSIT',
-          fee_type_pretty: 'Pet Deposit'
-        }
-      ]
-      console.log(JSON.stringify(test));
+  
+  const sisense = "https://reloquest-dev.sisense.com";
+  const user = "cloud-dev@reloquest.com";
+  const password = "*0EppILPv9h@Uk^2";
+  let token;
+
+  let json = csvToJson.fieldDelimiter(',').supportQuotedField(true).getJsonFromCsv("data_subscription.csv");
+
+  const _res = await authEndpoint.login(sisense, user, password);
+  const _response = JSON.parse(_res);
+  console.log(_response);
+  token = _response.access_token;
+  console.log(token);
+
+    for(let i=0; i<json.length;i++){
+
+      // console.log(json[i].group_name);
+      const get_group_resp = await groupEndpoint.getGroupByName(sisense, token, json[i].group_name);
+      const get_group_response = JSON.parse(get_group_resp);
+      //console.log(get_group_response);
+      let group_id;
+      if (get_group_response.length==0){
+        const group_create_resp = await groupEndpoint.createGroup(sisense, token, json[i].group_name);
+        //console.log(group_create_resp)
+        const group_create_response = JSON.parse(group_create_resp);
+        console.log(`this is ${group_create_resp[0]._id}`)
+      }else{
+        group_id = get_group_response[0]._id;
+        console.log(`the group_id ${group_id}`);
+      }
+
+    }
 
     // ENV.API_RESERVATION_UID = 'RQR30834E';
     // ENV.SUPPLIER_FOR_RQPRO_API_KEY = "nt1sup_admin_api_key";

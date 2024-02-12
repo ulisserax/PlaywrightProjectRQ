@@ -39,6 +39,10 @@ import V2Endpoints from "@api/v2/V2Endpoints";
 import Stripe from "@api/v2/Stripe";
 import B2eOptionsPage from "@b2e_pages/B2eOptionsPage";
 import B2eCheckoutPage from "@b2e_pages/B2eCheckoutPage";
+import AuthEndpoint from "@api/sisense/AuthEndpoint";
+import GroupEndpoint from "@api/sisense/GroupEndpoint";
+import RoleEndpoint from "@api/sisense/RoleEndpoint";
+import UserEndpoint from "@api/sisense/UserEndpoint";
 
 
 
@@ -82,6 +86,10 @@ const test = baseTest.extend<{
     stripe: Stripe;
     b2eOptionsPage: B2eOptionsPage;
     b2eCheckoutPage: B2eCheckoutPage;
+    authEndpoint: AuthEndpoint;
+    groupEndpoint: GroupEndpoint;
+    roleEndpoint: RoleEndpoint;
+    userEndpoint: UserEndpoint
 }>({
     homePage: async ({ page }, use) => {
         await use(new HomePage(page));
@@ -199,6 +207,18 @@ const test = baseTest.extend<{
     },
     b2eCheckoutPage: async ({ page }, use) => {
         await use(new B2eCheckoutPage(page));
+    },
+    authEndpoint: async ({ request }, use) => {
+        await use(new AuthEndpoint(request));
+    },
+    groupEndpoint: async ({ request }, use) => {
+        await use(new GroupEndpoint(request));
+    },
+    roleEndpoint: async ({ request }, use) => {
+        await use(new RoleEndpoint(request));
+    },
+    userEndpoint: async ({ request }, use) => {
+        await use(new UserEndpoint(request));
     }
 });
 

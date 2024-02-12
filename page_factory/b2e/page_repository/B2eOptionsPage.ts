@@ -55,6 +55,7 @@ export default class B2eOptionsPage {
 
     async validateCardOptionPreference(property_name:string, preference:string){
         console.info(`Validating card option with property name:'${property_name}' has the preference: '${preference}'`);
+        await WebActions.delay(2200);
         await expect(await this.page.locator(Text.cardOptionPreference(property_name,preference))).toBeVisible();
         //await this.page.click(Button.modal_ok);
     }

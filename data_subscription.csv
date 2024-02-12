@@ -1,0 +1,7 @@
+group_name,user_email,username,firstname,lastname,roleid
+nt1sup,jane_doe@nt1sup.com,jane_nt1sup,jane,doe,viewer
+nt1sup,james_doe@nt1sup.com,james_nt1sup,james,doe,viewer
+nt1sup,john_doe@nt1sup.com,john_nt1sup,john,doe,viewer
+nt2sup,jane_doe@nt2sup.com,jane_nt2sup,jane,doe,viewer
+nt2sup,bill_doe@nt2sup.com,bill_nt2sup,bill,doe,viewer
+nt3sup,jane_doe@nt3sup.com,jane_nt3sup,jane,doe,viewer
