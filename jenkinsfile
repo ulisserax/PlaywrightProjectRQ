@@ -44,9 +44,9 @@ pipeline {
         unstable{
             slackSend( channel: "#playwright", token: "slack-token", color: "#0000fe", message: "${custom_msg()}")
         }
-        // always{
-        //     sh "aws s3 cp --region us-east-1 --recursive playwright-report s3://rq-playwright-test-report"
-        // }
+        always{
+            sh "aws s3 cp --region us-east-1 --recursive playwright-report s3://rq-playwright-test-report"
+        }
     }
 }
 
