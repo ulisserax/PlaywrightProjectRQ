@@ -6,7 +6,7 @@ const Chance = require("chance");
 const chance = new Chance();
 const moment = require("moment");
 
-test.only("Test case for test purpose", async ({authEndpoint, groupEndpoint,roleEndpoint, userEndpoint})=> {
+test.skip("Test case for test purpose", async ({authEndpoint, groupEndpoint,roleEndpoint, userEndpoint})=> {
 
   
   const sisense = "https://reloquest-dev.sisense.com";
@@ -46,7 +46,7 @@ test.only("Test case for test purpose", async ({authEndpoint, groupEndpoint,role
       const role_resp = JSON.parse(role_response);
       console.log(role_resp._id);
       //await userEndpoint.createUser(sisense, token, json[i].user_email, json[i].username, json[i].firstname, json[i].lastname,role_resp._id, group_id) 
-
+      //check if the user exist
       let get_users_response = await userEndpoint.getUserByEmailAndGroupId(sisense, token, json[i].user_email, group_id);
       const get_users_resp  = JSON.parse(get_users_response);
       console.log(`get_group_response -- ${get_users_resp}`)
