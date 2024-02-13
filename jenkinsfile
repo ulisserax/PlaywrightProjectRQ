@@ -45,7 +45,7 @@ pipeline {
         }
         always{
             sh "aws s3 cp --region us-east-1 --recursive playwright-report s3://rq-playwright-test-report" // Upload to the static S3 site
-            sh "build_tstamp=$(date +"%Y%m%d%H%M")"
+            sh 'build_tstamp=$(date +"%Y%m%d%H%M")'
             sh "zip -r playwright-report-$(build_tstamp).zip playwright-report"
             sh "aws s3 cp --region us-east-1 playwright-report-$(build_tstamp).zip s3://rq-playwright-zip-files" // Archive these results for future reference
         }
