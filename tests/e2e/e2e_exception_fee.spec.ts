@@ -4,7 +4,7 @@ import ENV  from '@utils/env';
 
 test.describe("Test Suite Exception Fee", () => { //serial
     test.slow();
-    const location = ["New York State, USA","Central Park North, Manhattan, New York, NY, USA","Melrose, Manhattan, NY, USA","Manhattan, New York, NY, USA","New York, NY, USA","Queens, NY, USA","Bronx, NY, USA"];
+    const location = ["Buffalo, NY, USA","Miami, FL, USA","Tampa, FL, USA","Las Vegas, NV, USA" ,"Bronx, NY, USA"];
 
     for(let i = 0; i < location.length; i++){
         test(`Create a new Request via api and validate the exception fee for ${location[i]}`, async({requestEndpoints, webActions,homePage, dashboard, search, requestShow, option}) =>{
