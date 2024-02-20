@@ -99,7 +99,7 @@ export default class OptionEndpoints {
                     "rate_segments": [
                         {
                             "start_date": start_date,
-                            "rate": chance.integer({min:80, max:550}),
+                            "rate": chance.integer({min:150, max:550}),
                             "end_date": end_date
                         }
                     ],
