@@ -244,44 +244,47 @@ export default class OptionPage {
         await expect(await this.page.locator(Text.awarded_property).count()).toBeGreaterThanOrEqual(1);
     }
 
-    async verifyExceptionFeeApplied(location:string){
-        let rate = await this.page.locator(Input.rate).inputValue();
-        let referral_commission_value;
-        let referral_commission;
-        let reloquest_fee;
+    async verifyExceptionFeeApplied(supplier:string, ref_com:string, rel_fee:string){
+        console.info(`Validating exception fee applied for supplier '${supplier}', referral/commission:(${ref_com}) and reloquest_fee:(${rel_fee})`);
+        let rate = Number(await this.page.locator(Input.rate).inputValue());
+        let referral_commission_value, referral_commission, ref_commission, reloquest_fee, reloquest_fee_text, reloquest_fee_value, net_rate_calulation = 0;
         let net_rate = await this.page.locator(Text.net_rate).textContent();
-        net_rate     = net_rate.substring(1).trim();
-        let exception_fee_calculation = 0;
-        let result;
-
-        if(location.includes(`New York, NY`)){
+        net_rate_calulation     = Number(net_rate.substring(1).trim());
+        let ref_result, rel_result;
+        
+        if(ref_com.includes("%")){
+            ref_commission = Number(ref_com.replace('%',"").trim());
             referral_commission         = await this.page.textContent(Text.referral_commission);
-            referral_commission         = Number(referral_commission.split("(")[1].replace('%)','').replace(':','').trim());
-			referral_commission_value 	= await this.page.textContent(Text.referral_commission_value);
-            referral_commission_value   = Number(referral_commission_value.substring(1).trim());
-			reloquest_fee       		= await this.page.textContent(Text.reloquest_fee);
-            reloquest_fee               = Number(reloquest_fee.substring(1).trim());
-			exception_fee_calculation   = (( 100 * referral_commission_value )/ Number(rate)) ;
-            result                      = Number(rate) - Number(referral_commission_value) - Number(reloquest_fee);
-            console.info(`Rate (${rate}) - referral/commission (${referral_commission_value}) - reloquest fee (${reloquest_fee}) should be equal to net rate (${net_rate})`);
-            await expect(Number(result.toFixed(2))).toEqual(Number(net_rate));
-
-            console.info(`Referral/Commission (${exception_fee_calculation.toFixed(2)}) should be equal to exception fee (${referral_commission})`);
-            await expect(Number(exception_fee_calculation.toFixed(2))).toEqual(referral_commission);
-            
-
-        }else{
             referral_commission_value 	= await this.page.textContent(Text.referral_commission_value);
-            referral_commission_value   = referral_commission_value.substring(1).trim()
-			reloquest_fee       		= await this.page.textContent(Text.reloquest_fee);
-            reloquest_fee               = reloquest_fee.substring(1).trim();
-            exception_fee_calculation   = Number(rate) - Number(referral_commission_value) - Number(reloquest_fee);
-            console.info(`Rate (${rate}) - referral/commission (${referral_commission_value}) - reloquest fee (${reloquest_fee}) should be equal to net rate (${net_rate})`);
-            await expect(Number(referral_commission_value)).toEqual(2.00);
-            await expect(Number(reloquest_fee)).toEqual(0.00);
-            await expect(Number(exception_fee_calculation.toFixed(2))).toEqual(Number(net_rate));
+            ref_result = Number(((rate*ref_commission)/100).toFixed(2));
+            await expect(referral_commission).toContain(`Referral/Commission`);
+            await expect(referral_commission).toContain(`(${ref_com})`);
+            await expect(`$ ${ref_result}`).toEqual(referral_commission_value);
+        }else{
+            referral_commission         = await this.page.textContent(Text.referral_commission);
+            referral_commission_value 	= await this.page.textContent(Text.referral_commission_value);
+            ref_result = Number(ref_com).toFixed(2)
+            await expect(referral_commission).toContain(`Referral/Commission`);
+            await expect(`$ ${ref_result}`).toEqual(referral_commission_value);
         }
 
+        if(rel_fee.includes("%")){
+            reloquest_fee = Number(rel_fee.replace('%',"").trim());
+            reloquest_fee_text      = await this.page.textContent(Text.reloquest_fee_text);
+            reloquest_fee_value 	= await this.page.textContent(Text.reloquest_fee);
+            rel_result = (Number(((rate*reloquest_fee)/100).toFixed(2))).toFixed(2);
+            await expect(reloquest_fee_text).toContain(`ReloQuest Fee`);
+            await expect(reloquest_fee_text).toContain(`(${rel_fee})`);
+            await expect(`$ ${rel_result}`).toEqual(reloquest_fee_value);
+        }else{
+            reloquest_fee_text         = await this.page.textContent(Text.reloquest_fee_text);
+            reloquest_fee_value 	= await this.page.textContent(Text.reloquest_fee);
+            rel_result = Number(rel_fee).toFixed(2);
+            await expect(reloquest_fee_text).toContain(`ReloQuest Fee`);
+            await expect(`$ ${rel_fee}`).toEqual(reloquest_fee_value);
+        }
+
+        await expect((net_rate_calulation+Number(ref_result)+Number(rel_result)).toFixed(2)).toEqual(rate.toFixed(2));
     }
     
     async propertyEditValidation(){
