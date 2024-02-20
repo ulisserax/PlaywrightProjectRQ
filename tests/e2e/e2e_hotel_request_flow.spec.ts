@@ -3,7 +3,7 @@ import WebActions from '@lib/WebActions';
 import ENV  from '@utils/env';
 
 
-test.describe.serial.only("Create Hotel request, cancel reservation and validate emails", () => {
+test.describe.serial("Create Hotel request, cancel reservation and validate emails", () => {
     test.slow();
     let guestEmail = ENV.GUEST_EMAIL.toLocaleLowerCase();
     let count = 0;

@@ -3,7 +3,7 @@ import WebActions from '@lib/WebActions';
 import ENV  from '@utils/env';
 
 
-test.describe.only("Test Suite Hotel booking for B2E", () => {
+test.describe("Test Suite Hotel booking for B2E", () => {
   test.slow();
 
    ENV.B2E_USER =`jess_doue@nt1req.com`;
