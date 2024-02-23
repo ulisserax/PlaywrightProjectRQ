@@ -11,7 +11,7 @@ pipeline {
         string(defaultValue: 'stage', name: 'env', trim: true)
     }
     environment {
-        SLACK_CHANNEL = "${(currentBuild.rawBuild.getCauses()[0].toString().contains('UserIdCause') ? "#playwright" : "#playwright-daily-auto")}"
+        SLACK_CHANNEL = "${(currentBuild.rawBuild.getCauses()[0].toString().contains('UserIdCause') ? "#playwright" : "#automation-status")}"
     }
     stages {
         stage( 'install project'){
