@@ -62,7 +62,7 @@ def custom_msg()
   def BUILD_ID = env.BUILD_ID
   def STATUS = currentBuild.currentResult
   
-  def JENKINS_LOG= "Job: ${JOB_NAME} \n Test Suite: ${params.env} \n Status: ${STATUS} \n Logs path: ${JENKINS_URL}job/${JOB_NAME}/${BUILD_ID}/consoleText \n HTML-Report: /Users/equinta/.jenkins/workspace/Playwright_Automation/playwright-report/index.html"
+  def JENKINS_LOG= "Job: ${JOB_NAME} \n Test Suite: ${params.env} \n Status: ${STATUS} \n Logs path: ${JENKINS_URL}job/${JOB_NAME}/${BUILD_ID}/consoleText \n HTML-Report: https://playwright.reloquest.com/"
   return JENKINS_LOG
 }
 
