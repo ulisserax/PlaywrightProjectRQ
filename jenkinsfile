@@ -10,6 +10,9 @@ pipeline {
     parameters {
         string(defaultValue: 'stage', name: 'env', trim: true)
     }
+    environment {
+        SLACK_CHANNEL = "${(currentBuild.rawBuild.getCauses()[0].toString().contains('UserIdCause') ? "#playwright" : "#automation-status")}"
+    }
     stages {
         stage( 'install project'){
             steps {
@@ -35,13 +38,13 @@ pipeline {
 
     post{
         success{
-            slackSend( channel: "#playwright", token: "slack-token", color: "#00ff00", message: "${custom_msg()}")
+            slackSend( channel: SLACK_CHANNEL, token: "slack-token", color: "#00ff00", message: "${custom_msg()}")
         }
         failure{
-            slackSend( channel: "#playwright", token: "slack-token", color: "#ff0000", message: "${custom_msg()}")
+            slackSend( channel: SLACK_CHANNEL, token: "slack-token", color: "#ff0000", message: "${custom_msg()}")
         }
         unstable{
-            slackSend( channel: "#playwright", token: "slack-token", color: "#0000fe", message: "${custom_msg()}")
+            slackSend( channel: SLACK_CHANNEL, token: "slack-token", color: "#0000fe", message: "${custom_msg()}")
         }
         always{
             sh "aws s3 cp --region us-east-1 --recursive playwright-report s3://rq-playwright-test-report" // Upload to the static S3 site
@@ -59,7 +62,7 @@ def custom_msg()
   def BUILD_ID = env.BUILD_ID
   def STATUS = currentBuild.currentResult
   
-  def JENKINS_LOG= "Job: ${JOB_NAME} \n Test Suite: ${params.env} \n Status: ${STATUS} \n Logs path: ${JENKINS_URL}job/${JOB_NAME}/${BUILD_ID}/consoleText \n HTML-Report: /Users/equinta/.jenkins/workspace/Playwright_Automation/playwright-report/index.html"
+  def JENKINS_LOG= "Job: ${JOB_NAME} \n Test Suite: ${params.env} \n Status: ${STATUS} \n Logs path: ${JENKINS_URL}job/${JOB_NAME}/${BUILD_ID}/consoleText \n HTML-Report: https://playwright.reloquest.com/"
   return JENKINS_LOG
 }
 
