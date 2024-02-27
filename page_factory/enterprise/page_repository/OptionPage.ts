@@ -256,7 +256,7 @@ export default class OptionPage {
             ref_commission = Number(ref_com.replace('%',"").trim());
             referral_commission         = await this.page.textContent(Text.referral_commission);
             referral_commission_value 	= await this.page.textContent(Text.referral_commission_value);
-            ref_result = Number(((rate*ref_commission)/100).toFixed(2));
+            ref_result = (Number(((rate*ref_commission)/100).toFixed(2))).toFixed(2);
             await expect(referral_commission).toContain(`Referral/Commission`);
             await expect(referral_commission).toContain(`(${ref_com})`);
             await expect(`$ ${ref_result}`).toEqual(referral_commission_value);

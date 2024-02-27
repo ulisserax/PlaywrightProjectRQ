@@ -55,14 +55,18 @@ export default class B2eOptionsPage {
 
     async validateCardOptionPreference(property_name:string, preference:string){
         console.info(`Validating card option with property name:'${property_name}' has the preference: '${preference}'`);
-        await WebActions.delay(2200);
+        await WebActions.delay(3000);
+        await this.page.waitForLoadState('domcontentloaded');
+        //await this.page.waitForLoadState('networkidle');
         await expect(await this.page.locator(Text.cardOptionPreference(property_name,preference))).toBeVisible();
         //await this.page.click(Button.modal_ok);
     }
 
     async validateCardOptionBooked(property_name:string){
         console.info(`Validating card option preference`);
-        await WebActions.delay(2000);
+        await WebActions.delay(3000);
+        await this.page.waitForLoadState('domcontentloaded');
+        //await this.page.waitForLoadState('networkidle');
         await this.page.waitForSelector(Text.cardOptionBooked(property_name));
         await expect(await this.page.locator(Text.cardOptionBooked(property_name))).toBeVisible();
     }
@@ -128,7 +132,7 @@ export default class B2eOptionsPage {
     }
 
     async validateSelectedPropertyName(property_name:string){
-        console.info(`Validating the selected proeprty name.`);
+        console.info(`Validating the selected property name.`);
         await WebActions.delay(3000);
         await expect(await this.page.locator(Text.selectedProperty(property_name)).isVisible()).toBeTruthy();
     }

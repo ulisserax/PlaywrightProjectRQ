@@ -1,7 +1,6 @@
 import test  from '@lib/BaseTest';
 import ENV  from '@utils/env';
-const Chance = require ('chance');
-const chance = new Chance();
+
 
 
 test.describe("Test Suite Exception Fee", () => { //serial
