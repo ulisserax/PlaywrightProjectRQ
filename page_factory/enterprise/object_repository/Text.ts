@@ -12,7 +12,7 @@ export default class Text{
     static segment_pending_approval_section     = `div#segments-history-modal strong:text('Segments Pending Approval:')`;  
     static reservation_information              = `div.reservation`;
     static hotel_reservation_id                 = `div#hotelOptionDetailSection span:text('Reloquest Reservation ID:') span`;
-    static property_distance_modal_notification = `//div[@class='modal fade in']//div[contains(text(),'(of Driving) from the requested location.')]`;
+    static property_distance_modal_notification = `//div[contains(@class,'modal fade in')]//div[contains(text(),'(of Driving) from the requested location.')]`;
     static service_issue_resolved               = `//table[@id='supplier_status_list']//tbody//td[4]`;
     static first_option_rate                    = `td.total_rate span`;
     static first_property_name                  = `td.property-name a`;

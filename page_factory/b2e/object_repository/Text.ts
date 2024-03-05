@@ -20,6 +20,7 @@ export default class Text{
     static guest_fee_and_deposit_total    = `//app-guest-responsible//div[contains(@class,' summary-underline')]//p`;
     static option_confirmation_title      = `//app-option-confirmation//h2[contains(text(),'Provide payment method')]`;
     static guest_total                    = `//div[contains(text(),'Total')]/following-sibling::div//div[contains(text(),'$')]`;
+    static option_charges_confirmed       = `//app-option-confirmation//app-future-payments//span[contains(text(),'When booking is confirmed')]`;
         
     static appModalHeader(text: string){
         return `//div[contains(@class,'modal-header')]/h5[contains(text(),'${text}')]`;

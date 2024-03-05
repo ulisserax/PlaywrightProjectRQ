@@ -187,5 +187,15 @@ export default class B2eOptionsPage {
         console.info(`Validating option id: ${option_id}, with fees value '${value}', exits: ${exist}`);
         await expect(await this.page.locator(Element.optionFees(option_id, value)).isVisible()).toEqual(exist);
     }
+
+    async validateOptionCharges(option_id:number){
+        console.info(`Validating option Charges notification.`);
+        await WebActions.delay(3000);
+        let current_url = await this.page.url();
+        await WebActions.delay(3000);
+        await this.page.waitForLoadState('domcontentloaded');
+        await expect(current_url).toContain(`/b2e/options/${option_id}/confirmation`);
+        await expect(await this.page.locator(Text.option_confirmation_title)).toBeVisible();
+    }
       
 }

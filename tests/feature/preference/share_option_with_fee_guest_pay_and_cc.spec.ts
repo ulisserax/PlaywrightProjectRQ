@@ -189,7 +189,7 @@ test.describe('Share option with fees - Guest Pay On and Collect Credit Card On'
         await b2eOptionsPage.validateOtherChoiceInGuestResponsabilitModal(data_object.second_property_name, ENV.OPTIONS_PREFERENCES.third);
         await b2eOptionsPage.clickContinueButton();
         //==> SM-T1166
-        await b2eOptionsPage.validateOptionConfirmation(first_option_id);
+        await b2eOptionsPage.validateOptionCharges(first_option_id);
         await b2eOptionsPage.validateGuestCharges(data_object.property_name, fees_amount.pet_fee_amount,fees_amount.redecoration_fee_amount,fees_amount.pet_deposit_amount,fees_amount.parking_amount);
         await b2eOptionsPage.validateBookButton();
         await b2eOptionsPage.acknowledgeFeesAndDeposits();
