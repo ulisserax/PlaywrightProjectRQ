@@ -11,7 +11,7 @@ pipeline {
         string(defaultValue: 'stage', name: 'env', trim: true)
     }
     environment {
-        SLACK_CHANNEL = "${(currentBuild.rawBuild.getCauses()[0].toString().contains('UserIdCause') ? "#playwright" : "#automation-status")}"
+        SLACK_CHANNEL = "#automation-status"
     }
     stages {
         stage( 'install project'){
@@ -47,6 +47,12 @@ pipeline {
             slackSend( channel: SLACK_CHANNEL, token: "slack-token", color: "#0000fe", message: "${custom_msg()}")
         }
         always{
+            // Publish JUnit test results from 'test-results' directory
+            junit '**/test-results/*.xml'
+            
+            // Archive 'playwright-report' and 'test-results' directories as artifacts
+            archiveArtifacts artifacts: '**/playwright-report/**,**/test-results/**', fingerprint: true
+
             sh "aws s3 cp --region us-east-1 --recursive playwright-report s3://rq-playwright-test-report" // Upload to the static S3 site
             sh 'zip -r playwright-report-$(date +"%Y%m%d%H%M").zip playwright-report'
             sh 'aws s3 cp --region us-east-1 playwright-report-$(date +"%Y%m%d%H%M").zip s3://rq-playwright-zip-files' // Archive these results for future reference
@@ -62,7 +68,11 @@ def custom_msg()
   def BUILD_ID = env.BUILD_ID
   def STATUS = currentBuild.currentResult
   
-  def JENKINS_LOG= "Job: ${JOB_NAME} \n Test Suite: ${params.env} \n Status: ${STATUS} \n Logs path: ${JENKINS_URL}job/${JOB_NAME}/${BUILD_ID}/consoleText \n HTML-Report: https://playwright.reloquest.com/"
+  // Test result analyzer URL
+  def TEST_RESULTS_ANALYZER_URL = "${JENKINS_URL}job/${JOB_NAME}/test_results_analyzer/"
+
+  // Send Test results analyzer link to Slack
+  def JENKINS_LOG= "Job: ${JOB_NAME} \n Test Suite: ${params.env} \n Status: ${STATUS} \n Test results analyzer: ${TEST_RESULTS_ANALYZER_URL} \n HTML-Report: https://playwright.reloquest.com/"
   return JENKINS_LOG
 }
 

@@ -36,9 +36,8 @@ const config: PlaywrightTestConfig = {
   workers: process.env.CI ? 6 : 6,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
-    [
-      'html', {open: "never"}
-    ],
+    ['html', {open: "never"}],
+    ['junit', {outputFile: 'test-results/results.xml'}] // Add this line for JUnit reporting
     // [
     //   "./node_modules/playwright-slack-report/dist/src/SlackReporter.js",
     //   {
