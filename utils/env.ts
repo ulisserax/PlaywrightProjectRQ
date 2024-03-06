@@ -5,6 +5,7 @@ export default class ENV{
 
     static random_start_date = chance.integer({min:15,max:30});
     static random_end_date   = chance.integer({min:45,max:75});
+    static LENGTH            = this.random_end_date;
 
     // Enterprise Test Data
 
@@ -90,7 +91,7 @@ export default class ENV{
 
     static SLACK_TOKEN       = process.env.SLACK_TOKEN;
     static START_DATE        = new Date(new Date().setDate(new Date().getDate()+this.random_start_date)).toISOString().split('T')[0];
-    static END_DATE          = new Date(new Date().setDate(new Date().getDate()+this.random_end_date)).toISOString().split('T')[0];
+    static END_DATE          = new Date(new Date().setDate(new Date().getDate()+(this.random_start_date+this.random_end_date))).toISOString().split('T')[0];
 
     static API_REQUEST_TYPE            = {'Corporate':'CORPORATE_HOUSING','Hotels':'HOTELS','Hotels and Corporate':'HOTELS_AND_CORPORATE_HOUSING'}
     static API_GRANT_TYPE              = process.env.API_GRANT_TYPE

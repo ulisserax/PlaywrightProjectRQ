@@ -21,6 +21,7 @@ export default class Text{
     static option_confirmation_title      = `//app-option-confirmation//h2[contains(text(),'Provide payment method')]`;
     static guest_total                    = `//div[contains(text(),'Total')]/following-sibling::div//div[contains(text(),'$')]`;
     static option_charges_confirmed       = `//app-option-confirmation//app-future-payments//span[contains(text(),'When booking is confirmed')]`;
+    static bill_to_guest_total            = `//app-option-confirmation//app-future-payments//span[contains(text(),'When booking is confirmed')]/parent::div/following-sibling::div//div[contains(text(),'$')]`;
         
     static appModalHeader(text: string){
         return `//div[contains(@class,'modal-header')]/h5[contains(text(),'${text}')]`;
@@ -98,5 +99,14 @@ export default class Text{
     static choicePreference(preference:string){
         return `//app-select//span[contains(text(),'${preference}')]`
     } 
+    static propertyNameConfirmationH2(property_name: string){
+        return `//app-option-confirmation//h2[contains(text(),'${property_name}')]`;
+    }
+
+    static guestCharges(fees_and_deposit: string){
+        return `//div[contains(@id,'panel-charges')]//div[contains(text(),'${fees_and_deposit}')]/following-sibling::div/span`;
+    }
+
+    
 
 }

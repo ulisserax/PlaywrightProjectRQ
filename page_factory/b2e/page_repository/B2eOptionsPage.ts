@@ -18,6 +18,7 @@ export default class B2eOptionsPage {
 
     async validateHereYourOptionsModal(){
         console.info(`Validating the 'Here are your options' modal`);
+        await this.page.waitForSelector(Element.here_your_options_modal);
         await expect(await this.page.locator(Element.here_your_options_modal).isVisible()).toBeTruthy();
         await expect(await this.page.locator(Text.review_and_select_an_option).isVisible()).toBeTruthy();
         console.info(`Clicking 'Ok, Got It' button`);
@@ -190,12 +191,25 @@ export default class B2eOptionsPage {
 
     async validateOptionCharges(option_id:number){
         console.info(`Validating option Charges notification.`);
-        await WebActions.delay(3000);
+        await this.page.waitForURL(`**/b2e/options/${option_id}/confirmation`)
         let current_url = await this.page.url();
-        await WebActions.delay(3000);
         await this.page.waitForLoadState('domcontentloaded');
         await expect(current_url).toContain(`/b2e/options/${option_id}/confirmation`);
-        await expect(await this.page.locator(Text.option_confirmation_title)).toBeVisible();
+        await this.page.waitForSelector(Text.option_charges_confirmed);
+        await expect(await this.page.locator(Text.option_charges_confirmed)).toBeVisible();
+    }
+
+    async validateBillToGuestCharges(property_name:string, pet_fee_amount:number, redecoration_fee_amount:number, pet_deposit_amount:number,parking_fee_amount:number){
+        console.info(`Validating guest charges.`);
+        await expect(await this.page.locator(Text.propertyNameConfirmationH2(property_name)).isVisible()).toBeTruthy();
+        await expect(await (await this.page.locator(Text.guestCharges("Pet Fee")).textContent()).trim()).toContain(`$${pet_fee_amount}`);
+        await expect(await (await this.page.locator(Text.guestCharges("Redecoration Fee")).textContent()).trim()).toContain(`$${redecoration_fee_amount}`);
+        await expect(await (await this.page.locator(Text.guestCharges("Pet Deposit")).textContent()).trim()).toContain(`$${pet_deposit_amount}`);
+        await expect(await (await this.page.locator(Text.guestCharges("Parking")).textContent()).trim()).toContain(`$${parking_fee_amount}`);
+        let total = (pet_fee_amount+redecoration_fee_amount+pet_deposit_amount+parking_fee_amount).toFixed(2);
+        // console.log(pet_fee, redecoration_fee,pet_deposit,parking_fee, total);
+        await expect(await (await this.page.locator(Text.bill_to_guest_total).textContent()).replace(',','').trim()).toEqual(`$${total}`);
+
     }
       
 }

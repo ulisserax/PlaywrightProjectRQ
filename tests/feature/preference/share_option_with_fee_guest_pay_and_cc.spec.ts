@@ -183,6 +183,9 @@ test.describe('Share option with fees - Guest Pay On and Collect Credit Card On'
         await b2eOptionsPage.validateGuestResponsabilityModal(data_object.property_name);
         await b2eOptionsPage.validateGuestResponsabilitySharedOption(data_object.property_name, ENV.OPTIONS_PREFERENCES.first);
         await b2eOptionsPage.showGuestResponsabilityPropertyFees(data_object.property_name);
+        let parking_charge = Number(((Number(fees_amount.parking_amount)/(Number(ENV.LENGTH)+1))*30).toFixed(2));
+        // console.log(ENV.LENGTH);
+        // console.log(parking_charge);
         await b2eOptionsPage.validateFeesAndDepositPaidByGuest(fees_amount.pet_fee_amount,fees_amount.redecoration_fee_amount,fees_amount.pet_deposit_amount,fees_amount.parking_amount);
         await b2eOptionsPage.validateFeesAndDepositPaidByCompany();
         await b2eOptionsPage.validateOtherChoiceInGuestResponsabilitModal(data_object.second_property_name, ENV.OPTIONS_PREFERENCES.second);
@@ -190,10 +193,11 @@ test.describe('Share option with fees - Guest Pay On and Collect Credit Card On'
         await b2eOptionsPage.clickContinueButton();
         //==> SM-T1166
         await b2eOptionsPage.validateOptionCharges(first_option_id);
-        await b2eOptionsPage.validateGuestCharges(data_object.property_name, fees_amount.pet_fee_amount,fees_amount.redecoration_fee_amount,fees_amount.pet_deposit_amount,fees_amount.parking_amount);
-        await b2eOptionsPage.validateBookButton();
-        await b2eOptionsPage.acknowledgeFeesAndDeposits();
-        await b2eOptionsPage.validateBookButton();
+        await b2eOptionsPage.validateBillToGuestCharges(data_object.property_name, fees_amount.pet_fee_amount,fees_amount.redecoration_fee_amount,fees_amount.pet_deposit_amount,parking_charge);
+        //THIS WAS COMMENTED DUE TO THE BILL TO GUEST CHANGES
+        //await b2eOptionsPage.validateBookButton();
+        //await b2eOptionsPage.acknowledgeFeesAndDeposits();
+        //await b2eOptionsPage.validateBookButton();
         await b2eCheckoutPage.paymentInformation('4242424242424242','09/39','233','33331');
         await b2eCheckoutPage.completeYourQuest();
         await b2eBookingPage.verifySpecificSharedPendingQuest(data_object.property_name);
