@@ -198,6 +198,7 @@ test.describe('Share option with fees - Guest Pay On and Collect Credit Card On'
         //await b2eOptionsPage.validateBookButton();
         //await b2eOptionsPage.acknowledgeFeesAndDeposits();
         //await b2eOptionsPage.validateBookButton();
+
         await b2eCheckoutPage.paymentInformation('4242424242424242','09/39','233','33331');
         await b2eCheckoutPage.completeYourQuest();
         await b2eBookingPage.verifySpecificSharedPendingQuest(data_object.property_name);

@@ -14,7 +14,6 @@ export default class Text{
     static cancellation_in_progress  = `//div[contains(@class,'pending')]//span[contains(text(),'Cancellation in Progress')]`;
     static review_and_select_an_option    = `//app-modal[@header='Here are your Options!']//h2[contains(text(),'Review and Select an Option')]`;
     static first_choice_preference        = `//ng-select[contains(@class,'selected-option')]//span[contains(text(),'1st choice')]`;
-    //static card_option_booked             = `//app-option-card//div[contains(@class,'booked')][contains(normalize-space(),'Booked')]`;
     static guest_responsability_subheader = `//app-guest-responsible//p[contains(@class,'c-orange') and contains(text(),'Please Review the Fees and Deposits')]`;
     static guest_responsability_text      = `//app-guest-responsible//p[contains(text(),'The selected options may contain fees and deposits that you will')]`;
     static guest_fee_and_deposit_total    = `//app-guest-responsible//div[contains(@class,' summary-underline')]//p`;
@@ -22,7 +21,7 @@ export default class Text{
     static guest_total                    = `//div[contains(text(),'Total')]/following-sibling::div//div[contains(text(),'$')]`;
     static option_charges_confirmed       = `//app-option-confirmation//app-future-payments//span[contains(text(),'When booking is confirmed')]`;
     static bill_to_guest_total            = `//app-option-confirmation//app-future-payments//span[contains(text(),'When booking is confirmed')]/parent::div/following-sibling::div//div[contains(text(),'$')]`;
-        
+
     static appModalHeader(text: string){
         return `//div[contains(@class,'modal-header')]/h5[contains(text(),'${text}')]`;
     }

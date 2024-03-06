@@ -189,6 +189,7 @@ export default class B2eOptionsPage {
         await expect(await this.page.locator(Element.optionFees(option_id, value)).isVisible()).toEqual(exist);
     }
 
+
     async validateOptionCharges(option_id:number){
         console.info(`Validating option Charges notification.`);
         await this.page.waitForURL(`**/b2e/options/${option_id}/confirmation`)
@@ -211,5 +212,5 @@ export default class B2eOptionsPage {
         await expect(await (await this.page.locator(Text.bill_to_guest_total).textContent()).replace(',','').trim()).toEqual(`$${total}`);
 
     }
-      
+
 }
