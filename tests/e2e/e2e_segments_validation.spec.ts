@@ -50,7 +50,7 @@ test.describe.serial("Test Suite for Segments Validation", () => {
         await requestShow.awardOption();
     })
     //ENV.REQUEST_ID = 'RQF571C3';
-    test("Vaidate reservation segments", async ({webActions, homePage, dashboard, search, requestShow, reservation}) => {
+    test("Vaidate reservation segments @BeforeBilling @Smoke @Reservation @SM-T1121", async ({webActions, homePage, dashboard, search, requestShow, reservation}) => {
         await webActions.navigateTo(ENV.BASE_URL);
         await homePage.enterCredentials(ENV.SUPPLIER_ADMIN, ENV.SUPPLIER_ADMIN_PASSWORD);
         await homePage.signIn();

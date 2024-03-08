@@ -80,7 +80,7 @@ test.describe.serial("Test Suite Basic Flow ", () => {
         await reservation.viewRateSegmentHistory();
     })
 
-    test("Verify reservation and create service issue", async ({webActions, dashboard, search, requestShow, reservation}) => {
+    test("Verify reservation and create service issue @BeforeBilling @Smoke @Verification @SM-T1116", async ({webActions, dashboard, search, requestShow, reservation}) => {
         await webActions.login(`requestor`, ENV.BASE_URL, ENV.REQUESTOR_ADMIN, ENV.REQUESTOR_ADMIN_PASSWORD);
         await dashboard.cardSummary();
         await dashboard.findCurrentRequest(ENV.REQUEST_ID);

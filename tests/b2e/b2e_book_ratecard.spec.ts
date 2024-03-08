@@ -9,7 +9,7 @@ import ENV  from '@utils/env';
 
     ENV.B2E_USER =`james_doue@nt1req.com`;
 
-   test("Request a ratecard", async ({webActions, b2eHomePage, b2eSearchPage, b2ePropertyDetailPage}) => {
+   test("Request a ratecard @BeforeBilling @Regression @Request @SM-T1109 @ToUpdate", async ({webActions, b2eHomePage, b2eSearchPage, b2ePropertyDetailPage}) => {
       await webActions.navigateTo(ENV.B2E_URL);
       await b2eHomePage.acceptCookies();
       await b2eHomePage.enterCredentials(ENV.B2E_USER, ENV.B2E_USER_PASSWORD);
@@ -41,7 +41,7 @@ import ENV  from '@utils/env';
       await requestShow.verifyOptionSubmitted();
   })
 
-   test("Book ratecard", async ({webActions, b2eHomePage, b2eSearchPage, b2eQuestsPage, b2eBookingPage}) => {
+   test("Book ratecard @BeforeBilling @Smoke @Booking @SM-T1108", async ({webActions, b2eHomePage, b2eSearchPage, b2eQuestsPage, b2eBookingPage}) => {
       await webActions.navigateTo(ENV.B2E_URL);
       await b2eHomePage.acceptCookies();
       await b2eHomePage.enterCredentials(ENV.B2E_USER, ENV.B2E_USER_PASSWORD);

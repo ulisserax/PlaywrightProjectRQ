@@ -3,7 +3,7 @@ import ENV  from '@utils/env';
 
 
 
-test.describe("Test Suite Exception Fee", () => { //serial
+test.describe("Test Suite Exception Fee @BeforeBilling @Smoke @Request @SM-T1119", () => { //serial
     test.slow();
     const exception_obj = [
         {

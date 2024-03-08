@@ -46,7 +46,7 @@ test.describe.serial("Award a Corporate option from the GS1.0", () => {
 
 })
 
-test.describe("Book a Hotel room from the GS1.0", () => {
+test.describe("Book a Hotel room from the GS1.0 @BeforeBilling @Regression @Booking @SM-T1115 @ToUpdate", () => {
     test.slow();
     let guestEmail = ENV.GUEST_EMAIL.toLocaleLowerCase();
     let count = 0;

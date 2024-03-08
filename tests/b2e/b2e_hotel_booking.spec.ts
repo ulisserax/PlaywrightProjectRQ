@@ -9,7 +9,7 @@ test.describe("Test Suite Hotel booking for B2E", () => {
    ENV.B2E_USER =`jess_doue@nt1req.com`;
    let location = "Miami, FL, USA"//"New York"//'Miami, FL, USA'
 
-   test("Hotel Booking", async ({webActions, b2eHomePage, b2eSearchPage, b2ePropertyDetailPage, b2eQuestDetailsPage, b2eBookingPage}) => {
+   test("Hotel Booking @BeforeBilling @Regression @Booking @SM-T1107 @ToUpdate", async ({webActions, b2eHomePage, b2eSearchPage, b2ePropertyDetailPage, b2eQuestDetailsPage, b2eBookingPage}) => {
       await webActions.navigateTo(ENV.B2E_URL);
       await b2eHomePage.acceptCookies();
       await b2eHomePage.enterCredentials(ENV.B2E_USER, ENV.B2E_USER_PASSWORD);

@@ -24,7 +24,7 @@ test.describe.serial('Create a RQ base flow, Supplier, Property, Area, Requestor
     const guest_email          = `${chance.first()}_guest@${requestorCompanyName}`.toLocaleLowerCase();   
 
 
-    test ("Create and configure a new Supplier company and a Supplier-admin user.", async ({webActions, user, configurationInstance, mailCatcher, passwordReset, homePage, dashboard, myAccount, company})=>{
+    test ("Create and configure a new Supplier company and a Supplier-admin user @BeforeBilling @Regression @Create @SM-T1118", async ({webActions, user, configurationInstance, mailCatcher, passwordReset, homePage, dashboard, myAccount, company})=>{
         await webActions.navigateTo(ENV.BASE_URL);
         await homePage.enterCredentials(ENV.SUPER_ADMIN, ENV.SUPER_ADMIN_PASSWORD);
         await homePage.signIn();

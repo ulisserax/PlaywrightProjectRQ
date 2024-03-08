@@ -17,7 +17,7 @@ test.describe.serial("Test Suite Register user, update profile and forgot passwo
   let activateAccountLink = ``;
   let resetPasswordLink = ``;
 
-  test("Register new user on B2E", async ({webActions, b2eHomePage, b2eLoginPage}) => {
+  test("Register new user on B2E @BeforeBilling @Smoke @Register @SM-T1112", async ({webActions, b2eHomePage, b2eLoginPage}) => {
     await webActions.navigateTo(ENV.B2E_URL);
     await b2eHomePage.acceptCookies();
     await b2eHomePage.register();
@@ -52,7 +52,7 @@ test.describe.serial("Test Suite Register user, update profile and forgot passwo
     await b2eSearchPage.validateUrl(`${ENV.B2E_URL}/b2e/search`, Element.navigation_navBar);
   })
 
-  test("Forgot password B2E", async ({webActions, b2eHomePage, b2eLoginPage, b2eForgotPasswordPage}) => {
+  test("Forgot password B2E @BeforeBilling @Smoke @Login @SM-T1111", async ({webActions, b2eHomePage, b2eLoginPage, b2eForgotPasswordPage}) => {
     await webActions.navigateTo(ENV.B2E_URL);
     await b2eHomePage.acceptCookies();
     await b2eHomePage.forgotPassword();
@@ -60,7 +60,7 @@ test.describe.serial("Test Suite Register user, update profile and forgot passwo
     await b2eLoginPage.verifyEmailSendSuccessfull();
   })
 
-  test("Validate forgot password email", async ({webActions, homePage, configurationInstance, mailCatcher, b2eForgotPasswordPage, b2eHomePage, b2eSearchPage}) => {
+  test("Validate forgot password email @BeforeBilling @Smoke @Login @SM-T1110", async ({webActions, homePage, configurationInstance, mailCatcher, b2eForgotPasswordPage, b2eHomePage, b2eSearchPage}) => {
     await webActions.navigateTo(`${ENV.BASE_URL}/configuration/instance`);
     await homePage.enterCredentials(ENV.SUPER_ADMIN, ENV.SUPER_ADMIN_PASSWORD);
     await homePage.signIn();

@@ -9,7 +9,7 @@ test.describe.serial("Create Hotel request, cancel reservation and validate emai
     let count = 0;
     let location = "Miami, FL, USA"//'New York'//'Miami, FL, USA'
 
-    test("Create a hotel request and cancel reservation", async ({webActions, homePage, dashboard, newRequest, requestShow, hotelSearchPage, search}, testInfo) => {
+    test("Create a hotel request and cancel reservation @BeforeBilling @Smoke @Reservation @SM-T1120", async ({webActions, homePage, dashboard, newRequest, requestShow, hotelSearchPage, search}, testInfo) => {
         await webActions.navigateTo(ENV.BASE_URL);
         await homePage.enterCredentials(ENV.REQUESTOR_ADMIN, ENV.REQUESTOR_ADMIN_PASSWORD);
         await homePage.signIn();

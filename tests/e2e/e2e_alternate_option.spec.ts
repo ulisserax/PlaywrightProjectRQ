@@ -9,7 +9,7 @@ test.describe.serial("Test Suite Alternate Option", () => {
     test.slow();
     let guestEmail = ENV.GUEST_EMAIL;
 
-    test("Create a new Request", async({webActions, homePage, dashboard, newRequest, requestShow}) =>{
+    test("Create a new Request @BeforeBilling @Regression @Create @SM-T1113", async({webActions, homePage, dashboard, newRequest, requestShow}) =>{
         await webActions.navigateTo(ENV.BASE_URL);
         await homePage.enterCredentials(ENV.REQUESTOR_ADMIN, ENV.REQUESTOR_ADMIN_PASSWORD);
         await homePage.signIn();
@@ -87,7 +87,7 @@ test.describe.serial("Test Suite Alternate Option", () => {
         console.info(`Reservation Id: ${ENV.RESERVATION_ID}`);
     })
 
-    test("Verify reservation", async ({webActions, homePage, dashboard, search, requestShow, reservation}) => {
+    test("Verify reservation @BeforeBilling @Smoke @Reservation @SM-T1114", async ({webActions, homePage, dashboard, search, requestShow, reservation}) => {
         await webActions.navigateTo(ENV.BASE_URL);
         await homePage.enterCredentials(ENV.REQUESTOR_ADMIN, ENV.REQUESTOR_ADMIN_PASSWORD);
         await homePage.signIn();

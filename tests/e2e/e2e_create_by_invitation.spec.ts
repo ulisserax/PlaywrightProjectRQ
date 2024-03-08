@@ -12,7 +12,7 @@ test.describe.serial("Create Supplier company and Supplier admin user by invitat
 
     let supplierAdmin   = 'supplieradminuser@' + supplierCompany + '.com';
 
-    test ("Submit Supplier invitation by email",async ({webActions, homePage, myAccount, dashboard, configurationInstance})=> {
+    test ("Submit Supplier invitation by email @BeforeBilling @Smoke @Supplier @SM-T1117",async ({webActions, homePage, myAccount, dashboard, configurationInstance})=> {
         await webActions.navigateTo(ENV.BASE_URL);
         await homePage.enterCredentials(ENV.SUPER_ADMIN, ENV.SUPER_ADMIN_PASSWORD);
         await homePage.signIn();
