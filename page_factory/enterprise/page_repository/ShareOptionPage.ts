@@ -74,10 +74,10 @@ export default class ShareOptionPage {
     async bookOption(): Promise<void>{
         console.info('Booking an Option');
         await this.page.click(Button.bookOption);
-        await this.page.waitForLoadState('networkidle');
         await WebActions.delay(400);
+        await this.page.waitForSelector(Button.submit_room_configuration);
         await this.page.click(Button.submit_room_configuration);
-        await this.page.waitForLoadState('networkidle');
+        await this.page.waitForSelector(Element.confirm_booking_h1);
         await expect(await this.page.locator(Element.confirm_booking_h1).textContent()).toEqual(`Please Confirm Your Booking...`);
     }
     
