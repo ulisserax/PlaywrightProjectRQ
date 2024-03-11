@@ -8,7 +8,7 @@ test.describe.serial("Test Suite Decline ratecard booking for B2E", () => {
 
    ENV.B2E_USER =`liz_doue@nt1req.com`;
 
-   test("Request a ratecard", async ({webActions, b2eHomePage, b2eSearchPage, b2ePropertyDetailPage}) => {
+   test("Request a Ratecard", async ({webActions, b2eHomePage, b2eSearchPage, b2ePropertyDetailPage}) => {
       await webActions.navigateTo(ENV.B2E_URL);
       await b2eHomePage.acceptCookies();
       await b2eHomePage.enterCredentials(ENV.B2E_USER, ENV.B2E_USER_PASSWORD);
