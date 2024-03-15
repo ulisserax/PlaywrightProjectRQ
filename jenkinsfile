@@ -72,7 +72,7 @@ def custom_msg()
   def TEST_RESULTS_ANALYZER_URL = "${JENKINS_URL}job/${JOB_NAME}/test_results_analyzer/"
 
   // Send Test results analyzer link to Slack
-  def JENKINS_LOG= "Job: ${JOB_NAME} \n Test Suite: ${params.env} \n Status: ${STATUS} \n Test results analyzer: ${TEST_RESULTS_ANALYZER_URL} \n HTML-Report: https://playwright.reloquest.com/"
-  return JENKINS_LOG
+  //def JENKINS_LOG= "Job: ${JOB_NAME} \n Test Suite: ${params.env} \n Status: ${STATUS} \n Test results analyzer: ${TEST_RESULTS_ANALYZER_URL} \n HTML-Report: https://playwright.reloquest.com/"
+  //return JENKINS_LOG
 }
 
