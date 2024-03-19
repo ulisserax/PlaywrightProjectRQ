@@ -6,7 +6,8 @@
   "scripts": {
     "env:rc": "cross-env test_env=rc npx playwright test",
     "env:qa": "cross-env test_env=qa npx playwright test",
-    "env:stage": "cross-env test_env=stage npx playwright test",
+    "env:stage": "cross-env test_env=stage npx playwright test --grep '@BeforeBilling'",
+    "env:stage:id": "cross-env test_env=stage npx playwright test --grep '@SM-T1114' --project=Chromium",
     "env:rc:e2e": "cross-env test_env=rc npx playwright test --config=e2e.config.ts --project=Chromium",
     "env:qa:e2e": "cross-env test_env=qa npx playwright test --config=e2e.config.ts --project=Chromium",
     "env:stage:e2e": "cross-env test_env=stage npx playwright test --config=e2e.config.ts --project=Chromium",
