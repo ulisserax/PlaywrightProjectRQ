@@ -27,6 +27,3 @@ Playwright ReloQuest Automation, steps necessary to setup the project
 * In the VS Code terminal execute the command npm run <script>  ex:(npm run env:stage or npm run env:stage:e2e)
 * For debug purpose execute 'npm run <script> -- --debug'
 
-### Who do I talk to? ###
-
-* Repo owner or admin (Jose Melendez or Ernesto Quinta)
